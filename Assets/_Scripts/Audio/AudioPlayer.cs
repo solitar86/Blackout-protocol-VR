@@ -9,6 +9,7 @@ namespace Project.SFX
     {
         [SerializeField] private AudioMixerGroup _defaultMixerGroup;
         public static AudioPlayer Instance;
+        public AudioMixer MainMixer { get; private set; }
 
         private void Awake()
         {
@@ -16,7 +17,8 @@ namespace Project.SFX
                 Instance = this;
             else Destroy(gameObject);
 
-            _defaultMixerGroup = Resources.Load<AudioMixer>("MainMixer").FindMatchingGroups("SFX")[0];
+            MainMixer = Resources.Load<AudioMixer>("MainMixer");
+            _defaultMixerGroup = MainMixer.FindMatchingGroups("SFX")[0];
             _defaultMixerGroup.Logthis();
         }
 

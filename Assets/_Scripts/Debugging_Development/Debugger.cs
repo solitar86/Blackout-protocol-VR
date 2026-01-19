@@ -69,6 +69,13 @@ public static class Debugger
         Debug.LogError(t);
     }
 
+    public static void LogWarning(string t)
+    {
+        if (isEnabled == false) return;
+
+        Debug.LogWarning(t);
+    }
+
     private static string GetColorStringFromEnum(TextColor color)
     {
         switch (color)

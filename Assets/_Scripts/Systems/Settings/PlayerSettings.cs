@@ -1,3 +1,4 @@
+using Project.SFX;
 using System;
 using UnityEngine;
 using static PlayerSettings;
@@ -42,12 +43,16 @@ public class PlayerSettings
 
         // Load audio settings and print values to console.
         Audio = PlayerSettingsStorage.Load<AudioPreferences>(AUDIO_STRING, defaults.settings);
-        Audio.Logthis();
     }
 
     public static void SaveSettings()
     {
         PlayerSettingsStorage.Save<AudioPreferences>(AUDIO_STRING, Audio);
+    }
+
+    public static void SetAllDefaults()
+    {
+        // TODO Implement this function.
     }
 
     #endregion
@@ -60,32 +65,60 @@ public class PlayerSettings
     [Serializable]
     public class AudioPreferences
     {
-    
+        public const string TTS_VOLUME_STRING = "TTSVolume";
+
         public float MasterVolume = 1;
         public float TTS_Volume = 1;
         public float TTS_Speed = 1;
 
         private float _maxTTS_Speed = 2f;
         private float _minTTS_Speed = 0.4f;
+        private float _maxTTSVolume = 2f;
+        private float _minTTSVolume = 0.1f;
 
 
-        // Events
-        public static Event OnTTSSpeedChange;
-
-        public void LowerTTSVolume()
-        {
-            TTS_Speed += 0.2f;
-            TTS_Speed = Mathf.Clamp(TTS_Speed, _minTTS_Speed, _maxTTS_Speed);
-            Debugger.Log("TTS_Speed lowered to: " + TTS_Speed, Debugger.TextColor.LightGreen);
-        }
-        public void IncreaseTTSVolume()
+        public void LowerTTS_Speed()
         {
             TTS_Speed -= 0.2f;
             TTS_Speed = Mathf.Clamp(TTS_Speed, _minTTS_Speed, _maxTTS_Speed);
+            EventManager.OnTTSSPeedChange.Raise(this, TTS_Speed);
+            Debugger.Log("TTS_Speed lowered to: " + TTS_Speed, Debugger.TextColor.LightGreen);
+        }
+        public void IncreaseTTS_Speed()
+        {
+            TTS_Speed += 0.2f;
+            TTS_Speed = Mathf.Clamp(TTS_Speed, _minTTS_Speed, _maxTTS_Speed);
+            EventManager.OnTTSSPeedChange.Raise(this, TTS_Speed);
             Debugger.Log("TTS_Speed increased to: " + TTS_Speed, Debugger.TextColor.LightGreen);
         }
 
+        public void LowerTTS_Volume()
+        {
+            TTS_Volume -= 0.2f;
+            TTS_Volume = Mathf.Clamp(TTS_Volume, _minTTSVolume, _maxTTSVolume);
+            TryChangeTTSVolume();
+        }
 
+        public void IncreaseTTS_Volume()
+        {
+            TTS_Volume += 0.2f;
+            TTS_Volume = Mathf.Clamp(TTS_Volume, _minTTSVolume, _maxTTSVolume);
+
+            TryChangeTTSVolume();
+        }
+
+        private void TryChangeTTSVolume()
+        {
+            var succesful = AudioPlayer.Instance?.MainMixer?.SetFloat(TTS_VOLUME_STRING, GetDecibelsFromNormalizedFloat(TTS_Volume));
+            if (succesful.Value == true)
+            {
+                EventManager.OnTTSVolumeChange.Raise(this, TTS_Volume);
+            }
+            else
+            {
+                Debugger.LogError("Failed to edit exposed param named: " + TTS_VOLUME_STRING);
+            }
+        }
 
         public override string ToString()
         {

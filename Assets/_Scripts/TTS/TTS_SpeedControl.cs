@@ -26,6 +26,21 @@ public class TTS_SpeedControl : MonoBehaviour
         SetSpeedAndPitch();
     }
 
+    private void Start()
+    {
+        EventManager.OnTTSSPeedChange.Addlistener(this, OnTTSSpeedChanged);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.OnTTSSPeedChange.Removelistener(this, OnTTSSpeedChanged);
+    }
+
+    private void OnTTSSpeedChanged(float value)
+    {
+        SetSpeedAndPitch();
+    }
+
     private void SetSpeedAndPitch()
     {
         // TODO Make this public and hook up to in-game menus. Also make it play test sound;
