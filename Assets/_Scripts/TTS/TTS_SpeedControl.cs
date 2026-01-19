@@ -1,0 +1,80 @@
+using System;
+using UnityEngine;
+using UnityEngine.Audio;
+
+[RequireComponent(typeof(AudioSource))]
+public class TTS_SpeedControl : MonoBehaviour
+{
+
+    // References to the AudioMixer and AudioSources
+    [SerializeField] private AudioMixer _audioMixer;
+    [SerializeField] private AudioSource _TTS_source;
+    private AudioMixerGroup TTS_bus;
+    //[SerializeField, Range(0.4f,2f)] private float _TTS_Speed = 1f;
+
+    private void Awake()
+    {
+        // Find the AudioMixerGroups and set the output of the AudioSources to them
+
+        InitAudioSource();
+        InitAudioMixer();
+
+        // Init TTS BUS (Has to be created in MainMixer)
+        TTS_bus = _audioMixer.FindMatchingGroups("TTS")[0];
+        _TTS_source.outputAudioMixerGroup = TTS_bus;
+
+        SetSpeedAndPitch();
+    }
+
+    private void SetSpeedAndPitch()
+    {
+        // TODO Make this public and hook up to in-game menus. Also make it play test sound;
+        if (_audioMixer == null) InitAudioMixer();
+        if (_TTS_source == null) InitAudioSource();
+        _TTS_source.pitch = PlayerSettings.Audio.TTS_Speed;
+        _audioMixer.SetFloat("TTSPitch", 1 / PlayerSettings.Audio.TTS_Speed); // Exposed params in MainMixer must match string exactly.
+        _audioMixer.SetFloat("FFTSize", 512 / PlayerSettings.Audio.TTS_Speed); // Exposed params in MainMixer must match string exactly.
+    }
+
+    private void InitAudioSource()
+    {
+        _TTS_source = GetComponent<AudioSource>();
+
+        if( _TTS_source == null )
+        {
+           _TTS_source = gameObject.AddComponent<AudioSource>();
+        }
+
+        _TTS_source.loop = false;
+        _TTS_source.playOnAwake = false;
+        _TTS_source.bypassEffects = true;
+        _TTS_source.bypassReverbZones = true;
+        _TTS_source.spatialBlend = 0; // Does not need to be spatialized in any way.
+        _TTS_source.Stop(); // Sanity check.
+    }
+
+    private void InitAudioMixer()
+    {
+        _audioMixer = Resources.Load("MainMixer") as AudioMixer;
+    }
+
+
+#if UNITY_EDITOR
+    [ContextMenu("Play On Loop")]
+    public void PlayOnLoop()
+    {
+        SetSpeedAndPitch();
+        _TTS_source.clip = Resources.Load("TTS/speech_TTS_Test") as AudioClip;
+        _TTS_source.loop = true;
+        _TTS_source.Play();
+    }
+    [ContextMenu("Stop Playbackloop")]
+    public void StopPlaybackLoop()
+    {
+        _TTS_source.Stop();
+        _TTS_source.loop = false;
+    }
+
+#endif
+
+}
