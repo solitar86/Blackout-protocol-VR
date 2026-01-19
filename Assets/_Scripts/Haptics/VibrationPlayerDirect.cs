@@ -1,23 +1,18 @@
+using System;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.XR;
 
-public class VibrationPlayerDirect : MonoBehaviour, ITouchAudio
+public class VibrationPlayerDirect : MonoBehaviour
 {
     [SerializeField] XRNode _handedness;
     private InputDevice _controller;
     private HapticCapabilities _hapticCapabities;
 
-    [SerializeField] VibrationSettingsSO _handInsideVibration;
-    [SerializeField] VibrationSettingsSO _touchingEdgeVibration;
-
-    private float _intervalTimer = 0f;
-
-    private Collider _touchedObjectCollider;
-
-
-
+    private void Awake()
+    {
+        GetComponent<Collider>().isTrigger = true;
+    }
 
     private void Start()
     {
@@ -30,27 +25,33 @@ public class VibrationPlayerDirect : MonoBehaviour, ITouchAudio
         InputDevices.GetDevicesAtXRNode(_handedness, XRdevices);
         if (XRdevices.Count > 0)
         {
-            Debug.Log("Device found for " + _handedness.ToString());
+            Debugger.Log("Device found for " + _handedness.ToString(), Debugger.TextColor.Green);
             _controller = XRdevices[0];
             _controller.TryGetHapticCapabilities(out _hapticCapabities);
             return true;
         }
         else
         {
-            Debug.Log("Device not found for " + _handedness.ToString());
+            Debugger.Log("Device not found for " + _handedness.ToString(), Debugger.TextColor.Red);
             return false;
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void PlayHaptic(VibrationSettingsSO vibrationSettings)
     {
-        _touchedObjectCollider = other.gameObject.GetComponent<Collider>();
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        _touchedObjectCollider = _touchedObjectCollider = other.gameObject.GetComponent<Collider>() ? null : _touchedObjectCollider;
+        if (_controller == null)
+        {
+            if (TryInitializeDevice() == false) return;
+        }
+        if (_controller.isValid == false)
+        {
+            if (TryInitializeDevice() == false) return;
+        }
+
+        _controller.SendHapticImpulse(0, vibrationSettings._amplitude, vibrationSettings._duration);
     }
 
+    /*
     private void OnTriggerStay(Collider other)
     {
         if (_controller == null)
@@ -64,7 +65,6 @@ public class VibrationPlayerDirect : MonoBehaviour, ITouchAudio
 
         if(_hapticCapabities.supportsImpulse == true)
         {
-
             if (_touchedObjectCollider != null)
             {
                 Vector3 closestPoint = _touchedObjectCollider.ClosestPointOnBounds(transform.position);
@@ -92,5 +92,6 @@ public class VibrationPlayerDirect : MonoBehaviour, ITouchAudio
         }
     }
 
+    */
 
 }

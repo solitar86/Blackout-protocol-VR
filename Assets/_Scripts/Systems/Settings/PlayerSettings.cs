@@ -1,7 +1,6 @@
 using Project.SFX;
 using System;
 using UnityEngine;
-using static PlayerSettings;
 
 public class PlayerSettings
 {
@@ -34,7 +33,7 @@ public class PlayerSettings
     public static void LoadSettings()
     {
         // Get Default Audiosettings
-        AudioSettingDefaults defaults = Resources.Load("Settings/AudioDefaultSettings") as AudioSettingDefaults;
+        AudioSettingDefaultsSO defaults = Resources.Load<AudioSettingDefaultsSO>("Settings/AudioDefaultSettings");
         if (defaults == null)
         {
             Debugger.LogError("Audio settings default not found at path 'Settings/AudioDefaultSettings'");
@@ -128,11 +127,4 @@ public class PlayerSettings
         }
     }
     #endregion
-}
-
-
-[CreateAssetMenu(fileName = "AudioDefaultSettings", menuName = "Default settings / New Audio Default Settings")]
-public class AudioSettingDefaults : ScriptableObject
-{
-    public AudioPreferences settings;
 }

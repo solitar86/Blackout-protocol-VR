@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d8d921d25fff3a4d87ccbf52c54eeb0, type: 3}
   m_Name: HandInsideVibrationSettings
   m_EditorClassIdentifier: Assembly-CSharp::VibrationSettingsSO
-  _interval: 0
+  _distanceInterval: 1
   _amplitude: 1
   _duration: 0
   _frequency: 1

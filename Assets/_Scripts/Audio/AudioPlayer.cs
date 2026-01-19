@@ -19,7 +19,6 @@ namespace Project.SFX
 
             MainMixer = Resources.Load<AudioMixer>("MainMixer");
             _defaultMixerGroup = MainMixer.FindMatchingGroups("SFX")[0];
-            _defaultMixerGroup.Logthis();
         }
 
         public static void PlaySoundAtPoint(object sender, Sound soundToPlay, Vector3 point, bool usePitchVariation = false)
