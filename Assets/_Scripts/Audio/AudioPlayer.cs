@@ -130,20 +130,30 @@ public class AudioPlayer : MonoBehaviour
         }
     }
 
-    //public static AudioClip GetRandomClipFromArray(AudioClip[] _clipArray, AudioClip _previousClip = null)
-    //{
-    //    AudioClip randomClip;
-    //    do
-    //    {
-    //        randomClip = _clipArray[Random.Range(0, _clipArray.Length)];
-    //    } while (randomClip == _previousClip);
-
-    //    return randomClip;
-    //}
     private static float AddPitchVariation(float pitch)
     {
         float variation = 0.1f;
         return pitch += Random.Range(-variation, variation);
+    }
+
+    public static AudioSource CreateLoopingAudioSource(object sender, Sound soundToLoop)
+    {
+        GameObject tempGameObject = new GameObject(sender + " : " + soundToLoop.Clip);
+        AudioSource audioSource = (AudioSource)tempGameObject.AddComponent(typeof(AudioSource));
+        audioSource.spatialBlend = soundToLoop.SpacialBlend; // TODO Make this also SPATIALIZED AUDIO
+        audioSource.clip = soundToLoop.Clip;
+
+        if (soundToLoop.Mixergroup == null && Instance == null) // We are being called as a static function
+        {
+            var mixer = Resources.Load<AudioMixer>("MainMixer");
+            soundToLoop.Mixergroup = mixer.FindMatchingGroups("SFX")[0]; // SFX is default mixergroup
+        }
+        else
+        {
+            audioSource.outputAudioMixerGroup = soundToLoop.Mixergroup;
+        }
+        audioSource.loop = true;
+        return audioSource;
     }
 }
 

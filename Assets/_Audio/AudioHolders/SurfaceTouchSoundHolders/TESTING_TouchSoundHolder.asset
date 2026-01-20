@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f6faf6563e1f4242adfe756f939d84b, type: 3}
+  m_Name: TESTING_TouchSoundHolder
+  m_EditorClassIdentifier: Assembly-CSharp::TouchSoundHolderSO
+  FirstTouchSound:
+    Clip: {fileID: 8300000, guid: 30014413f4523c74ab9220ff86f08814, type: 3}
+    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 0.3
+    Pitch: 1
+    SpacialBlend: 0
+  SlideTouchSound:
+    Clip: {fileID: 8300000, guid: c0f243142ff5fcf448ea18f909ba74af, type: 3}
+    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 0.3
+    Pitch: 1
+    SpacialBlend: 0
+  EndTouchSound:
+    Clip: {fileID: 8300000, guid: 9a6d738025ed59f4fb946bb59c20e774, type: 3}
+    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 0.3
+    Pitch: 1
+    SpacialBlend: 0

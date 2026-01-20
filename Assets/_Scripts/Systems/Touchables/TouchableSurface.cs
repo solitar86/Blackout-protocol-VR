@@ -11,8 +11,8 @@ public class TouchableSurface : MonoBehaviour
     // This keeps track if sliding feedback should be played.
     private List<HandCollidingData> playerHandsDataList = new();
 
-    public GameEvent<Vector3> OnFirstTouch = new("First touch");
-    public GameEvent<float> OnTouchSlide = new("Touch slide");
+    public GameEvent<Vector3> OnTouchStart = new("First touch");
+    public GameEvent<(float distance, Vector3 position)> OnTouchSlide = new("Touch slide");
     public GameEvent<Vector3> OnTouchEnd = new("Touch end");
 
 
@@ -24,6 +24,7 @@ public class TouchableSurface : MonoBehaviour
             if (ThisHandHasDataInList(playerHand) == true) return; // This should not happen.
             playerHandsDataList.Add(new HandCollidingData(playerHand, other, playerHand.transform.position));
             playerHand.PlayHapticFeedback(_firstTouchHapticSettings);
+            OnTouchStart.Raise(this, other.transform.position);
         }
     }
 
@@ -35,6 +36,7 @@ public class TouchableSurface : MonoBehaviour
 
             HandlePlayerHandFullyInsideCollider(i);
             HandlePlaySlidingHaptic(other, i);
+            OnTouchSlide.Raise(this, (1f, other.transform.position));
         }
     }
 
@@ -48,6 +50,7 @@ public class TouchableSurface : MonoBehaviour
             {
                 playerHand.PlayHapticFeedback(_touchEndHapticSettings);
                 RemoveThisHandsDataFromList(playerHand);
+                OnTouchEnd.Raise(this, other.transform.position);
             }
         }
     }

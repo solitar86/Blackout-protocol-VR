@@ -269,6 +269,7 @@ GameObject:
   - component: {fileID: 706406797}
   - component: {fileID: 706406796}
   - component: {fileID: 706406800}
+  - component: {fileID: 706406801}
   m_Layer: 0
   m_Name: TableCube
   m_TagString: Untagged
@@ -384,6 +385,19 @@ MonoBehaviour:
   _firstTouchHapticSettings: {fileID: 11400000, guid: cbab00ff2d842964fa80b2074c71c7c1, type: 2}
   _touchSlideHapticSettings: {fileID: 11400000, guid: 884731a6ab1dae043ad72c3c65e29b8c, type: 2}
   _touchEndHapticSettings: {fileID: 11400000, guid: e76ac0bd148cf384eb645ed5c07d5bbb, type: 2}
+--- !u!114 &706406801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 706406795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6fc3d676b95b524fb06bd9d901f943c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TouchableSurfaceAudioHandler
+  _touchSoundHolder: {fileID: 11400000, guid: 6369ca3e1e5bd284d9873c9a0c9478a6, type: 2}
 --- !u!1 &708046016
 GameObject:
   m_ObjectHideFlags: 0
