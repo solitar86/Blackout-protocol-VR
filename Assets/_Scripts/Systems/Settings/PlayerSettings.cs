@@ -1,4 +1,3 @@
-using Project.SFX;
 using System;
 using UnityEngine;
 
@@ -40,7 +39,7 @@ public class PlayerSettings
             return;
         }
 
-        // Load audio settings and print values to console.
+        // Load audio settings
         Audio = PlayerSettingsStorage.Load<AudioPreferences>(AUDIO_STRING, defaults.settings);
     }
 

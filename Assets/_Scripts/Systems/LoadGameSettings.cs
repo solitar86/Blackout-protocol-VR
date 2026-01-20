@@ -5,7 +5,7 @@ public class LoadGameSettings : MonoBehaviour
 {
     private void Awake()
     {
-        Debugger.Log("Loading game settings", Debugger.TextColor.LightGreen);
+        Debugger.Log("Loading player preferences", Debugger.TextColor.LightGreen);
         PlayerSettings.LoadSettings();
     }
 }
