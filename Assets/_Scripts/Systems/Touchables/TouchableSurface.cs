@@ -11,6 +11,10 @@ public class TouchableSurface : MonoBehaviour
     // This keeps track if sliding feedback should be played.
     private List<HandCollidingData> playerHandsDataList = new();
 
+    public GameEvent<Vector3> OnFirstTouch = new("First touch");
+    public GameEvent<float> OnTouchSlide = new("Touch slide");
+    public GameEvent<Vector3> OnTouchEnd = new("Touch end");
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -27,29 +31,13 @@ public class TouchableSurface : MonoBehaviour
     {
         for (int i = 0; i < playerHandsDataList.Count; i++)
         {
-            // Is player hand fully inside the collider?
-            if (IsInsideCollider(playerHandsDataList[i].collider, GetComponent<Collider>()))
-            {
-                Debugger.Log(playerHandsDataList[i].collider.name + " is inside " + transform.name, Debugger.TextColor.LightRed);
-                AudioPlayer.PlayErrorSound(this);
-            }
-
             if (playerHandsDataList[i].collider != other) continue;
 
-            //If this hand, that is still touching the collider has moved more
-            //than the haptic settings threshold, play vibration (and sound at some point)
-            float distance = Vector3.Distance(other.transform.position, playerHandsDataList[i].previousPosition);
-            if (distance > _touchSlideHapticSettings._distanceInterval)
-            {
-                playerHandsDataList[i].hand.PlayHapticFeedback(_touchSlideHapticSettings);
-
-                //To update the structs "previous position" variable we need to fully re-assign it.
-                playerHandsDataList[i] = new HandCollidingData(playerHandsDataList[i].hand,
-                                                                playerHandsDataList[i].collider,
-                                                                other.transform.position);
-            }
+            HandlePlayerHandFullyInsideCollider(i);
+            HandlePlaySlidingHaptic(other, i);
         }
     }
+
 
     private void OnTriggerExit(Collider other)
     {
@@ -61,6 +49,49 @@ public class TouchableSurface : MonoBehaviour
                 playerHand.PlayHapticFeedback(_touchEndHapticSettings);
                 RemoveThisHandsDataFromList(playerHand);
             }
+        }
+    }
+
+    private void HandlePlaySlidingHaptic(Collider playerHandCollider, int i)
+    {
+        float distance = Vector3.Distance(playerHandCollider.transform.position, playerHandsDataList[i].previousPosition);
+        if (distance > _touchSlideHapticSettings.DistanceInterval)
+        {
+            playerHandsDataList[i].hand.PlayHapticFeedback(_touchSlideHapticSettings);
+
+            //To update the structs "previous position" variable we need to fully re-assign it.
+            playerHandsDataList[i] = new HandCollidingData(playerHandsDataList[i].hand,                         //Do not update this
+                                                            playerHandsDataList[i].collider,                    // Do not update this
+                                                            playerHandCollider.transform.position,                           // Update this
+                                                            playerHandsDataList[i].handInsideColliderTimer);    // Do not update this
+        }
+    }
+    private void HandlePlayerHandFullyInsideCollider(int index)
+    {
+        if (IsInsideCollider(playerHandsDataList[index].collider, GetComponent<Collider>()))
+        {
+            // To update the "handinsidecollider" timer we need to fully reassign the struct.
+            playerHandsDataList[index] = new HandCollidingData(playerHandsDataList[index].hand,
+                                            playerHandsDataList[index].collider,
+                                            playerHandsDataList[index].previousPosition,
+                                            playerHandsDataList[index].handInsideColliderTimer + Time.deltaTime); // Only the timer updates.
+
+            AudioPlayer.PlayErrorSound(this);
+
+            // Handle "Error" Haptic Pulse.
+            if (playerHandsDataList[index].handInsideColliderTimer > 0.6f)
+            {
+                var settings = Resources.Load<VibrationSettingsSO>("Haptics/HandInsideColliderVibrationSettings");
+                playerHandsDataList[index].hand.PlayHapticFeedback(settings);
+                playerHandsDataList[index] = new HandCollidingData(playerHandsDataList[index].hand,
+                                                                playerHandsDataList[index].collider,
+                                                                playerHandsDataList[index].previousPosition,
+                                                                0f); // Only the timer updates.
+            }
+        }
+        else
+        {
+            AudioPlayer.PauseErrorSound();
         }
     }
 
@@ -107,16 +138,18 @@ public class TouchableSurface : MonoBehaviour
 
     private struct HandCollidingData
     {
-        public HandCollidingData(PlayerHand hand, Collider collider, Vector3 position)
+        public HandCollidingData(PlayerHand hand, Collider collider, Vector3 position, float timer = 0)
         {
             this.hand = hand;
             this.collider = collider;
             this.previousPosition = position;
+            handInsideColliderTimer = timer;
         }
 
         public PlayerHand hand;
         public Collider collider;
         public Vector3 previousPosition;
+        public float handInsideColliderTimer;
     }
 
     #endregion
