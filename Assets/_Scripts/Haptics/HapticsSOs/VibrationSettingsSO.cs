@@ -3,9 +3,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "VibrationSettings", menuName = "Vibration Settings SO")]
 public class VibrationSettingsSO : ScriptableObject
 {
+    [Tooltip("This is the min distance at which the haptic will trigger if sliding on a surface")]
 	[SerializeField] public float _distanceInterval = 1;
+
 	[SerializeField, Range(0f, 1f)] public float _amplitude = 1;
 	[SerializeField, Range(0.001f, 5f)] public float _duration = 1;
+
 	[SerializeField] public float _frequency = 1;
 
 

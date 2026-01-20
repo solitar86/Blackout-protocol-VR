@@ -13,7 +13,7 @@ public class VibrationPlayer : MonoBehaviour
     [Space(15)]
     [SerializeField] private HapticImpulsePlayer _impulsePlayer;
 
-    float _intervalTimer = 0;
+    //float _intervalTimer = 0;
 
 
 

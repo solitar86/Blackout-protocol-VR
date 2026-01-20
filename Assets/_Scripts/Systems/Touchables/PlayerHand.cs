@@ -9,7 +9,7 @@ public class PlayerHand : MonoBehaviour
         _hapticPlayer = GetComponent<VibrationPlayerDirect>();
     }
 
-    public void FirstTouch(VibrationSettingsSO hapticSettings)
+    public void PlayHapticFeedback(VibrationSettingsSO hapticSettings)
     {
         _hapticPlayer.PlayHaptic(hapticSettings);
     }
