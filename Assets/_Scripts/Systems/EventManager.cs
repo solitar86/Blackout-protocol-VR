@@ -5,8 +5,8 @@ using System.Collections.Generic;
 [DefaultExecutionOrder(-999)]
 public static class EventManager
 {
-    public static GameEvent<float> OnTTSVolumeChange = new GameEvent<float>("TTS Volume Change");
-    public static GameEvent<float> OnTTSSPeedChange = new GameEvent<float>("TTS Speed Change");
+    public static GameEvent<float> OnTTSVolumeChange = new("TTS Volume Change");
+    public static GameEvent<float> OnTTSSPeedChange = new("TTS Speed Change");
 }
 
 public class GameEvent<T>
@@ -30,7 +30,7 @@ public class GameEvent<T>
         _listenerList.Add(listener);
     }
 
-    public void Removelistener(object subscriber, Action<T> listener)
+    public void Removelistener(object unsubscriber, Action<T> listener)
     {
         if (_listenerList.Contains(listener))
         {
