@@ -9,6 +9,8 @@ public class VibrationPlayerDirect : MonoBehaviour
     private InputDevice _controller;
     private HapticCapabilities _hapticCapabities;
 
+    float _nextTimeCanPlayHaptics = 0f;
+
     private void Awake()
     {
         GetComponent<Collider>().isTrigger = true;
@@ -39,6 +41,8 @@ public class VibrationPlayerDirect : MonoBehaviour
 
     public void PlayHaptic(VibrationSettingsSO vibrationSettings)
     {
+        if (PreviousHapticDurationHasElapsed() == false) return;
+
         if (_controller == null)
         {
             if (TryInitializeDevice() == false) return;
@@ -47,51 +51,12 @@ public class VibrationPlayerDirect : MonoBehaviour
         {
             if (TryInitializeDevice() == false) return;
         }
-
-        _controller.SendHapticImpulse(0, vibrationSettings._amplitude, vibrationSettings._duration);
+        _controller.SendHapticImpulse(0, vibrationSettings.Amplitude, vibrationSettings.Duration);
+        _nextTimeCanPlayHaptics = Time.time + vibrationSettings.Duration;
     }
 
-    /*
-    private void OnTriggerStay(Collider other)
+    private bool PreviousHapticDurationHasElapsed()
     {
-        if (_controller == null)
-        {
-            if (TryInitializeDevice() == false) return;
-        }
-        if(_controller.isValid == false)
-        {
-            if (TryInitializeDevice() == false) return;
-        }
-
-        if(_hapticCapabities.supportsImpulse == true)
-        {
-            if (_touchedObjectCollider != null)
-            {
-                Vector3 closestPoint = _touchedObjectCollider.ClosestPointOnBounds(transform.position);
-                float distance = Vector3.Distance(transform.position, closestPoint);
-                if (distance > 0.001f)
-                {
-                    _intervalTimer += Time.deltaTime;
-                    CountUpToIntervalAndHandlePulse(_touchingEdgeVibration);
-                }
-                else
-                {
-                    CountUpToIntervalAndHandlePulse(_handInsideVibration);
-                }
-            }
-        }
-
+        return Time.time > _nextTimeCanPlayHaptics;
     }
-
-    private void CountUpToIntervalAndHandlePulse(VibrationSettingsSO vibrationSettings)
-    {
-        if (_intervalTimer > vibrationSettings._interval)
-        {
-            _controller.SendHapticImpulse(0, vibrationSettings._amplitude, vibrationSettings._duration);
-            _intervalTimer -= vibrationSettings._interval;
-        }
-    }
-
-    */
-
 }

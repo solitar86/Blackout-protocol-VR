@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d8d921d25fff3a4d87ccbf52c54eeb0, type: 3}
   m_Name: TableSurface_TouchEnd_HapticSettings
   m_EditorClassIdentifier: Assembly-CSharp::VibrationSettingsSO
-  _distanceInterval: 1
-  _amplitude: 0.4
-  _duration: 0.2
-  _frequency: 1
+  DistanceInterval: 1
+  Amplitude: 0.5
+  Duration: 0.1
+  Frequency: 1

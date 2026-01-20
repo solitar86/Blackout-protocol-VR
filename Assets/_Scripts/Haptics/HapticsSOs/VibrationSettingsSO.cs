@@ -4,30 +4,30 @@ using UnityEngine;
 public class VibrationSettingsSO : ScriptableObject
 {
     [Tooltip("This is the min distance at which the haptic will trigger if sliding on a surface")]
-	[SerializeField] public float _distanceInterval = 1;
+	[SerializeField] public float DistanceInterval = 1;
 
-	[SerializeField, Range(0f, 1f)] public float _amplitude = 1;
-	[SerializeField, Range(0.001f, 5f)] public float _duration = 1;
+	[SerializeField, Range(0f, 1f)] public float Amplitude = 1;
+	[SerializeField, Range(0.001f, 5f)] public float Duration = 1;
 
-	[SerializeField] public float _frequency = 1;
+	[SerializeField] public float Frequency = 1;
 
 
     private void OnValidate()
     {
-        if (_duration > _distanceInterval)
+        if (Duration > DistanceInterval)
         {
-            Debug.Log("<color=#6CE322> Duration must be less than interval</color>");
-            _duration = _distanceInterval - 0.001f;
+            Debugger.LogWarning("<color=#6CE322> Duration must be less than interval</color>");
+            Duration = DistanceInterval - 0.001f;
         }
 
-        if (_duration < 0)
+        if (Duration < 0)
         {
-            _duration = 0;
+            Duration = 0;
         }
 
-        if (_distanceInterval < 0)
+        if (DistanceInterval < 0)
         {
-            _distanceInterval = 0;
+            DistanceInterval = 0;
         }
     }
 }
