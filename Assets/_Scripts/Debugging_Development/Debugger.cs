@@ -22,6 +22,14 @@ public static class Debugger
         Log(obj.ToString() + " : " + obj.GetType().Name);
     }
 
+    public static void Logthis(this object obj, TextColor color)
+    {
+        if (isEnabled == false || obj == null) return;
+
+        var c = GetColorStringFromEnum(color);
+        Log("<color=#" + c + ">" + obj.ToString() + " : </color>" + obj.GetType().Name);
+    }
+
     public static void Log(string t)
     {
         if (isEnabled == false) return;
@@ -42,7 +50,7 @@ public static class Debugger
         if (isEnabled == false) return;
 
         var c = GetColorStringFromEnum(color);
-        Log("<color=#"+c+">" + t + "</color>");
+        Log("<color=#" + c + ">" + t + "</color>");
     }
 
 
@@ -101,13 +109,15 @@ public static class Debugger
             case TextColor.Yellow:
                 return "FFFF00";
 
+            case TextColor.LightBlue:
+                return "00c3ff";
         }
         return "Invalid color";
 
     }
 
     public enum TextColor
-{
-    Red, LightRed, Green, LightGreen, Blue, Purple, Yellow
-}
+    {
+        Red, LightRed, Green, LightGreen, Blue, LightBlue, Purple, Yellow
+    }
 }
