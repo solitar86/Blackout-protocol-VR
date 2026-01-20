@@ -98,6 +98,7 @@ public class AudioPlayer : MonoBehaviour
 
     public static void PlayErrorSound(object sender)
     {
+        // The Error Audiosource is never destroyd after creation. 
         if (errorAudioSource == null)
         {
             GameObject tempGameObject = new GameObject("Error Sound");
@@ -119,6 +120,14 @@ public class AudioPlayer : MonoBehaviour
 
         if(errorAudioSource.isPlaying == false) errorAudioSource.Play();
 
+    }
+
+    public static void PauseErrorSound()
+    {
+        if (errorAudioSource != null)
+        {
+            errorAudioSource.Pause();
+        }
     }
 
     //public static AudioClip GetRandomClipFromArray(AudioClip[] _clipArray, AudioClip _previousClip = null)
