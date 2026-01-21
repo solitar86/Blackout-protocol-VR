@@ -23,8 +23,7 @@ public class TouchableSurface : MonoBehaviour
         {
             if (ThisHandHasDataInList(playerHand) == true) return; // This should not happen.
             playerHandsDataList.Add(new HandCollidingData(playerHand, other, playerHand.transform.position));
-            playerHand.PlayHapticFeedback(_firstTouchHapticSettings);
-            playerHand.SpawnTouchVisual(other.transform.position);
+            playerHand.HandleTouchBegin(_firstTouchHapticSettings, other.transform.position);
             OnTouchStart.Raise(this, other.transform.position);
         }
     }
@@ -48,7 +47,7 @@ public class TouchableSurface : MonoBehaviour
         {
             if (ThisHandHasDataInList(playerHand) == true)
             {
-                playerHand.PlayHapticFeedback(_touchEndHapticSettings);
+                playerHand.HandleTouchEnd(_touchEndHapticSettings);
                 RemoveThisHandsDataFromList(playerHand);
                 OnTouchEnd.Raise(this, other.transform.position);
             }
@@ -62,7 +61,9 @@ public class TouchableSurface : MonoBehaviour
         if (distance > _touchSlideHapticSettings.DistanceInterval)
         {
             OnTouchSlide.Raise(this, (distance, playerHandCollider.transform.position));
-            playerHandsDataList[i].hand.PlayHapticFeedback(_touchSlideHapticSettings);
+           // playerHandsDataList[i].hand.PlayHapticFeedback(_touchSlideHapticSettings);
+            playerHandsDataList[i].hand.HandleTouchSlide(_touchSlideHapticSettings);
+
 
             //To update the structs "previous position" variable we need to fully re-assign it.
             playerHandsDataList[i] = new HandCollidingData(playerHandsDataList[i].hand,                         //Do not update this
@@ -87,7 +88,7 @@ public class TouchableSurface : MonoBehaviour
             if (playerHandsDataList[index].handInsideColliderTimer > 0.6f)
             {
                 var settings = Resources.Load<VibrationSettingsSO>("Haptics/HandInsideColliderVibrationSettings");
-                playerHandsDataList[index].hand.PlayHapticFeedback(settings);
+                playerHandsDataList[index].hand.HandleHandInsideCollider(settings);
                 playerHandsDataList[index] = new HandCollidingData(playerHandsDataList[index].hand,
                                                                 playerHandsDataList[index].collider,
                                                                 playerHandsDataList[index].previousPosition,

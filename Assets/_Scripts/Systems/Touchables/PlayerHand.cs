@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerHand : MonoBehaviour
@@ -11,12 +12,32 @@ public class PlayerHand : MonoBehaviour
         _touchRippleSpawner = GetComponent<TouchRippleSpawner>();
     }
 
-    public void PlayHapticFeedback(VibrationSettingsSO hapticSettings)
+    public void HandleTouchBegin(VibrationSettingsSO hapticSettings, Vector3 position)
+    {
+        PlayHapticFeedback(hapticSettings);
+        SpawnTouchVisual(position);
+    }
+    public void HandleTouchEnd(VibrationSettingsSO hapticSettings)
+    {
+        PlayHapticFeedback(hapticSettings);
+    }
+
+    public void HandleTouchSlide(VibrationSettingsSO hapticSettings)
+    {
+        PlayHapticFeedback(hapticSettings);
+    }
+
+    public void HandleHandInsideCollider(VibrationSettingsSO hapticSettings)
+    {
+        PlayHapticFeedback(hapticSettings);
+    }
+
+    private void PlayHapticFeedback(VibrationSettingsSO hapticSettings)
     {
         _hapticPlayer?.PlayHaptic(hapticSettings);
     }
 
-    public void SpawnTouchVisual(Vector3 position)
+    private void SpawnTouchVisual(Vector3 position)
     {
         _touchRippleSpawner?.SpawnTouchVisual(position);
     }
@@ -32,4 +53,6 @@ public class PlayerHand : MonoBehaviour
             Gizmos.DrawSphere(collider.transform.position, radius);
         }
     }
+
+
 }
