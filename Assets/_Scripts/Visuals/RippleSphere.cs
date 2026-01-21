@@ -6,7 +6,7 @@ public class RippleSphere : MonoBehaviour
     [SerializeField] private AnimationCurve _curve;
     [SerializeField] private float _duration = 1;
 
-    private float timer = 0f;
+    private float _timer = 0f;
     private float _targetscale = 1f;
     private float _targetAlpha = 0f;
     private float _startAlpha = 1f;
@@ -14,21 +14,24 @@ public class RippleSphere : MonoBehaviour
     private void Start()
     {
         _targetscale = transform.localScale.x;
-        transform.localScale *= 0f;
+        transform.localScale = Vector3.zero;
         _startAlpha = _meshRenderer.material.GetFloat("_alpha");
+        Debugger.Log("Ripple Sphere Spawned");
     }
 
 
     void Update()
     {
         // Alpha of material color;
-        var lerpValue = Mathf.Lerp(_startAlpha, _targetAlpha, _duration / timer);
-        _meshRenderer.material.SetFloat("_alpha", lerpValue);
+        var lerpValue = _timer / _duration;
+        var alpha = Mathf.Lerp(_startAlpha, _targetAlpha, lerpValue);
+        _meshRenderer.material.SetFloat("_alpha", alpha);
+
         // Sphere scale
         transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one * _targetscale, lerpValue);
 
-
-        if (timer > _duration + 0.1f)
+        _timer += Time.deltaTime;
+        if (_timer > _duration + 1f)
         {
             Destroy(gameObject);
         }
