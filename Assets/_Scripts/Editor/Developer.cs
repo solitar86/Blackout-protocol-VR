@@ -50,6 +50,36 @@ public static class Developer
         PlayerSettings.Audio.LowerTTS_Volume();
     }
 
+    [MenuItem("Developer/Logging/Disable Logs")]
+    public static void DisableLogs()
+    {
+        Debugger.DisableLogs();
+        Debug.Log("Debugger logs disabled");
+    }
+
+    [MenuItem("Developer/Logging/Enable Logs")]
+    public static void EnableLogs()
+    {
+        Debugger.EnableLogs();
+        Debug.Log("Debugger logs enabled");
+    }
+
+    [MenuItem("Developer/Logging/Disable Event logs")]
+    public static void DisableEventLogs()
+    {
+        Debugger.DisableLogs();
+        Debug.Log("Event logs disabled");
+    }
+
+    [MenuItem("Developer/Logging/Enable Event Logs")]
+    public static void EnableEventLogs()
+    {
+        Debugger.EnableLogs();
+        Debug.Log("Event logs enabled");
+
+        if (Debugger.isEnabled == false) Debug.Log("Debugger class is disabled so now logs will be shown");
+    }
+
 
 
 }

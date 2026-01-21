@@ -36,7 +36,6 @@ public class TouchableSurface : MonoBehaviour
 
             HandlePlayerHandFullyInsideCollider(i);
             HandlePlaySlidingHaptic(other, i);
-            OnTouchSlide.Raise(this, (1f, other.transform.position));
         }
     }
 
@@ -58,8 +57,10 @@ public class TouchableSurface : MonoBehaviour
     private void HandlePlaySlidingHaptic(Collider playerHandCollider, int i)
     {
         float distance = Vector3.Distance(playerHandCollider.transform.position, playerHandsDataList[i].previousPosition);
+
         if (distance > _touchSlideHapticSettings.DistanceInterval)
         {
+            OnTouchSlide.Raise(this, (distance, playerHandCollider.transform.position));
             playerHandsDataList[i].hand.PlayHapticFeedback(_touchSlideHapticSettings);
 
             //To update the structs "previous position" variable we need to fully re-assign it.

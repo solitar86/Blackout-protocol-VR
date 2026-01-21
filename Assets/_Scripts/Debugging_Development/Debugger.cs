@@ -9,22 +9,24 @@ public static class Debugger
     /// <summary>
     /// Set this to false to globally stop Debug.Logs();
     /// </summary>
-    public static bool isEnabled = true;
+    private static bool _isEnabled = true;
+    public static bool isEnabled => _isEnabled;
 #else
     /// <inheritdoc cref="isEnabled"/>
     public static bool isEnabled = false;
 #endif
 
+
     public static void Logthis(this object obj)
     {
-        if (isEnabled == false || obj == null) return;
+        if (_isEnabled == false || obj == null) return;
 
         Log(obj.ToString() + " : " + obj.GetType().Name);
     }
 
     public static void Logthis(this object obj, TextColor color)
     {
-        if (isEnabled == false || obj == null) return;
+        if (_isEnabled == false || obj == null) return;
 
         var c = GetColorStringFromEnum(color);
         Log("<color=#" + c + ">" + obj.ToString() + " : </color>" + obj.GetType().Name);
@@ -32,14 +34,14 @@ public static class Debugger
 
     public static void Log(string t)
     {
-        if (isEnabled == false) return;
+        if (_isEnabled == false) return;
 
         Debug.Log(t);
     }
 
     public static void Log(object o, TextColor c)
     {
-        if (isEnabled == false) return;
+        if (_isEnabled == false) return;
 
         var s = o.ToString();
         Log(s, c);
@@ -47,7 +49,7 @@ public static class Debugger
 
     public static void Log(string t, TextColor color)
     {
-        if (isEnabled == false) return;
+        if (_isEnabled == false) return;
 
         var c = GetColorStringFromEnum(color);
         Log("<color=#" + c + ">" + t + "</color>");
@@ -56,14 +58,14 @@ public static class Debugger
 
     public static void Log(string t, GameObject go)
     {
-        if (isEnabled == false) return;
+        if (_isEnabled == false) return;
 
         Debug.Log(t, go);
     }
 
     public static void Log(string t, TextColor color, GameObject go)
     {
-        if (isEnabled == false) return;
+        if (_isEnabled == false) return;
 
         var c = GetColorStringFromEnum(color);
         var tc = "<color=#" + c + ">" + t + "</color>";
@@ -72,14 +74,14 @@ public static class Debugger
 
     public static void LogError(string t)
     {
-        if (isEnabled == false) return;
+        if (_isEnabled == false) return;
 
         Debug.LogError(t);
     }
 
     public static void LogWarning(string t)
     {
-        if (isEnabled == false) return;
+        if (_isEnabled == false) return;
 
         Debug.LogWarning(t);
     }
@@ -116,6 +118,8 @@ public static class Debugger
 
     }
 
+    public static void DisableLogs() => _isEnabled = false;
+    public static void EnableLogs() => _isEnabled = true;
     public enum TextColor
     {
         Red, LightRed, Green, LightGreen, Blue, LightBlue, Purple, Yellow

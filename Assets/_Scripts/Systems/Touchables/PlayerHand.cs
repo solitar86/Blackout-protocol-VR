@@ -13,4 +13,16 @@ public class PlayerHand : MonoBehaviour
     {
         _hapticPlayer.PlayHaptic(hapticSettings);
     }
+
+    private void OnDrawGizmosSelected()
+    {
+        var collider = GetComponent<SphereCollider>();
+        var radius = collider.radius;
+
+        if(collider != null)
+        {
+            Gizmos.color = Color.forestGreen;
+            Gizmos.DrawSphere(collider.transform.position, radius);
+        }
+    }
 }

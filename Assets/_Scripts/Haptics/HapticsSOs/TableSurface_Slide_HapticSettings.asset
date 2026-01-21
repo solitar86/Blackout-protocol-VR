@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: TableSurface_Slide_HapticSettings
   m_EditorClassIdentifier: Assembly-CSharp::VibrationSettingsSO
   DistanceInterval: 0.02
-  Amplitude: 0.2
+  Amplitude: 0.35
   Duration: 0.01
   Frequency: 1

@@ -5,8 +5,12 @@ using System.Collections.Generic;
 [DefaultExecutionOrder(-999)]
 public static class EventManager
 {
+    public static bool _logEnabled = true;
     public static GameEvent<float> OnTTSVolumeChange = new("TTS Volume Change");
     public static GameEvent<float> OnTTSSPeedChange = new("TTS Speed Change");
+
+    public static void DisableEventLogs() => _logEnabled = false;
+    public static void EnableEventLogs() => _logEnabled = true;
 }
 
 public class GameEvent<T>

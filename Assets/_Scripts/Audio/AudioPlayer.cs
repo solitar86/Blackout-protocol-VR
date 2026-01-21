@@ -46,7 +46,7 @@ public class AudioPlayer : MonoBehaviour
             audioSource.outputAudioMixerGroup = soundToPlay.Mixergroup;
         }
 
-        audioSource.spatialBlend = 0f;
+        audioSource.spatialBlend = soundToPlay.SpacialBlend;
         audioSource.volume = soundToPlay.Volume;
         audioSource.pitch = soundToPlay.Pitch;
 
@@ -104,7 +104,9 @@ public class AudioPlayer : MonoBehaviour
             GameObject tempGameObject = new GameObject("Error Sound");
             tempGameObject.transform.position = Vector3.zero;
             errorAudioSource = (AudioSource)tempGameObject.AddComponent(typeof(AudioSource));
-            errorAudioSource.spatialBlend = 0;
+            errorAudioSource.spatialBlend = 1;
+            errorAudioSource.minDistance = 0.3f;
+            errorAudioSource.maxDistance = 0.6f;
             errorAudioSource.volume = 0.3f;
             errorAudioSource.loop = false;
         }
@@ -153,6 +155,7 @@ public class AudioPlayer : MonoBehaviour
             audioSource.outputAudioMixerGroup = soundToLoop.Mixergroup;
         }
         audioSource.loop = true;
+        audioSource.Play();
         return audioSource;
     }
 }
