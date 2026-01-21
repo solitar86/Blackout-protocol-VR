@@ -24,6 +24,7 @@ public class TouchableSurface : MonoBehaviour
             if (ThisHandHasDataInList(playerHand) == true) return; // This should not happen.
             playerHandsDataList.Add(new HandCollidingData(playerHand, other, playerHand.transform.position));
             playerHand.PlayHapticFeedback(_firstTouchHapticSettings);
+            playerHand.SpawnTouchVisual(other.transform.position);
             OnTouchStart.Raise(this, other.transform.position);
         }
     }
