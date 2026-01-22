@@ -5,11 +5,12 @@ using UnityEngine.Audio;
 [RequireComponent(typeof(AudioSource))]
 public class TTSPlayer : MonoBehaviour
 {
-    private static void PlayTTS(AudioClip clipToPlay)
+    private static void PlayTTS(AudioClip clipToPlay, string debugInfo)
     {
-        if (clip == null)
+        if (clipToPlay == null)
         {
             PlayTTSFileNotFoundError();
+            Debugger.LogWarning("No TTS file found with : " + debugInfo);
             return;
         }
         var source = FindFirstObjectByType<TTS_SpeedControl>().TTSSource;
@@ -19,32 +20,22 @@ public class TTSPlayer : MonoBehaviour
 
     public static void PlayTTSWithFilePath(string path)
     {
-        string numberString = GetStringFromNumber(number);
         var clip = Resources.Load<AudioClip>(path);
-        PlayTTS(clip);
+        PlayTTS(clip, path);
     }
 
     public static void PlayNumber(int number)
     {
         string numberString = GetStringFromNumber(number);
         var clip = Resources.Load<AudioClip>("TTS/Numbers/TTS_Numbers_" + numberString);
-        PlayTTS(clip);
+        PlayTTS(clip, "Number: " + number);
     }
 
 
     public static void PlayTTSFileNotFoundError()
     {
-        Debugger.Log("TTS FILE NOT FOUND", Debugger.TextColor.Red);
         var clip = Resources.Load<AudioClip>("TTS/TTS_Error_TTSFileNotFound");
-
-        if (clip == null)
-        {
-            Debugger.Log("Error Clip Not Found", Debugger.TextColor.Red);
-        }
-
-        var source = FindFirstObjectByType<TTS_SpeedControl>().TTSSource;
-        source.clip = clip;
-        source.Play();
+        PlayTTS(clip, "Error Clip");
     }
 
     private static string GetStringFromNumber(int number)

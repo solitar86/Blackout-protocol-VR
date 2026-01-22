@@ -26,6 +26,7 @@ public class PlayerInputHandler : MonoBehaviour
         // RIGHT HAND BUTTONS
         if (_rightTrigger.WasPerformedThisFrame())
         {
+            EventManager.OnTriggerPressed.Raise(this, _isRightHand);
             Debugger.Log("Right Trigger Pressed", Debugger.TextColor.LightBlue);
         }
         if (_rightSelect.WasPerformedThisFrame())
@@ -46,6 +47,7 @@ public class PlayerInputHandler : MonoBehaviour
         // LEFTHANDBUTTONS
         if (_leftTrigger.WasPerformedThisFrame())
         {
+            EventManager.OnTriggerPressed.Raise(this, _isRightHand);
             Debugger.Log("Left Trigger Pressed", Debugger.TextColor.LightBlue);
         }
 

@@ -8,28 +8,31 @@ using Random = UnityEngine.Random;
 public class ContextMenuHandler : MonoBehaviour
 {
     [SerializeField] private Transform _testObject;
-    [SerializeField] private const string MENUTTSFOLDER = "TTS/Menu";
+    [SerializeField] private const string MENUTTSFOLDER = "TTS/Menu/";
 
     private Plane _menuPlane;
     private bool _menuIsVisible = false;
     private PlayerHand _playerMenuHand;
 
-    private int numButtons = 0;
     private int _selectedMenuPart = 0;
 
     private List<ContextMenuItem> _currentMenu = new();
 
     private void Start()
     {
-        EventManager.OnPrimaryButtonPressed.AddListener(this, PrimaryButtonPressed);
-    }
-    private void OnDisable()
-    {
-        EventManager.OnPrimaryButtonPressed.RemoveListener(this, PrimaryButtonPressed);
+        EventManager.OnPrimaryButtonPressed.AddListener(this, OnPrimaryButtonPressed);
+        EventManager.OnTriggerPressed.AddListener(this, OnTriggerPressed);
     }
 
-    private void PrimaryButtonPressed(bool isRightHand)
+    private void OnDisable()
     {
+        EventManager.OnPrimaryButtonPressed.RemoveListener(this, OnPrimaryButtonPressed);
+        EventManager.OnTriggerPressed.RemoveListener(this, OnTriggerPressed);
+    }
+
+    private void OnPrimaryButtonPressed(bool isRightHand)
+    {
+        // Activate and position menu
         _menuIsVisible = !_menuIsVisible;
         if (!_menuIsVisible)
         {
@@ -47,6 +50,15 @@ public class ContextMenuHandler : MonoBehaviour
 
         //_menuPlane = new Plane();
         //_menuPlane.SetNormalAndPosition(Camera.main.transform.forward, position);
+    }
+
+    private void OnTriggerPressed(bool isRightHand)
+    {
+        // Activate menu item.
+        if (_menuIsVisible == false) return;
+
+        _currentMenu[_selectedMenuPart].Activate();
+
     }
 
     private void CreateContextMenuMain()
@@ -74,19 +86,18 @@ public class ContextMenuHandler : MonoBehaviour
         float angle = Vector3.SignedAngle(_testObject.up, projected, _testObject.forward * -1);
         if (angle < 0) angle += 360f;
 
-        int part = (int)angle * numButtons / 360;
+        int part = (int)angle * _currentMenu.Count / 360;
 
         if (part != _selectedMenuPart)
         {
-            TTSPlayer.PlayNumber(part);
             _selectedMenuPart = part;
             HandleMenuItemSelectionChange(part);
         }
 
-        for (int i = 0; i < numButtons; i++)
+        for (int i = 0; i < _currentMenu.Count; i++)
         {
             Vector3 direction = _testObject.up;
-            float rotationAmount = (360f / numButtons) * i;
+            float rotationAmount = (360f / _currentMenu.Count) * i;
             Vector3 rotationAxis = _testObject.forward;
             Quaternion rotation = Quaternion.AngleAxis(rotationAmount, rotationAxis);
             Vector3 rotatedVector = rotation * direction;
@@ -96,9 +107,9 @@ public class ContextMenuHandler : MonoBehaviour
 
     private void HandleMenuItemSelectionChange(int part)
     {
+        //TTSPlayer.PlayNumber(part);
         _testObject.GetComponentInChildren<TextMeshPro>().SetText(part.ToString());
-
-        //_currentMenu[part].TTSFilePath
+        TTSPlayer.PlayTTSWithFilePath(_currentMenu[part].TTSFilePath);
     }
 }
 
@@ -114,7 +125,7 @@ public class ContextMenuItem
 
     public string TTSFilePath => _ttsFilePath;
 
-    private void Activate()
+    public void Activate()
     {
         OnActivateAction?.Invoke();
     }
