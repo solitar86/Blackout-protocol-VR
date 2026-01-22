@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VibrationSettingsSO
   DistanceInterval: 1
   Amplitude: 1
-  Duration: 0.45
+  Duration: 0.35
   Frequency: 1
