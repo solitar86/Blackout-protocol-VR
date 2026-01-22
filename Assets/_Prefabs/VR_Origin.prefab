@@ -166,6 +166,7 @@ GameObject:
   - component: {fileID: 636255446950266645}
   - component: {fileID: 3487370991760195859}
   - component: {fileID: 19178270009476382}
+  - component: {fileID: 4655597844852900638}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -393,6 +394,23 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &4655597844852900638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597938095357516291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ac63af101c28dc47bd23f65eef68f0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerFootStepHandler
+  _whatCountsAsGround:
+    serializedVersion: 2
+    m_Bits: 1
+  _feetSeparationDistance: 1
+  _defaultFootSteps: {fileID: 11400000, guid: bf4818b62b1b414458290a185d758b1d, type: 2}
 --- !u!1 &1452678398996725252
 GameObject:
   m_ObjectHideFlags: 0
@@ -439,7 +457,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Mediator: {fileID: 5004547900094021216}
   m_TransformationPriority: 0
-  m_MoveSpeed: 2.5
+  m_MoveSpeed: 1
   m_InAirControlModifier: 0.5
   m_EnableStrafe: 1
   m_EnableFly: 0
@@ -714,7 +732,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 1.36144
-  m_Radius: 0.1
+  m_Radius: 0.01
   m_SlopeLimit: 45
   m_StepOffset: 0.5
   m_SkinWidth: 0.08

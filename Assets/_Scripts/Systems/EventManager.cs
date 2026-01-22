@@ -6,9 +6,15 @@ using System.Collections.Generic;
 public static class EventManager
 {
     public static bool _logEnabled = true;
+
+    // TTS Events
     public static GameEvent<float> OnTTSVolumeChange = new("TTS Volume Change");
     public static GameEvent<float> OnTTSSPeedChange = new("TTS Speed Change");
 
+    // Input Events
+    public static GameEvent<bool> OnPrimaryButtonPressed = new("Primary button pressed");
+    public static GameEvent<bool> OnSecondaryButtonPressed = new("Secondary button pressed");
+    public static GameEvent<bool> OnGripPressed = new("Secondary button pressed");
     public static void DisableEventLogs() => _logEnabled = false;
     public static void EnableEventLogs() => _logEnabled = true;
 }
@@ -23,7 +29,7 @@ public class GameEvent<T>
 
     private List<Action<T>> _listenerList;
     private string _eventName;
-    public void Addlistener(object subscriber, Action<T> listener)
+    public void AddListener(object subscriber, Action<T> listener)
     {
         if (_listenerList.Contains(listener))
         {
@@ -34,7 +40,7 @@ public class GameEvent<T>
         _listenerList.Add(listener);
     }
 
-    public void Removelistener(object unsubscriber, Action<T> listener)
+    public void RemoveListener(object unsubscriber, Action<T> listener)
     {
         if (_listenerList.Contains(listener))
         {

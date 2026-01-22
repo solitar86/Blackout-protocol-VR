@@ -80,19 +80,20 @@ public class TouchableSurface : MonoBehaviour
             playerHandsDataList[index] = new HandCollidingData(playerHandsDataList[index].hand,
                                             playerHandsDataList[index].collider,
                                             playerHandsDataList[index].previousPosition,
-                                            playerHandsDataList[index].handInsideColliderTimer + Time.deltaTime); // Only the timer updates.
+                                            playerHandsDataList[index].handInsideColliderTimer - Time.deltaTime); // Only the timer updates.
 
             AudioPlayer.PlayErrorSound(this);
 
             // Handle "Error" Haptic Pulse.
-            if (playerHandsDataList[index].handInsideColliderTimer > 0.6f)
+            float errorHapticInterval = 0.6f;
+            if (playerHandsDataList[index].handInsideColliderTimer <= errorHapticInterval)
             {
                 var settings = Resources.Load<VibrationSettingsSO>("Haptics/HandInsideColliderVibrationSettings");
                 playerHandsDataList[index].hand.HandleHandInsideCollider(settings);
                 playerHandsDataList[index] = new HandCollidingData(playerHandsDataList[index].hand,
                                                                 playerHandsDataList[index].collider,
                                                                 playerHandsDataList[index].previousPosition,
-                                                                0f); // Only the timer updates.
+                                                                errorHapticInterval); // Only the timer updates.
             }
         }
         else

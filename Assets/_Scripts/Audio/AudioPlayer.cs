@@ -23,57 +23,26 @@ public class AudioPlayer : MonoBehaviour
 
     public static void PlaySoundAtPoint(object sender, Sound soundToPlay, Vector3 point, bool usePitchVariation = false)
     {
-
         if (soundToPlay.Clip == null)
         {
-#if UNITY_EDITOR
-            Debugger.Log("[Audio Player] " + sender + " sent a null Sound to play");
-#endif
+            Debugger.Log(nameof(AudioPlayer) + " : " + sender + " sent a null Sound to play");
             return;
         }
-
-        GameObject tempGameObject = new GameObject(sender + " : " + soundToPlay.Clip);
-        tempGameObject.transform.position = point;
-        AudioSource audioSource = (AudioSource)tempGameObject.AddComponent(typeof(AudioSource));
-        audioSource.clip = soundToPlay.Clip;
-        if (soundToPlay.Mixergroup == null && Instance == null) // We are being called as a static function
-        {
-            var mixer = Resources.Load<AudioMixer>("MainMixer");
-            soundToPlay.Mixergroup = mixer.FindMatchingGroups("SFX")[0]; // SFX is default mixergroup
-        }
-        else
-        {
-            audioSource.outputAudioMixerGroup = soundToPlay.Mixergroup;
-        }
-
-        audioSource.spatialBlend = soundToPlay.SpacialBlend;
-        audioSource.volume = soundToPlay.Volume;
-        audioSource.pitch = soundToPlay.Pitch;
+        GameObject tempGameObject =
+            CreateTempGameObjectWithAudioSource(sender, soundToPlay, point, out AudioSource audioSource);
 
         if (usePitchVariation) audioSource.pitch = AddPitchVariation(soundToPlay.Pitch);
-
         audioSource.Play();
-        Destroy(tempGameObject,
-            audioSource.clip.length);
+        Destroy(tempGameObject, audioSource.clip.length);
     }
+
 
     /// <returns>Sound which was picked to play</returns>
     public static Sound PlayRandomSoundFromArrayAtPoint(object sender, Sound[] soundsArray, Vector3 point, Sound previousSound = null, bool usePitchVariation = false)
     {
-
         Sound randomSound = GetRandomSoundFromArray(soundsArray, previousSound);
         PlaySoundAtPoint(sender, randomSound, point, usePitchVariation);
         return randomSound;
-    }
-
-    public static void PlayClipAtPoint(object sender, AudioClip clipToPlay, Vector3 point, float volume = 1f)
-    {
-        Sound soundToPlay = new Sound();
-        soundToPlay.Pitch = 1;
-        soundToPlay.Volume = volume;
-        soundToPlay.Clip = clipToPlay;
-
-        PlaySoundAtPoint(sender, soundToPlay, point);
     }
 
     public static Sound GetRandomSoundFromArray(Sound[] soundArray, Sound previousSound = null)
@@ -101,12 +70,10 @@ public class AudioPlayer : MonoBehaviour
         // The Error Audiosource is never destroyd after creation. 
         if (errorAudioSource == null)
         {
-            GameObject tempGameObject = new GameObject("Error Sound");
-            tempGameObject.transform.position = Vector3.zero;
-            errorAudioSource = (AudioSource)tempGameObject.AddComponent(typeof(AudioSource));
-            errorAudioSource.spatialBlend = 1;
-            errorAudioSource.minDistance = 0.3f;
-            errorAudioSource.maxDistance = 0.6f;
+            GameObject tempGameObject = CreateTempGameObjectWithAudioSource(sender, null, Vector3.zero, out errorAudioSource);
+            errorAudioSource.spatialBlend = 0; // Should this be spatialized?
+            errorAudioSource.minDistance = 1f; // Do not hardcode these
+            errorAudioSource.maxDistance = 3f; // Do not hardcode these
             errorAudioSource.volume = 0.3f;
             errorAudioSource.loop = false;
         }
@@ -120,7 +87,7 @@ public class AudioPlayer : MonoBehaviour
             }
         }
 
-        if(errorAudioSource.isPlaying == false) errorAudioSource.Play();
+        if (errorAudioSource.isPlaying == false) errorAudioSource.Play();
 
     }
 
@@ -138,15 +105,23 @@ public class AudioPlayer : MonoBehaviour
         return pitch += Random.Range(-variation, variation);
     }
 
+    /// <summary>
+    /// Get a looping audiosource to do something with.
+    /// </summary>
+    /// <param name="sender">Used for error checking and naming gameobject</param>
+    /// <param name="soundToLoop">The sound to start looping</param>
+    /// <returns>Audiosource with loop and Sound settings applied</returns>
     public static AudioSource CreateLoopingAudioSource(object sender, Sound soundToLoop)
     {
-        GameObject tempGameObject = new GameObject(sender + " : " + soundToLoop.Clip);
-        AudioSource audioSource = (AudioSource)tempGameObject.AddComponent(typeof(AudioSource));
+        GameObject tempGameObject =
+            CreateTempGameObjectWithAudioSource(sender, soundToLoop, Vector3.zero, out AudioSource audioSource);
+
         audioSource.spatialBlend = soundToLoop.SpacialBlend; // TODO Make this also SPATIALIZED AUDIO
         audioSource.clip = soundToLoop.Clip;
 
-        if (soundToLoop.Mixergroup == null && Instance == null) // We are being called as a static function
+        if (soundToLoop.Mixergroup == null && Instance == null) 
         {
+            // We are being called as a static function
             var mixer = Resources.Load<AudioMixer>("MainMixer");
             soundToLoop.Mixergroup = mixer.FindMatchingGroups("SFX")[0]; // SFX is default mixergroup
         }
@@ -157,6 +132,52 @@ public class AudioPlayer : MonoBehaviour
         audioSource.loop = true;
         audioSource.Play();
         return audioSource;
+    }
+
+    private static GameObject CreateTempGameObjectWithAudioSource(object sender, Sound soundToPlay,
+                                                                    Vector3 point, out AudioSource audioSource)
+    {
+        if (soundToPlay == null) soundToPlay = new Sound(); // Error handling.
+
+        GameObject tempGameObject;
+        tempGameObject = new GameObject(sender + " : " + (soundToPlay.Clip == null ? "null" : soundToPlay.Clip));
+        tempGameObject.transform.position = point;
+        audioSource = (AudioSource)tempGameObject.AddComponent(typeof(AudioSource));
+
+        audioSource.clip = soundToPlay.Clip;
+        if (soundToPlay.Mixergroup == null && Instance == null)
+        {
+            // We are being called as a static function
+            var mixer = Resources.Load<AudioMixer>("MainMixer");
+            soundToPlay.Mixergroup = mixer.FindMatchingGroups("SFX")[0]; // SFX is default mixergroup
+        }
+        else
+        {
+            audioSource.outputAudioMixerGroup = soundToPlay.Mixergroup;
+        }
+
+        audioSource.spatialBlend = soundToPlay.SpacialBlend;
+        audioSource.volume = soundToPlay.Volume;
+        audioSource.pitch = soundToPlay.Pitch;
+
+        //TODO: Make these variable or somehow make sense. These cannot be hardcoded
+        float minDistance = 1f;
+        float maxDistance = 2f;
+        audioSource.minDistance = minDistance;
+        audioSource.maxDistance = maxDistance;
+        audioSource.rolloffMode = AudioRolloffMode.Linear; // for default;
+
+        return tempGameObject;
+    }
+
+    public static void PlayClipAtPoint(object sender, AudioClip clipToPlay, Vector3 point, float volume = 1f)
+    {
+        Sound soundToPlay = new Sound();
+        soundToPlay.Pitch = 1;
+        soundToPlay.Volume = volume;
+        soundToPlay.Clip = clipToPlay;
+
+        PlaySoundAtPoint(sender, soundToPlay, point);
     }
 }
 

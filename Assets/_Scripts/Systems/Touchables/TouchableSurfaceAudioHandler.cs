@@ -16,9 +16,9 @@ public class TouchableSurfaceAudioHandler : MonoBehaviour
     private void Start()
     {
         _surface = GetComponent<TouchableSurface>();
-        _surface.OnTouchStart.Addlistener(this, PlayFirstTouchSound);
-        _surface.OnTouchSlide.Addlistener(this, HandleHandSlideSound);
-        _surface.OnTouchEnd.Addlistener(this, PlayTouchEndSound);
+        _surface.OnTouchStart.AddListener(this, PlayFirstTouchSound);
+        _surface.OnTouchSlide.AddListener(this, HandleHandSlideSound);
+        _surface.OnTouchEnd.AddListener(this, PlayTouchEndSound);
     }
 
     private void PlayFirstTouchSound(Vector3 position)
@@ -70,8 +70,8 @@ public class TouchableSurfaceAudioHandler : MonoBehaviour
     }
     private void OnDisable()
     {
-        _surface.OnTouchStart.Removelistener(this, PlayFirstTouchSound);
-        _surface.OnTouchSlide.Removelistener(this, HandleHandSlideSound);
-        _surface.OnTouchEnd.Removelistener(this, PlayTouchEndSound);
+        _surface.OnTouchStart.RemoveListener(this, PlayFirstTouchSound);
+        _surface.OnTouchSlide.RemoveListener(this, HandleHandSlideSound);
+        _surface.OnTouchEnd.RemoveListener(this, PlayTouchEndSound);
     }
 }
