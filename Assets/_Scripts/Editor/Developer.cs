@@ -35,7 +35,7 @@ public static class Developer
     [MenuItem("Developer/Settings/TTS Slower")]
     public static void LowerTTSSpeed()
     {
-        PlayerSettings.Audio.LowerTTS_Speed();
+        PlayerSettings.Audio.DecreaseTTS_Speed();
     }
 
     [MenuItem("Developer/Settings/TTS Volume UP")]

@@ -5,31 +5,44 @@ using UnityEngine.Audio;
 [RequireComponent(typeof(AudioSource))]
 public class TTSPlayer : MonoBehaviour
 {
-    public static void PlayNumber(int number)
+    private static void PlayTTS(AudioClip clipToPlay)
     {
-        string numberString = GetStringFromNumber(number);
-        var clip = Resources.Load<AudioClip>("TTS/Numbers/TTS_Numbers_" + numberString);
-
         if (clip == null)
         {
             PlayTTSFileNotFoundError();
             return;
         }
         var source = FindFirstObjectByType<TTS_SpeedControl>().TTSSource;
-        source.clip = clip;
+        source.clip = clipToPlay;
         source.Play();
     }
+
+    public static void PlayTTSWithFilePath(string path)
+    {
+        string numberString = GetStringFromNumber(number);
+        var clip = Resources.Load<AudioClip>(path);
+        PlayTTS(clip);
+    }
+
+    public static void PlayNumber(int number)
+    {
+        string numberString = GetStringFromNumber(number);
+        var clip = Resources.Load<AudioClip>("TTS/Numbers/TTS_Numbers_" + numberString);
+        PlayTTS(clip);
+    }
+
 
     public static void PlayTTSFileNotFoundError()
     {
         Debugger.Log("TTS FILE NOT FOUND", Debugger.TextColor.Red);
         var clip = Resources.Load<AudioClip>("TTS/TTS_Error_TTSFileNotFound");
-        var source = FindFirstObjectByType<TTS_SpeedControl>().TTSSource;
 
         if (clip == null)
         {
             Debugger.Log("Error Clip Not Found", Debugger.TextColor.Red);
         }
+
+        var source = FindFirstObjectByType<TTS_SpeedControl>().TTSSource;
         source.clip = clip;
         source.Play();
     }

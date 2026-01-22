@@ -66,6 +66,7 @@ public class TTS_SpeedControl : MonoBehaviour
         _TTS_source.bypassEffects = true;
         _TTS_source.bypassReverbZones = true;
         _TTS_source.spatialBlend = 0; // Does not need to be spatialized in any way.
+        _TTS_source.bypassEffects = true;
         _TTS_source.Stop(); // Sanity check.
     }
 

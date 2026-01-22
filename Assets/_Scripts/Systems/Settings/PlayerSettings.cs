@@ -75,7 +75,7 @@ public class PlayerSettings
         private float _minTTSVolume = 0.1f;
 
 
-        public void LowerTTS_Speed()
+        public void DecreaseTTS_Speed()
         {
             TTS_Speed -= 0.2f;
             TTS_Speed = Mathf.Clamp(TTS_Speed, _minTTS_Speed, _maxTTS_Speed);
