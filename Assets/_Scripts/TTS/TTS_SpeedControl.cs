@@ -10,7 +10,8 @@ public class TTS_SpeedControl : MonoBehaviour
     [SerializeField] private AudioMixer _audioMixer;
     [SerializeField] private AudioSource _TTS_source;
     private AudioMixerGroup TTS_bus;
-    //[SerializeField, Range(0.4f,2f)] private float _TTS_Speed = 1f;
+
+    public AudioSource TTSSource => _TTS_source;
 
     private void Awake()
     {
@@ -23,17 +24,17 @@ public class TTS_SpeedControl : MonoBehaviour
         TTS_bus = _audioMixer.FindMatchingGroups("TTS")[0];
         _TTS_source.outputAudioMixerGroup = TTS_bus;
 
-        SetSpeedAndPitch();
     }
 
     private void Start()
     {
-        EventManager.OnTTSSPeedChange.Addlistener(this, OnTTSSpeedChanged);
+        SetSpeedAndPitch(); // This doesn't work if it's in Awake.
+        EventManager.OnTTSSPeedChange.AddListener(this, OnTTSSpeedChanged);
     }
 
     private void OnDisable()
     {
-        EventManager.OnTTSSPeedChange.Removelistener(this, OnTTSSpeedChanged);
+        EventManager.OnTTSSPeedChange.RemoveListener(this, OnTTSSpeedChanged);
     }
 
     private void OnTTSSpeedChanged(float value)
@@ -43,12 +44,12 @@ public class TTS_SpeedControl : MonoBehaviour
 
     private void SetSpeedAndPitch()
     {
-        // TODO Make this public and hook up to in-game menus. Also make it play test sound;
         if (_audioMixer == null) InitAudioMixer();
         if (_TTS_source == null) InitAudioSource();
         _TTS_source.pitch = PlayerSettings.Audio.TTS_Speed;
         _audioMixer.SetFloat("TTSPitch", 1 / PlayerSettings.Audio.TTS_Speed); // Exposed params in MainMixer must match string exactly.
         _audioMixer.SetFloat("FFTSize", 512 / PlayerSettings.Audio.TTS_Speed); // Exposed params in MainMixer must match string exactly.
+        Debugger.Log("TTS Settings set Pitch set to :" + 1 / PlayerSettings.Audio.TTS_Speed);
     }
 
     private void InitAudioSource()
