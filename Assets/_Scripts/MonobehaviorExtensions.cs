@@ -9,6 +9,11 @@ public static class MonoBehaviourExtensions
 
     private static IEnumerator CallWithDelayRoutine(Action method, float delay)
     {
+        if (delay <= 0)
+        {
+            method?.Invoke();
+            yield break;
+        }
         yield return new WaitForSeconds(delay);
         method?.Invoke();
     }
