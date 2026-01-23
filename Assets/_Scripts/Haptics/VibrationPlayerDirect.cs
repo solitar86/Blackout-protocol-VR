@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
+using UnityEngine.XR.Hands;
 
 public class VibrationPlayerDirect : MonoBehaviour
 {
@@ -59,4 +60,6 @@ public class VibrationPlayerDirect : MonoBehaviour
     {
         return Time.time > _nextTimeCanPlayHaptics;
     }
+
+    public XRNode GetXRNode() => _handedness;
 }

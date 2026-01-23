@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class PlayerHand : MonoBehaviour
 {
@@ -41,6 +42,8 @@ public class PlayerHand : MonoBehaviour
     {
         _touchRippleSpawner?.SpawnTouchVisual(position);
     }
+
+    public XRNode GetHandXRNode() => _hapticPlayer.GetXRNode();
 
     private void OnDrawGizmosSelected()
     {
