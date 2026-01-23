@@ -1,16 +1,17 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Audio;
+
 
 [RequireComponent(typeof(AudioSource))]
 public class TTSPlayer : MonoBehaviour
 {
-    private static float _nextTimeAllowTTS;
+    private const string TTSNUMBERSPATH = "TTS/Numbers/TTS_Numbers_";
+    private static float _nextTimeAllowTTS = 0f;
     private static void PlayTTS(AudioClip clipToPlay, string debugInfo, bool preventInterrupt = false)
     {
         if (Time.time < _nextTimeAllowTTS)
         {
-            Debugger.Log("TTS Play interrupt blocked by: " + debugInfo, Debugger.TextColor.LightRed);
+            Debugger.Log(debugInfo + " TTS was blocked by 'prevent interrupt'", Debugger.TextColor.LightRed);
             return;
         }
         if (clipToPlay == null)
@@ -24,9 +25,38 @@ public class TTSPlayer : MonoBehaviour
         source.clip = clipToPlay;
         source.Play();
 
-        if (preventInterrupt) _nextTimeAllowTTS = Time.time + source.clip.length;
+        if (preventInterrupt) _nextTimeAllowTTS = Time.time + source.clip.length / PlayerSettings.Audio.TTS_Speed;
 
         EventManager.OnTTSPlay.Raise("TTS Player", debugInfo);
+    }
+
+    public static void PlayTTSSequenceWithPaths(bool preventInterrupt = false, params string[] paths)
+    {
+        List<AudioClip> clips = new();
+        foreach (var path in paths)
+        {
+            AudioClip clip = Resources.Load<AudioClip>(path);
+            if (clip == null)Debugger.Log("TTS Sequence clip not found with path: " + path);
+            else clips.Add(clip);
+        }
+
+        float totalDelay = 0f;
+
+        foreach (var clip in clips)
+        {
+            var delayObject = new GameObject("path");
+            var mono = delayObject.AddComponent<Delay>();
+
+            mono.CallWithDelay(() =>
+            {
+                PlayTTS(clip, "TTS Sequence :" + clip.name, preventInterrupt);
+            }, totalDelay);
+
+            float buffer = 0.1f; // Currently this is necessary to prevent clips from
+                                // interrupting each other. TODO: FIX.
+            totalDelay += clip.length / PlayerSettings.Audio.TTS_Speed + buffer;
+            Destroy(mono.gameObject, totalDelay);
+        }
     }
 
     public static void PlayTTSWithFilePath(string path, bool preventInterrupt = false)
@@ -38,7 +68,7 @@ public class TTSPlayer : MonoBehaviour
     public static void PlayNumber(int number)
     {
         string numberString = GetStringFromNumber(number);
-        var clip = Resources.Load<AudioClip>("TTS/Numbers/TTS_Numbers_" + numberString);
+        var clip = Resources.Load<AudioClip>(TTSNUMBERSPATH + numberString);
         PlayTTS(clip, "Number: " + number);
     }
 
@@ -73,5 +103,9 @@ public class TTSPlayer : MonoBehaviour
             default:
                 return string.Empty;
         }
+    }
+    public static string GetTTSNumberFilePath(int number)
+    {
+        return TTSNUMBERSPATH + GetStringFromNumber(number);
     }
 }

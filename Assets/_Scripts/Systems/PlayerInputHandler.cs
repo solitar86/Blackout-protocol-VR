@@ -26,18 +26,18 @@ public class PlayerInputHandler : MonoBehaviour
         // RIGHT HAND BUTTONS
         if (_rightTrigger.WasPerformedThisFrame())
         {
-            EventManager.OnTriggerPressed.Raise(this, _isRightHand);
             Debugger.Log("Right Trigger Pressed", Debugger.TextColor.LightBlue);
+            EventManager.OnTriggerPressed.Raise(this, _isRightHand);
         }
         if (_rightSelect.WasPerformedThisFrame())
         {
-            EventManager.OnGripPressed.Raise(this, _isRightHand);
             Debugger.Log("Right Grip Pressed", Debugger.TextColor.LightBlue);
+            EventManager.OnGripPressed.Raise(this, _isRightHand);
         }
         if (_rightPrimaryButton.WasPerformedThisFrame())
         {
-            EventManager.OnPrimaryButtonPressed.Raise(this, _isRightHand);
             Debugger.Log("Right PrimaryButton Pressed", Debugger.TextColor.LightBlue);
+            EventManager.OnPrimaryButtonPressed.Raise(this, _isRightHand);
         }
         if (_rightSecondaryButton.WasPerformedThisFrame())
         {
@@ -47,19 +47,19 @@ public class PlayerInputHandler : MonoBehaviour
         // LEFTHANDBUTTONS
         if (_leftTrigger.WasPerformedThisFrame())
         {
-            EventManager.OnTriggerPressed.Raise(this, _isRightHand);
             Debugger.Log("Left Trigger Pressed", Debugger.TextColor.LightBlue);
+            EventManager.OnTriggerPressed.Raise(this, _isRightHand);
         }
 
         if (_leftSelect.WasPerformedThisFrame())
         {
-            EventManager.OnGripPressed.Raise(this, !_isRightHand);
             Debugger.Log("Left Grip Pressed", Debugger.TextColor.LightBlue);
+            EventManager.OnGripPressed.Raise(this, !_isRightHand);
         }
         if (_leftPrimaryButton.WasPerformedThisFrame())
         {
-            EventManager.OnPrimaryButtonPressed.Raise(this, !_isRightHand);
             Debugger.Log("Left Primary Button Pressed", Debugger.TextColor.LightBlue);
+            EventManager.OnPrimaryButtonPressed.Raise(this, !_isRightHand);
         }
         if (_leftSecondaryButton.WasPerformedThisFrame())
         {

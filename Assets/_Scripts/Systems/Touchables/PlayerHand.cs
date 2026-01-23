@@ -33,6 +33,11 @@ public class PlayerHand : MonoBehaviour
         PlayHapticFeedback(hapticSettings);
     }
 
+    public void HandleSingleVibration(VibrationSettingsSO hapticSettings)
+    {
+        PlayHapticFeedback(hapticSettings);
+    }
+
     private void PlayHapticFeedback(VibrationSettingsSO hapticSettings)
     {
         _hapticPlayer?.PlayHaptic(hapticSettings);
