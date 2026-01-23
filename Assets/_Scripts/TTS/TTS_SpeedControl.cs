@@ -1,6 +1,6 @@
-using System;
 using UnityEngine;
 using UnityEngine.Audio;
+using ContextMenu = UnityEngine.ContextMenu;
 
 [RequireComponent(typeof(AudioSource))]
 public class TTS_SpeedControl : MonoBehaviour
@@ -77,7 +77,7 @@ public class TTS_SpeedControl : MonoBehaviour
 
 
 #if UNITY_EDITOR
-    [ContextMenu("Play On Loop")]
+    [UnityEngine.ContextMenu("Play On Loop")]
     public void PlayOnLoop()
     {
         SetSpeedAndPitch();
@@ -85,7 +85,7 @@ public class TTS_SpeedControl : MonoBehaviour
         _TTS_source.loop = true;
         _TTS_source.Play();
     }
-    [ContextMenu("Stop Playbackloop")]
+    [UnityEngine.ContextMenu("Stop Playbackloop")]
     public void StopPlaybackLoop()
     {
         _TTS_source.Stop();

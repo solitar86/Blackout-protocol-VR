@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class ContextMenuHandler : MonoBehaviour
+public class RadialMenuHandler : MonoBehaviour
 {
     [SerializeField] private Transform _testObject;
-    [SerializeField] private const string MENUTTSFOLDER = "TTS/Menu/";
+
 
     private Plane _menuPlane;
     private bool _menuIsVisible = false;
@@ -16,7 +15,7 @@ public class ContextMenuHandler : MonoBehaviour
 
     private int _selectedMenuPart = 0;
 
-    private List<ContextMenuItem> _currentMenu = new();
+    private List<RadialMenuItem> _currentMenu = new();
 
     private void Start()
     {
@@ -45,11 +44,8 @@ public class ContextMenuHandler : MonoBehaviour
             _testObject.forward = Camera.main.transform.forward;
             _testObject.position = _playerMenuHand.transform.position;
 
-            CreateContextMenuMain();
+            CreateContextMenu(RadialMenuHolder.TTSSpeedMenu);
         }
-
-        //_menuPlane = new Plane();
-        //_menuPlane.SetNormalAndPosition(Camera.main.transform.forward, position);
     }
 
     private void OnTriggerPressed(bool isRightHand)
@@ -61,20 +57,11 @@ public class ContextMenuHandler : MonoBehaviour
 
     }
 
-    private void CreateContextMenuMain()
+    private void CreateContextMenu(RadialMenu menu)
     {
         _currentMenu.Clear();
-
-        _currentMenu.Add(new ContextMenuItem(() =>
-        {
-            PlayerSettings.Audio.IncreaseTTS_Speed();
-        }, MENUTTSFOLDER + "TTS_Menu_IncreaseSpeed"));
-
-        _currentMenu.Add(new ContextMenuItem(() =>
-        {
-            PlayerSettings.Audio.DecreaseTTS_Speed();
-        }, MENUTTSFOLDER + "TTS_Menu_DecreaseSpeed"));
-
+        _currentMenu = new List<RadialMenuItem>(menu.MenuItems);
+        TTSPlayer.PlayTTSWithFilePath(menu.MenuTitlePath, true);
     }
 
     private void Update()
@@ -112,14 +99,18 @@ public class ContextMenuHandler : MonoBehaviour
         TTSPlayer.PlayTTSWithFilePath(_currentMenu[part].TTSFilePath);
     }
 }
-
-public class ContextMenuItem
+/// <summary>
+/// A single menu item with delegate and TTS filepath to play when hovered.
+/// </summary>
+public class RadialMenuItem
 {
-    public ContextMenuItem(Action menuAction, string ttsPath)
+    public RadialMenuItem(string name, Action menuAction, string ttsPath)
     {
+        _name = name;
         _ttsFilePath = ttsPath;
         OnActivateAction = menuAction;
     }
+    private string _name;
     private string _ttsFilePath;
     private Action OnActivateAction;
 
@@ -130,3 +121,47 @@ public class ContextMenuItem
         OnActivateAction?.Invoke();
     }
 }
+
+/// <summary>
+/// Holds a list of context menu items and relevant data.
+/// </summary>
+public class RadialMenu
+{
+    public string Name;
+    public RadialMenuItem[] MenuItems;
+    public string MenuTitlePath;
+
+    public RadialMenu(string name, string menuTitlePath, RadialMenuItem[] menuItems)
+    {
+        Name = name;
+        MenuTitlePath = menuTitlePath;
+        MenuItems = menuItems;
+    }
+}
+
+/// <summary>
+/// Holds all programmed menu "panels" for the game.
+/// </summary>
+public static class RadialMenuHolder
+{
+    public const string MENUTTSFOLDER = "TTS/Menu/";
+
+    // TTS SPEED SETTING MENU
+    public static RadialMenu TTSSpeedMenu = new RadialMenu(
+        "TTS Speed menu", MENUTTSFOLDER + "TTS_Menu_TTS_Speed",
+        new RadialMenuItem[]
+        {
+            new RadialMenuItem(
+                "Increase TTS Speed",
+                () => { PlayerSettings.Audio.IncreaseTTS_Speed(); },
+                MENUTTSFOLDER + "TTS_Menu_IncreaseSpeed"
+            ),
+            new RadialMenuItem(
+                "Decrease TTS Speed",
+                () => { PlayerSettings.Audio.DecreaseTTS_Speed(); },
+                MENUTTSFOLDER + "TTS_Menu_DecreaseSpeed"
+            )
+        }
+    );
+}
+

@@ -5,23 +5,34 @@ using UnityEngine.Audio;
 [RequireComponent(typeof(AudioSource))]
 public class TTSPlayer : MonoBehaviour
 {
-    private static void PlayTTS(AudioClip clipToPlay, string debugInfo)
+    private static float _nextTimeAllowTTS;
+    private static void PlayTTS(AudioClip clipToPlay, string debugInfo, bool preventInterrupt = false)
     {
+        if (Time.time < _nextTimeAllowTTS)
+        {
+            Debugger.Log("TTS Play interrupt blocked by: " + debugInfo, Debugger.TextColor.LightRed);
+            return;
+        }
         if (clipToPlay == null)
         {
             PlayTTSFileNotFoundError();
             Debugger.LogWarning("No TTS file found with : " + debugInfo);
             return;
         }
+        // TODO: Make this with a permanent reference.
         var source = FindFirstObjectByType<TTS_SpeedControl>().TTSSource;
         source.clip = clipToPlay;
         source.Play();
+
+        if (preventInterrupt) _nextTimeAllowTTS = Time.time + source.clip.length;
+
+        EventManager.OnTTSPlay.Raise("TTS Player", debugInfo);
     }
 
-    public static void PlayTTSWithFilePath(string path)
+    public static void PlayTTSWithFilePath(string path, bool preventInterrupt = false)
     {
         var clip = Resources.Load<AudioClip>(path);
-        PlayTTS(clip, path);
+        PlayTTS(clip, path, preventInterrupt);
     }
 
     public static void PlayNumber(int number)
@@ -32,7 +43,7 @@ public class TTSPlayer : MonoBehaviour
     }
 
 
-    public static void PlayTTSFileNotFoundError()
+    private static void PlayTTSFileNotFoundError()
     {
         var clip = Resources.Load<AudioClip>("TTS/TTS_Error_TTSFileNotFound");
         PlayTTS(clip, "Error Clip");

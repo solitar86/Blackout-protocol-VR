@@ -10,12 +10,16 @@ public static class EventManager
     // TTS Events
     public static GameEvent<float> OnTTSVolumeChange = new("TTS Volume Change");
     public static GameEvent<float> OnTTSSPeedChange = new("TTS Speed Change");
+    public static GameEvent<string> OnTTSPlay = new("TTS Play");
 
     // Input Events
     public static GameEvent<bool> OnPrimaryButtonPressed = new("Primary button pressed");
     public static GameEvent<bool> OnSecondaryButtonPressed = new("Secondary button pressed");
     public static GameEvent<bool> OnTriggerPressed = new("Trigger pressed");
     public static GameEvent<bool> OnGripPressed = new("Secondary button pressed");
+
+
+  
     public static void DisableEventLogs() => _logEnabled = false;
     public static void EnableEventLogs() => _logEnabled = true;
 }
