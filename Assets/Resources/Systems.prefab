@@ -249,30 +249,6 @@ MonoBehaviour:
   _minDistanceFromCenterToSelect: 0.1
   _selectButtonHapticSettings: {fileID: 11400000, guid: b6ece21f59c3f6c46b43b01b530533cc, type: 2}
   _testObject: {fileID: 3078431766101784336}
-  _openMenuSound:
-    Clip: {fileID: 0}
-    Mixergroup: {fileID: 0}
-    Volume: 1
-    Pitch: 1
-    SpacialBlend: 0
-  _closeMenuSound:
-    Clip: {fileID: 0}
-    Mixergroup: {fileID: 0}
-    Volume: 1
-    Pitch: 1
-    SpacialBlend: 0
-  _selectButtonSound:
-    Clip: {fileID: 0}
-    Mixergroup: {fileID: 0}
-    Volume: 1
-    Pitch: 1
-    SpacialBlend: 0
-  _activateButtonSound:
-    Clip: {fileID: 0}
-    Mixergroup: {fileID: 0}
-    Volume: 1
-    Pitch: 1
-    SpacialBlend: 0
 --- !u!1 &2603999231005657554
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,6 +259,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2586228185054294869}
   - component: {fileID: 8434489880643079112}
+  - component: {fileID: 6391282096348833893}
   m_Layer: 0
   m_Name: AudioSystems
   m_TagString: Untagged
@@ -318,6 +295,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Project.SFX.AudioPlayer
   _defaultMixerGroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+--- !u!114 &6391282096348833893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2603999231005657554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 611d8510538457b40b93fbe772a1e2ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _openMenuSound:
+    Clip: {fileID: 8300000, guid: 27167c5db106b4144bd08d98801c4ac9, type: 3}
+    Mixergroup: {fileID: 8340816935161245932, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+  _closeMenuSound:
+    Clip: {fileID: 8300000, guid: da2a9ad1407a6034b9aa85c8966c17b9, type: 3}
+    Mixergroup: {fileID: 8340816935161245932, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+  _selectButtonSound:
+    Clip: {fileID: 8300000, guid: eac554476d9d90d4cb2c1709b1e48887, type: 3}
+    Mixergroup: {fileID: 8340816935161245932, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+  _activateButtonSound:
+    Clip: {fileID: 8300000, guid: 8b558d9f9aa302046ad3d450687d8f8b, type: 3}
+    Mixergroup: {fileID: 8340816935161245932, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
 --- !u!1 &5014591390927606185
 GameObject:
   m_ObjectHideFlags: 0

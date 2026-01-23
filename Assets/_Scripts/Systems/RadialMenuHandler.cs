@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -11,16 +13,13 @@ public class RadialMenuHandler : MonoBehaviour
     [SerializeField] private VibrationSettingsSO _selectButtonHapticSettings;
     [SerializeField] private Transform _testObject;
     [Space(15)]
-    [SerializeField] Sound _openMenuSound;
-    [SerializeField] Sound _closeMenuSound;
-    [SerializeField] Sound _selectButtonSound;
-    [SerializeField] Sound _activateButtonSound;
-
 
     private bool _menuIsVisible = false;
     private PlayerHand _playerMenuHand;
     private int _selectedMenuPart = 0;
-    private List<RadialMenuItem> _currentMenu = new();
+
+    private RadialMenu _currentMenu;
+    private List<RadialMenuItem> _currentMenuItems = new();
     private Stack<RadialMenu> _previousMenus = new();
 
     private void Awake()
@@ -55,7 +54,7 @@ public class RadialMenuHandler : MonoBehaviour
             _playerMenuHand = isRightHand ? Player.Instance.GetRightHand() : Player.Instance.GetLeftHand();
             _testObject.forward = Camera.main.transform.forward;
             _testObject.position = _playerMenuHand.transform.position;
-            CreateContextMenu(RadialMenuHolder.TTSSpeedMenu);
+            CreateContextMenu(RadialMenuHolder.Mainmenu);
 
         }
     }
@@ -64,50 +63,65 @@ public class RadialMenuHandler : MonoBehaviour
     {
         // Activate menu item.
         if (_menuIsVisible == false) return;
-        _currentMenu[_selectedMenuPart].Activate();
+        _currentMenuItems[_selectedMenuPart].Activate();
         EventManager.OnMenuItemActivate.Raise(this, -1);
 
     }
 
     private void CreateContextMenu(RadialMenu menu)
     {
-        if(menu == null) 
-        _currentMenu.Clear();
-        _currentMenu = new List<RadialMenuItem>(menu.MenuItems);
+        if (menu == null)
+        {
+            Debugger.LogError("Can't open null RadialMenu.");
+            return;
+        }
+
+        if (_currentMenuItems.Count != 0) // THIS CHECK IS STUPID, TODO FIX TO CHECK TO _CURRENTMENU OR SOMETHING
+        {
+            _previousMenus.Push(_currentMenu);
+        }
+
+        _currentMenuItems.Clear();
+        _currentMenu = menu;
+        _currentMenuItems = new List<RadialMenuItem>(_currentMenu.MenuItems);
         TTSPlayer.PlayTTSSequenceWithPaths(true,
             menu.MenuTitleTTSFilePath,
             RadialMenuHolder.MENUTTSFILEFOLDERPATH + "TTS_Menu_Open",
-            TTSPlayer.GetTTSNumberFilePath(_currentMenu.Count),
+            TTSPlayer.GetTTSNumberFilePath(_currentMenuItems.Count),
             RadialMenuHolder.MENUTTSFILEFOLDERPATH + "TTS_Menu_Items");
     }
 
     public void OpenContextMenu(RadialMenu menu)
     {
         CreateContextMenu(menu);
-        if(_menuIsVisible == false) EventManager.OnRadialMenuOpen.Raise(this, -1);
+        if (_menuIsVisible == false) EventManager.OnRadialMenuOpen.Raise(this, -1);
     }
 
     public void PreviousMenu()
     {
-        if(_previousMenus.Count > 0)
+        // TODO This doesn't yet work as intended
+        // ALSO Handle player walk around when menu is open.
+        if (_previousMenus.Count > 0)
         {
             CreateContextMenu(_previousMenus.Pop());
             return;
         }
         CloseRadialMenu();
     }
-    
+
     private void HandleMenuItemSelectionChange(int part)
     {
         //TTSPlayer.PlayNumber(part);
         _testObject.GetComponentInChildren<TextMeshPro>().SetText(part.ToString());
         _playerMenuHand.HandleTouchEnd(_selectButtonHapticSettings);
-        TTSPlayer.PlayTTSWithFilePath(_currentMenu[part].TTSFilePath);
+        TTSPlayer.PlayTTSWithFilePath(_currentMenuItems[part].TTSFilePath);
 
     }
 
     private void CloseRadialMenu()
     {
+        _currentMenuItems.Clear();
+        _currentMenu = null;
         _testObject.gameObject.SetActive(false);
         TTSPlayer.PlayTTSSequenceWithPaths(true,
             RadialMenuHolder.MENUTTSFILEFOLDERPATH + "TTS_Menu_Mainmenu",
@@ -122,7 +136,7 @@ public class RadialMenuHandler : MonoBehaviour
 
         HandleRadialMenuItemSelection();
 
-        /*
+        /* This is debugging code
         for (int i = 0; i < _currentMenu.Count; i++)
         {
             Vector3 direction = _testObject.up;
@@ -143,25 +157,25 @@ public class RadialMenuHandler : MonoBehaviour
         if (handDistanceFromMenu < _minDistanceFromCenterToSelect) return;
 
         Debugger.Log("Can select");
-        
+
         Vector3 fromMenuToHand = _playerMenuHand.transform.position - _testObject.position;
         Vector3 projected = Vector3.ProjectOnPlane(fromMenuToHand, _testObject.forward * -1);
         float angle = Vector3.SignedAngle(_testObject.up, projected, _testObject.forward * -1);
         if (angle < 0) angle += 360f;
 
-        int part = (int)angle * _currentMenu.Count / 360;
+        int part = (int)angle * _currentMenuItems.Count / 360;
 
         if (part != _selectedMenuPart)
         {
             _selectedMenuPart = part;
-            EventManager.OnMenuItemSelect.Raise(this, (float)part/_currentMenu.Count);
+            EventManager.OnMenuItemSelect.Raise(this, (float)part / _currentMenuItems.Count);
             HandleMenuItemSelectionChange(part);
         }
     }
 
     private void OnDrawGizmos()
     {
-        if(_menuIsVisible == false) return;
+        if (_menuIsVisible == false) return;
         Gizmos.DrawSphere(_testObject.transform.position, _minDistanceFromCenterToSelect);
     }
 }
@@ -219,6 +233,25 @@ public static class RadialMenuHolder
         () => RadialMenuHandler.Instance.PreviousMenu(),
         MENUTTSFILEFOLDERPATH + "TTS_Menu_Back");
 
+    public static RadialMenuItem QuitButton = new RadialMenuItem("Previous menu",
+    () =>
+    {
+        TTSPlayer.PlayTTSWithFilePath(MENUTTSFILEFOLDERPATH + "TTS_Menu_Goodbye");
+        var delayObject = new GameObject("path");
+        var mono = delayObject.AddComponent<Delay>();
+
+        mono.CallWithDelay(() =>
+        {
+            Application.Quit();
+#if UnityEditor
+            EditorApplication.isPlaying = false;
+#endif
+        }, 2f);
+
+    }, MENUTTSFILEFOLDERPATH + "TTS_Menu_Quit");
+
+
+
     // MAIN MENU
     public static RadialMenu Mainmenu = new RadialMenu(
         "Mainmenu", MENUTTSFILEFOLDERPATH + "TTS_Menu_MainMenu",
@@ -229,6 +262,8 @@ public static class RadialMenuHolder
                 () => { RadialMenuHandler.Instance.OpenContextMenu(SoundSettingsMenu); },
                 MENUTTSFILEFOLDERPATH + "TTS_Menu_SoundSettings"
             ),
+           BackButton,
+           QuitButton
         }
     );
 
@@ -240,13 +275,14 @@ public static class RadialMenuHolder
             new RadialMenuItem(
                 "Open TTS Speed settings",
                 () => { RadialMenuHandler.Instance.OpenContextMenu(TTSSpeedMenu); },
-                MENUTTSFILEFOLDERPATH + "TTS_Menu_IncreaseSpeed"
+                MENUTTSFILEFOLDERPATH + "TTS_Menu_TTS_Speed"
             ),
-            //new RadialMenuItem(
-            //    "Open TTS Volume settings",
-            //    () => { RadialMenuHandler.Instance.OpenContextMenu(TTSVolumeMenu); },
-            //    MENUTTSFILEFOLDERPATH + "TTS_Menu_TTS_Volume"
-            //),
+            BackButton,
+            new RadialMenuItem(
+                "Open TTS Volume settings",
+                () => { RadialMenuHandler.Instance.OpenContextMenu(TTSVolumeMenu); },
+                MENUTTSFILEFOLDERPATH + "TTS_Menu_TTS_Volume"
+            ),
 
     }
 );
@@ -268,6 +304,27 @@ public static class RadialMenuHolder
                 () => { PlayerSettings.Audio.DecreaseTTS_Speed();
                 TTSPlayer.PlayTTSWithFilePath(MENUTTSFILEFOLDERPATH + "TTS_Menu_TTS_Sample"); },
                 MENUTTSFILEFOLDERPATH + "TTS_Menu_DecreaseSpeed"
+            )
+        }
+    );
+
+    // TTS VOLUME SETTING MENU
+    public static RadialMenu TTSVolumeMenu = new RadialMenu(
+        "TTS Volume menu", MENUTTSFILEFOLDERPATH + "TTS_Menu_TTS_Volume",
+        new RadialMenuItem[]
+        {
+            new RadialMenuItem(
+                "Increase TTS Volume",
+                () => { PlayerSettings.Audio.IncreaseTTS_Volume();
+                        TTSPlayer.PlayTTSWithFilePath(MENUTTSFILEFOLDERPATH + "TTS_Menu_TTS_Sample"); },
+                MENUTTSFILEFOLDERPATH + "TTS_Menu_IncreaseVolume"
+            ),
+            BackButton,
+            new RadialMenuItem(
+                "Decrease TTS Volume",
+                () => { PlayerSettings.Audio.LowerTTS_Volume();
+                TTSPlayer.PlayTTSWithFilePath(MENUTTSFILEFOLDERPATH + "TTS_Menu_TTS_Sample"); },
+                MENUTTSFILEFOLDERPATH + "TTS_Menu_DecreaseVolume"
             )
         }
     );

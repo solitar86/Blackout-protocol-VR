@@ -6,7 +6,7 @@ using UnityEngine;
 public class TTSPlayer : MonoBehaviour
 {
     private const string TTSNUMBERSPATH = "TTS/Numbers/TTS_Numbers_";
-    private static float _nextTimeAllowTTS = 0f;
+    private static float _nextTimeAllowTTS = 0f; // THIS VALUE NEEDS TO BE RESET on ENTER PLAYMODE! TODO!
     private static void PlayTTS(AudioClip clipToPlay, string debugInfo, bool preventInterrupt = false)
     {
         if (Time.time < _nextTimeAllowTTS)
