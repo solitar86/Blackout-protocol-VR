@@ -25,6 +25,13 @@ public static class EventManager
     public static GameEvent<float> OnMenuItemSelect = new("UI Button select changed");
     public static GameEvent<int> OnMenuItemActivate = new("UI Button activated");
 
+    //Interaction events
+    public static GameEvent<PickUpObject> OnPlayerTouchPickUp = new("Player touch pickup");
+
+
+    // One shot gameplay events(B
+    public static GameEvent<int> OnBreakableMachineBreak = new("Breakable machine broke");
+
     public static void DisableEventLogs() => _logEnabled = false;
     public static void EnableEventLogs() => _logEnabled = true;
 }
@@ -60,7 +67,7 @@ public class GameEvent<T>
 
     public void Raise(object eventCaller, T param)
     {
-        Debugger.Log(_eventName + "-event was called by " + eventCaller.ToString(), Debugger.TextColor.Yellow);
+        Debugger.Log(_eventName + " - event was called by " + eventCaller.ToString(), Debugger.TextColor.Yellow);
         for (int i = _listenerList.Count - 1; i >= 0; i--)
         {
             _listenerList[i]?.Invoke(param);

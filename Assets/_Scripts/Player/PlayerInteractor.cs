@@ -80,6 +80,7 @@ public class PlayerInteractor : MonoBehaviour
         if(pickUpObjects.Count == 1)
         {
             // Only one of these can be picked up
+            Debugger.Log("Several Interactables in range, but only one PickUpObjects - picking up");
             PickUpObject(pickUpObjects[0]);
             return;
         }
@@ -98,7 +99,6 @@ public class PlayerInteractor : MonoBehaviour
             }
         }
 
-        Debugger.Log("We got this far for some reason, FIX");
         // This should never be null at this point.
         PickUpObject(closest);
         Debugger.Log("Picked Up Item With Closest Distance, Rare case", Debugger.TextColor.Red);

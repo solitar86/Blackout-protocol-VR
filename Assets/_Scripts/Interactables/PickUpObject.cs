@@ -10,17 +10,20 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
 
     private float _nextTimeAllowTouchDialogue = 0f;
 
-    //private Collider _collider;
+    private Collider _collider;
+    private Rigidbody _ridibody;
     private Transform parentTransformReference = null;
 
-    //public virtual void Awake()
-    //{
-    //    _collider = GetComponent<Collider>();
-    //}
+    public virtual void Awake()
+    {
+        _collider = GetComponent<Collider>();
+        _ridibody = GetComponent<Rigidbody>();
+        _ridibody.isKinematic = false;
+    }
 
     public virtual void Update()
     {
-
+        // In case we need this at some point
     }
 
     public virtual void FixedUpdate()
@@ -55,6 +58,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     }
     public virtual void Touch()
     {
+        EventManager.OnPlayerTouchPickUp.Raise(this, this);
         if(_nextTimeAllowTouchDialogue < Time.time)
         {
             // Play Touch Dialogue for this object

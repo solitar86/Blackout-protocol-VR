@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class RippleSphere : MonoBehaviour
 {
+    [SerializeField] private float _spawnScale = 0.1f;
     [SerializeField] private Renderer _meshRenderer;
     [SerializeField] private AnimationCurve _curve;
     [SerializeField] private float _duration = 1;
@@ -14,9 +15,8 @@ public class RippleSphere : MonoBehaviour
     private void Start()
     {
         _targetscale = transform.localScale.x;
-        transform.localScale = Vector3.zero;
+        transform.localScale = Vector3.one * _spawnScale;
         _startAlpha = _meshRenderer.material.GetFloat("_alpha");
-        Debugger.Log("Ripple Sphere Spawned");
     }
 
 
@@ -28,7 +28,7 @@ public class RippleSphere : MonoBehaviour
         _meshRenderer.material.SetFloat("_alpha", alpha);
 
         // Sphere scale
-        transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one * _targetscale, lerpValue);
+        transform.localScale = Vector3.Lerp(Vector3.one * _spawnScale, Vector3.one * _targetscale, lerpValue);
 
         _timer += Time.deltaTime;
         if (_timer > _duration + 1f)
