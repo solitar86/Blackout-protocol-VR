@@ -5,8 +5,7 @@ public class PlayerFootStepHandler : MonoBehaviour
     [SerializeField] LayerMask _whatCountsAsGround;
     [SerializeField] private float _feetSeparationDistance = 0.3f;
     [SerializeField] private SoundArrayHolder _defaultFootSteps;
-
-    private float _footStepSoundDistanceInterval = 0.4f;
+    [SerializeField] private float _footStepSoundDistanceInterval = 0.4f;
     private bool _isLeftFoot = true; // Player starts with left foot step.
 
 
@@ -59,4 +58,15 @@ public class PlayerFootStepHandler : MonoBehaviour
 
         return pointOnGround;
     }
+
+#if UNITY_EDITOR
+    public void ForceFootStepValues(float footStepSoundDistanceInterval,  float feetSeparationDistance)
+    {
+        _feetSeparationDistance = footStepSoundDistanceInterval;
+        _feetSeparationDistance = feetSeparationDistance;
+    }
+
+    public float GetFootStepInterval() => _footStepSoundDistanceInterval;
+    public float GetFeetSeparationDistance() => _feetSeparationDistance;
+#endif
 }
