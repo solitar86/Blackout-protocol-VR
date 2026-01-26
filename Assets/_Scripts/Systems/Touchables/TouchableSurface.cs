@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class TouchableSurface : MonoBehaviour
 {
@@ -159,5 +160,25 @@ public class TouchableSurface : MonoBehaviour
         public float handInsideColliderTimer;
     }
 
+    #endregion
+
+    #region FPS Testing Helper Functions
+#if UNITY_EDITOR
+public void TestFirstTouch(Vector3 touchPosition)
+    {
+        OnTouchStart.Raise(this, touchPosition);
+    }
+
+    public void TestTouchEnd(Vector3 touchPosition)
+    {
+        OnTouchEnd.Raise(this, touchPosition);
+    }
+
+    public void TestTouchSlide(Vector3 touchPosition)
+    {
+        float distance = 1f;
+        OnTouchSlide.Raise(this, (distance, touchPosition));
+    }
+#endif
     #endregion
 }

@@ -16,7 +16,7 @@ public static class EventManager
     public static GameEvent<bool> OnPrimaryButtonPressed = new("Primary button pressed");
     public static GameEvent<bool> OnSecondaryButtonPressed = new("Secondary button pressed");
     public static GameEvent<bool> OnTriggerPressed = new("Trigger pressed");
-    public static GameEvent<bool> OnGripPressed = new("Secondary button pressed");
+    public static GameEvent<bool> OnGripPressed = new("Grip button pressed");
 
     // UI Events
     public static GameEvent<int> OnRadialMenuOpen = new("Radial menu open");

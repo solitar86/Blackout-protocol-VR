@@ -39,7 +39,7 @@ public class PlayerSettings
             return;
         }
 
-        // Load audio settings
+        // Load audio settings - with defaults if none are saved.
         Audio = PlayerSettingsStorage.Load<AudioPreferences>(AUDIO_STRING, defaults.settings);
     }
 

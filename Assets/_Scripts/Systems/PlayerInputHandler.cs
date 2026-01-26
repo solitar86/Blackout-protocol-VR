@@ -23,7 +23,9 @@ public class PlayerInputHandler : MonoBehaviour
     private void Update()
     {
 
+        ////////////////////////////////
         // RIGHT HAND BUTTONS
+        ////////////////////////////////
         if (_rightTrigger.WasPerformedThisFrame())
         {
             Debugger.Log("Right Trigger Pressed", Debugger.TextColor.LightBlue);
@@ -42,9 +44,12 @@ public class PlayerInputHandler : MonoBehaviour
         if (_rightSecondaryButton.WasPerformedThisFrame())
         {
             Debugger.Log("Right Secondary Button Pressed", Debugger.TextColor.LightBlue);
+            EventManager.OnSecondaryButtonPressed.Raise(this, _isRightHand);
         }
 
-        // LEFTHANDBUTTONS
+        ////////////////////////////////
+        // LEFT HAND BUTTONS
+        ////////////////////////////////
         if (_leftTrigger.WasPerformedThisFrame())
         {
             Debugger.Log("Left Trigger Pressed", Debugger.TextColor.LightBlue);
@@ -64,6 +69,7 @@ public class PlayerInputHandler : MonoBehaviour
         if (_leftSecondaryButton.WasPerformedThisFrame())
         {
             Debugger.Log("Left Secondary Button Pressed", Debugger.TextColor.LightBlue);
+            EventManager.OnSecondaryButtonPressed.Raise(this, !_isRightHand);
         }
     }
 
