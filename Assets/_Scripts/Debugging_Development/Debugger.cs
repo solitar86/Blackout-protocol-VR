@@ -37,6 +37,13 @@ public static class Debugger
         Debug.Log(t);
     }
 
+    public static void Log(object o)
+    {
+        if (isEnabled == false) return;
+
+        Debug.Log(o);
+    }
+
     public static void Log(object o, TextColor c)
     {
         if (isEnabled == false) return;
