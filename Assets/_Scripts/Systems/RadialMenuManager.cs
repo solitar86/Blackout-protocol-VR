@@ -12,13 +12,13 @@ public class RadialMenuManager : MonoBehaviour
     [SerializeField] private Transform _testObject;
     [Space(15)]
 
-    private bool _menuIsVisible = false;
     private PlayerHand _playerMenuHand;
-    private int _selectedMenuPart = 0;
-
     private RadialMenu _currentMenu;
     private List<RadialMenuItem> _currentMenuItems = new();
     private Stack<RadialMenu> _previousMenus = new();
+    private bool _menuIsVisible = false;
+    private int _selectedMenuPart = 0;
+
 
     private void Awake()
     {
@@ -31,6 +31,7 @@ public class RadialMenuManager : MonoBehaviour
         EventManager.OnPrimaryButtonPressed.AddListener(this, OnPrimaryButtonPressed);
         EventManager.OnTriggerPressed.AddListener(this, OnTriggerPressed);
         EventManager.OnSecondaryButtonPressed.AddListener(this, OnSecondaryButtonPressed);
+        EventManager.OnPlayerStartMove.AddListener(this, OnPlayerStartMove);
     }
 
     private void OnDisable()
@@ -38,6 +39,7 @@ public class RadialMenuManager : MonoBehaviour
         EventManager.OnPrimaryButtonPressed.RemoveListener(this, OnPrimaryButtonPressed);
         EventManager.OnTriggerPressed.RemoveListener(this, OnTriggerPressed);
         EventManager.OnSecondaryButtonPressed.RemoveListener(this, OnSecondaryButtonPressed);
+        EventManager.OnPlayerStartMove.RemoveListener(this, OnPlayerStartMove);
     }
 
     #region Input Responses
@@ -59,7 +61,6 @@ public class RadialMenuManager : MonoBehaviour
 
         }
     }
-
     private void OnTriggerPressed(bool isRightHand)
     {
         // Activate menu item.
@@ -68,7 +69,6 @@ public class RadialMenuManager : MonoBehaviour
         EventManager.OnMenuItemActivate.Raise(this, -1);
 
     }
-
     private void OnSecondaryButtonPressed(bool isRightHand)
     {
         if(_currentMenu != null && _menuIsVisible == true)
@@ -76,7 +76,10 @@ public class RadialMenuManager : MonoBehaviour
             OpenPreviousMenuOrCloseMenu(true);
         }
     }
-
+    private void OnPlayerStartMove(int value)
+    {
+        if(_menuIsVisible) CloseRadialMenu();
+    }
     #endregion
 
     public void OpenContextMenu(RadialMenu menu)
@@ -129,6 +132,7 @@ public class RadialMenuManager : MonoBehaviour
     {
         _currentMenuItems.Clear();
         _currentMenu = null;
+        _previousMenus.Clear();
         _testObject.gameObject.SetActive(false);
         TTSPlayer.PlayTTSSequenceWithPaths(true,
             RadialMenuHolder.MENUTTSFILEFOLDERPATH + "TTS_Menu_Mainmenu",
