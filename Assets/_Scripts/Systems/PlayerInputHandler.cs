@@ -86,9 +86,8 @@ public class PlayerInputHandler : MonoBehaviour
         // PLAYER MOVEMENT
         ////////////////////////////////
 
-        _playerIsMoving = _leftMoveVector == Vector2.zero &&
-                            _rightMoveVector == Vector2.zero;
-
+        _playerIsMoving = _leftMoveVector != Vector2.zero ||
+                            _rightMoveVector != Vector2.zero;
     }
 
 
@@ -121,10 +120,18 @@ public class PlayerInputHandler : MonoBehaviour
         //Debugger.Log("Left Move: " + _leftMoveVector);
     }
 
+    private void OnPlayerStartMove(InputAction.CallbackContext context)
+    {
+        EventManager.OnPlayerStartMove.Raise(this, -1);
+    }
+
     private void SubscribeToEvents()
     {
+        _leftMove.started += OnPlayerStartMove;
         _leftMove.performed += OnLeftMove;
         _leftMove.canceled += OnLeftMove;
+
+        _rightMove.started += OnPlayerStartMove;
         _rightMove.performed += OnRightMove;
         _rightMove.canceled += OnRightMove;
 

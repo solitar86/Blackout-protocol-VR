@@ -17,14 +17,13 @@ public static class EventManager
     public static GameEvent<bool> OnSecondaryButtonPressed = new("Secondary button pressed");
     public static GameEvent<bool> OnTriggerPressed = new("Trigger pressed");
     public static GameEvent<bool> OnGripPressed = new("Grip button pressed");
+    public static GameEvent<int> OnPlayerStartMove = new("Player start move");
 
     // UI Events
     public static GameEvent<int> OnRadialMenuOpen = new("Radial menu open");
     public static GameEvent<int> OnRadialMenuClose = new("Radial menu close");
     public static GameEvent<float> OnMenuItemSelect = new("UI Button select changed");
     public static GameEvent<int> OnMenuItemActivate = new("UI Button activated");
-
-
 
     public static void DisableEventLogs() => _logEnabled = false;
     public static void EnableEventLogs() => _logEnabled = true;
