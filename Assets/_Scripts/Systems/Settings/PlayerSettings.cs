@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static PlayerSettings.AudioPreferences;
 
 public class PlayerSettings
 {
@@ -10,42 +11,43 @@ public class PlayerSettings
     public static string AUDIO_STRING = "audio";
 
     // Other settings
-
-    #region Audiosettings Specific Functions
-
-    public static float GetDecibelsFromNormalizedFloat(float decimalVolume)
-    {
-
-        float dbVolume = Mathf.Log10(decimalVolume) * 20;
-        if (decimalVolume == 0.0f)
-        {
-            dbVolume = -80.0f;
-        }
-
-        return dbVolume;
-
-    }
-
-    #endregion
+    public static DeveloperSettings Developer;
+    public static string DEV_STRING = "dev";
 
     #region Save / Load
     public static void LoadSettings()
     {
+        ////////////////////////////
         // Get Default Audiosettings
-        AudioSettingDefaultsSO defaults = Resources.Load<AudioSettingDefaultsSO>("Settings/AudioDefaultSettings");
-        if (defaults == null)
+        ////////////////////////////
+        AudioSettingDefaultsSO audioDefaults = Resources.Load<AudioSettingDefaultsSO>("Settings/AudioDefaultSettings");
+        if (audioDefaults == null)
         {
             Debugger.LogError("Audio settings default not found at path 'Settings/AudioDefaultSettings'");
             return;
         }
 
         // Load audio settings - with defaults if none are saved.
-        Audio = PlayerSettingsStorage.Load<AudioPreferences>(AUDIO_STRING, defaults.settings);
+        Audio = PlayerSettingsStorage.Load<AudioPreferences>(AUDIO_STRING, audioDefaults.settings);
+
+        ////////////////////////////
+        // Get Default Developer settings
+        ////////////////////////////
+        DeveloperSettingDefaultsSO developerDefaults = Resources.Load<DeveloperSettingDefaultsSO>("Settings/DeveloperDefaultSettings");
+        if (developerDefaults == null)
+        {
+            Debugger.LogError("Developer settings default not found at path 'Settings/DeveloperDefaults'");
+            return;
+        }
+
+        // Load audio settings - with defaults if none are saved.
+        Developer = PlayerSettingsStorage.Load<DeveloperSettings>(DEV_STRING, developerDefaults.settings);
     }
 
     public static void SaveSettings()
     {
         PlayerSettingsStorage.Save<AudioPreferences>(AUDIO_STRING, Audio);
+        PlayerSettingsStorage.Save<DeveloperSettings>(DEV_STRING, Developer);
     }
 
     public static void SetAllDefaults()
@@ -59,6 +61,11 @@ public class PlayerSettings
 
     // Classes that hold settings data.
     #region Serializable Settings classes
+
+
+    ////////////////////////
+    // AUDIO SETTINGS
+    /// ////////////////////
 
     [Serializable]
     public class AudioPreferences
@@ -118,6 +125,22 @@ public class PlayerSettings
             }
         }
 
+        #region Audiosettings Specific Helpers
+        public static float GetDecibelsFromNormalizedFloat(float decimalVolume)
+        {
+
+            float dbVolume = Mathf.Log10(decimalVolume) * 20;
+            if (decimalVolume == 0.0f)
+            {
+                dbVolume = -80.0f;
+            }
+
+            return dbVolume;
+
+        }
+
+        #endregion
+
         public override string ToString()
         {
             return "Master Volume: " + MasterVolume + "\n" +
@@ -125,5 +148,14 @@ public class PlayerSettings
                 "TTS Speed: " + TTS_Speed;
         }
     }
+    ////////////////////////
+    // DEVELOPER SETTINGS
+    /// ////////////////////
+    [Serializable]
+    public class DeveloperSettings
+    {
+        public float TouchDialogueInterval = 2f;
+    }
+
     #endregion
 }
