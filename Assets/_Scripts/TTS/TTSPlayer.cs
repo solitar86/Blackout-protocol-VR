@@ -32,6 +32,10 @@ public class TTSPlayer : MonoBehaviour
 
     public static void PlayTTSSequenceWithPaths(bool preventInterrupt = false, params string[] paths)
     {
+        //TODO: When quickly opening menus the title of the new menu
+        // Is interrupted. Perhaps make a way so that sequences will
+        // always play consecutively even if there's a delay?
+
         List<AudioClip> clips = new();
         foreach (var path in paths)
         {
@@ -52,8 +56,8 @@ public class TTSPlayer : MonoBehaviour
                 PlayTTS(clip, "TTS Sequence :" + clip.name, preventInterrupt);
             }, totalDelay);
 
-            float buffer = 0.1f; // Currently this is necessary to prevent clips from
-                                // interrupting each other. TODO: FIX.
+            float buffer = 0.01f; // Currently this is necessary to prevent clips from
+                                // interrupting each other. TODO: FIX
             totalDelay += clip.length / PlayerSettings.Audio.TTS_Speed + buffer;
             Destroy(mono.gameObject, totalDelay);
         }
@@ -64,21 +68,17 @@ public class TTSPlayer : MonoBehaviour
         var clip = Resources.Load<AudioClip>(path);
         PlayTTS(clip, path, preventInterrupt);
     }
-
     public static void PlayNumber(int number)
     {
         string numberString = GetStringFromNumber(number);
         var clip = Resources.Load<AudioClip>(TTSNUMBERSPATH + numberString);
         PlayTTS(clip, "Number: " + number);
     }
-
-
     private static void PlayTTSFileNotFoundError()
     {
         var clip = Resources.Load<AudioClip>("TTS/TTS_Error_TTSFileNotFound");
         PlayTTS(clip, "Error Clip");
     }
-
     private static string GetStringFromNumber(int number)
     {
         if (number > 10)
@@ -107,5 +107,9 @@ public class TTSPlayer : MonoBehaviour
     public static string GetTTSNumberFilePath(int number)
     {
         return TTSNUMBERSPATH + GetStringFromNumber(number);
+    }
+    public static void ResetStaticVariables()
+    {
+        _nextTimeAllowTTS = 0f;
     }
 }
