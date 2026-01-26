@@ -5,7 +5,10 @@ using UnityEngine;
 [SelectionBase]
 public abstract class PickUpObject : MonoBehaviour, Iinteractable
 {
+    [SerializeField] private PickUpHoldOffsetSettings _offsetSettings;
     [SerializeField] private SoundArrayHolder _pickUpSounds;
+
+    private float _nextTimeAllowTouchDialogue = 0f;
 
     //private Collider _collider;
     private Transform parentTransformReference = null;
@@ -17,7 +20,16 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
 
     public virtual void Update()
     {
-        // If necessary.
+
+    }
+
+    public virtual void FixedUpdate()
+    {
+        if (parentTransformReference != null)
+        {
+            transform.localPosition = _offsetSettings != null ? _offsetSettings.PositionOffset : Vector3.zero;
+            transform.localRotation = _offsetSettings != null ? Quaternion.Euler(_offsetSettings.RotationOffset) : Quaternion.identity;
+        }
     }
 
     public virtual void Activate()
@@ -43,7 +55,11 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     }
     public virtual void Touch()
     {
-        // Do Something
+        if(_nextTimeAllowTouchDialogue < Time.time)
+        {
+            // Play Touch Dialogue for this object
+            _nextTimeAllowTouchDialogue = Time.time + PlayerSettings.Developer.TouchDialogueInterval;
+        }
     }
     public virtual void EndTouch()
     {
@@ -76,13 +92,13 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
 
     void Iinteractable.Touch()
     {
-        Debugger.Log("Touching " + gameObject.name, gameObject);
+        //Debugger.Log("Touching " + gameObject.name, gameObject);
         Touch();
     }
 
     void Iinteractable.EndTouch()
     {
-        Debugger.Log("Stopped touching " + gameObject.name, gameObject);
+        //Debugger.Log("Stopped touching " + gameObject.name, gameObject);
         EndTouch();
     }
 
