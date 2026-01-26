@@ -12,13 +12,22 @@ public class PlayerInputHandler : MonoBehaviour
     private InputAction _rightSelect;
     private InputAction _rightPrimaryButton;
     private InputAction _rightSecondaryButton;
+    private InputAction _rightMove;
 
     private InputAction _leftTrigger;
     private InputAction _leftSelect;
     private InputAction _leftPrimaryButton;
     private InputAction _leftSecondaryButton;
+    private InputAction _leftMove;
 
     private bool _isRightHand = true;
+    private static bool _playerIsMoving = false;
+
+    private Vector2 _leftMoveVector;
+    private Vector2 _rightMoveVector;
+
+    public static bool PlayerIsMoving => _playerIsMoving;
+
 
     private void Update()
     {
@@ -71,18 +80,17 @@ public class PlayerInputHandler : MonoBehaviour
             Debugger.Log("Left Secondary Button Pressed", Debugger.TextColor.LightBlue);
             EventManager.OnSecondaryButtonPressed.Raise(this, !_isRightHand);
         }
-    }
 
-    private void OnEnable()
-    {
-        if (_actionAsset != null)
-        {
-            _actionAsset.Enable();
-            PopulateActions();
-        }
 
+        ////////////////////////////////
+        // PLAYER MOVEMENT
+        ////////////////////////////////
+
+        _playerIsMoving = _leftMoveVector == Vector2.zero &&
+                            _rightMoveVector == Vector2.zero;
 
     }
+
 
     private void PopulateActions()
     {
@@ -90,17 +98,58 @@ public class PlayerInputHandler : MonoBehaviour
         _rightSelect = _actionAsset.FindActionMap("XRI Right Interaction").FindAction("Select");
         _rightPrimaryButton = _actionAsset.FindActionMap("XRI Right Interaction").FindAction("Primary Button");
         _rightSecondaryButton = _actionAsset.FindActionMap("XRI Right Interaction").FindAction("Secondary Button");
+        _rightMove = _actionAsset.FindActionMap("XRI Right Locomotion").FindAction("Move");
 
         _leftTrigger = _actionAsset.FindActionMap("XRI Left Interaction").FindAction("Activate");
         _leftSelect = _actionAsset.FindActionMap("XRI Left Interaction").FindAction("Select");
         _leftPrimaryButton = _actionAsset.FindActionMap("XRI Left Interaction").FindAction("Primary Button");
         _leftSecondaryButton = _actionAsset.FindActionMap("XRI Left Interaction").FindAction("Secondary Button");
+        _leftMove = _actionAsset.FindActionMap("XRI Left Locomotion").FindAction("Move");
+
     }
 
+    private void OnRightMove(InputAction.CallbackContext context)
+    {
+        _rightMoveVector = context.ReadValue<Vector2>();
+        //Debugger.Log("Right Move: " _rightMoveVector);
+
+    }
+
+    private void OnLeftMove(InputAction.CallbackContext context)
+    {
+        _leftMoveVector = context.ReadValue<Vector2>();
+        //Debugger.Log("Left Move: " + _leftMoveVector);
+    }
+
+    private void SubscribeToEvents()
+    {
+        _leftMove.performed += OnLeftMove;
+        _leftMove.canceled += OnLeftMove;
+        _rightMove.performed += OnRightMove;
+        _rightMove.canceled += OnRightMove;
+
+    }
+    private void UnsubscribeFromEvents()
+    {
+        _leftMove.performed -= OnLeftMove;
+        _leftMove.canceled -= OnLeftMove;
+        _rightMove.performed -= OnRightMove;
+        _rightMove.canceled -= OnRightMove;
+    }
+    private void OnEnable()
+    {
+        if (_actionAsset != null)
+        {
+            _actionAsset.Enable();
+            PopulateActions();
+            SubscribeToEvents();
+        }
+    }
     private void OnDisable()
     {
         if (_actionAsset != null)
         {
+            UnsubscribeFromEvents();
             _actionAsset.Disable();
         }
     }
