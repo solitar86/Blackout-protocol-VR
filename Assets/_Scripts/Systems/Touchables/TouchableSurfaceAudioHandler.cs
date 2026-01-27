@@ -7,7 +7,6 @@ public class TouchableSurfaceAudioHandler : MonoBehaviour
     [SerializeField] private Sound _touchIdentifyVO;
     [SerializeField] private TouchSoundHolderSO _touchSoundHolder;
     [Tooltip("This is doubled for volume going down"), Space(5)]
-    [SerializeField] private float _slideAudioVolumeChangeSpeed = 0.0125f;
 
     private TouchableSurface _surface;
     private AudioSource _slideAudioSource;
@@ -31,7 +30,7 @@ public class TouchableSurfaceAudioHandler : MonoBehaviour
             _slideAudioSource.volume = Mathf.SmoothDamp(_slideAudioSource.volume,
                                                 0f,
                                                 ref _audioSmoothDampVelocity,
-                                                _slideAudioVolumeChangeSpeed * 2);
+                                                PlayerSettings.Developer.SlideAudioChangeSpeed * 2);
         }
         _audioWasIncreasedThisFrame = false;
     }
@@ -68,7 +67,7 @@ public class TouchableSurfaceAudioHandler : MonoBehaviour
         _slideAudioSource.volume = Mathf.SmoothDamp(_slideAudioSource.volume,
                                                     _touchSoundHolder.SlideTouchSound.Volume,
                                                     ref _audioSmoothDampVelocity,
-                                                    _slideAudioVolumeChangeSpeed);
+                                                    PlayerSettings.Developer.SlideAudioChangeSpeed);
         return;
 
     }

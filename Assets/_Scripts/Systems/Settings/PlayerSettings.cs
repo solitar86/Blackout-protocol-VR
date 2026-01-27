@@ -156,6 +156,7 @@ public class PlayerSettings
     {
         public float TouchDialogueInterval = 2f;
         public float IdentifyVODelay = 0.3f;
+        public float SlideAudioChangeSpeed = 0.0125f;
     }
 
     #endregion
