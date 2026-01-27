@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 
@@ -29,7 +30,6 @@ public class TTSPlayer : MonoBehaviour
 
         EventManager.OnTTSPlay.Raise("TTS Player", debugInfo);
     }
-
     public static void PlayTTSSequenceWithPaths(bool preventInterrupt = false, params string[] paths)
     {
         //TODO: When quickly opening menus the title of the new menu
@@ -48,7 +48,7 @@ public class TTSPlayer : MonoBehaviour
 
         foreach (var clip in clips)
         {
-            var delayObject = new GameObject("path");
+            var delayObject = new GameObject(clip.name);
             var mono = delayObject.AddComponent<Delay>();
 
             mono.CallWithDelay(() =>
@@ -62,7 +62,6 @@ public class TTSPlayer : MonoBehaviour
             Destroy(mono.gameObject, totalDelay);
         }
     }
-
     public static void PlayTTSWithFilePath(string path, bool preventInterrupt = false)
     {
         var clip = Resources.Load<AudioClip>(path);

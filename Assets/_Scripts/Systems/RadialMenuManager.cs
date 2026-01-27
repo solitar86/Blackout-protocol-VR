@@ -246,7 +246,7 @@ public static class RadialMenuHolder
     public static RadialMenuItem QuitButton = new RadialMenuItem("Previous menu",
     () =>
     {
-        TTSPlayer.PlayTTSWithFilePath(MENUTTSFILEFOLDERPATH + "TTS_Menu_Goodbye");
+        TTSPlayer.PlayTTSWithFilePath(MENUTTSFILEFOLDERPATH + "TTS_Menu_Goodbye", true);
         var delayObject = new GameObject("path");
         var mono = delayObject.AddComponent<Delay>();
 

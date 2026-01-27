@@ -5,10 +5,13 @@ using UnityEngine;
 [SelectionBase]
 public abstract class PickUpObject : MonoBehaviour, Iinteractable
 {
+    [SerializeField] private Sound _touchIdentifyVO;
+    [Space(5)]
     [SerializeField] private PickUpHoldOffsetSettings _offsetSettings;
+    [Space(5)]
     [SerializeField] private SoundArrayHolder _pickUpSounds;
 
-    private float _nextTimeAllowTouchDialogue = 0f;
+    private float _nextTimeAllowTouchVO = 0f;
 
     private Collider _collider;
     private Rigidbody _ridibody;
@@ -20,7 +23,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         _ridibody = GetComponent<Rigidbody>();
         _ridibody.isKinematic = false;
     }
-
+    #region Unity Callbacks
     public virtual void Update()
     {
         // In case we need this at some point
@@ -33,7 +36,19 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
             transform.localPosition = _offsetSettings != null ? _offsetSettings.PositionOffset : Vector3.zero;
             transform.localRotation = _offsetSettings != null ? Quaternion.Euler(_offsetSettings.RotationOffset) : Quaternion.identity;
         }
+
+        //BUG FIX, This might cause problems.
+        // Zero out velocity so the object
+        // doesn't pickup velocity when colliding.
+        _ridibody.linearVelocity = Vector3.zero;
+        _ridibody.angularVelocity = Vector3.zero;
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        CollideWithObject();
+    }
+    #endregion
 
     public virtual void Activate()
     {
@@ -46,9 +61,10 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         parentTransformReference = null;
     }
 
-    public virtual void HitObject()
+    public virtual void CollideWithObject()
     {
-        // Do Something
+        // DO SOMETHING
+        // PLAY SOUND ETC
     }
 
     public virtual void PickUp(Transform parent)
@@ -59,10 +75,11 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     public virtual void Touch()
     {
         EventManager.OnPlayerTouchPickUp.Raise(this, this);
-        if(_nextTimeAllowTouchDialogue < Time.time)
+        if(_nextTimeAllowTouchVO < Time.time)
         {
             // Play Touch Dialogue for this object
-            _nextTimeAllowTouchDialogue = Time.time + PlayerSettings.Developer.TouchDialogueInterval;
+            _nextTimeAllowTouchVO = Time.time + PlayerSettings.Developer.TouchDialogueInterval;
+            AudioPlayer.PlaySoundAtPoint(this, _touchIdentifyVO, transform.position, true);
         }
     }
     public virtual void EndTouch()
@@ -83,9 +100,9 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         Drop();
     }
 
-    void Iinteractable.HitObject()
+    void Iinteractable.CollideWithObject()
     {
-        HitObject();
+        CollideWithObject();
     }
 
     void Iinteractable.PickUp(Transform parent)

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 /// <summary>
 /// This class is a centralized Debug.Log() caller so all logs can be disabled globally.
@@ -125,6 +126,15 @@ public static class Debugger
 
     public static void DisableLogs() => isEnabled = false;
     public static void EnableLogs() => isEnabled = true;
+
+
+    public static void WorldSpaceText(string text, Vector3 spawnPoint)
+    {   
+#if UNITY_EDITOR
+        FloatingText.Create(spawnPoint, text, Color.white);
+#endif
+    }
+
     public enum TextColor
     {
         Red, LightRed, Green, LightGreen, Blue, LightBlue, Purple, Yellow

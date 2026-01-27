@@ -19,6 +19,7 @@ public class TouchableSurface : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if(this.enabled == false) return;
         //Here we handle initial contact. Usually a higher intensity vibration.
         if (other.TryGetComponent<PlayerHand>(out var playerHand))
         {
@@ -31,6 +32,7 @@ public class TouchableSurface : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        if (this.enabled == false) return;
         for (int i = 0; i < playerHandsDataList.Count; i++)
         {
             if (playerHandsDataList[i].collider != other) continue;
@@ -40,9 +42,9 @@ public class TouchableSurface : MonoBehaviour
         }
     }
 
-
     private void OnTriggerExit(Collider other)
     {
+        if (this.enabled == false) return;
         //Here we handle when touching ends.
         if (other.TryGetComponent<PlayerHand>(out var playerHand))
         {

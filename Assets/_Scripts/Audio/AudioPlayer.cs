@@ -20,7 +20,6 @@ public class AudioPlayer : MonoBehaviour
         MainMixer = Resources.Load<AudioMixer>("MainMixer");
         _defaultMixerGroup = MainMixer.FindMatchingGroups("SFX")[0];
     }
-
     public static void PlaySoundAtPoint(object sender, Sound soundToPlay, Vector3 point, bool usePitchVariation = false)
     {
         if (soundToPlay.Clip == null)
@@ -35,8 +34,6 @@ public class AudioPlayer : MonoBehaviour
         audioSource.Play();
         Destroy(tempGameObject, audioSource.clip.length);
     }
-
-
     /// <returns>Sound which was picked to play</returns>
     public static Sound PlayRandomSoundFromArrayAtPoint(object sender, Sound[] soundsArray, Vector3 point, Sound previousSound = null, bool usePitchVariation = false)
     {
@@ -44,7 +41,25 @@ public class AudioPlayer : MonoBehaviour
         PlaySoundAtPoint(sender, randomSound, point, usePitchVariation);
         return randomSound;
     }
+    public static void PlayerSoundAtPointWithDelay(object sender, Sound soundToPlay, Vector3 point, float delay = 0f, bool usePitchVariation = false)
+    {
+        if (soundToPlay.Clip == null)
+        {
+            Debugger.Log(nameof(AudioPlayer) + " : " + sender + " sent a null Sound to play");
+            return;
+        }
 
+        var delayObject = new GameObject(soundToPlay.Clip.name + "with delay of " + delay);
+        var mono = delayObject.AddComponent<Delay>();
+
+        mono.CallWithDelay(() =>
+        {
+            PlaySoundAtPoint(sender, soundToPlay, point, usePitchVariation);
+
+        }, delay);
+
+        Destroy(mono, delay + soundToPlay.Clip.length + 1f);
+    }
     public static Sound GetRandomSoundFromArray(Sound[] soundArray, Sound previousSound = null)
     {
 
@@ -199,6 +214,15 @@ public class Sound
         Volume = 1f;
         Pitch = 1;
         SpacialBlend = 0f;
+    }
+    public Sound(Sound soundToCopyFrom)
+    {
+        Volume = soundToCopyFrom.Volume;
+        Volume = soundToCopyFrom.Pitch;
+        Pitch = soundToCopyFrom.Pitch;
+        Clip = soundToCopyFrom.Clip;
+        Mixergroup = soundToCopyFrom.Mixergroup;
+        SpacialBlend = soundToCopyFrom.SpacialBlend;
     }
 
     public override string ToString()

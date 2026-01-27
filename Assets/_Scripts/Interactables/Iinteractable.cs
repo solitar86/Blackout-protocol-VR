@@ -7,5 +7,9 @@ public interface Iinteractable
     public void PickUp(Transform parent);
     public void Activate();
     public void Drop();
-    public void HitObject();
+
+    /// <summary>
+    /// This is meant for when player touches something with the held object.
+    /// </summary>
+    public void CollideWithObject();
 }

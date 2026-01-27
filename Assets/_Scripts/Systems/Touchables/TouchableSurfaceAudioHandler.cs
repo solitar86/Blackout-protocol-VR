@@ -4,15 +4,18 @@ using UnityEngine;
 [RequireComponent(typeof(TouchableSurface))]
 public class TouchableSurfaceAudioHandler : MonoBehaviour
 {
+    [SerializeField] private Sound _touchIdentifyVO;
     [SerializeField] private TouchSoundHolderSO _touchSoundHolder;
-    [Tooltip("This is doubled for volume going down")]
+    [Tooltip("This is doubled for volume going down"), Space(5)]
     [SerializeField] private float _slideAudioVolumeChangeSpeed = 0.0125f;
 
     private TouchableSurface _surface;
     private AudioSource _slideAudioSource;
     private float _audioSmoothDampVelocity = 0f;
     private bool _audioWasIncreasedThisFrame = false;
+    private float _nextTimeAllowTouchVO = 0f;
 
+    #region Unity Callbacks
     private void Start()
     {
         _surface = GetComponent<TouchableSurface>();
@@ -20,12 +23,35 @@ public class TouchableSurfaceAudioHandler : MonoBehaviour
         _surface.OnTouchSlide.AddListener(this, HandleHandSlideSound);
         _surface.OnTouchEnd.AddListener(this, PlayTouchEndSound);
     }
-
+    private void Update()
+    {
+        if (_audioWasIncreasedThisFrame == false)
+        {
+            if (_slideAudioSource == null) return;
+            _slideAudioSource.volume = Mathf.SmoothDamp(_slideAudioSource.volume,
+                                                0f,
+                                                ref _audioSmoothDampVelocity,
+                                                _slideAudioVolumeChangeSpeed * 2);
+        }
+        _audioWasIncreasedThisFrame = false;
+    }
+    private void OnDisable()
+    {
+        _surface.OnTouchStart.RemoveListener(this, PlayFirstTouchSound);
+        _surface.OnTouchSlide.RemoveListener(this, HandleHandSlideSound);
+        _surface.OnTouchEnd.RemoveListener(this, PlayTouchEndSound);
+    }
+    #endregion
     private void PlayFirstTouchSound(Vector3 position)
     {
         AudioPlayer.PlaySoundAtPoint(this, _touchSoundHolder.FirstTouchSound, position, true);
-    }
 
+        if(_nextTimeAllowTouchVO < Time.time)
+        {
+            AudioPlayer.PlayerSoundAtPointWithDelay(this, _touchIdentifyVO, position, PlayerSettings.Developer.IdentifyVODelay, true);
+            _nextTimeAllowTouchVO = Time.time + PlayerSettings.Developer.TouchDialogueInterval;
+        }
+    }
     private void HandleHandSlideSound((float distance, Vector3 position) tupleData)
     {
         if (_slideAudioSource == null)
@@ -46,19 +72,6 @@ public class TouchableSurfaceAudioHandler : MonoBehaviour
         return;
 
     }
-
-    private void Update()
-    {
-        if (_audioWasIncreasedThisFrame == false)
-        {
-            if (_slideAudioSource == null) return;
-            _slideAudioSource.volume = Mathf.SmoothDamp(_slideAudioSource.volume,
-                                                0f,
-                                                ref _audioSmoothDampVelocity,
-                                                _slideAudioVolumeChangeSpeed * 2);
-        }
-        _audioWasIncreasedThisFrame = false;
-    }
     private void PlayTouchEndSound(Vector3 position)
     {
         AudioPlayer.PlaySoundAtPoint(this, _touchSoundHolder.EndTouchSound, position, true);
@@ -67,11 +80,5 @@ public class TouchableSurfaceAudioHandler : MonoBehaviour
         {
             Destroy(_slideAudioSource.gameObject);
         }
-    }
-    private void OnDisable()
-    {
-        _surface.OnTouchStart.RemoveListener(this, PlayFirstTouchSound);
-        _surface.OnTouchSlide.RemoveListener(this, HandleHandSlideSound);
-        _surface.OnTouchEnd.RemoveListener(this, PlayTouchEndSound);
     }
 }

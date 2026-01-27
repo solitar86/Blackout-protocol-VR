@@ -155,6 +155,7 @@ public class PlayerSettings
     public class DeveloperSettings
     {
         public float TouchDialogueInterval = 2f;
+        public float IdentifyVODelay = 0.3f;
     }
 
     #endregion

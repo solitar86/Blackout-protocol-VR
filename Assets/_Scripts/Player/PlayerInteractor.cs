@@ -15,7 +15,7 @@ public class PlayerInteractor : MonoBehaviour
         _hand = GetComponent<PlayerHand>();
         _collider = GetComponent<Collider>();
     }
-    private void Start()
+    private void OnEnable()
     {
         EventManager.OnGripPressed.AddListener(this, HandleGripPressed);
     }
@@ -25,30 +25,32 @@ public class PlayerInteractor : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.TryGetComponent<Iinteractable>(out var interactable))
+        if (other.TryGetComponent<Iinteractable>(out var interactable))
         {
-            if (_interactablesInRange.Contains(interactable)) return;
-
+            if (_interactablesInRange.Contains(interactable))
+            {
+                return;
+            }
             _interactablesInRange.Add(interactable);
             interactable.Touch();
         }
     }
-
     private void OnTriggerExit(Collider other)
     {
         if (other.TryGetComponent<Iinteractable>(out var interactable))
         {
             interactable.EndTouch();
-            if(_interactablesInRange.Contains(interactable))
-                    _interactablesInRange.Remove(interactable);
+            if (_interactablesInRange.Contains(interactable))
+                _interactablesInRange.Remove(interactable);
         }
     }
     #endregion
 
     private void HandleGripPressed(bool isRightHand)
     {
+        if (isRightHand != _hand.IsRightHand) return;
         if (_interactablesInRange.Count <= 0) return;
-        Debugger.Log("Trying pickup");
+
         if (_heldInteractable != null)
         {
             //Holding an item drop it first.
@@ -59,11 +61,10 @@ public class PlayerInteractor : MonoBehaviour
 
         if ((_interactablesInRange.Count == 1))
         {
-            // Only one option, see if can be picked up.
+            // Only one option, see if it can be picked up.
             if (_interactablesInRange[0] is PickUpObject)
             {
                 // Only one item on list and it can be picked up.
-                Debugger.Log("Only one option, pickup it up");
                 PickUpObject(_interactablesInRange[0]);
                 return;
             }
@@ -71,13 +72,12 @@ public class PlayerInteractor : MonoBehaviour
             {
                 // What to do when an interactable can't be picked up?
             }
-
         }
 
         // Several interactables objects in range
         List<PickUpObject> pickUpObjects = _interactablesInRange.OfType<PickUpObject>().ToList();
 
-        if(pickUpObjects.Count == 1)
+        if (pickUpObjects.Count == 1)
         {
             // Only one of these can be picked up
             Debugger.Log("Several Interactables in range, but only one PickUpObjects - picking up");
@@ -102,8 +102,6 @@ public class PlayerInteractor : MonoBehaviour
         // This should never be null at this point.
         PickUpObject(closest);
         Debugger.Log("Picked Up Item With Closest Distance, Rare case", Debugger.TextColor.Red);
-
-
     }
 
     private void DropThisObject(Iinteractable heldInteractable)

@@ -6,11 +6,15 @@ public class PlayerHand : MonoBehaviour
 {
     private VibrationPlayerDirect _hapticPlayer;
     private TouchRippleSpawner _touchRippleSpawner;
+    private Vector3 _handVelocity;
+    private bool _isRightHand;
+    public bool IsRightHand => _isRightHand;
 
     private void Awake()
     {
         _hapticPlayer = GetComponent<VibrationPlayerDirect>();
         _touchRippleSpawner = GetComponent<TouchRippleSpawner>();
+        _isRightHand = GetHandXRNode() == XRNode.RightHand ? true : false;
     }
     public void HandleTouchBegin(VibrationSettingsSO hapticSettings, Vector3 position)
     {
