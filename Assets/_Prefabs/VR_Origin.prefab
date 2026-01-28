@@ -683,7 +683,8 @@ GameObject:
   - component: {fileID: 6970487752906095010}
   - component: {fileID: 7319590912911962733}
   - component: {fileID: 3772448111277943149}
-  m_Layer: 2
+  - component: {fileID: 9192435655589177954}
+  m_Layer: 9
   m_Name: VR_Origin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -794,6 +795,34 @@ MonoBehaviour:
   m_MotionControllerModeEnded:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &9192435655589177954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5304522184512835325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b50b11000a4d4204080c17294454f121, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _layersToCollideWith:
+    serializedVersion: 2
+    m_Bits: 1024
+  _hitMarker: {fileID: 0}
+  _playerHead: {fileID: 8572928370164838739}
+  _raycastDistance: 0.1
+  _raycastHeightIntervals:
+  - 0.5
+  - 0.3
+  _numberOfRaycasts: 4
+  _playerCollisionSound:
+    Clip: {fileID: 8300000, guid: ef049dfc0aa5cbb43b8f70aa9731238a, type: 3}
+    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 0.3
+    Pitch: 1
+    SpacialBlend: 1
 --- !u!1 &5856241668885847155
 GameObject:
   m_ObjectHideFlags: 0
@@ -930,6 +959,7 @@ GameObject:
   - component: {fileID: 2613943121304401406}
   - component: {fileID: 3217173331145967227}
   - component: {fileID: 9168758355633860729}
+  - component: {fileID: 6520309234327034638}
   m_Layer: 8
   m_Name: MovementParticles
   m_TagString: Untagged
@@ -5755,6 +5785,18 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
+--- !u!114 &6520309234327034638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6301221895518805793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa07294a720a8b14ea303ac2faa30ac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &6444921905994294390
 GameObject:
   m_ObjectHideFlags: 0
@@ -6351,6 +6393,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player_LeftHand_PhysicsObject
       objectReference: {fileID: 0}
+    - target: {fileID: 4968884101406391218, guid: 0fad8b5ea29a1ab48b2c1b32e2aba492, type: 3}
+      propertyPath: m_Mass
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 4968884101406391218, guid: 0fad8b5ea29a1ab48b2c1b32e2aba492, type: 3}
+      propertyPath: m_AngularDamping
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6743205802960882288, guid: 0fad8b5ea29a1ab48b2c1b32e2aba492, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.36
@@ -6413,6 +6463,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8376925625639093468}
     m_Modifications:
+    - target: {fileID: 4011292263082084004, guid: 0e8c9d994d8e48841b14495df4f469ae, type: 3}
+      propertyPath: m_Mass
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 4011292263082084004, guid: 0e8c9d994d8e48841b14495df4f469ae, type: 3}
+      propertyPath: m_AngularDamping
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5520560928577522882, guid: 0e8c9d994d8e48841b14495df4f469ae, type: 3}
       propertyPath: m_Name
       value: Player_RightHand_PhysicsObject

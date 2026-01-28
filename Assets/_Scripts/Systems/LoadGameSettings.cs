@@ -7,5 +7,8 @@ public class LoadGameSettings : MonoBehaviour
     {
         Debugger.Log("Loading player preferences", Debugger.TextColor.LightGreen);
         PlayerSettings.LoadSettings();
+
+        //Raise settings events so systems can react.
+        EventManager.OnAccessibilitySettingsChanged.Raise(this, PlayerSettings.Accessibility.Enabled);
     }
 }

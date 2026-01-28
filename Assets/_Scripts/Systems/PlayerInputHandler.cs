@@ -62,7 +62,7 @@ public class PlayerInputHandler : MonoBehaviour
         if (_leftTrigger.WasPerformedThisFrame())
         {
             Debugger.Log("Left Trigger Pressed", Debugger.TextColor.LightBlue);
-            EventManager.OnTriggerPressed.Raise(this, _isRightHand);
+            EventManager.OnTriggerPressed.Raise(this, !_isRightHand);
         }
 
         if (_leftSelect.WasPerformedThisFrame())

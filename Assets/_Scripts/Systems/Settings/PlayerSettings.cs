@@ -10,9 +10,13 @@ public class PlayerSettings
     public static AudioPreferences Audio;
     public static string AUDIO_STRING = "audio";
 
-    // Other settings
+    // Dev settings
     public static DeveloperSettings Developer;
     public static string DEV_STRING = "dev";
+
+    // Accessibility settings
+    public static AccessibilitySettings Accessibility;
+    public static string ACCESS_STRING = "access";
 
     #region Save / Load
     public static void LoadSettings()
@@ -40,14 +44,29 @@ public class PlayerSettings
             return;
         }
 
-        // Load audio settings - with defaults if none are saved.
+        // Load dev settings - with defaults if none are saved.
         Developer = PlayerSettingsStorage.Load<DeveloperSettings>(DEV_STRING, developerDefaults.settings);
+
+
+        ////////////////////////////
+        // Get Default Accessibility settings
+        ////////////////////////////
+       AccessibilitySettingsDefaultsSO accessDefaults = Resources.Load<AccessibilitySettingsDefaultsSO>("Settings/AccessibilityDefaultSettings");
+        if (accessDefaults == null)
+        {
+            Debugger.LogError("Accessibility settings default not found at path 'Settings/AccessibilityDefaultSettings'");
+            return;
+        }
+
+        // Load accessibility settings - with defaults if none are saved.
+        Accessibility = PlayerSettingsStorage.Load<AccessibilitySettings>(ACCESS_STRING, accessDefaults.settings);
     }
 
     public static void SaveSettings()
     {
         PlayerSettingsStorage.Save<AudioPreferences>(AUDIO_STRING, Audio);
         PlayerSettingsStorage.Save<DeveloperSettings>(DEV_STRING, Developer);
+        PlayerSettingsStorage.Save<AccessibilitySettings>(ACCESS_STRING, Accessibility);
     }
 
     public static void SetAllDefaults()
@@ -157,6 +176,21 @@ public class PlayerSettings
         public float TouchDialogueInterval = 2f;
         public float IdentifyVODelay = 0.3f;
         public float SlideAudioChangeSpeed = 0.0125f;
+    }
+
+    ////////////////////////
+    // ACCESSIBILITY SETTINGS
+    /// ////////////////////
+    [Serializable]
+    public class AccessibilitySettings
+    {
+        public bool Enabled => _enabled;
+        private bool _enabled = true;
+
+        public void ToggleAll()
+        {
+            _enabled = !_enabled;
+        }
     }
 
     #endregion

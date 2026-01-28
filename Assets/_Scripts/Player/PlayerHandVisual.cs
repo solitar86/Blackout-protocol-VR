@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerHandVisual : MonoBehaviour
@@ -8,6 +9,19 @@ public class PlayerHandVisual : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
     }
+
+    private void Start()
+    {
+        EventManager.OnAccessibilitySettingsChanged.AddListener(this, AccessibilitySettingsChanged);
+        AccessibilitySettingsChanged(PlayerSettings.Accessibility.Enabled);
+    }
+
+    private void AccessibilitySettingsChanged(bool enabled)
+    {
+        SnapToFollowPosition();
+        gameObject.SetActive(enabled);
+    }
+
     void FixedUpdate()
     {
 
@@ -37,5 +51,10 @@ public class PlayerHandVisual : MonoBehaviour
         Quaternion rotationDifference = _followTarget.rotation * Quaternion.Inverse(_rigidbody.rotation);
         rotationDifference.ToAngleAxis(out float angle, out Vector3 axis);
         _rigidbody.angularVelocity = (axis * angle * Mathf.Deg2Rad) / Time.fixedDeltaTime;
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.OnAccessibilitySettingsChanged.RemoveListener(this, AccessibilitySettingsChanged);
     }
 }

@@ -15,8 +15,8 @@ TagManager:
   - Interacbles
   - VisibleAlways
   - MovementParticles
-  - 
-  - 
+  - PlayerBody
+  - Obstacles
   - 
   - 
   - 

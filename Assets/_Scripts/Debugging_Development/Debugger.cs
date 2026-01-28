@@ -92,6 +92,13 @@ public static class Debugger
         Debug.LogWarning(t);
     }
 
+    public static void PlayBlipSound(string t = "")
+    {
+        AudioPlayer.PlayClipAtPoint("Debugger", Resources.Load<AudioClip>("Audio/SFX_Blip"), Vector3.zero, 0.3f);
+        
+        if(t!= string.Empty) Log(t);
+    }
+
     private static string GetColorStringFromEnum(TextColor color)
     {
         switch (color)
