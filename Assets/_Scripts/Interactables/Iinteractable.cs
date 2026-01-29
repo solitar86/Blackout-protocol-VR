@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
+using static UnityEngine.LowLevelPhysics2D.PhysicsComposer;
 
 public interface Iinteractable
 {
-    public void Touch();
+    public void Touch(PlayerHand hand);
     public void EndTouch();
-    public void PickUp(Transform parent);
+    public void PickUp(Transform parent, PlayerHand hand);
     public void Activate();
     public void Drop();
 

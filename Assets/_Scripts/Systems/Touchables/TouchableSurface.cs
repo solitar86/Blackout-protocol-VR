@@ -9,14 +9,14 @@ public class TouchableSurface : MonoBehaviour
     [SerializeField] private VibrationSettingsSO _touchSlideHapticSettings;
     [SerializeField] private VibrationSettingsSO _touchEndHapticSettings;
 
-    // This keeps track if sliding feedback should be played.
+    // This keeps track of hand while collision is happening eg. slide or stay.
     private List<HandCollidingData> playerHandsDataList = new();
 
     public GameEvent<Vector3> OnTouchStart = new("First touch");
     public GameEvent<(float distance, Vector3 position)> OnTouchSlide = new("Touch slide");
     public GameEvent<Vector3> OnTouchEnd = new("Touch end");
 
-
+    #region Unity Callbacks
     private void OnTriggerEnter(Collider other)
     {
         if(this.enabled == false) return;
@@ -57,6 +57,7 @@ public class TouchableSurface : MonoBehaviour
         }
     }
 
+    #endregion
     private void HandlePlaySlidingHaptic(Collider playerHandCollider, int i)
     {
         float distance = Vector3.Distance(playerHandCollider.transform.position, playerHandsDataList[i].previousPosition);

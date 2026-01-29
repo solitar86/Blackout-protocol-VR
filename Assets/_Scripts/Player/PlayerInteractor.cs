@@ -9,7 +9,7 @@ public class PlayerInteractor : MonoBehaviour
     private List<Iinteractable> _interactablesInRange = new();
     private Iinteractable _heldInteractable;
 
-    #region Unity Life Cycle and Trigger functions
+    #region Unity Callbacks
     private void Awake()
     {
         _hand = GetComponent<PlayerHand>();
@@ -18,10 +18,12 @@ public class PlayerInteractor : MonoBehaviour
     private void OnEnable()
     {
         EventManager.OnGripPressed.AddListener(this, HandleGripPressed);
+        EventManager.OnTriggerPressed.AddListener(this, HandleTriggerPressed);
     }
     private void OnDisable()
     {
         EventManager.OnGripPressed.RemoveListener(this, HandleGripPressed);
+        EventManager.OnTriggerPressed.RemoveListener(this, HandleTriggerPressed);
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -32,7 +34,7 @@ public class PlayerInteractor : MonoBehaviour
                 return;
             }
             _interactablesInRange.Add(interactable);
-            interactable.Touch();
+            interactable.Touch(_hand);
         }
     }
     private void OnTriggerExit(Collider other)
@@ -45,7 +47,44 @@ public class PlayerInteractor : MonoBehaviour
         }
     }
     #endregion
+    private void HandleTriggerPressed(bool isRightHand)
+    {
+        if (isRightHand != _hand.IsRightHand) return;
+        if (_interactablesInRange.Count <= 0) return;
 
+        if (_heldInteractable != null)
+        {
+            //Holding an item activate it
+            _heldInteractable.Activate();
+            return;
+        }
+
+        if ((_interactablesInRange.Count == 1))
+        {
+            // Only one option, see if it can be picked up.
+            if (_interactablesInRange[0] is StaticInteractable)
+            {
+                // Only one item on list and it static interactable.
+                _interactablesInRange[0].Activate();
+                return;
+            }
+            else
+            {
+                // What would cause us to get here? Figure it out!!
+                Debugger.LogWarning("Somehow we got here this time");
+            }
+        }
+
+        // Several interactables objects in range, just activate all of them for now.
+        Iinteractable[] interactablesInRangeArray = _interactablesInRange.ToArray();
+
+        for (int i = 0; i < interactablesInRangeArray.Length; i++)
+        {
+            interactablesInRangeArray[i].Activate();
+        }
+
+        Debugger.Log("Activated several interactables, rare case", Debugger.TextColor.Red);
+    }
     private void HandleGripPressed(bool isRightHand)
     {
         if (isRightHand != _hand.IsRightHand) return;
@@ -103,16 +142,14 @@ public class PlayerInteractor : MonoBehaviour
         PickUpObject(closest);
         Debugger.Log("Picked Up Item With Closest Distance, Rare case", Debugger.TextColor.Red);
     }
-
     private void DropThisObject(Iinteractable heldInteractable)
     {
         _heldInteractable.Drop();
         _heldInteractable = null;
     }
-
     private void PickUpObject(Iinteractable objectToPickUp)
     {
-        objectToPickUp.PickUp(transform);
+        objectToPickUp.PickUp(transform, _hand);
         _heldInteractable = objectToPickUp;
     }
 }

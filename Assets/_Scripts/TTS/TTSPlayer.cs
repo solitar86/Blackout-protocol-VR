@@ -1,7 +1,15 @@
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 
+/// <summary>
+/// This class plays TTS through a single
+/// audiosource. This does not use the
+/// Audioplayer class - by design.
+/// This is because the pitch of TTS
+/// is used to controls the speed
+/// and the pitchshift is counter-acted
+/// in the mixer with a pitch lowering effect.
+/// </summary>
 
 [RequireComponent(typeof(AudioSource))]
 public class TTSPlayer : MonoBehaviour

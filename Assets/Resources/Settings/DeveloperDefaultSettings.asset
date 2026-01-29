@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: DeveloperDefaultSettings
   m_EditorClassIdentifier: Assembly-CSharp::DeveloperSettingDefaultsSO
   settings:
-    TouchDialogueInterval: 2
+    TouchDialogueInterval: 5
+    IdentifyVODelay: 0.4
+    SlideAudioChangeSpeed: 0.0125
