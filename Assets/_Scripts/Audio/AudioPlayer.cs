@@ -49,16 +49,22 @@ public class AudioPlayer : MonoBehaviour
             return;
         }
 
+        if (delay < 0)
+        {
+            Debugger.Log("Delay was <0 reverting to absolutelu value");
+            delay = Mathf.Abs(delay);
+        }
+
         var delayObject = new GameObject(soundToPlay.Clip.name + "with delay of " + delay);
         var mono = delayObject.AddComponent<Delay>();
-
         mono.CallWithDelay(() =>
         {
             PlaySoundAtPoint(sender, soundToPlay, point, usePitchVariation);
 
+
         }, delay);
 
-        Destroy(mono, delay + soundToPlay.Clip.length + 1f);
+        Destroy(mono.gameObject, delay + soundToPlay.Clip.length + 1f);
     }
     public static Sound GetRandomSoundFromArray(Sound[] soundArray, Sound previousSound = null)
     {
@@ -71,6 +77,12 @@ public class AudioPlayer : MonoBehaviour
             return sound;
         }
 
+        if(soundArray.Length == 1)
+        {
+            //Only one option. Return that
+            return soundArray[0];
+        }
+
         Sound randomClip;
         do
         {
@@ -79,7 +91,6 @@ public class AudioPlayer : MonoBehaviour
 
         return randomClip;
     }
-
     public static void PlayErrorSound(object sender)
     {
         // The Error Audiosource is never destroyd after creation. 
@@ -105,7 +116,6 @@ public class AudioPlayer : MonoBehaviour
         if (errorAudioSource.isPlaying == false) errorAudioSource.Play();
 
     }
-
     public static void PauseErrorSound()
     {
         if (errorAudioSource != null)
@@ -113,7 +123,6 @@ public class AudioPlayer : MonoBehaviour
             errorAudioSource.Pause();
         }
     }
-
     private static float AddPitchVariation(float pitch)
     {
         float variation = 0.1f;
@@ -148,7 +157,6 @@ public class AudioPlayer : MonoBehaviour
         audioSource.Play();
         return audioSource;
     }
-
     private static GameObject CreateTempGameObjectWithAudioSource(object sender, Sound soundToPlay,
                                                                     Vector3 point, out AudioSource audioSource)
     {
@@ -175,16 +183,21 @@ public class AudioPlayer : MonoBehaviour
         audioSource.volume = soundToPlay.Volume;
         audioSource.pitch = soundToPlay.Pitch;
 
+        if(audioSource.pitch == 0)
+        {
+            Debugger.Log(soundToPlay + "has pitch of 0, reverting to 1");
+            audioSource.pitch = 1;
+        }
+
         //TODO: Make these variable or somehow make sense. These cannot be hardcoded
-        float minDistance = 1f;
-        float maxDistance = 2f;
+        float minDistance = 1.5f;
+        float maxDistance = 3f;
         audioSource.minDistance = minDistance;
         audioSource.maxDistance = maxDistance;
         audioSource.rolloffMode = AudioRolloffMode.Linear; // for default;
 
         return tempGameObject;
     }
-
     public static void PlayClipAtPoint(object sender, AudioClip clipToPlay, Vector3 point, float volume = 1f)
     {
         Sound soundToPlay = new Sound();
@@ -195,7 +208,6 @@ public class AudioPlayer : MonoBehaviour
         PlaySoundAtPoint(sender, soundToPlay, point);
     }
 }
-
 
 /// <summary>
 /// Class <c>Sound</c> is a holder for volume and pitch data for SFX Clips.
