@@ -19,6 +19,13 @@ public class RippleSphere : MonoBehaviour
         _startAlpha = _meshRenderer.material.GetFloat("_alpha");
     }
 
+    public void ResetSphere()
+    {
+        gameObject.SetActive(false);
+        transform.localScale = Vector3.one * _spawnScale;
+        _meshRenderer.material.SetFloat("_alpha", _startAlpha);
+        _timer = 0;
+    }
 
     void Update()
     {
@@ -33,7 +40,8 @@ public class RippleSphere : MonoBehaviour
         _timer += Time.deltaTime;
         if (_timer > _duration + 1f)
         {
-            Destroy(gameObject);
+            ResetSphere();
+            gameObject.SetActive(false);
         }
     }
 }
