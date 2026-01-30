@@ -19,7 +19,9 @@ public abstract class StaticInteractable : MonoBehaviour, Iinteractable
     private float _nextTimeAllowTouchVO;
     private bool _isActivated = false;
 
-    private void Touch(PlayerHand hand)
+    public bool IsActivated => _isActivated;
+
+    public virtual void Touch(PlayerHand hand)
     {
         _touchingHand = hand;
         AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
@@ -37,7 +39,7 @@ public abstract class StaticInteractable : MonoBehaviour, Iinteractable
             AudioPlayer.PlaySoundAtPoint(this, _touchIdentifyVO, transform.position, true);
         }
     }
-    private void Activate()
+    public virtual void Activate()
     {
         AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
                                      _activateSoundHolder.SoundArray,
@@ -46,7 +48,7 @@ public abstract class StaticInteractable : MonoBehaviour, Iinteractable
                                      true);
         _isActivated = !_isActivated;
     }
-    private void EndTouch()
+    public virtual void EndTouch()
     {
         AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
                                             _touchEndHolder.SoundArray,

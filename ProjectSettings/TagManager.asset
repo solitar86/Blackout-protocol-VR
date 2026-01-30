@@ -13,12 +13,12 @@ TagManager:
   - Water
   - UI
   - Interacbles
-  - VisibleAlways
+  - Visuals
   - MovementParticles
   - PlayerBody
   - Obstacles
   - Floor
-  - 
+  - WaterSphere
   - 
   - 
   - 

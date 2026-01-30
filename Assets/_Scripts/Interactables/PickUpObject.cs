@@ -1,7 +1,7 @@
 using System.IO;
 using UnityEngine;
 
-[SelectionBase]
+[SelectionBase, RequireComponent(typeof(Rigidbody))]
 public abstract class PickUpObject : MonoBehaviour, Iinteractable
 {
     [Header("Dialogue to play on player touch.")]
@@ -20,17 +20,17 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     [SerializeField] private AnimationCurve _velocityToVolumeCurve;
     [Space(5), Header("Haptic settings for when we touch object")]
     [SerializeField] private VibrationSettingsSO _touchHapticSettings;
-   // [SerializeField] private int _repeatTouchHapticNumTimes = 1;
+    // [SerializeField] private int _repeatTouchHapticNumTimes = 1;
     [Space(5), Header("Haptic settings for when we pickup or drop object")]
     [SerializeField] private VibrationSettingsSO _pickUpAndDropHapticSettings;
     [SerializeField] private int _repeatPickUpHapticNumTimes = 2;
 
-    private Vector3 _startingPosition;
-    private Quaternion _startingRotation;
     private bool _isHeld;
     private float _velocity;
-    private Vector3 _previousPosition;
     private float _nextTimeAllowTouchVO = 0f;
+    private Vector3 _startingPosition;
+    private Vector3 _previousPosition;
+    private Quaternion _startingRotation;
     private PlayerHand _holdingHand;
     private Collider _collider;
     private Rigidbody _ridibody;
@@ -48,6 +48,9 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         _collider = GetComponent<Collider>();
         _ridibody = GetComponent<Rigidbody>();
         _ridibody.isKinematic = false;
+        _ridibody.useGravity = false;
+        _ridibody.mass = 0.1f;
+        _ridibody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 
         _velocityToVolumeCurve = new AnimationCurve(
         new Keyframe(0f, 0.01f),
@@ -55,6 +58,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     }
     public virtual void Update()
     {
+        if (_isHeld == false) return;
         _velocity = (_previousPosition - transform.position).magnitude / Time.deltaTime;
         _previousPosition = transform.position;
     }
@@ -109,15 +113,17 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
             return;
         }
 
-        AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
-                                            _dropSounds.SoundArray,
-                                            _holdingHand.transform.position,
-                                            _dropSounds.LastPlayedSound,
-                                            true);
+        if (_dropSounds != null && _dropSounds.SoundArray != null && _dropSounds.SoundArray.Length > 0)
+        {
+            AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
+                                                _dropSounds.SoundArray,
+                                                _holdingHand.transform.position,
+                                                _dropSounds.LastPlayedSound,
+                                                true);
+        }
 
         _holdingHand = null;
         _isHeld = false;
-
         HandlePlaceObjectOnSurface();
     }
     public virtual void PickUp(Transform parent, PlayerHand hand)
@@ -135,11 +141,14 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
 
         _holdingHand.HandlePickUpOrDropObject(_pickUpAndDropHapticSettings, _repeatPickUpHapticNumTimes);
 
-        AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
-                                                    _pickUpSounds.SoundArray,
-                                                    _holdingHand.transform.position,
-                                                    _pickUpSounds.LastPlayedSound,
-                                                    true);
+        if (_pickUpSounds != null && _pickUpSounds.SoundArray != null && _pickUpSounds.SoundArray.Length > 0)
+        {
+            AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
+                                                        _pickUpSounds.SoundArray,
+                                                        _holdingHand.transform.position,
+                                                        _pickUpSounds.LastPlayedSound,
+                                                        true);
+        }
     }
     public virtual void Touch(PlayerHand hand)
     {
@@ -166,7 +175,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     {
         // Do Something
     }
-    private void HandlePlaceObjectOnSurface()
+    public virtual void HandlePlaceObjectOnSurface()
     {
         // Place object on ground / surface
         _collider.enabled = false; // Is this necessary?

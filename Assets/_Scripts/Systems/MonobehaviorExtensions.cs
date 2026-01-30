@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using System;
+using System.Runtime.CompilerServices;
 
 public static class MonoBehaviourExtensions
 {
@@ -16,5 +17,11 @@ public static class MonoBehaviourExtensions
         }
         yield return new WaitForSeconds(delay);
         method?.Invoke();
+    }
+
+
+    public static bool IsInLayerMask(this GameObject obj, LayerMask mask)
+    {
+        return (mask.value & (1 << obj.layer)) != 0;
     }
 }

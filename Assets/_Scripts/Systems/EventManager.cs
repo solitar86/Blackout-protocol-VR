@@ -25,13 +25,14 @@ public static class EventManager
     public static GameEvent<float> OnMenuItemSelect = new("UI Button select changed");
     public static GameEvent<int> OnMenuItemActivate = new("UI Button activated");
 
+    // Player Reaction Events
+    public static GameEvent<int> OnPlayerCurse = new("Player curse");
+
     //Interaction events
     public static GameEvent<PickUpObject> OnPlayerTouchPickUp = new("Player touch pickup");
 
-
     // One shot gameplay events(B
     public static GameEvent<int> OnBreakableMachineBreak = new("Breakable machine broke");
-
 
     // Settings events
     public static GameEvent<bool> OnAccessibilitySettingsChanged = new("Accessibility Settings Changed");

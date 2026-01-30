@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class BreakableMachine : MonoBehaviour
+public class BreakableMachine_Hammer : MonoBehaviour
 {
     [SerializeField] private int _hitsRequiredToBreak = 3;
     [SerializeField] float _minVelocityToBreak = 10f;

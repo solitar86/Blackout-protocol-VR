@@ -109,6 +109,7 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
 #if UNITY_EDITOR
     private void SpawnDebugSphereOnHitPoint(RaycastHit hit)
     {
+        if (_hitMarker == null) return;
         var go = Instantiate(_hitMarker, hit.point, Quaternion.identity).gameObject;
         Destroy(go, 3f);
     }
