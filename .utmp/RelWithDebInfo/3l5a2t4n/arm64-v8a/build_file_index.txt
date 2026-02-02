@@ -1,0 +1,2 @@
+C:\D-Drive\_UnityProjects\Blackout Protocol VR\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\CMakeLists.txt
+C:\D-Drive\_UnityProjects\Blackout Protocol VR\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\CMakeLists.txt
