@@ -11,6 +11,7 @@ public class AudioPlayer : MonoBehaviour
     public static AudioSource errorAudioSource;
     public AudioMixer MainMixer { get; private set; }
 
+    #region Unity Callbacks
     private void Awake()
     {
         if (Instance == null)
@@ -20,7 +21,8 @@ public class AudioPlayer : MonoBehaviour
         MainMixer = Resources.Load<AudioMixer>("MainMixer");
         _defaultMixerGroup = MainMixer.FindMatchingGroups("SFX")[0];
     }
-    public static void PlaySoundAtPoint(object sender, Sound soundToPlay, Vector3 point, bool usePitchVariation = false)
+    #endregion
+    public static void PlaySoundAtPoint(object sender, Sound soundToPlay, Vector3 point, bool usePitchVariation = false, bool spatialize = true)
     {
         if (soundToPlay.Clip == null)
         {
@@ -28,20 +30,20 @@ public class AudioPlayer : MonoBehaviour
             return;
         }
         GameObject tempGameObject =
-            CreateTempGameObjectWithAudioSource(sender, soundToPlay, point, out AudioSource audioSource);
+            CreateTempGameObjectWithAudioSource(sender, soundToPlay, point, out AudioSource audioSource, spatialize);
 
         if (usePitchVariation) audioSource.pitch = AddPitchVariation(soundToPlay.Pitch);
         audioSource.Play();
         Destroy(tempGameObject, audioSource.clip.length);
     }
     /// <returns>Sound which was picked to play</returns>
-    public static Sound PlayRandomSoundFromArrayAtPoint(object sender, Sound[] soundsArray, Vector3 point, Sound previousSound = null, bool usePitchVariation = false)
+    public static Sound PlayRandomSoundFromArrayAtPoint(object sender, Sound[] soundsArray, Vector3 point, Sound previousSound = null, bool usePitchVariation = false, bool spatialize = true)
     {
         Sound randomSound = GetRandomSoundFromArray(soundsArray, previousSound);
-        PlaySoundAtPoint(sender, randomSound, point, usePitchVariation);
+        PlaySoundAtPoint(sender, randomSound, point, usePitchVariation, spatialize);
         return randomSound;
     }
-    public static void PlayerSoundAtPointWithDelay(object sender, Sound soundToPlay, Vector3 point, float delay = 0f, bool usePitchVariation = false)
+    public static void PlayerSoundAtPointWithDelay(object sender, Sound soundToPlay, Vector3 point, float delay = 0f, bool usePitchVariation = false, bool spatialize = true)
     {
         if (soundToPlay.Clip == null)
         {
@@ -59,7 +61,7 @@ public class AudioPlayer : MonoBehaviour
         var mono = delayObject.AddComponent<Delay>();
         mono.CallWithDelay(() =>
         {
-            PlaySoundAtPoint(sender, soundToPlay, point, usePitchVariation);
+            PlaySoundAtPoint(sender, soundToPlay, point, usePitchVariation, spatialize);
 
 
         }, delay);
@@ -135,10 +137,10 @@ public class AudioPlayer : MonoBehaviour
     /// <param name="sender">Used for error checking and naming gameobject</param>
     /// <param name="soundToLoop">The sound to start looping</param>
     /// <returns>Audiosource with loop and Sound settings applied</returns>
-    public static AudioSource CreateLoopingAudioSource(object sender, Sound soundToLoop)
+    public static AudioSource CreateLoopingAudioSource(object sender, Sound soundToLoop, bool spatialize = true)
     {
         GameObject tempGameObject =
-            CreateTempGameObjectWithAudioSource(sender, soundToLoop, Vector3.zero, out AudioSource audioSource);
+            CreateTempGameObjectWithAudioSource(sender, soundToLoop, Vector3.zero, out AudioSource audioSource, spatialize);
 
         audioSource.spatialBlend = soundToLoop.SpacialBlend; // TODO Make this also SPATIALIZED AUDIO
         audioSource.clip = soundToLoop.Clip;
@@ -158,7 +160,7 @@ public class AudioPlayer : MonoBehaviour
         return audioSource;
     }
     private static GameObject CreateTempGameObjectWithAudioSource(object sender, Sound soundToPlay,
-                                                                    Vector3 point, out AudioSource audioSource)
+                                                                    Vector3 point, out AudioSource audioSource, bool spatialize = true)
     {
         if (soundToPlay == null) soundToPlay = new Sound(); // Error handling.
 
@@ -190,11 +192,20 @@ public class AudioPlayer : MonoBehaviour
         }
 
         //TODO: Make these variable or somehow make sense. These cannot be hardcoded
-        float minDistance = 1.5f;
-        float maxDistance = 3f;
+        float minDistance = 0.5f;
+        float maxDistance = 2f;
         audioSource.minDistance = minDistance;
         audioSource.maxDistance = maxDistance;
         audioSource.rolloffMode = AudioRolloffMode.Linear; // for default;
+
+        // Handle Spatialization
+        if(spatialize == true)
+        {
+            audioSource.spatialize = true;
+            audioSource.spatialBlend = 1; // This is an assumption for now.
+            var metaXRAudio = (MetaXRAudioSource)tempGameObject.AddComponent(typeof(MetaXRAudioSource));
+            metaXRAudio.EnableSpatialization = true;
+        }
 
         return tempGameObject;
     }

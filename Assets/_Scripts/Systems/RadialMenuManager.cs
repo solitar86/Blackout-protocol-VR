@@ -148,8 +148,6 @@ public class RadialMenuManager : MonoBehaviour
 
         if (handDistanceFromMenu < _minDistanceFromCenterToSelect) return;
 
-        Debugger.Log("Can select");
-
         Vector3 fromMenuToHand = _playerMenuHand.transform.position - _testObject.position;
         Vector3 projected = Vector3.ProjectOnPlane(fromMenuToHand, _testObject.forward * -1);
         float angle = Vector3.SignedAngle(_testObject.up, projected, _testObject.forward * -1);

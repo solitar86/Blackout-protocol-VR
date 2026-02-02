@@ -131,6 +131,7 @@ AudioMixerGroupController:
   m_Send: 00000000000000000000000000000000
   m_Effects:
   - {fileID: 24400004}
+  - {fileID: 337134071658339892}
   m_UserColorIndex: 0
   m_Mute: 0
   m_Solo: 0
@@ -202,6 +203,28 @@ AudioMixerEffectController:
   m_EffectName: Attenuation
   m_MixLevel: 729981e5877a1e547ad7b8ae3583cb33
   m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
+--- !u!244 &337134071658339892
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: b6fcce78ee8a1d047b173d8fdb3776da
+  m_EffectName: Meta XR Audio Reflection
+  m_MixLevel: 3cbce9a512c113a4b833a92f565dcad7
+  m_Parameters:
+  - m_ParameterName: Refl. Enable
+    m_GUID: 80a1768537b08b244bfd19481da2b9eb
+  - m_ParameterName: Reverb Enable
+    m_GUID: 0674ce9196521644ca3d45d8d6ae184e
+  - m_ParameterName: Reverb Level
+    m_GUID: d739768e7caccad4793152e030234654
+  - m_ParameterName: Voice Limit
+    m_GUID: bfe02fe49163a0241969958a4e19968e
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
