@@ -5,12 +5,12 @@ public class MovementParticles : MonoBehaviour
     private void Start()
     {
         EventManager.OnAccessibilitySettingsChanged.AddListener(this, AccessibilitySettingsChanged);
-        AccessibilitySettingsChanged(PlayerSettings.Accessibility.Enabled);
+        AccessibilitySettingsChanged(-1);
     }
 
-    private void AccessibilitySettingsChanged(bool enabled)
+    private void AccessibilitySettingsChanged(int i)
     {
-        gameObject.SetActive(enabled);
+        gameObject.SetActive(PlayerSettings.Accessibility.Particles);
     }
     private void OnDestroy()
     {

@@ -71,14 +71,14 @@ public class RadialMenuManager : MonoBehaviour
     }
     private void OnSecondaryButtonPressed(bool isRightHand)
     {
-        if(_currentMenu != null && _menuIsVisible == true)
+        if (_currentMenu != null && _menuIsVisible == true)
         {
             OpenPreviousMenuOrCloseMenu(true);
         }
     }
     private void OnPlayerStartMove(int value)
     {
-        if(_menuIsVisible) CloseRadialMenu();
+        if (_menuIsVisible) CloseRadialMenu();
     }
     #endregion
 
@@ -260,6 +260,7 @@ public static class RadialMenuHolder
 
     }, MENUTTSFILEFOLDERPATH + "TTS_Menu_Quit");
 
+    #region Main Menu
 
     /////////////////////////
     // MAIN MENU
@@ -278,6 +279,53 @@ public static class RadialMenuHolder
         }
     );
 
+    #endregion
+
+    #region Accessibility menu
+    /////////////////////////
+    // ACCESSIBILITY MENU
+    /////////////////////////
+    public static RadialMenu AccessibilityMenu = new RadialMenu(
+        "Accessibility Menu", MENUTTSFILEFOLDERPATH + "TTS_Menu_AccessibilityOptions",
+        new RadialMenuItem[]
+        {
+           new RadialMenuItem(
+                "Visible Hands",
+                () => {
+                    // TEST IF THIS WORKS, IF IT DOES REMOVE THIS COMMENT.
+                        bool enabled = PlayerSettings.Accessibility.ToggleHands();
+                        string ttsPath = enabled ? "TTS_Menu_Enabled" : "TTS_Menu_Disabled";
+                        TTSPlayer.PlayTTSWithFilePath(MENUTTSFILEFOLDERPATH + ttsPath, true);
+                        },
+                MENUTTSFILEFOLDERPATH + "TTS_Menu_VisibleHands"
+            ),
+            new RadialMenuItem(
+                "Movement Particles",
+                () => {
+                    // TEST IF THIS WORKS, IF IT DOES REMOVE THIS COMMENT.
+                        bool enabled = PlayerSettings.Accessibility.ToggleParticles();
+                        string ttsPath = enabled ? "TTS_Menu_Enabled" : "TTS_Menu_Disabled";
+                        TTSPlayer.PlayTTSWithFilePath(MENUTTSFILEFOLDERPATH + ttsPath, true);
+                        },
+                MENUTTSFILEFOLDERPATH + "TTS_Menu_MovementParticles"
+            ),
+            BackButton,
+            new RadialMenuItem(
+                "Touche Ripple Visual",
+                () => {
+                    // TEST IF THIS WORKS, IF IT DOES REMOVE THIS COMMENT.
+                        bool enabled = PlayerSettings.Accessibility.ToggleTouchRipple();
+                        string ttsPath = enabled ? "TTS_Menu_Enabled" : "TTS_Menu_Disabled";
+                        TTSPlayer.PlayTTSWithFilePath(MENUTTSFILEFOLDERPATH + ttsPath, true);
+                        },
+                MENUTTSFILEFOLDERPATH + "TTS_Menu_TouchRipple"
+            )
+
+        }
+    );
+    #endregion
+
+    #region Sound Settings menu
     /////////////////////////
     // SOUND SETTINGS MENU
     /////////////////////////
@@ -344,5 +392,6 @@ public static class RadialMenuHolder
             )
         }
     );
+    #endregion
 }
 

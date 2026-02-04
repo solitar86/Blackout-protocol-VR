@@ -9,6 +9,6 @@ public class LoadGameSettings : MonoBehaviour
         PlayerSettings.LoadSettings();
 
         //Raise settings events so systems can react.
-        EventManager.OnAccessibilitySettingsChanged.Raise(this, PlayerSettings.Accessibility.Enabled);
+        EventManager.OnAccessibilitySettingsChanged.Raise(this, -1); // remove the "true" from here.
     }
 }

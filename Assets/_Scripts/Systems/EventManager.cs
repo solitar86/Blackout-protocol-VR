@@ -35,7 +35,7 @@ public static class EventManager
     public static GameEvent<int> OnBreakableMachineBreak = new("Breakable machine broke");
 
     // Settings events
-    public static GameEvent<bool> OnAccessibilitySettingsChanged = new("Accessibility Settings Changed");
+    public static GameEvent<int> OnAccessibilitySettingsChanged = new("Accessibility Settings Changed");
 
     public static void DisableEventLogs() => _logEnabled = false;
     public static void EnableEventLogs() => _logEnabled = true;

@@ -53,7 +53,7 @@ public class TouchRippleSpawner : MonoBehaviour
 
     public void SpawnTouchVisual(Vector3 position)
     {
-        if (PlayerSettings.Accessibility.Enabled == false) return;
+        if (PlayerSettings.Accessibility.TouchRipple == false) return;
 
         for (int i = 0; i < _numberToSpawn; i++)
         {

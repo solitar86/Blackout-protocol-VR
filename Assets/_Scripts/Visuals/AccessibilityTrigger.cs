@@ -17,7 +17,7 @@ public class AccessibilityTrigger : MonoBehaviour
         if(handInTrigger.IsRightHand == isRightHand)
         {
             PlayerSettings.Accessibility.ToggleAll();
-            EventManager.OnAccessibilitySettingsChanged.Raise(this, PlayerSettings.Accessibility.Enabled);
+            EventManager.OnAccessibilitySettingsChanged.Raise(this, -1);
 
         }
         Debugger.Log(handInTrigger.IsRightHand + " : " + isRightHand);

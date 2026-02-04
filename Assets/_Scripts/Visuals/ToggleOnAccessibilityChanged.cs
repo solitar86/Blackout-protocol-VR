@@ -5,12 +5,12 @@ public class ToggleOnAccessibilityChanged : MonoBehaviour
     private void Start()
     {
         EventManager.OnAccessibilitySettingsChanged.AddListener(this, AccessibilitySettingsChanged);
-        AccessibilitySettingsChanged(PlayerSettings.Accessibility.Enabled);
+        AccessibilitySettingsChanged(-1);
     }
 
-    private void AccessibilitySettingsChanged(bool enabled)
+    private void AccessibilitySettingsChanged(int i)
     {
-        gameObject.SetActive(enabled);
+        gameObject.SetActive(PlayerSettings.Accessibility.DebugLight);
     }
 
     private void OnDestroy()

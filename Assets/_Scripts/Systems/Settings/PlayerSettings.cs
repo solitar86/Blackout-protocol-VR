@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using UnityEngine;
 using static PlayerSettings.AudioPreferences;
@@ -184,12 +185,60 @@ public class PlayerSettings
     [Serializable]
     public class AccessibilitySettings
     {
-        public bool Enabled => _enabled;
-        private bool _enabled = true;
+        private bool _hands = false;
+        private bool _particles = false;
+        private bool _touchRipple = false;
+        private bool _debugLight = false;
+
+        public bool Hands => _hands;
+        public bool Particles => _particles;
+        public bool TouchRipple => _touchRipple;
+        public bool DebugLight => _debugLight;
 
         public void ToggleAll()
         {
-            _enabled = !_enabled;
+            if(_hands == false || _particles == false || _touchRipple == false || _debugLight == false)
+            {
+                _hands = true;
+                _particles = true;
+                _touchRipple = true;
+                _debugLight = true;
+            }
+            else
+            {
+                _hands = false;
+                _particles = false;
+                _touchRipple = false;
+                _debugLight = false;
+            }
+
+            EventManager.OnAccessibilitySettingsChanged.Raise(this, -1);
+        }
+
+        public bool ToggleHands()
+        {
+            _hands = !_hands;
+            EventManager.OnAccessibilitySettingsChanged.Raise(this, -1);
+            return _hands;
+        }
+        public bool ToggleParticles()
+        {
+            _particles = !_particles;
+            EventManager.OnAccessibilitySettingsChanged.Raise(this, -1);
+            return _particles;
+        }
+        public bool ToggleTouchRipple()
+        {
+            _touchRipple = !_touchRipple;
+            EventManager.OnAccessibilitySettingsChanged.Raise(this, -1);
+            return _touchRipple;
+        }
+
+        public bool ToggleDebugLight()
+        {
+            _debugLight = !_debugLight;
+            EventManager.OnAccessibilitySettingsChanged.Raise(this, -1);
+            return _touchRipple;
         }
     }
 

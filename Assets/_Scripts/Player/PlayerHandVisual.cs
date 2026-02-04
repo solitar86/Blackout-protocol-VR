@@ -13,13 +13,13 @@ public class PlayerHandVisual : MonoBehaviour
     private void Start()
     {
         EventManager.OnAccessibilitySettingsChanged.AddListener(this, AccessibilitySettingsChanged);
-        AccessibilitySettingsChanged(PlayerSettings.Accessibility.Enabled);
+        AccessibilitySettingsChanged(-1);
     }
 
-    private void AccessibilitySettingsChanged(bool enabled)
+    private void AccessibilitySettingsChanged(int i)
     {
         SnapToFollowPosition();
-        gameObject.SetActive(enabled);
+        gameObject.SetActive(PlayerSettings.Accessibility.Hands);
     }
 
     void FixedUpdate()
