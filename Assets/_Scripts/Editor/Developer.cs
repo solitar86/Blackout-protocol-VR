@@ -67,14 +67,14 @@ public static class Developer
     [MenuItem("Developer/Logging/Disable Event logs")]
     public static void DisableEventLogs()
     {
-        Debugger.DisableLogs();
+        EventManager.DisableEventLogs();
         Debug.Log("Event logs disabled");
     }
 
     [MenuItem("Developer/Logging/Enable Event Logs")]
     public static void EnableEventLogs()
     {
-        Debugger.EnableLogs();
+        EventManager.EnableEventLogs();
         Debug.Log("Event logs enabled");
 
         if (Debugger.isEnabled == false) Debug.Log("Debugger class is disabled so now logs will be shown");

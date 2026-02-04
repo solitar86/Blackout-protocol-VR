@@ -4,16 +4,29 @@ using UnityEngine;
 /// <summary>
 /// This class is a centralized Debug.Log() caller so all logs can be disabled globally.
 /// </summary>
+
+[DefaultExecutionOrder(-9999)]
 public static class Debugger
 {
 #if UNITY_EDITOR
+
+    private static string PREFSKEY = "DebuggerEnabled";
+
     /// <summary>
     /// Set this to false to globally stop Debug.Log calls.
     /// </summary>
     public static bool isEnabled = true;
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void LoadDebuggerSettings()
+    {
+        int defaultValue = 1;
+        isEnabled = PlayerPrefs.GetInt(PREFSKEY, defaultValue) == 1 ? true : false;
+    }
+
 #else
     public static bool isEnabled = false;
 #endif
+
 
 
     public static void Logthis(this object obj)
@@ -102,8 +115,8 @@ public static class Debugger
     public static void PlayBlipSound(string t = "")
     {
         AudioPlayer.PlayClipAtPoint("Debugger", Resources.Load<AudioClip>("Audio/SFX_Blip"), Vector3.zero, 0.3f);
-        
-        if(t!= string.Empty) Log(t);
+
+        if (t != string.Empty) Log(t);
     }
 
     private static string GetColorStringFromEnum(TextColor color)
@@ -138,12 +151,20 @@ public static class Debugger
 
     }
 
-    public static void DisableLogs() => isEnabled = false;
-    public static void EnableLogs() => isEnabled = true;
+    public static void DisableLogs()
+    {
+        isEnabled = false;
+        PlayerPrefs.SetInt(PREFSKEY, 0);
+    }
+    public static void EnableLogs()
+    {
+        isEnabled = false;
+        PlayerPrefs.SetInt(PREFSKEY, 1);
+    }
 
 
     public static void WorldSpaceText(string text, Vector3 spawnPoint)
-    {   
+    {
 #if UNITY_EDITOR
         FloatingText.Create(spawnPoint, text, Color.white);
 #endif

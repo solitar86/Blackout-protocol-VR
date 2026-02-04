@@ -15,7 +15,7 @@ MonoBehaviour:
   SoundArray:
   - Clip: {fileID: 8300000, guid: 58e807872bd55024b97ca63922d6822a, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0.5
+    Volume: 1
     Pitch: 1
     SpacialBlend: 1
   LastPlayedSound:

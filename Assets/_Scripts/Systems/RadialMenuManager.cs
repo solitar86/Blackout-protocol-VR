@@ -9,7 +9,7 @@ public class RadialMenuManager : MonoBehaviour
     public static RadialMenuManager Instance;
     [SerializeField] private float _minDistanceFromCenterToSelect = 0.5f;
     [SerializeField] private VibrationSettingsSO _selectButtonHapticSettings;
-    [SerializeField] private Transform _testObject;
+    [SerializeField] private Transform _testObject; // Name this better and make it not a placeholder POS :D
     [Space(15)]
 
     private PlayerHand _playerMenuHand;
@@ -112,7 +112,6 @@ public class RadialMenuManager : MonoBehaviour
     }
     public void OpenPreviousMenuOrCloseMenu(bool wasBackButton = false)
     {
-        // ALSO Handle player walk around when menu is open.
         if (_previousMenus.Count > 0)
         {
             PopulateCurrentContexMenu(_previousMenus.Pop(), true);
@@ -122,8 +121,7 @@ public class RadialMenuManager : MonoBehaviour
     }
     private void HandleMenuItemSelectionChange(int part)
     {
-        //TTSPlayer.PlayNumber(part);
-        _testObject.GetComponentInChildren<TextMeshPro>().SetText(part.ToString());
+        _testObject?.GetComponentInChildren<TextMeshPro>().SetText(_currentMenuItems[part].Name);
         _playerMenuHand.HandleTouchEnd(_selectButtonHapticSettings);
         TTSPlayer.PlayTTSWithFilePath(_currentMenuItems[part].TTSFilePath);
 
@@ -145,10 +143,7 @@ public class RadialMenuManager : MonoBehaviour
     {
         float handDistanceFromMenu = Vector3.Distance(_playerMenuHand.transform.position,
                                                         _testObject.transform.position);
-
         if (handDistanceFromMenu < _minDistanceFromCenterToSelect) return;
-
-        Debugger.Log("Can select");
 
         Vector3 fromMenuToHand = _playerMenuHand.transform.position - _testObject.position;
         Vector3 projected = Vector3.ProjectOnPlane(fromMenuToHand, _testObject.forward * -1);
@@ -208,6 +203,7 @@ public class RadialMenuItem
     private Action OnActivateAction;
 
     public string TTSFilePath => _ttsFilePath;
+    public string Name => _name;
 
     public void Activate()
     {

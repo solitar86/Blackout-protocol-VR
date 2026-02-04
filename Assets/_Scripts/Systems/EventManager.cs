@@ -5,7 +5,8 @@ using System.Collections.Generic;
 [DefaultExecutionOrder(-999)]
 public static class EventManager
 {
-    public static bool _logEnabled = true;
+    public static bool LogsEnabled = true;
+    public static string PREFSKEY = "EventLogsEnabled";
 
     // TTS Events
     public static GameEvent<float> OnTTSVolumeChange = new("TTS Volume Change");
@@ -31,14 +32,29 @@ public static class EventManager
     //Interaction events
     public static GameEvent<PickUpObject> OnPlayerTouchPickUp = new("Player touch pickup");
 
-    // One shot gameplay events(B
+    // One shot gameplay events
     public static GameEvent<int> OnBreakableMachineBreak = new("Breakable machine broke");
 
     // Settings events
     public static GameEvent<int> OnAccessibilitySettingsChanged = new("Accessibility Settings Changed");
 
-    public static void DisableEventLogs() => _logEnabled = false;
-    public static void EnableEventLogs() => _logEnabled = true;
+    public static void DisableEventLogs()
+    {
+        LogsEnabled = false;
+        PlayerPrefs.SetInt(PREFSKEY, 0);
+    }
+    public static void EnableEventLogs()
+    {
+        LogsEnabled = false;
+        PlayerPrefs.SetInt(PREFSKEY, 1);
+    }
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void LoadDebuggerSettings()
+    {
+        int defaultValue = 1;
+        LogsEnabled = PlayerPrefs.GetInt(PREFSKEY, defaultValue) == 1 ? true : false;
+    }
 }
 
 public class GameEvent<T>
@@ -72,7 +88,7 @@ public class GameEvent<T>
 
     public void Raise(object eventCaller, T param)
     {
-        Debugger.Log(_eventName + " - event was called by " + eventCaller.ToString(), Debugger.TextColor.Yellow);
+        if(EventManager.LogsEnabled) Debugger.Log(_eventName + " - event was called by " + eventCaller.ToString() , Debugger.TextColor.Yellow);
         for (int i = _listenerList.Count - 1; i >= 0; i--)
         {
             _listenerList[i]?.Invoke(param);
