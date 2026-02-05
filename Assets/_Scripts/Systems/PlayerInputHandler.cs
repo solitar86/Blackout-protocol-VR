@@ -40,10 +40,17 @@ public class PlayerInputHandler : MonoBehaviour
             Debugger.Log("Right Trigger Pressed", Debugger.TextColor.LightBlue);
             EventManager.OnTriggerPressed.Raise(this, _isRightHand);
         }
+        // Grip press
         if (_rightSelect.WasPerformedThisFrame())
         {
             Debugger.Log("Right Grip Pressed", Debugger.TextColor.LightBlue);
             EventManager.OnGripPressed.Raise(this, _isRightHand);
+        }
+        // Grip Release
+        if (_rightSelect.WasReleasedThisFrame())
+        {
+            Debugger.Log("Right Grip Released", Debugger.TextColor.LightBlue);
+            EventManager.OnGripReleased.Raise(this, _isRightHand);
         }
         if (_rightPrimaryButton.WasPerformedThisFrame())
         {
@@ -64,11 +71,17 @@ public class PlayerInputHandler : MonoBehaviour
             Debugger.Log("Left Trigger Pressed", Debugger.TextColor.LightBlue);
             EventManager.OnTriggerPressed.Raise(this, !_isRightHand);
         }
-
+        // Grip press
         if (_leftSelect.WasPerformedThisFrame())
         {
             Debugger.Log("Left Grip Pressed", Debugger.TextColor.LightBlue);
             EventManager.OnGripPressed.Raise(this, !_isRightHand);
+        }
+        // Grip Release
+        if (_leftSelect.WasReleasedThisFrame())
+        {
+            Debugger.Log("Left Grip Released", Debugger.TextColor.LightBlue);
+            EventManager.OnGripReleased.Raise(this, !_isRightHand);
         }
         if (_leftPrimaryButton.WasPerformedThisFrame())
         {
@@ -104,7 +117,6 @@ public class PlayerInputHandler : MonoBehaviour
         _leftPrimaryButton = _actionAsset.FindActionMap("XRI Left Interaction").FindAction("Primary Button");
         _leftSecondaryButton = _actionAsset.FindActionMap("XRI Left Interaction").FindAction("Secondary Button");
         _leftMove = _actionAsset.FindActionMap("XRI Left Locomotion").FindAction("Move");
-
     }
 
     private void OnRightMove(InputAction.CallbackContext context)

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eeae2281397605244aeb544e2f667def, type: 3}
-  m_Name: VO_CurseWordsHolder
+  m_Name: VO_CurseWords_SoundHolder
   m_EditorClassIdentifier: Assembly-CSharp::SoundArrayHolder
   SoundArray:
   - Clip: {fileID: 8300000, guid: b09cf37c56a4c2641a7a85ba72da4415, type: 3}

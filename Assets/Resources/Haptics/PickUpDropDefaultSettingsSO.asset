@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: PickUpDropDefaultSettingsSO
   m_EditorClassIdentifier: Assembly-CSharp::VibrationSettingsSO
   DistanceInterval: 1
-  Amplitude: 0.35
+  Amplitude: 1
   Duration: 0.1
   Frequency: 1

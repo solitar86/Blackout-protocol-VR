@@ -205,11 +205,21 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         }
         else
         {
+            // We are droppin someplace which isn't good - like floor - Handle that case.
             transform.position = _startingPosition;
             transform.rotation = _startingRotation;
+
             // Somehow notify player that the object 
             // teleported back to where it was found from.
+            // this is currenly that.
             Debugger.PlayBlipSound();
+
+            float curseDelay = 0.25f;
+            this.CallWithDelay(() =>
+            {
+                EventManager.OnPlayerCurse.Raise(this, 0);
+            }, curseDelay);
+
             delay = 1f;
             Sound impactWithModVolume = new Sound(_impactSound);
             impactWithModVolume.Volume = 0.3f;

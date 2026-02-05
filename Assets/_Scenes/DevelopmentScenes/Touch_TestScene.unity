@@ -2412,7 +2412,11 @@ PrefabInstance:
       value: VR_Origin
       objectReference: {fileID: 0}
     - target: {fileID: 6593406574328471588, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}
-      propertyPath: _curseWords
+      propertyPath: _leftTurnVO
+      value: 
+      objectReference: {fileID: 11400000, guid: 75082ac6c73e39d4aabd1a501c6d915b, type: 2}
+    - target: {fileID: 6593406574328471588, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}
+      propertyPath: _curseWordsVO
       value: 
       objectReference: {fileID: 11400000, guid: a918566031832f2418befa23be5c3844, type: 2}
     - target: {fileID: 8376925625639093468, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}

@@ -2,7 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInteractor : MonoBehaviour
+public class PlayerHandInteractor : MonoBehaviour
 {
     private PlayerHand _hand;
     private Collider _collider;
@@ -18,11 +18,14 @@ public class PlayerInteractor : MonoBehaviour
     private void OnEnable()
     {
         EventManager.OnGripPressed.AddListener(this, HandleGripPressed);
+        EventManager.OnGripReleased.AddListener(this, HandleGripReleased);
         EventManager.OnTriggerPressed.AddListener(this, HandleTriggerPressed);
+//
     }
     private void OnDisable()
     {
         EventManager.OnGripPressed.RemoveListener(this, HandleGripPressed);
+        EventManager.OnGripReleased.RemoveListener(this, HandleGripReleased);
         EventManager.OnTriggerPressed.RemoveListener(this, HandleTriggerPressed);
     }
     private void OnTriggerEnter(Collider other)
@@ -47,6 +50,8 @@ public class PlayerInteractor : MonoBehaviour
         }
     }
     #endregion
+
+    #region Input Responses
     private void HandleTriggerPressed(bool isRightHand)
     {
         if (isRightHand != _hand.IsRightHand) return;
@@ -90,14 +95,6 @@ public class PlayerInteractor : MonoBehaviour
         if (isRightHand != _hand.IsRightHand) return;
         if (_interactablesInRange.Count <= 0) return;
 
-        if (_heldInteractable != null)
-        {
-            //Holding an item drop it first.
-            // TODO: Consider swapping items on drop if one is in range?
-            DropThisObject(_heldInteractable);
-            return;
-        }
-
         if ((_interactablesInRange.Count == 1))
         {
             // Only one option, see if it can be picked up.
@@ -113,7 +110,7 @@ public class PlayerInteractor : MonoBehaviour
             }
         }
 
-        // Several interactables objects in range
+        // Several interactables objects in range, get pickup objects
         List<PickUpObject> pickUpObjects = _interactablesInRange.OfType<PickUpObject>().ToList();
 
         if (pickUpObjects.Count == 1)
@@ -142,6 +139,18 @@ public class PlayerInteractor : MonoBehaviour
         PickUpObject(closest);
         Debugger.Log("Picked Up Item With Closest Distance, Rare case", Debugger.TextColor.Red);
     }
+    private void HandleGripReleased(bool isRightHand)
+    {
+        if (isRightHand != _hand.IsRightHand) return;
+        if (_heldInteractable != null)
+        {
+            // TODO: Consider swapping items on drop if one is in range?
+            DropThisObject(_heldInteractable);
+            return;
+        }
+    }
+
+    #endregion
     private void DropThisObject(Iinteractable heldInteractable)
     {
         _heldInteractable.Drop();

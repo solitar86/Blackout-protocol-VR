@@ -959,7 +959,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04bc37d6781823c4b96718db4432b1ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _curseWords: {fileID: 0}
+  _leftTurnVO: {fileID: 11400000, guid: 75082ac6c73e39d4aabd1a501c6d915b, type: 2}
+  _rightTurnVO: {fileID: 11400000, guid: 9aa14a58648eb694d9b6ed72c8fd7cc0, type: 2}
+  _curseWordsVO: {fileID: 11400000, guid: a918566031832f2418befa23be5c3844, type: 2}
 --- !u!1 &5856241668885847155
 GameObject:
   m_ObjectHideFlags: 0
@@ -970,7 +972,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4936162898295748781}
   - component: {fileID: 4017182831678345088}
-  - component: {fileID: 2093666650622231973}
   m_Layer: 2
   m_Name: Turn
   m_TagString: Untagged
@@ -1010,7 +1011,7 @@ MonoBehaviour:
   m_TurnAmount: 45
   m_DebounceTime: 0.5
   m_EnableTurnLeftRight: 1
-  m_EnableTurnAround: 1
+  m_EnableTurnAround: 0
   m_DelayTime: 0
   m_LeftHandTurnInput:
     m_InputSourceMode: 2
@@ -1038,51 +1039,6 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_InputActionReference: {fileID: -8525429354371678379, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-    m_ObjectReferenceObject: {fileID: 0}
-    m_ManualValue: {x: 0, y: 0}
---- !u!114 &2093666650622231973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5856241668885847155}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75b29b6c6428c984a8a73ffc2d58063b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Mediator: {fileID: 5004547900094021216}
-  m_TransformationPriority: 0
-  m_TurnSpeed: 60
-  m_EnableTurnLeftRight: 1
-  m_EnableTurnAround: 1
-  m_LeftHandTurnInput:
-    m_InputSourceMode: 2
-    m_InputAction:
-      m_Name: Left Hand Turn
-      m_Type: 0
-      m_ExpectedControlType: Vector2
-      m_Id: 3610965d-108d-4451-a143-a78d1ee8f9b8
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_InputActionReference: {fileID: 1010738217276881514, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-    m_ObjectReferenceObject: {fileID: 0}
-    m_ManualValue: {x: 0, y: 0}
-  m_RightHandTurnInput:
-    m_InputSourceMode: 2
-    m_InputAction:
-      m_Name: Right Hand Turn
-      m_Type: 0
-      m_ExpectedControlType: Vector2
-      m_Id: eeb82678-2af4-4b6c-87fc-621bb707edc5
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_InputActionReference: {fileID: -6493913391331992944, guid: c348712bda248c246b8c49b3db54643f, type: 3}
     m_ObjectReferenceObject: {fileID: 0}
     m_ManualValue: {x: 0, y: 0}
 --- !u!1 &6301221895518805793
@@ -5961,14 +5917,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6444921905994294390}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.70710576, y: -0, z: -0, w: 0.70710784}
+  m_LocalPosition: {x: 0, y: 0, z: 0.077}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5496475344145434292}
   m_Father: {fileID: 6999042435616901005}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!114 &329353720780620358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6014,10 +5970,7 @@ MonoBehaviour:
   m_StartingGroupMembers:
   - {fileID: 0}
   - {fileID: 0}
-  m_StartingInteractionOverridesMap:
-  - groupMember: {fileID: 0}
-    overrideGroupMembers:
-    - {fileID: 0}
+  m_StartingInteractionOverridesMap: []
 --- !u!114 &1581836680932672466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6540,15 +6493,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6743205802960882288, guid: 0fad8b5ea29a1ab48b2c1b32e2aba492, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.36
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6743205802960882288, guid: 0fad8b5ea29a1ab48b2c1b32e2aba492, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0365
+      value: 1.36144
       objectReference: {fileID: 0}
     - target: {fileID: 6743205802960882288, guid: 0fad8b5ea29a1ab48b2c1b32e2aba492, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.71
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6743205802960882288, guid: 0fad8b5ea29a1ab48b2c1b32e2aba492, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6614,15 +6567,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6350052926498146774, guid: 0e8c9d994d8e48841b14495df4f469ae, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.36
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6350052926498146774, guid: 0e8c9d994d8e48841b14495df4f469ae, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0365
+      value: 1.36144
       objectReference: {fileID: 0}
     - target: {fileID: 6350052926498146774, guid: 0e8c9d994d8e48841b14495df4f469ae, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.71
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6350052926498146774, guid: 0e8c9d994d8e48841b14495df4f469ae, type: 3}
       propertyPath: m_LocalRotation.w

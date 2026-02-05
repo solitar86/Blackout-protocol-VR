@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 public class RadialMenuManager : MonoBehaviour
 {
     public static RadialMenuManager Instance;
-    [SerializeField] private float _minDistanceFromCenterToSelect = 0.5f;
+    [SerializeField] private float _minDistanceFromCenterToSelect = 0.15f;
     [SerializeField] private VibrationSettingsSO _selectButtonHapticSettings;
     [SerializeField] private Transform _menuAnchor; // Name this better and make it not a placeholder POS :D
     [Space(15)]
@@ -25,7 +25,6 @@ public class RadialMenuManager : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(Instance.gameObject);
     }
-
     private void Start()
     {
         EventManager.OnPrimaryButtonPressed.AddListener(this, OnPrimaryButtonPressed);
@@ -33,7 +32,6 @@ public class RadialMenuManager : MonoBehaviour
         EventManager.OnSecondaryButtonPressed.AddListener(this, OnSecondaryButtonPressed);
         EventManager.OnPlayerStartMove.AddListener(this, OnPlayerStartMove);
     }
-
     private void OnDisable()
     {
         EventManager.OnPrimaryButtonPressed.RemoveListener(this, OnPrimaryButtonPressed);
@@ -41,7 +39,6 @@ public class RadialMenuManager : MonoBehaviour
         EventManager.OnSecondaryButtonPressed.RemoveListener(this, OnSecondaryButtonPressed);
         EventManager.OnPlayerStartMove.RemoveListener(this, OnPlayerStartMove);
     }
-
     private void Update()
     {
         if (_menuIsVisible == false) return;
@@ -111,8 +108,7 @@ public class RadialMenuManager : MonoBehaviour
         _playerMenuHand = isRightHand ? Player.Instance.GetRightHand() : Player.Instance.GetLeftHand();
         //_menuAnchor.forward = Camera.main.transform.forward;
         _menuAnchor.forward = _playerMenuHand.transform.up;
-        float menuDistanceFromhand = 0.2f;
-        _menuAnchor.position = _playerMenuHand.transform.position + _menuAnchor.forward * menuDistanceFromhand;
+        _menuAnchor.position = _playerMenuHand.transform.position;
         PopulateCurrentRadialMenu(RadialMenuHolder.Mainmenu);
     }
     public void SetAsCurrentRadialMenu(RadialMenu menu)
@@ -192,8 +188,6 @@ public class RadialMenuManager : MonoBehaviour
             HandleMenuItemSelectionChange(part);
         }
     }
-
-
 }
 
 

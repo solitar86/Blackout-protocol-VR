@@ -18,7 +18,9 @@ public static class EventManager
     public static GameEvent<bool> OnSecondaryButtonPressed = new("Secondary button pressed");
     public static GameEvent<bool> OnTriggerPressed = new("Trigger pressed");
     public static GameEvent<bool> OnGripPressed = new("Grip button pressed");
+    public static GameEvent<bool> OnGripReleased = new("Grip button released");
     public static GameEvent<int> OnPlayerStartMove = new("Player start move");
+    public static GameEvent<bool> OnPlayerSnapTurn = new("Plauer snap turn");
 
     // UI Events
     public static GameEvent<int> OnRadialMenuOpen = new("Radial menu open");
@@ -88,7 +90,7 @@ public class GameEvent<T>
 
     public void Raise(object eventCaller, T param)
     {
-        if(EventManager.LogsEnabled) Debugger.Log(_eventName + " - event was called by " + eventCaller.ToString() , Debugger.TextColor.Yellow);
+        if (EventManager.LogsEnabled) Debugger.Log(_eventName + " - event was called by " + eventCaller.ToString(), Debugger.TextColor.Yellow);
         for (int i = _listenerList.Count - 1; i >= 0; i--)
         {
             _listenerList[i]?.Invoke(param);
