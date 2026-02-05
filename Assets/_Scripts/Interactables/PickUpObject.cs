@@ -103,6 +103,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         transform.SetParent(null);
         parentTransformReference = null;
 
+        // Handle drop haptics.
         if (_pickUpAndDropHapticSettings != null)
         {
             _holdingHand?.HandlePickUpOrDropObject(_pickUpAndDropHapticSettings, _repeatPickUpHapticNumTimes);
@@ -113,6 +114,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
             return;
         }
 
+        // Handle drop sounds.
         if (_dropSounds != null && _dropSounds.SoundArray != null && _dropSounds.SoundArray.Length > 0)
         {
             AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
@@ -124,6 +126,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
 
         _holdingHand = null;
         _isHeld = false;
+        _nextTimeAllowTouchVO = 0f;
         HandlePlaceObjectOnSurface();
     }
     public virtual void PickUp(Transform parent, PlayerHand hand)

@@ -109,7 +109,7 @@ public class RadialMenuManager : MonoBehaviour
         if (_menuAnchor == null) _menuAnchor = GetComponentInChildren<TextMeshPro>().transform;
         _menuAnchor.gameObject.SetActive(true);
         _playerMenuHand = isRightHand ? Player.Instance.GetRightHand() : Player.Instance.GetLeftHand();
-        //_testObject.forward = Camera.main.transform.forward;
+        //_menuAnchor.forward = Camera.main.transform.forward;
         _menuAnchor.forward = _playerMenuHand.transform.up;
         float menuDistanceFromhand = 0.2f;
         _menuAnchor.position = _playerMenuHand.transform.position + _menuAnchor.forward * menuDistanceFromhand;
