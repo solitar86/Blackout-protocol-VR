@@ -248,7 +248,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   _minDistanceFromCenterToSelect: 0.1
   _selectButtonHapticSettings: {fileID: 11400000, guid: b6ece21f59c3f6c46b43b01b530533cc, type: 2}
-  _testObject: {fileID: 3078431766101784336}
+  _menuAnchor: {fileID: 3078431766101784336}
 --- !u!1 &2603999231005657554
 GameObject:
   m_ObjectHideFlags: 0
@@ -605,7 +605,7 @@ GameObject:
   - component: {fileID: 4824801576813153457}
   - component: {fileID: 5597528106721667701}
   m_Layer: 0
-  m_Name: RadialMenuDebugVisual
+  m_Name: RadialMenuAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
