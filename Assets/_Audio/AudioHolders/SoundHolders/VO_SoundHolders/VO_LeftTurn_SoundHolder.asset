@@ -28,16 +28,6 @@ MonoBehaviour:
     Volume: 0.5
     Pitch: 1
     SpacialBlend: 0
-  - Clip: {fileID: 8300000, guid: e00c00fbd631ce748b52b4ee2536dee7, type: 3}
-    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0.5
-    Pitch: 1
-    SpacialBlend: 0
-  - Clip: {fileID: 8300000, guid: 5369a210c8c8a1149806f0642eb215a1, type: 3}
-    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0.5
-    Pitch: 1
-    SpacialBlend: 0
   LastPlayedSound:
     Clip: {fileID: 0}
     Mixergroup: {fileID: 0}

@@ -188,6 +188,25 @@ public class RadialMenuManager : MonoBehaviour
             HandleMenuItemSelectionChange(part);
         }
     }
+
+    #region Helpers
+    public string GetTTSPathForSnapTurnAngle(float angle)
+    {
+        switch (angle)
+        {
+            case 22.5f:
+                return "TTS_Menu_22";
+            case 45f:
+                return "TTS_Menu_45";
+            case 90f:
+                return "TTS_Menu_90";
+            case 180f:
+                return "TTS_Menu_180";
+            default:
+                return string.Empty;
+        }
+    }
+    #endregion
 }
 
 
@@ -197,11 +216,17 @@ public class RadialMenuManager : MonoBehaviour
 /// </summary>
 public class RadialMenuItem
 {
+    /// <summary>
+    /// Constructor for a single Radial menu which can go in a menu holder.
+    /// </summary>
+    /// <param name="name">Name of item</param>
+    /// <param name="menuAction">Action to execute on click</param>
+    /// <param name="ttsPath">Soundfile to play on select</param>
     public RadialMenuItem(string name, Action menuAction, string ttsPath)
     {
         _name = name;
-        _ttsFilePath = ttsPath;
-        OnActivateAction = menuAction;
+        _ttsFilePath = ttsPath; // This file will play on select.
+        OnActivateAction = menuAction; // This action will execute when pressed.
     }
     private string _name;
     private string _ttsFilePath;
@@ -280,7 +305,12 @@ public static class RadialMenuHolder
                 () => { RadialMenuManager.Instance.SetAsCurrentRadialMenu(AccessibilityMenu); },
                 MENUTTSFILEFOLDERPATH + "TTS_Menu_AccessibilityOptions"
             ),
-           BackButton,
+            BackButton,
+            new RadialMenuItem(
+                "Snap turn settings",
+                () => { RadialMenuManager.Instance.SetAsCurrentRadialMenu(SnapTurnMenu); },
+                MENUTTSFILEFOLDERPATH + "TTS_Menu_SnapTurnAngle"
+            ),
            QuitButton
         }
     );
@@ -298,7 +328,6 @@ public static class RadialMenuHolder
            new RadialMenuItem(
                 "Visible Hands",
                 () => {
-                    // TEST IF THIS WORKS, IF IT DOES REMOVE THIS COMMENT.
                         bool enabled = PlayerSettings.Accessibility.ToggleHands();
                         string ttsPath = enabled ? "TTS_Menu_Enabled" : "TTS_Menu_Disabled";
                         TTSPlayer.PlayTTSWithFilePath(MENUTTSFILEFOLDERPATH + ttsPath, true);
@@ -308,7 +337,6 @@ public static class RadialMenuHolder
             new RadialMenuItem(
                 "Movement Particles",
                 () => {
-                    // TEST IF THIS WORKS, IF IT DOES REMOVE THIS COMMENT.
                         bool enabled = PlayerSettings.Accessibility.ToggleParticles();
                         string ttsPath = enabled ? "TTS_Menu_Enabled" : "TTS_Menu_Disabled";
                         TTSPlayer.PlayTTSWithFilePath(MENUTTSFILEFOLDERPATH + ttsPath, true);
@@ -319,7 +347,6 @@ public static class RadialMenuHolder
             new RadialMenuItem(
                 "Touche Ripple Visual",
                 () => {
-                    // TEST IF THIS WORKS, IF IT DOES REMOVE THIS COMMENT.
                         bool enabled = PlayerSettings.Accessibility.ToggleTouchRipple();
                         string ttsPath = enabled ? "TTS_Menu_Enabled" : "TTS_Menu_Disabled";
                         TTSPlayer.PlayTTSWithFilePath(MENUTTSFILEFOLDERPATH + ttsPath, true);
@@ -331,14 +358,71 @@ public static class RadialMenuHolder
     );
     #endregion
 
+    #region Snap turn menu
+    /////////////////////////
+    // Snap Turn Menu
+    /////////////////////////
+    public static RadialMenu SnapTurnMenu = new RadialMenu(
+        "Snap turn settings", MENUTTSFILEFOLDERPATH + "TTS_Menu_SnapTurnAngle",
+        new RadialMenuItem[]
+        {
+           new RadialMenuItem(
+                "Increase Angle",
+                () => {
+                        var success = PlayerSettings.Movement.TryIncreaseSnapTurnAngle();
+                        if( success == false)
+                        {
+                            TTSPlayer.PlayTTSWithFilePath(MENUTTSFILEFOLDERPATH + "TTS_Fail");
+                            return;
+                        }
+                         // Setting was changed, Tell player current setting.
+                        string angleTTSPath = RadialMenuManager.Instance. GetTTSPathForSnapTurnAngle(PlayerSettings.Movement.SnapTurnAngle);
+                        if(angleTTSPath == string.Empty)
+                        {
+                            Debugger.LogWarning("Tried to play Snapturn angle TTS file but failed");
+                            Debugger.PlayBlipSound();
+                        }
+                        TTSPlayer.PlayTTSWithFilePath(MENUTTSFILEFOLDERPATH + angleTTSPath);
+
+                       },
+                MENUTTSFILEFOLDERPATH + "TTS_Menu_IncreaseAngle"
+            ),
+           BackButton,
+         new RadialMenuItem(
+                "Decrease Angle",
+                () => {
+                        var success = PlayerSettings.Movement.TryDecreaseSnapTurnAngle();
+                        if( success == false)
+                        {
+                            TTSPlayer.PlayTTSWithFilePath(MENUTTSFILEFOLDERPATH + "TTS_Fail");
+                            return;
+                        }
+                         // Setting was changed, Tell player current setting.
+                        string angleTTSPath = RadialMenuManager.Instance. GetTTSPathForSnapTurnAngle(PlayerSettings.Movement.SnapTurnAngle);
+                        if(angleTTSPath == string.Empty)
+                        {
+                            Debugger.LogWarning("Tried to play Snapturn angle TTS file but failed");
+                            Debugger.PlayBlipSound();
+                            return;
+                        }
+                        TTSPlayer.PlayTTSWithFilePath(MENUTTSFILEFOLDERPATH + angleTTSPath);
+
+                       },
+                MENUTTSFILEFOLDERPATH + "TTS_Menu_DecreaseAngle"
+            )
+
+        }
+        );
+    #endregion
+
     #region Sound Settings menu
     /////////////////////////
     // SOUND SETTINGS MENU
     /////////////////////////
     public static RadialMenu SoundSettingsMenu = new RadialMenu(
-    "Sound settings", MENUTTSFILEFOLDERPATH + "TTS_Menu_SoundSettings",
-    new RadialMenuItem[]
-    {
+        "Sound settings", MENUTTSFILEFOLDERPATH + "TTS_Menu_SoundSettings",
+        new RadialMenuItem[]
+        {
             new RadialMenuItem(
                 "Open TTS Speed settings",
                 () => { RadialMenuManager.Instance.SetAsCurrentRadialMenu(TTSSpeedMenu); },
@@ -351,8 +435,8 @@ public static class RadialMenuHolder
                 MENUTTSFILEFOLDERPATH + "TTS_Menu_TTS_Volume"
             ),
 
-    }
-);
+        }
+    );
     /////////////////////////
     // TTS SPEED SETTING MENU
     /////////////////////////
@@ -375,7 +459,9 @@ public static class RadialMenuHolder
             )
         }
     );
+    #endregion
 
+    #region TTS Volume Settings
     /////////////////////////
     // TTS VOLUME SETTING MENU
     /////////////////////////

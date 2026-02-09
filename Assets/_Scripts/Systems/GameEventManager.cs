@@ -39,6 +39,7 @@ public static class EventManager
 
     // Settings events
     public static GameEvent<int> OnAccessibilitySettingsChanged = new("Accessibility Settings Changed");
+    public static GameEvent<int> OnMovementSettingsChange = new("Movement Settings Changed");
 
     public static void DisableEventLogs()
     {

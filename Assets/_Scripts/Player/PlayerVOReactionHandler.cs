@@ -10,6 +10,9 @@ public class PlayerVOReactionHandler : MonoBehaviour
     [SerializeField] private SoundArrayHolder _leftTurnVO, _rightTurnVO;
     [SerializeField] private SoundArrayHolder _curseWordsVO;
 
+    private float _turnVODelay = 0.25f;
+
+    #region Unity Callbacks
     void Start()
     {
         EventManager.OnPlayerCurse.AddListener(this, PlayerSayCurseWord);
@@ -21,32 +24,39 @@ public class PlayerVOReactionHandler : MonoBehaviour
         SnapTurnProvider.OnPlayerSnapTurn -= HandlePlayerTurn;
     }
 
+    #endregion
     private void HandlePlayerTurn(bool isRightTurn)
     {
-        if(isRightTurn == false)
+        if (isRightTurn == false)
         {
             if (_leftTurnVO != null && _leftTurnVO.SoundArray != null && _leftTurnVO.SoundArray.Length > 0)
             {
-                AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
-                                                            _leftTurnVO.SoundArray,
-                                                            transform.position,
-                                                            _curseWordsVO.LastPlayedSound);
+                this.CallWithDelay(() =>
+                {
+                    AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
+                                                                _leftTurnVO.SoundArray,
+                                                                transform.position,
+                                                                _curseWordsVO.LastPlayedSound);
+                }, _turnVODelay);
             }
             return;
         }
 
         if (_rightTurnVO != null && _rightTurnVO.SoundArray != null && _rightTurnVO.SoundArray.Length > 0)
         {
-            AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
-                                                        _rightTurnVO.SoundArray,
-                                                        transform.position,
-                                                        _rightTurnVO.LastPlayedSound);
+            this.CallWithDelay(() =>
+            {
+                AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
+                                                            _rightTurnVO.SoundArray,
+                                                            transform.position,
+                                                            _rightTurnVO.LastPlayedSound);
+            }, _turnVODelay);
         }
-    }
 
+    }
     private void PlayerSayCurseWord(int severity)
     {
-        if(_curseWordsVO != null && _curseWordsVO.SoundArray != null && _curseWordsVO.SoundArray.Length > 0)
+        if (_curseWordsVO != null && _curseWordsVO.SoundArray != null && _curseWordsVO.SoundArray.Length > 0)
         {
             AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
                                                         _curseWordsVO.SoundArray,

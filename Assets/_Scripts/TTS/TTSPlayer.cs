@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +15,9 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class TTSPlayer : MonoBehaviour
 {
+    // TODO: Use this list to unload TTS files at appropriate times
+    private static List<AudioClip> _currentlyLoadedClips = new List<AudioClip>();
+
     private const string TTSNUMBERSPATH = "TTS/Numbers/TTS_Numbers_";
     private static float _nextTimeAllowTTS = 0f; // THIS VALUE NEEDS TO BE RESET on ENTER PLAYMODE! TODO!
     private static void PlayTTS(AudioClip clipToPlay, string debugInfo, bool preventInterrupt = false)
@@ -33,6 +37,8 @@ public class TTSPlayer : MonoBehaviour
         var source = FindFirstObjectByType<TTS_SpeedControl>().TTSSource;
         source.clip = clipToPlay;
         source.Play();
+
+        TryAddClipToLoadedAssetsList(clipToPlay);
 
         if (preventInterrupt) _nextTimeAllowTTS = Time.time + source.clip.length / PlayerSettings.Audio.TTS_Speed;
 
@@ -85,6 +91,11 @@ public class TTSPlayer : MonoBehaviour
     {
         var clip = Resources.Load<AudioClip>("TTS/TTS_Error_TTSFileNotFound");
         PlayTTS(clip, "Error Clip");
+    }
+    private static void TryAddClipToLoadedAssetsList(AudioClip clipToPlay)
+    {
+        if (_currentlyLoadedClips.Contains(clipToPlay)) return;
+        _currentlyLoadedClips.Add(clipToPlay);
     }
     private static string GetStringFromNumber(int number)
     {

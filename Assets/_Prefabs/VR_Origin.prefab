@@ -164,6 +164,7 @@ GameObject:
   - component: {fileID: 3487370991760195859}
   - component: {fileID: 19178270009476382}
   - component: {fileID: 4655597844852900638}
+  - component: {fileID: 4161250646614555834}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -185,6 +186,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3571959417161413628}
+  - {fileID: 1989229704447582405}
   m_Father: {fileID: 6999042435616901005}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &486785890540424873
@@ -409,7 +411,22 @@ MonoBehaviour:
     m_Bits: 3073
   _feetSeparationDistance: 1
   _defaultFootSteps: {fileID: 11400000, guid: bf4818b62b1b414458290a185d758b1d, type: 2}
+  _snapTurnFootSounds: {fileID: 11400000, guid: 0af80ae222a039c4a8386855b365cdf0, type: 2}
   _footStepSoundDistanceInterval: 0.4
+--- !u!114 &4161250646614555834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597938095357516291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57aa17927dbef1a43a3f6866536c6892, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _foleySoundPosition: {fileID: 1989229704447582405}
+  _foleySounds: {fileID: 11400000, guid: 400e4c53e9e79e547a45ed2075940212, type: 2}
 --- !u!1 &1452678398996725252
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,6 +527,7 @@ GameObject:
   - component: {fileID: 637511226750495994}
   - component: {fileID: 4334222668845179710}
   - component: {fileID: 392438343443139370}
+  - component: {fileID: 7515528390673897028}
   m_Layer: 0
   m_Name: PlayerHand_Right
   m_TagString: Untagged
@@ -633,6 +651,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53ddd6388eaa2114b8f7209c38ed9a25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+--- !u!114 &7515528390673897028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2901036346779040672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b480a7f4bc7b3540981f02703988e66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerGrabFailAudioHandler
+  _onGrabFailSound:
+    Clip: {fileID: 8300000, guid: 31413d77cec511b409ce7e7d1265476e, type: 3}
+    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 0.3
+    Pitch: 1
+    SpacialBlend: 1
 --- !u!1 &2987007727484220465
 GameObject:
   m_ObjectHideFlags: 0
@@ -793,6 +829,37 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &3674266082198928790
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1989229704447582405}
+  m_Layer: 0
+  m_Name: FoleySoundPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1989229704447582405
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3674266082198928790}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8572928370164838739}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5304522184512835325
 GameObject:
   m_ObjectHideFlags: 0
@@ -6118,6 +6185,7 @@ GameObject:
   - component: {fileID: 4937984657686684580}
   - component: {fileID: 4969587528289420370}
   - component: {fileID: 2645737783088783910}
+  - component: {fileID: 2922592447405649362}
   m_Layer: 0
   m_Name: PlayerHand_Left
   m_TagString: Untagged
@@ -6241,6 +6309,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53ddd6388eaa2114b8f7209c38ed9a25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+--- !u!114 &2922592447405649362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6826209950832086208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b480a7f4bc7b3540981f02703988e66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _onGrabFailSound:
+    Clip: {fileID: 8300000, guid: 31413d77cec511b409ce7e7d1265476e, type: 3}
+    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 0.3
+    Pitch: 1
+    SpacialBlend: 1
 --- !u!1 &8306662206277014089
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,21 +1,30 @@
+using System;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit.Locomotion.Turning;
 
 public class PlayerFootStepHandler : MonoBehaviour
 {
     [SerializeField] LayerMask _whatCountsAsGround;
     [SerializeField] private float _feetSeparationDistance = 0.3f;
     [SerializeField] private SoundArrayHolder _defaultFootSteps;
+    [SerializeField] private SoundArrayHolder _snapTurnFootSounds;
     [SerializeField] private float _footStepSoundDistanceInterval = 0.4f;
     private bool _isLeftFoot = true; // Player starts with left foot step.
 
+    public GameEvent<int> OnPlayerTakeFootstep = new("Player Footstep");
 
     private Vector3 lastStepPosition;
 
+    #region Unity Callbacks
     private void Start()
     {
         lastStepPosition = new Vector3(transform.position.x, 0f, transform.position.z);
+        SnapTurnProvider.OnPlayerSnapTurn += HandlePlayerSnapTurnFootSteps;
     }
-
+    private void OnDisable()
+    {
+        SnapTurnProvider.OnPlayerSnapTurn -= HandlePlayerSnapTurnFootSteps;
+    }
     private void Update()
     {
         Vector3 currentXZ = new Vector3(transform.position.x, 0f, transform.position.z);
@@ -26,31 +35,52 @@ public class PlayerFootStepHandler : MonoBehaviour
             HandleAppropriateFootStepSound();
         }
     }
-
+    #endregion
     private void HandleAppropriateFootStepSound()
     {
-
         if (Physics.Raycast(transform.position,
                             Vector3.down,
                             out RaycastHit hitInfo,
                             float.MaxValue,
                             _whatCountsAsGround))
         {
-
             var position = CalculateFootStepPosition(hitInfo.point, transform);
-
             // Store played footstep as previous in Scriptable Object so we don't repeat it. 
             _defaultFootSteps.LastPlayedSound = AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
                                                         _defaultFootSteps.SoundArray,
                                                         hitInfo.point,
                                                         _defaultFootSteps.LastPlayedSound,
                                                         true);
+            OnPlayerTakeFootstep.Raise(this, -1);
         }
-
     }
+    private void HandlePlayerSnapTurnFootSteps(bool wasRightTurn)
+    {
+        //////////////////////////////////////////////////////////////////////
+        // This function playes a shuffling sound at the players
+        // position whenever a turn is executed im the SnapTurn provider class.
+        //////////////////////////////////////////////////////////////////////
 
+        if (Physics.Raycast(transform.position,
+                    Vector3.down,
+                    out RaycastHit hitInfo,
+                    float.MaxValue,
+                    _whatCountsAsGround))
+        {
+            _snapTurnFootSounds.LastPlayedSound = AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
+                                                        _snapTurnFootSounds.SoundArray,
+                                                        hitInfo.point,
+                                                        _snapTurnFootSounds.LastPlayedSound,
+                                                        true);
+        }
+    }
     private Vector3 CalculateFootStepPosition(Vector3 pointOnGround, Transform transform)
     {
+        // This function controls how far from the players position
+        // to the left or right the footstep is. This is so
+        // we can exaggerate the spatial positioning of footsteps
+        // left or right even beyond what is "realistic".
+
         pointOnGround += transform.right * (_isLeftFoot ? -1f : 1f) * _feetSeparationDistance;
         _isLeftFoot = !_isLeftFoot;
 
@@ -65,7 +95,6 @@ public class PlayerFootStepHandler : MonoBehaviour
         _feetSeparationDistance = footStepSoundDistanceInterval;
         _feetSeparationDistance = feetSeparationDistance;
     }
-
     public float GetFootStepInterval() => _footStepSoundDistanceInterval;
     public float GetFeetSeparationDistance() => _feetSeparationDistance;
 #endif

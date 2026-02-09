@@ -5,9 +5,11 @@ using UnityEngine;
 public class PlayerHandInteractor : MonoBehaviour
 {
     private PlayerHand _hand;
+    public PlayerHand Hand => _hand;
     private Collider _collider;
     private List<Iinteractable> _interactablesInRange = new();
     private Iinteractable _heldInteractable;
+    public GameEvent<bool> OnGrabFailed = new("Grab failed");
 
     #region Unity Callbacks
     private void Awake()
@@ -93,7 +95,11 @@ public class PlayerHandInteractor : MonoBehaviour
     private void HandleGripPressed(bool isRightHand)
     {
         if (isRightHand != _hand.IsRightHand) return;
-        if (_interactablesInRange.Count <= 0) return;
+        if (_interactablesInRange.Count <= 0)
+        {
+            OnGrabFailed.Raise(this, isRightHand);
+            return;
+        }
 
         if ((_interactablesInRange.Count == 1))
         {
@@ -106,7 +112,8 @@ public class PlayerHandInteractor : MonoBehaviour
             }
             else
             {
-                // What to do when an interactable can't be picked up?
+                OnGrabFailed.Raise(this, isRightHand);
+                return;
             }
         }
 
@@ -142,18 +149,24 @@ public class PlayerHandInteractor : MonoBehaviour
     private void HandleGripReleased(bool isRightHand)
     {
         if (isRightHand != _hand.IsRightHand) return;
+
         if (_heldInteractable != null)
         {
             // TODO: Consider swapping items on drop if one is in range?
-            DropThisObject(_heldInteractable);
+            DropThisObjectAndEmptyHand(_heldInteractable);
             return;
         }
     }
 
     #endregion
-    private void DropThisObject(Iinteractable heldInteractable)
+    private void DropThisObjectAndEmptyHand(Iinteractable interactableToDrop)
     {
-        _heldInteractable.Drop();
+        if (_interactablesInRange.Contains(interactableToDrop))
+        {
+            _interactablesInRange.Remove(interactableToDrop);
+        }
+
+        interactableToDrop.Drop();
         _heldInteractable = null;
     }
     private void PickUpObject(Iinteractable objectToPickUp)

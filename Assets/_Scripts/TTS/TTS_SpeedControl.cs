@@ -13,6 +13,7 @@ public class TTS_SpeedControl : MonoBehaviour
 
     public AudioSource TTSSource => _TTS_source;
 
+    #region Unity Callbacks
     private void Awake()
     {
         // Find the AudioMixerGroups and set the output of the AudioSources to them
@@ -36,11 +37,7 @@ public class TTS_SpeedControl : MonoBehaviour
     {
         EventManager.OnTTSSPeedChange.RemoveListener(this, OnTTSSpeedChanged);
     }
-
-    private void OnTTSSpeedChanged(float value)
-    {
-        SetSpeedAndPitch();
-    }
+    #endregion
 
     private void SetSpeedAndPitch()
     {
@@ -51,7 +48,6 @@ public class TTS_SpeedControl : MonoBehaviour
         _audioMixer.SetFloat("FFTSize", 512 / PlayerSettings.Audio.TTS_Speed); // Exposed params in MainMixer must match string exactly.
         Debugger.Log("TTS Settings set Pitch set to :" + 1 / PlayerSettings.Audio.TTS_Speed);
     }
-
     private void InitAudioSource()
     {
         _TTS_source = GetComponent<AudioSource>();
@@ -69,12 +65,14 @@ public class TTS_SpeedControl : MonoBehaviour
         _TTS_source.bypassEffects = true;
         _TTS_source.Stop(); // Sanity check.
     }
-
     private void InitAudioMixer()
     {
         _audioMixer = Resources.Load("MainMixer") as AudioMixer;
     }
-
+    private void OnTTSSpeedChanged(float value)
+    {
+        SetSpeedAndPitch();
+    }
 
 #if UNITY_EDITOR
     [UnityEngine.ContextMenu("Play On Loop")]

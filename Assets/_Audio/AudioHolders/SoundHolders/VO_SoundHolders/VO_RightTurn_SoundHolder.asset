@@ -18,22 +18,12 @@ MonoBehaviour:
     Volume: 1
     Pitch: 1
     SpacialBlend: 0
-  - Clip: {fileID: 8300000, guid: 91d90b0b5b3f2d1409431eb92cfe7b44, type: 3}
-    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 1
-    Pitch: 1
-    SpacialBlend: 0
-  - Clip: {fileID: 8300000, guid: ef27321da5213ab42b2d29138bf34e6e, type: 3}
-    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 1
-    Pitch: 1
-    SpacialBlend: 0
-  - Clip: {fileID: 8300000, guid: 2d8f80105cebd6441846949e8fb382fa, type: 3}
-    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 1
-    Pitch: 1
-    SpacialBlend: 0
   - Clip: {fileID: 8300000, guid: 5a7356cbae3fbdb4db428531ca2469c0, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+  - Clip: {fileID: 8300000, guid: 91d90b0b5b3f2d1409431eb92cfe7b44, type: 3}
     Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
