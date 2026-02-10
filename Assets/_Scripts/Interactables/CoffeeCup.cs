@@ -98,7 +98,7 @@ public class CoffeeCup : PickUpObject
             SpillAllWater(true);
         }
 
-        GetComponentInChildren<TextMeshProUGUI>().SetText(_timer.ToString("F2") + "\nW:" + _waterAmount);
+        GetComponentInChildren<TextMeshProUGUI>()?.SetText(_timer.ToString("F2") + "\nW:" + _waterAmount);
 
 #if UNITY_EDITOR
         if (dot < 0.5f)

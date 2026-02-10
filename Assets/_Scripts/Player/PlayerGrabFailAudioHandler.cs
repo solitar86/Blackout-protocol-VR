@@ -18,7 +18,7 @@ public class PlayerGrabFailAudioHandler : MonoBehaviour
     {
         if (_interactor == null)
             _interactor = GetComponent<PlayerHandInteractor>();
-        _interactor.OnGrabFailed.AddListener(this, HandleOnGrabFailed);
+        _interactor.OnGrabFailed.RemoveListener(this, HandleOnGrabFailed);
     }
     #endregion
     private void HandleOnGrabFailed(bool isRightHand)

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class PlayerBodyCollisionHandler : MonoBehaviour
@@ -20,7 +19,7 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
     private bool[] _hitThisFrame;
     private Vector3[] _directions;
 
-
+    #region Unity Callbacks
     private void Awake()
     {
         if (_playerHead == null)
@@ -69,7 +68,7 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
                 if (Physics.Raycast(start, _directions[i], out RaycastHit hitInfo, _raycastDistance, _layersToCollideWith) == true)
                 {
                     _hitThisFrame[i] = true;
-                    if(raycastHitDictionary.TryGetValue(i, out _) == false) raycastHitDictionary.Add(i, hitInfo);
+                    if (raycastHitDictionary.TryGetValue(i, out _) == false) raycastHitDictionary.Add(i, hitInfo);
                 }
             }
         }
@@ -79,7 +78,7 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
             if (_hitThisFrame[i] == true && _directionIsColliding[i] == false)
             {
                 // TODO: Maybe move this time check above we we can avoid doing all this shit on every update.
-                if(raycastHitDictionary.TryGetValue(i, out var hit) && _nextTimeAllowCollisionSound < Time.time) 
+                if (raycastHitDictionary.TryGetValue(i, out var hit) && _nextTimeAllowCollisionSound < Time.time)
                 {
                     // We have hits and the cooldown for playing collisions sounds has elapsed;
                     AudioPlayer.PlaySoundAtPoint(this, _playerCollisionSound, hit.point, true);
@@ -98,13 +97,14 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
         }
 
         // No collisions, reset time buffer on allow collision sounds
-        if(raycastHitDictionary.Count == 0)
+        if (raycastHitDictionary.Count == 0)
         {
             // No hits this frame.
             _nextTimeAllowCollisionSound = 0f;
         }
         raycastHitDictionary.Clear();
     }
+    #endregion
 
 #if UNITY_EDITOR
     private void SpawnDebugSphereOnHitPoint(RaycastHit hit)
@@ -114,4 +114,35 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
         Destroy(go, 3f);
     }
 #endif
+
+    private void OnDrawGizmosSelected()
+    {
+        _directions = new Vector3[_numberOfRaycasts];
+        // Set directions based on player head direction.
+        for (int i = 0; i < _numberOfRaycasts; i++)
+        {
+            float angle = (360f / _numberOfRaycasts) * i;
+            Vector3 facingDirection = _playerHead.forward;
+            facingDirection.y = 0f;
+            _directions[i] = Quaternion.AngleAxis(angle, Vector3.up) * facingDirection;
+        }
+
+        float headHeight = _playerHead.position.y;
+        Dictionary<int, RaycastHit> raycastHitDictionary = new();
+
+        // Raycast to all directions on all height levels.
+        for (int j = 0; j < _raycastHeightIntervals.Length; j++)
+        {
+            float height = headHeight * _raycastHeightIntervals[j];
+
+            for (int i = 0; i < _directions.Length; i++)
+            {
+                Vector3 start = transform.position + Vector3.up * height;
+                Vector3 end = start + _directions[i] * _raycastDistance;
+
+                Gizmos.color = Color.green;
+                Gizmos.DrawLine(start, end);
+            }
+        }
+    }
 }

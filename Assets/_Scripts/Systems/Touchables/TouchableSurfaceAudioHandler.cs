@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Audio;
 
 [RequireComponent(typeof(TouchableSurface))]
 public class TouchableSurfaceAudioHandler : MonoBehaviour
@@ -78,6 +79,18 @@ public class TouchableSurfaceAudioHandler : MonoBehaviour
         if (_slideAudioSource != null)
         {
             Destroy(_slideAudioSource.gameObject);
+        }
+    }
+
+    private void OnValidate()
+    {
+        var innerMonologueMixerGroup = AudioPlayer.GetMixerGroupWithSubPathString(PlayerSettings.INNER_MONOLOGUE_MIXERGROUP_STRING);
+        if (_touchIdentifyVO != null &&
+            innerMonologueMixerGroup != null &&
+            _touchIdentifyVO.Mixergroup != innerMonologueMixerGroup)
+        {
+            _touchIdentifyVO.Mixergroup = innerMonologueMixerGroup;
+            _touchIdentifyVO.SpacialBlend = 0; // Inner monologue should not be spatilized.
         }
     }
 }

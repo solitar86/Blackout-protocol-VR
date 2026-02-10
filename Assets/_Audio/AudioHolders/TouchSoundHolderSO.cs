@@ -15,9 +15,14 @@ public class TouchSoundHolderSO : ScriptableObject
         CorrectPitchFromZero(FirstTouchSound);
         CorrectPitchFromZero(SlideTouchSound);
         CorrectPitchFromZero(EndTouchSound);
+
         CorrectVolumeFromZero(FirstTouchSound);
         CorrectVolumeFromZero(SlideTouchSound);
         CorrectVolumeFromZero(EndTouchSound);
+
+        SetSpacialBlendingToOne(FirstTouchSound);
+        SetSpacialBlendingToOne(SlideTouchSound);
+        SetSpacialBlendingToOne(EndTouchSound);
     }
 
     private void CorrectPitchFromZero(Sound sound)
@@ -27,6 +32,11 @@ public class TouchSoundHolderSO : ScriptableObject
     private void CorrectVolumeFromZero(Sound sound)
     {
         if (sound != null && sound.Volume == 0) sound.Volume = 0.5f;
+    }
+
+    private void SetSpacialBlendingToOne(Sound sound)
+    {
+        if (sound != null && sound.SpacialBlend != 1) sound.SpacialBlend = 1f;
     }
 }
 

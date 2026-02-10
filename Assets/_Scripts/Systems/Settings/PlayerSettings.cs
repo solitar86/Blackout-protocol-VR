@@ -26,6 +26,9 @@ public class PlayerSettings
     public static AccessibilitySettings Accessibility;
     public static string ACCESS_STRING = "access";
 
+    // String references for other classes to get globally
+    public static string INNER_MONOLOGUE_MIXERGROUP_STRING = "InnerMonologue";
+
     #region Save / Load
     public static void LoadSettings()
     {

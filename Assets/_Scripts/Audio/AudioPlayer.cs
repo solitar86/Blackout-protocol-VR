@@ -207,6 +207,22 @@ public class AudioPlayer : MonoBehaviour
 
         PlaySoundAtPoint(sender, soundToPlay, point);
     }
+
+    /// <summary>
+    /// Get a mixergroup with subpath string "a.k.a." even part of a name
+    /// </summary>
+    /// <param name="subpath">A part of the name of the group you want to get</param>
+    /// <returns>First matching mixergroup.</returns>
+    public static AudioMixerGroup GetMixerGroupWithSubPathString(string subpath)
+    {
+        if (Instance != null)
+        {
+            return Instance.MainMixer.FindMatchingGroups(subpath)[0];
+        }
+
+        var mixer = Resources.Load<AudioMixer>("MainMixer");
+        return mixer.FindMatchingGroups(subpath)[0];
+    }
 }
 
 /// <summary>
