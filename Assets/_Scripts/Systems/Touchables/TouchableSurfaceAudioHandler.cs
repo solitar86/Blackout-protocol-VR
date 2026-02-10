@@ -48,7 +48,8 @@ public class TouchableSurfaceAudioHandler : MonoBehaviour
 
         if(_nextTimeAllowTouchVO < Time.time)
         {
-            AudioPlayer.PlayerSoundAtPointWithDelay(this, _touchIdentifyVO, position, PlayerSettings.Developer.IdentifyVODelay, true);
+            EventManager.OnPlayerObjectIDVOShouldPlay.Raise(this, _touchIdentifyVO);
+            Debugger.Log(this.ToString() + "CALLED ID VO", Debugger.TextColor.Purple);
             _nextTimeAllowTouchVO = Time.time + PlayerSettings.Developer.TouchDialogueInterval;
         }
     }

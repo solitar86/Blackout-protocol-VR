@@ -33,6 +33,7 @@ public static class EventManager
 
     //Interaction events
     public static GameEvent<PickUpObject> OnPlayerTouchPickUp = new("Player touch pickup");
+    public static GameEvent<Sound> OnPlayerObjectIDVOShouldPlay = new("ID VO");
 
     // One shot gameplay events
     public static GameEvent<int> OnBreakableMachineBreak = new("Breakable machine broke");

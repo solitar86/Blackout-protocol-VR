@@ -104,9 +104,9 @@ public class FPS_PLAYER : MonoBehaviour
         cameraTransform.GetComponent<Camera>().fieldOfView = cameraFOV;
     }
 
+#if UNITY_EDITOR
     void HandleRaycasts()
     {
-#if UNITY_EDITOR
         Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
         RaycastHit hitInfo;
 
