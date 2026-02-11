@@ -14,6 +14,13 @@ public class TouchRippleSpawner : MonoBehaviour
     [SerializeField, Range(0.001f, 2f)] private float _spawnInterval = 0.1f;
 
     private ObjectPool<GameObject> _rippleSphereGOPool;
+    private Transform _rippleSphereParent;
+
+    #region Unity Callbacks
+    private void Awake()
+    {
+        _rippleSphereParent = new GameObject("RippleSphereParent").transform;
+    }
 
     private void Start()
     {
@@ -27,30 +34,25 @@ public class TouchRippleSpawner : MonoBehaviour
             maxSize: 54
             );
     }
-
+    #endregion
     private GameObject CreateSphere()
     {
-        var go = Instantiate(_rippleSphere, Vector3.zero, Quaternion.identity).gameObject;
+        var go = Instantiate(_rippleSphere, _rippleSphereParent).gameObject;
         return go;
     }
-
     private void OnGetSphere(GameObject go)
     {
         go.SetActive(true);
     }
-
     private void OnRelease(GameObject go)
     {
         var sphere = go.GetComponent<RippleSphere>();
         sphere.ResetSphere();
     }
-
     private void OnDestroySphere(GameObject go)
     {
         Destroy(go);
     }
-
-
     public void SpawnTouchVisual(Vector3 position)
     {
         if (PlayerSettings.Accessibility.TouchRipple == false) return;
