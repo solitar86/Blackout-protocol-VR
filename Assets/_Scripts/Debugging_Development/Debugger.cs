@@ -114,7 +114,7 @@ public static class Debugger
 
     public static void PlayBlipSound(string t = "")
     {
-        AudioPlayer.PlayClipAtPoint("Debugger", Resources.Load<AudioClip>("Audio/SFX_Blip"), Vector3.zero, 0.3f);
+        AudioPlayer.PlayClipAtPoint("Debugger", Resources.Load<AudioClip>("Audio/SFX_Blip"), Vector3.zero, 0.3f, false, false);
 
         if (t != string.Empty) Log(t);
     }

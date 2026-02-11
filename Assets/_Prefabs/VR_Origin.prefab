@@ -595,8 +595,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.04
-  m_Center: {x: 0, y: 0, z: 0.02}
+  m_Radius: 0.05
+  m_Center: {x: 0.02, y: 0, z: 0.02}
 --- !u!54 &637511226750495994
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1003,15 +1003,21 @@ MonoBehaviour:
     m_Bits: 1024
   _hitMarker: {fileID: 0}
   _playerHead: {fileID: 8572928370164838739}
-  _raycastDistance: 0.22
+  _raycastDistance: 0.25
   _raycastHeightIntervals:
-  - 0.6
   - 0.2
-  _numberOfRaycasts: 4
+  - 0.4
+  _numberOfRaycasts: 5
   _playerCollisionSound:
     Clip: {fileID: 8300000, guid: ef049dfc0aa5cbb43b8f70aa9731238a, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 0.3
+    Pitch: 1
+    SpacialBlend: 1
+  _playerScrapeObstacleSound:
+    Clip: {fileID: 8300000, guid: 87bd53f2369882e4c9a4a995048e8da5, type: 3}
+    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 0.25
     Pitch: 1
     SpacialBlend: 1
 --- !u!114 &6593406574328471588
@@ -6253,8 +6259,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.04
-  m_Center: {x: 0, y: 0, z: 0.02}
+  m_Radius: 0.05
+  m_Center: {x: 0.02, y: 0, z: 0.02}
 --- !u!54 &4937984657686684580
 Rigidbody:
   m_ObjectHideFlags: 0

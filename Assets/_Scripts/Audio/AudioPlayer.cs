@@ -211,14 +211,14 @@ public class AudioPlayer : MonoBehaviour
 
         return tempGameObject;
     }
-    public static void PlayClipAtPoint(object sender, AudioClip clipToPlay, Vector3 point, float volume = 1f)
+    public static void PlayClipAtPoint(object sender, AudioClip clipToPlay, Vector3 point, float volume = 1f, bool usePitchVariation = false, bool spatialize = false)
     {
         Sound soundToPlay = new Sound();
         soundToPlay.Pitch = 1;
         soundToPlay.Volume = volume;
         soundToPlay.Clip = clipToPlay;
 
-        PlaySoundAtPoint(sender, soundToPlay, point);
+        PlaySoundAtPoint(sender, soundToPlay, point, usePitchVariation, spatialize);
     }
 
     /// <summary>

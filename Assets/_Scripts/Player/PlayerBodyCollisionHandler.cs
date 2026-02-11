@@ -9,16 +9,19 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
     [SerializeField] private Transform _playerHead;
     [Space(15), Header("Raycast settings")]
     [SerializeField] private float _raycastDistance = 0.3f;
-    [SerializeField] private float[] _raycastHeightIntervals = { 0.5f, 0.3f };
+    [SerializeField] private float[] _raycastHeightIntervals = { 0.3f, 0.5f };
     [SerializeField] private int _numberOfRaycasts = 5;
     [Space(15), Header("Sounds")]
     [SerializeField] private Sound _playerCollisionSound;
+    [SerializeField] private Sound _playerScrapeObstacleSound;
 
-    private float _nextTimeAllowCollisionSound = 0f;
-    private bool[] _directionIsColliding;
-    private bool[] _hitThisFrame;
-    private Vector3[] _directions;
+    private AudioSource _scrapeWallAudioLoopSource;
+    private Vector3 _currentTouchingPoint;
+    private Vector3 _previousTouchingPoint;
     private bool _isTouchingObstacle = false;
+    private bool _wasTouchingLastFrame = false;
+    private bool _audioWasIncreasedThisFrame = false;
+    private float _audioSmoothDampVelocity = 0f;
 
     #region Unity Callbacks
     private void Awake()
@@ -27,121 +30,152 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
         {
             _playerHead = Camera.main.transform;
         }
-
-        _directionIsColliding = new bool[_numberOfRaycasts];
-        _directions = new Vector3[_numberOfRaycasts];
-        _hitThisFrame = new bool[_numberOfRaycasts];
+#if !UNITY_EDITOR
+        _hitMarker.gameObject.SetActive(false):
+#endif
 
     }
+
     void Update()
     {
-        Vector3 playerPosOnGround = new Vector3(_playerHead.position.x,
-                                                transform.position.y,
-                                                _playerHead.position.z);
+        HandleScrapingAudioSourceVolumeDecrease();
 
-        // Clear frame state from previous frame.
-        for (int i = 0; i < _hitThisFrame.Length; i++) _hitThisFrame[i] = false;
+        Vector3 groundOrigin = _playerHead.position;
+        groundOrigin.y = transform.position.y; // base reference level
 
-        // Set directions based on player head direction.
-        for (int i = 0; i < _numberOfRaycasts; i++)
+        _isTouchingObstacle = false;
+
+        Vector3 baseDirection = _playerHead.forward;
+        baseDirection.y = 0f;
+        baseDirection.Normalize();
+
+        float angleStep = 360f / _numberOfRaycasts;
+
+        for (int h = 0; h < _raycastHeightIntervals.Length; h++)
         {
-            float angle = (360f / _numberOfRaycasts) * i;
-            Vector3 facingDirection = _playerHead.forward;
-            facingDirection.y = 0f;
-            _directions[i] = Quaternion.AngleAxis(angle, Vector3.up) * facingDirection;
-        }
+            float heightOffset = _playerHead.position.y * _raycastHeightIntervals[h];
+            Vector3 origin = groundOrigin + Vector3.up * heightOffset;
 
-        float headHeight = _playerHead.position.y;
-        Dictionary<int, RaycastHit> raycastHitDictionary = new();
-
-        // Raycast to all directions on all height levels.
-        for (int j = 0; j < _raycastHeightIntervals.Length; j++)
-        {
-            float height = headHeight * _raycastHeightIntervals[j];
-
-            for (int i = 0; i < _directions.Length; i++)
+            for (int i = 0; i < _numberOfRaycasts; i++)
             {
-                Vector3 start = playerPosOnGround + Vector3.up * height;
-                Vector3 end = start + _directions[i] * _raycastDistance;
+                float angle = angleStep * i;
+                Vector3 direction = Quaternion.AngleAxis(angle, Vector3.up) * baseDirection;
 
-                if (Physics.Raycast(start, _directions[i], out RaycastHit hitInfo, _raycastDistance, _layersToCollideWith) == true)
+                if (Physics.Raycast(origin, direction, out RaycastHit hit,
+                                    _raycastDistance, _layersToCollideWith))
                 {
-                    _hitThisFrame[i] = true;
                     _isTouchingObstacle = true;
-                    if (raycastHitDictionary.TryGetValue(i, out _) == false) raycastHitDictionary.Add(i, hitInfo);
+                    _currentTouchingPoint = hit.point;
+                    if (_wasTouchingLastFrame == false) HandlePlayerObstacleCollisionStart();
+                    
+                    break;
                 }
             }
         }
 
-        for (int i = 0; i < _directions.Length; i++)
+        if (_isTouchingObstacle == false && _wasTouchingLastFrame == true)
         {
-            if (_hitThisFrame[i] == true && _directionIsColliding[i] == false)
-            {
-                // TODO: Maybe move this time check above we we can avoid doing all this shit on every update.
-                if (raycastHitDictionary.TryGetValue(i, out var hit) && _nextTimeAllowCollisionSound < Time.time)
-                {
-                    // We have hits and the cooldown for playing collisions sounds has elapsed;
-                    AudioPlayer.PlaySoundAtPoint(this, _playerCollisionSound, hit.point, true);
-                    _nextTimeAllowCollisionSound = Time.time + PlayerSettings.Developer.TouchDialogueInterval;
-#if UNITY_EDITOR
-                    SpawnDebugSphereOnHitPoint(hit);
-#endif
-                }
-
-                _directionIsColliding[i] = true;
-            }
-            else if (_hitThisFrame[i] == false)
-            {
-                _directionIsColliding[i] = false;
-            }
+            HandlePlayerObstacleCollisionStop();
         }
 
-        // No collisions, reset time buffer on allow collision sounds
-        if (raycastHitDictionary.Count == 0)
+        if (_isTouchingObstacle == true && _hitMarker != null)
         {
-            // No hits this frame.
-            _nextTimeAllowCollisionSound = 0f;
+            HandlePlayerObstacleCollisionStay();
         }
-        raycastHitDictionary.Clear();
+
+
+    }
+
+    private void HandleScrapingAudioSourceVolumeDecrease()
+    {
+        if (_audioWasIncreasedThisFrame == false)
+        {
+            if (_scrapeWallAudioLoopSource != null)
+            {
+                _scrapeWallAudioLoopSource.volume = Mathf.SmoothDamp(_scrapeWallAudioLoopSource.volume,
+                                                    0f,
+                                                    ref _audioSmoothDampVelocity,
+                                                    PlayerSettings.Developer.SlideAudioChangeSpeed * 2);
+            }
+        }
+        _audioWasIncreasedThisFrame = false;
     }
     #endregion
 
-#if UNITY_EDITOR
-    private void SpawnDebugSphereOnHitPoint(RaycastHit hit)
+    private void HandlePlayerObstacleCollisionStart()
     {
-        if (_hitMarker == null) return;
-        var go = Instantiate(_hitMarker, hit.point, Quaternion.identity).gameObject;
-        Destroy(go, 3f);
+        _wasTouchingLastFrame = true;
+        AudioPlayer.PlaySoundAtPoint(this, _playerCollisionSound, _currentTouchingPoint, true);
     }
+    private void HandlePlayerObstacleCollisionStay()
+    {
+        float distance = Vector3.Distance(_previousTouchingPoint, _currentTouchingPoint);
+
+        if (distance > 0.02f)
+        {
+            if (_scrapeWallAudioLoopSource == null)
+            {
+                _scrapeWallAudioLoopSource = AudioPlayer.CreateLoopingAudioSource(this, _playerScrapeObstacleSound);
+                _scrapeWallAudioLoopSource.volume = 0f; // Don't play slide sound on first touch.
+            }
+
+            if (_scrapeWallAudioLoopSource.isPlaying == false) _scrapeWallAudioLoopSource.Play();
+
+            _scrapeWallAudioLoopSource.transform.position = _currentTouchingPoint;
+            _audioWasIncreasedThisFrame = true;
+            _scrapeWallAudioLoopSource.volume = Mathf.SmoothDamp(_scrapeWallAudioLoopSource.volume,
+                                                        _playerScrapeObstacleSound.Volume,
+                                                        ref _audioSmoothDampVelocity,
+                                                        PlayerSettings.Developer.SlideAudioChangeSpeed);
+
+            _previousTouchingPoint = _currentTouchingPoint;
+        }
+#if UNITY_EDITOR
+        _hitMarker.position = _currentTouchingPoint;
 #endif
+    }
+    private void HandlePlayerObstacleCollisionStop()
+    {
+        if (_scrapeWallAudioLoopSource != null)
+        {
+            _scrapeWallAudioLoopSource.Stop();
+        }
+
+        //TODO: Play collision end sound
+        _wasTouchingLastFrame = false;
+
+    }
+
+
 
     private void OnDrawGizmosSelected()
     {
-        _directions = new Vector3[_numberOfRaycasts];
-        // Set directions based on player head direction.
-        for (int i = 0; i < _numberOfRaycasts; i++)
+        if (_playerHead == null || _raycastHeightIntervals == null)
+            return;
+
+        Vector3 groundOrigin = _playerHead.position;
+        groundOrigin.y = transform.position.y;
+
+        Vector3 facingDirection = _playerHead.forward;
+        facingDirection.y = 0f;
+        facingDirection.Normalize();
+
+        float angleStep = 360f / _numberOfRaycasts;
+
+        for (int h = 0; h < _raycastHeightIntervals.Length; h++)
         {
-            float angle = (360f / _numberOfRaycasts) * i;
-            Vector3 facingDirection = _playerHead.forward;
-            facingDirection.y = 0f;
-            _directions[i] = Quaternion.AngleAxis(angle, Vector3.up) * facingDirection;
-        }
+            float heightOffset = _playerHead.position.y * _raycastHeightIntervals[h];
+            Vector3 origin = groundOrigin + Vector3.up * heightOffset;
 
-        float headHeight = _playerHead.position.y;
-        Dictionary<int, RaycastHit> raycastHitDictionary = new();
-
-        // Raycast to all directions on all height levels.
-        for (int j = 0; j < _raycastHeightIntervals.Length; j++)
-        {
-            float height = headHeight * _raycastHeightIntervals[j];
-
-            for (int i = 0; i < _directions.Length; i++)
+            for (int i = 0; i < _numberOfRaycasts; i++)
             {
-                Vector3 start = transform.position + Vector3.up * height;
-                Vector3 end = start + _directions[i] * _raycastDistance;
+                float angle = angleStep * i;
+                Vector3 direction = Quaternion.AngleAxis(angle, Vector3.up) * facingDirection;
+
+                Vector3 end = origin + direction * _raycastDistance;
 
                 Gizmos.color = Color.green;
-                Gizmos.DrawLine(start, end);
+                Gizmos.DrawLine(origin, end);
             }
         }
     }

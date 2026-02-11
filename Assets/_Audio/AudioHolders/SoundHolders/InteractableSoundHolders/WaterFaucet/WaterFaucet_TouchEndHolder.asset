@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: WaterFaucet_TouchEndHolder
   m_EditorClassIdentifier: Assembly-CSharp::SoundArrayHolder
   SoundArray:
-  - Clip: {fileID: 8300000, guid: 58e807872bd55024b97ca63922d6822a, type: 3}
+  - Clip: {fileID: 8300000, guid: 14dd6a14809f4184dbf3d804d6633da9, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 1
+    Volume: 0.2
     Pitch: 1
     SpacialBlend: 1
   LastPlayedSound:
