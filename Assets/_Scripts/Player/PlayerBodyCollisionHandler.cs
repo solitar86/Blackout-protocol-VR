@@ -18,6 +18,7 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
     private bool[] _directionIsColliding;
     private bool[] _hitThisFrame;
     private Vector3[] _directions;
+    private bool _isTouchingObstacle = false;
 
     #region Unity Callbacks
     private void Awake()
@@ -63,11 +64,10 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
                 Vector3 start = playerPosOnGround + Vector3.up * height;
                 Vector3 end = start + _directions[i] * _raycastDistance;
 
-                Debug.DrawLine(start, end, Color.green, 1 / 50);
-
                 if (Physics.Raycast(start, _directions[i], out RaycastHit hitInfo, _raycastDistance, _layersToCollideWith) == true)
                 {
                     _hitThisFrame[i] = true;
+                    _isTouchingObstacle = true;
                     if (raycastHitDictionary.TryGetValue(i, out _) == false) raycastHitDictionary.Add(i, hitInfo);
                 }
             }

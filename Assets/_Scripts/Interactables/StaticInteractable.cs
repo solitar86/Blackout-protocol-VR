@@ -50,6 +50,9 @@ public abstract class StaticInteractable : MonoBehaviour, Iinteractable
     }
     public virtual void EndTouch()
     {
+        if (_touchingHand == null) return; // This guards against double calls if 
+                                            // the object has multiple trigger
+                                            // colliders so we get 2x Enter & Exit calls
         AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
                                             _touchEndHolder.SoundArray,
                                             _touchingHand.transform.position,

@@ -20,19 +20,13 @@ public class CoffeeCup : PickUpObject
     {
         if (wasAccident == true && _waterAmount > 0)
         {
-            float delay = 2;
-            this.CallWithDelay(() =>
-            {
-                EventManager.OnPlayerCurse.Raise(this, 1);
-            },
-            delay);
+            EventManager.OnPlayerCurse.Raise(this, 1);
         }
 
         for (int i = 0; i < _waterAmount; i++)
         {
             SpillWater();
         }
-
     }
     public void SpillWater()
     {
@@ -49,8 +43,6 @@ public class CoffeeCup : PickUpObject
 
         var sound = AudioPlayer.GetRandomSoundFromArray(_waterSpillSounds.SoundArray);
         AudioPlayer.PlayerSoundAtPointWithDelay(this, sound, hitInfo.point, delay, true);
-
-
 
         // Spawn ripple sphere maybe?
     }
@@ -88,6 +80,7 @@ public class CoffeeCup : PickUpObject
             _timer = 0f;
         }
 
+        // THIS BLOCK OF CODE IS CAUSING CURSING TO HAPPEN TWICE I THINK!
         if (Mathf.Sign(dot) == -1)
         {
             SpillAllWater(false);
@@ -96,6 +89,7 @@ public class CoffeeCup : PickUpObject
         {
             SpillAllWater(true);
         }
+        // THIS BLOCK OF CODE IS CAUSING CURSING TO HAPPEN TWICE I THINK!
 
         GetComponentInChildren<TextMeshProUGUI>()?.SetText(_timer.ToString("F2") + "\nW:" + _waterAmount);
 

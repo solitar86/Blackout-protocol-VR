@@ -205,6 +205,8 @@ public class AudioPlayer : MonoBehaviour
             audioSource.spatialBlend = 1; // This is an assumption for now.
             var metaXRAudio = (MetaXRAudioSource)tempGameObject.AddComponent(typeof(MetaXRAudioSource));
             metaXRAudio.EnableSpatialization = true;
+            metaXRAudio.EnableAcoustics = false; // Until we have a room setup, don't use room acoustics
+            metaXRAudio.GainBoostDb = 12; // Global gain add because I don't want to tweak every sound.
         }
 
         return tempGameObject;

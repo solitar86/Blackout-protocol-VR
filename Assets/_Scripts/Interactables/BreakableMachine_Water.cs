@@ -20,6 +20,7 @@ public class BreakableMachine_Water : MonoBehaviour
         if(_isBroken == false)
         {
             if(_damageLoopSource == null) _damageLoopSource = AudioPlayer.CreateLoopingAudioSource(this, _isDamagedLoop);
+            _damageLoopSource.transform.position = transform.position;
             AudioPlayer.PlaySoundAtPoint(this, _takeDamageSound, transform.position, true);
             if(_waterRequiredToBreak > 0)
             {
