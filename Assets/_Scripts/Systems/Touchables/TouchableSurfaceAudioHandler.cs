@@ -58,8 +58,8 @@ public class TouchableSurfaceAudioHandler : MonoBehaviour
         if (_slideAudioSource == null)
         {
             _slideAudioSource = AudioPlayer.CreateLoopingAudioSource(this, _touchSoundHolder.SlideTouchSound);
-            _slideAudioSource.maxDistance = 0.6f;
-            _slideAudioSource.minDistance = 0.3f;
+            _slideAudioSource.maxDistance = 2f;
+            _slideAudioSource.minDistance = 0.5f;
             _slideAudioSource.volume = 0f; // Don't play slide sound on first touch.
         }
         _slideAudioSource.transform.position = tupleData.position;
