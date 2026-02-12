@@ -16,14 +16,17 @@ public class PlayerFootStepHandler : MonoBehaviour
     private Vector3 lastStepPosition;
 
     #region Unity Callbacks
-    private void Start()
+    private void OnEnable()
     {
         lastStepPosition = new Vector3(transform.position.x, 0f, transform.position.z);
         SnapTurnProvider.OnPlayerSnapTurn += HandlePlayerSnapTurnFootSteps;
+        EventManager.OnPlayerStartMove.AddListener(this, HandlePlayerStartMove);
     }
+
     private void OnDisable()
     {
         SnapTurnProvider.OnPlayerSnapTurn -= HandlePlayerSnapTurnFootSteps;
+        EventManager.OnPlayerStartMove.RemoveListener(this, HandlePlayerStartMove);
     }
     private void Update()
     {
@@ -44,16 +47,23 @@ public class PlayerFootStepHandler : MonoBehaviour
                             float.MaxValue,
                             _whatCountsAsGround))
         {
+
+            SoundArrayHolder footStepSounds = GetAppripriateFootStepArray();
             var position = CalculateFootStepPosition(hitInfo.point, transform);
-            // Store played footstep as previous in Scriptable Object so we don't repeat it. 
-            _defaultFootSteps.LastPlayedSound = AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
-                                                        _defaultFootSteps.SoundArray,
+            AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
+                                                        footStepSounds.SoundArray,
                                                         hitInfo.point,
-                                                        _defaultFootSteps.LastPlayedSound,
+                                                        footStepSounds.LastPlayedSound,
                                                         true);
             OnPlayerTakeFootstep.Raise(this, -1);
         }
     }
+
+    private SoundArrayHolder GetAppripriateFootStepArray()
+    {
+        return _defaultFootSteps;
+    }
+
     private void HandlePlayerSnapTurnFootSteps(bool wasRightTurn)
     {
         //////////////////////////////////////////////////////////////////////
@@ -73,6 +83,10 @@ public class PlayerFootStepHandler : MonoBehaviour
                                                         _snapTurnFootSounds.LastPlayedSound,
                                                         true);
         }
+    }
+    private void HandlePlayerStartMove(int value)
+    {
+        HandleAppropriateFootStepSound();
     }
     private Vector3 CalculateFootStepPosition(Vector3 pointOnGround, Transform transform)
     {

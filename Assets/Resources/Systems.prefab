@@ -313,24 +313,36 @@ MonoBehaviour:
     Volume: 1
     Pitch: 1
     SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
   _closeMenuSound:
     Clip: {fileID: 8300000, guid: da2a9ad1407a6034b9aa85c8966c17b9, type: 3}
     Mixergroup: {fileID: 8340816935161245932, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
     SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
   _selectButtonSound:
     Clip: {fileID: 8300000, guid: eac554476d9d90d4cb2c1709b1e48887, type: 3}
     Mixergroup: {fileID: 8340816935161245932, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
     SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
   _activateButtonSound:
     Clip: {fileID: 8300000, guid: 8b558d9f9aa302046ad3d450687d8f8b, type: 3}
     Mixergroup: {fileID: 8340816935161245932, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
     SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
 --- !u!1 &5014591390927606185
 GameObject:
   m_ObjectHideFlags: 0

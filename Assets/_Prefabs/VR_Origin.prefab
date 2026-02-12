@@ -412,7 +412,7 @@ MonoBehaviour:
   _feetSeparationDistance: 1
   _defaultFootSteps: {fileID: 11400000, guid: bf4818b62b1b414458290a185d758b1d, type: 2}
   _snapTurnFootSounds: {fileID: 11400000, guid: 0af80ae222a039c4a8386855b365cdf0, type: 2}
-  _footStepSoundDistanceInterval: 0.4
+  _footStepSoundDistanceInterval: 0.5
 --- !u!114 &4161250646614555834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -669,6 +669,9 @@ MonoBehaviour:
     Volume: 0.3
     Pitch: 1
     SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
 --- !u!1 &2987007727484220465
 GameObject:
   m_ObjectHideFlags: 0
@@ -1014,12 +1017,18 @@ MonoBehaviour:
     Volume: 0.3
     Pitch: 1
     SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
   _playerScrapeObstacleSound:
     Clip: {fileID: 8300000, guid: 87bd53f2369882e4c9a4a995048e8da5, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 0.25
     Pitch: 1
     SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
 --- !u!114 &6593406574328471588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1035,6 +1044,7 @@ MonoBehaviour:
   _leftTurnVO: {fileID: 11400000, guid: 75082ac6c73e39d4aabd1a501c6d915b, type: 2}
   _rightTurnVO: {fileID: 11400000, guid: 9aa14a58648eb694d9b6ed72c8fd7cc0, type: 2}
   _curseWordsVO: {fileID: 11400000, guid: a918566031832f2418befa23be5c3844, type: 2}
+  _somethingHereVO: {fileID: 11400000, guid: 280da1e425a2fe84eb6e3bcf5ef23d9d, type: 2}
 --- !u!1 &5856241668885847155
 GameObject:
   m_ObjectHideFlags: 0
@@ -6333,6 +6343,9 @@ MonoBehaviour:
     Volume: 0.3
     Pitch: 1
     SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
 --- !u!1 &8306662206277014089
 GameObject:
   m_ObjectHideFlags: 0

@@ -42,7 +42,7 @@ public class CoffeeCup : PickUpObject
         }
 
         var sound = AudioPlayer.GetRandomSoundFromArray(_waterSpillSounds.SoundArray);
-        AudioPlayer.PlayerSoundAtPointWithDelay(this, sound, hitInfo.point, delay, true);
+        AudioPlayer.PlaySoundAtPointWithDelay(this, sound, hitInfo.point, delay, true);
 
         // Spawn ripple sphere maybe?
     }

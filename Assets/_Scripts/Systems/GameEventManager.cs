@@ -28,11 +28,10 @@ public static class EventManager
     public static GameEvent<float> OnMenuItemSelect = new("UI Button select changed");
     public static GameEvent<int> OnMenuItemActivate = new("UI Button activated");
 
-    // Player Reaction Events
+    // Player Interaction and Reaction Events
     public static GameEvent<int> OnPlayerCurse = new("Player curse");
-
-    //Interaction events
     public static GameEvent<PickUpObject> OnPlayerTouchPickUp = new("Player touch pickup");
+    public static GameEvent<int> OnInteractableDetectedOnSurface = new("Item on surface");
     public static GameEvent<Sound> OnPlayerObjectIDVOShouldPlay = new("ID VO");
 
     // One shot gameplay events

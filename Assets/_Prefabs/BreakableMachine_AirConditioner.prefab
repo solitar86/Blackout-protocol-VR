@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 1980022610459730866}
   - component: {fileID: 7486740853580388550}
   - component: {fileID: 541135448873169059}
+  - component: {fileID: 3847940972307062427}
   m_Layer: 10
   m_Name: BreakableMachine_AirConditioner
   m_TagString: Untagged
@@ -164,6 +165,9 @@ MonoBehaviour:
     Volume: 1
     Pitch: 1
     SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
   _onBreak:
     m_PersistentCalls:
       m_Calls:
@@ -228,7 +232,26 @@ MonoBehaviour:
     Volume: 1
     Pitch: 1
     SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
   _touchSoundHolder: {fileID: 11400000, guid: 6369ca3e1e5bd284d9873c9a0c9478a6, type: 2}
+--- !u!114 &3847940972307062427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802038966387455069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4326c5cf7ad07fa4698c0454b2ac2123, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _addedDetectionBuffer: 1.17
+  _detectableLayers:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &810035546937523392
 GameObject:
   m_ObjectHideFlags: 0

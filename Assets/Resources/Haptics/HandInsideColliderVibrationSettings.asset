@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: HandInsideColliderVibrationSettings
   m_EditorClassIdentifier: Assembly-CSharp::VibrationSettingsSO
   DistanceInterval: 1
-  Amplitude: 1
+  Amplitude: 0.1
   Duration: 0.35
   Frequency: 1
+  RepeatTimes: 1
+  TimeInterval: 0

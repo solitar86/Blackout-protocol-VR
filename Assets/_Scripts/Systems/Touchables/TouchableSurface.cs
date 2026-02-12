@@ -14,7 +14,9 @@ public class TouchableSurface : MonoBehaviour
     public GameEvent<(float distance, Vector3 position)> OnTouchSlide = new("Touch slide");
     public GameEvent<Vector3> OnTouchEnd = new("Touch end");
 
-    #region Unity Callbacks
+    private BoxCollider _boxCollider;
+
+    #region Unity Callbacks -> Trigger Enter Callbacks
     private void OnTriggerEnter(Collider other)
     {
         if(this.enabled == false) return;
@@ -22,9 +24,7 @@ public class TouchableSurface : MonoBehaviour
         if (other.TryGetComponent<PlayerHand>(out var playerHand))
         {
             if (ThisHandHasDataInList(playerHand) == true) return; // This should not happen.
-            playerHandsDataList.Add(new HandCollidingData(playerHand, other, playerHand.transform.position));
-            playerHand.HandleTouchBegin(_firstTouchHapticSettings, other.transform.position);
-            OnTouchStart.Raise(this, other.transform.position);
+            HandPlayerInitialTouch(other, playerHand);
         }
     }
 
@@ -56,6 +56,12 @@ public class TouchableSurface : MonoBehaviour
     }
 
     #endregion
+    private void HandPlayerInitialTouch(Collider other, PlayerHand playerHand)
+    {
+        playerHandsDataList.Add(new HandCollidingData(playerHand, other, playerHand.transform.position));
+        playerHand.HandleTouchBegin(_firstTouchHapticSettings, other.transform.position);
+        OnTouchStart.Raise(this, other.transform.position);
+    }
     private void HandlePlaySlidingHaptic(Collider playerHandCollider, int i)
     {
         float distance = Vector3.Distance(playerHandCollider.transform.position, playerHandsDataList[i].previousPosition);
@@ -84,7 +90,7 @@ public class TouchableSurface : MonoBehaviour
                                             playerHandsDataList[index].previousPosition,
                                             playerHandsDataList[index].handInsideColliderTimer - Time.deltaTime); // Only the timer updates.
 
-            AudioPlayer.PlayErrorSound(this);
+            AudioPlayer.PlayHandInsideColliderError(this);
 
             // Handle "Error" Haptic Pulse.
             float errorHapticInterval = 0.6f;
@@ -100,7 +106,7 @@ public class TouchableSurface : MonoBehaviour
         }
         else
         {
-            AudioPlayer.PauseErrorSound();
+            AudioPlayer.PauseHandInsideColliderError();
         }
     }
 
@@ -116,7 +122,6 @@ public class TouchableSurface : MonoBehaviour
 
         playerHandsDataList.Remove(dataToremove);
     }
-
     private bool ThisHandHasDataInList(PlayerHand playerHand)
     {
         foreach (var handData in playerHandsDataList)
@@ -125,7 +130,6 @@ public class TouchableSurface : MonoBehaviour
         }
         return false;
     }
-
     private bool IsInsideCollider(Collider innerCollider, Collider outerCollider)
     {
 
@@ -144,7 +148,6 @@ public class TouchableSurface : MonoBehaviour
 
         return true;
     }
-
     private struct HandCollidingData
     {
         public HandCollidingData(PlayerHand hand, Collider collider, Vector3 position, float timer = 0)
@@ -161,6 +164,12 @@ public class TouchableSurface : MonoBehaviour
         public float handInsideColliderTimer;
     }
 
+    public BoxCollider GetBoxCollider()
+    {
+        if(_boxCollider == null)
+            _boxCollider = GetComponent<BoxCollider>();
+        return _boxCollider;
+    }
     #endregion
 
     #region FPS Testing Helper Functions

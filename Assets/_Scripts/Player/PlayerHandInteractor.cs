@@ -11,7 +11,7 @@ public class PlayerHandInteractor : MonoBehaviour
     private Iinteractable _heldInteractable;
     public GameEvent<bool> OnGrabFailed = new("Grab failed");
 
-    #region Unity Callbacks
+    #region Unity Callbacks -> Trigger Callbacks
     private void Awake()
     {
         _hand = GetComponent<PlayerHand>();

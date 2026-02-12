@@ -4,8 +4,10 @@ using UnityEngine;
 [SelectionBase, RequireComponent(typeof(Rigidbody))]
 public abstract class PickUpObject : MonoBehaviour, Iinteractable
 {
-    [Header("Dialogue to play on player touch.")]
+    [Header("Dialogue to play on player touch and SFX when item is detected by touchable surface")]
+    [SerializeField] private SoundArrayHolder _touchSoundsHolder;
     [SerializeField] private Sound _touchIdentifyVO;
+    [SerializeField] private Sound _pingSound;
     [Space(5), Header("Settings for how item is oriented when held")]
     [SerializeField] private PickUpHoldOffsetSettings _offsetSettings;
     [Header("Where can this object be placed?")]
@@ -18,12 +20,9 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     [SerializeField] private float _velocityToVolumeCap = 10f;
     [Tooltip("Curve is built on Awake() based on VelocityToVolumeCap")]
     [SerializeField] private AnimationCurve _velocityToVolumeCurve;
-    [Space(5), Header("Haptic settings for when we touch object")]
+    [Space(5), Header("Haptic settings for touch, pickup and drop")]
     [SerializeField] private VibrationSettingsSO _touchHapticSettings;
-    // [SerializeField] private int _repeatTouchHapticNumTimes = 1;
-    [Space(5), Header("Haptic settings for when we pickup or drop object")]
     [SerializeField] private VibrationSettingsSO _pickUpAndDropHapticSettings;
-    [SerializeField] private int _repeatPickUpHapticNumTimes = 2;
 
     private bool _isHeld;
     private float _velocity;
@@ -106,7 +105,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         // Handle drop haptics.
         if (_pickUpAndDropHapticSettings != null)
         {
-            _holdingHand?.HandlePickUpOrDropObject(_pickUpAndDropHapticSettings, _repeatPickUpHapticNumTimes);
+            _holdingHand?.HandlePickUpOrDropObject(_pickUpAndDropHapticSettings);
         }
         else
         {
@@ -142,7 +141,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
             return;
         }
 
-        _holdingHand.HandlePickUpOrDropObject(_pickUpAndDropHapticSettings, _repeatPickUpHapticNumTimes);
+        _holdingHand.HandlePickUpOrDropObject(_pickUpAndDropHapticSettings);
 
         if (_pickUpSounds != null && _pickUpSounds.SoundArray != null && _pickUpSounds.SoundArray.Length > 0)
         {
@@ -164,6 +163,17 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
             AudioPlayer.PlaySoundAtPoint(this, _touchIdentifyVO, transform.position, true);
         }
 
+        // Play item specific touch sound
+        if(_touchSoundsHolder != null && _touchSoundsHolder.SoundArray != null && _touchSoundsHolder.SoundArray.Length > 0)
+        {
+            AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
+                                                        _touchSoundsHolder.SoundArray,
+                                                        hand.transform.position,
+                                                        _touchSoundsHolder.LastPlayedSound,
+                                                        true,
+                                                        true);
+        }
+
         if (_touchHapticSettings == null)
         {
             Debugger.LogWarning(gameObject.name + " has null touch haptic settings.", gameObject);
@@ -173,6 +183,23 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         hand.HandleTouchBegin(_touchHapticSettings, this.transform.position);
 
 
+    }
+    public virtual void Ping(float delay)
+    {
+        if(_pingSound.Clip != null)
+        {
+            AudioPlayer.PlaySoundAtPointWithDelay(this, _pingSound, transform.position, delay, true, true);
+            return;
+        }
+        // No ping sound assigned
+        var clip = Resources.Load<AudioClip>("Audio/SFX_ItemDetectPlaceHolder");
+        var delayObject = new GameObject("Play clip with delay: " + clip.name);
+        var mono = delayObject.AddComponent<Delay>();
+
+        mono.CallWithDelay(() =>
+        {
+            AudioPlayer.PlayClipAtPoint(this, clip, transform.position, volume: .5f, true, true);
+        }, delay);
     }
     public virtual void EndTouch()
     {
@@ -200,8 +227,8 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
             transform.rotation = rotation * transform.rotation;
             Sound impactWithModVolume = new Sound(_impactSound);
             impactWithModVolume.Volume = 0.3f;
-            AudioPlayer.PlayerSoundAtPointWithDelay(this, impactWithModVolume, hitInfo.point, delay, true);
-            AudioPlayer.PlayerSoundAtPointWithDelay(this, impactWithModVolume, hitInfo.point, delay + Random.Range(0.01f, 0.5f), true);
+            AudioPlayer.PlaySoundAtPointWithDelay(this, impactWithModVolume, hitInfo.point, delay, true);
+            AudioPlayer.PlaySoundAtPointWithDelay(this, impactWithModVolume, hitInfo.point, delay + Random.Range(0.01f, 0.5f), true);
         }
         else
         {
@@ -223,8 +250,8 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
             delay = 1f;
             Sound impactWithModVolume = new Sound(_impactSound);
             impactWithModVolume.Volume = 0.3f;
-            AudioPlayer.PlayerSoundAtPointWithDelay(this, impactWithModVolume, _startingPosition, delay, true);
-            AudioPlayer.PlayerSoundAtPointWithDelay(this, impactWithModVolume, _startingPosition, delay + Random.Range(0.01f, 0.5f), true);
+            AudioPlayer.PlaySoundAtPointWithDelay(this, impactWithModVolume, _startingPosition, delay, true);
+            AudioPlayer.PlaySoundAtPointWithDelay(this, impactWithModVolume, _startingPosition, delay + Random.Range(0.01f, 0.5f), true);
         }
         _collider.enabled = true; // Is this necessary
     }
@@ -260,7 +287,6 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     }
     void Iinteractable.Touch(PlayerHand hand)
     {
-        //Debugger.Log("Touching " + gameObject.name, gameObject);
         Touch(hand);
     }
     void Iinteractable.EndTouch()
@@ -268,5 +294,11 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         //Debugger.Log("Stopped touching " + gameObject.name, gameObject);
         EndTouch();
     }
+    void Iinteractable.Ping(float delay)
+    {
+        Ping(delay);
+    }
+
+
     #endregion
 }

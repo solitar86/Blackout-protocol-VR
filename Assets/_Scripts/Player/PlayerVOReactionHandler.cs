@@ -9,21 +9,26 @@ public class PlayerVOReactionHandler : MonoBehaviour
 {
     [SerializeField] private SoundArrayHolder _leftTurnVO, _rightTurnVO;
     [SerializeField] private SoundArrayHolder _curseWordsVO;
+    [SerializeField] private SoundArrayHolder _somethingHereVO;
 
     private float _turnVODelay = 0.25f;
     private float _curseDelay = 1.5f;
+    private float _itemDetectedDelay = 1f;
 
     #region Unity Callbacks
     private void Start()
     {
         EventManager.OnPlayerCurse.AddListener(this, PlayerSayCurseWord);
         EventManager.OnPlayerObjectIDVOShouldPlay.AddListener(this, PlayTouchIDVoiceLine);
+        EventManager.OnInteractableDetectedOnSurface.AddListener(this, PlayItemDetectedVoiceLine);
         SnapTurnProvider.OnPlayerSnapTurn += HandlePlayerTurn;
     }
+
     private void OnDisable()
     {
         EventManager.OnPlayerCurse.RemoveListener(this, PlayerSayCurseWord);
         EventManager.OnPlayerObjectIDVOShouldPlay.RemoveListener(this, PlayTouchIDVoiceLine);
+        EventManager.OnInteractableDetectedOnSurface.RemoveListener(this, PlayItemDetectedVoiceLine);
         SnapTurnProvider.OnPlayerSnapTurn -= HandlePlayerTurn;
     }
 
@@ -56,6 +61,10 @@ public class PlayerVOReactionHandler : MonoBehaviour
     private void PlayTouchIDVoiceLine(Sound IDVOSound)
     {
         PlayPlayerInnerMonologueWithDelay(IDVOSound, PlayerSettings.Developer.IdentifyVODelay);
+    }
+    private void PlayItemDetectedVoiceLine(int obj)
+    {
+        PlayPlayerInnerMonologueWithDelay(_somethingHereVO, _itemDetectedDelay);
     }
     private void PlayPlayerInnerMonologueWithDelay(SoundArrayHolder soundHolder, float delay)
     {

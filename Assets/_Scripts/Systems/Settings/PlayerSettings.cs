@@ -201,6 +201,7 @@ public class PlayerSettings
     public class DeveloperSettings
     {
         public float TouchDialogueInterval = 2f;
+        public float ItemPingInterval = 4f;
         public float IdentifyVODelay = 0.3f;
         public float SlideAudioChangeSpeed = 0.0125f;
     }
@@ -275,31 +276,27 @@ public class PlayerSettings
     [Serializable]
     public class AccessibilitySettings
     {
-        private bool _hands = false;
-        private bool _particles = false;
-        private bool _touchRipple = false;
-        private bool _debugLight = false;
+        public bool Hands = false;
+        public bool Particles = false;
+        public bool TouchRipple = false;
+        public bool DebugLight = false;
 
-        public bool Hands => _hands;
-        public bool Particles => _particles;
-        public bool TouchRipple => _touchRipple;
-        public bool DebugLight => _debugLight;
 
         public void ToggleAll()
         {
-            if(_hands == false || _particles == false || _touchRipple == false || _debugLight == false)
+            if(Hands == false || Particles == false || TouchRipple == false || DebugLight == false)
             {
-                _hands = true;
-                _particles = true;
-                _touchRipple = true;
-                _debugLight = true;
+                Hands = true;
+                Particles = true;
+                TouchRipple = true;
+                DebugLight = true;
             }
             else
             {
-                _hands = false;
-                _particles = false;
-                _touchRipple = false;
-                _debugLight = false;
+                Hands = false;
+                Particles = false;
+                TouchRipple = false;
+                DebugLight = false;
             }
 
             EventManager.OnAccessibilitySettingsChanged.Raise(this, -1);
@@ -307,28 +304,28 @@ public class PlayerSettings
 
         public bool ToggleHands()
         {
-            _hands = !_hands;
+            Hands = !Hands;
             EventManager.OnAccessibilitySettingsChanged.Raise(this, -1);
-            return _hands;
+            return Hands;
         }
         public bool ToggleParticles()
         {
-            _particles = !_particles;
+            Particles = !Particles;
             EventManager.OnAccessibilitySettingsChanged.Raise(this, -1);
-            return _particles;
+            return Particles;
         }
         public bool ToggleTouchRipple()
         {
-            _touchRipple = !_touchRipple;
+            TouchRipple = !TouchRipple;
             EventManager.OnAccessibilitySettingsChanged.Raise(this, -1);
-            return _touchRipple;
+            return TouchRipple;
         }
 
         public bool ToggleDebugLight()
         {
-            _debugLight = !_debugLight;
+            DebugLight = !DebugLight;
             EventManager.OnAccessibilitySettingsChanged.Raise(this, -1);
-            return _touchRipple;
+            return DebugLight;
         }
     }
 

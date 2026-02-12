@@ -210,6 +210,7 @@ GameObject:
   - component: {fileID: 2961050924001993342}
   - component: {fileID: 7567479316387592368}
   - component: {fileID: 379437169304089116}
+  - component: {fileID: 3736397328724890685}
   m_Layer: 10
   m_Name: BreakableMachine _FuseBox
   m_TagString: Untagged
@@ -371,6 +372,9 @@ MonoBehaviour:
     Volume: 1
     Pitch: 1
     SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
   _touchSoundHolder: {fileID: 11400000, guid: 6369ca3e1e5bd284d9873c9a0c9478a6, type: 2}
 --- !u!114 &379437169304089116
 MonoBehaviour:
@@ -391,18 +395,43 @@ MonoBehaviour:
     Volume: 1
     Pitch: 1
     SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
   _isDamagedLoop:
     Clip: {fileID: 8300000, guid: 468f18845eff8a646a920d0592a34e5c, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
     SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
   _breakSoundEffect:
     Clip: {fileID: 8300000, guid: 1bc6028667c67584c8d7be948bb95cfb, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
     SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
   _onBreak:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3736397328724890685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8377769058188198268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4326c5cf7ad07fa4698c0454b2ac2123, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _addedDetectionBuffer: 1.17
+  _detectableLayers:
+    serializedVersion: 2
+    m_Bits: 64

@@ -31,13 +31,9 @@ public class PlayerHand : MonoBehaviour
     {
         PlayHapticFeedback(hapticSettings);
     }
-    public void HandlePickUpOrDropObject(VibrationSettingsSO hapticSettings, int numToRepeat = 1)
+    public void HandlePickUpOrDropObject(VibrationSettingsSO hapticSettings)
     {
-        float interval = 0.05f;
-        for (int i = 0; i < numToRepeat; i++)
-        {
-            this.CallWithDelay(() => PlayHapticFeedback(hapticSettings), i * (interval + hapticSettings.Duration));
-        }
+        PlayHapticFeedback(hapticSettings);
     }
     public void HandleHandInsideCollider(VibrationSettingsSO hapticSettings)
     {
@@ -49,7 +45,29 @@ public class PlayerHand : MonoBehaviour
     }
     private void PlayHapticFeedback(VibrationSettingsSO hapticSettings)
     {
-        _hapticPlayer?.PlayHaptic(hapticSettings);
+        if (hapticSettings.RepeatTimes == 1)
+        {
+            _hapticPlayer?.PlayHaptic(hapticSettings);
+            return;
+        }
+
+
+        float totalDelay = 0f;
+        for (int i = 0; i < hapticSettings.RepeatTimes; i++)
+        {
+            var delayObject = new GameObject(hapticSettings.name);
+            var mono = delayObject.AddComponent<Delay>();
+
+            mono.CallWithDelay(() =>
+            {
+                _hapticPlayer?.PlayHaptic(hapticSettings);
+            }, totalDelay);
+
+            float interval = hapticSettings.TimeInterval;
+            totalDelay += hapticSettings.Duration + interval;
+            Destroy(mono.gameObject, totalDelay);
+        }
+
     }
     private void SpawnTouchVisual(Vector3 position)
     {

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class WaterFaucet : StaticInteractable
@@ -7,9 +8,13 @@ public class WaterFaucet : StaticInteractable
     [SerializeField] private Sound _faucetStartSound;
     [SerializeField] private Sound _faucetStopSound;
     [SerializeField] private Sound _waterRunningLoop;
+    [Space(15)]
+    [SerializeField] private Transform _waterOutputPoint;
+    [Header("Vibration settings")]
+    [SerializeField] private VibrationSettingsSO _playerHandTouchWaterHapticSettings;
+
     private AudioSource _waterRunningLoopSource;
     private AudioSource _waterDrippingSource;
-    [SerializeField] private Transform waterObj;
 
     #region Unity Callbacks
     private void Update()
@@ -17,7 +22,7 @@ public class WaterFaucet : StaticInteractable
         if (IsActivated == true)
         {
             HandleFaucet_On_Audio();
-            HandleCoffeeCupUnderRunningWater();
+            HandleDetectCoffeeCupUnderTap(); // Condisider optimizing this a bit. Interval maybe?
         }
 
         if (IsActivated == false)
@@ -25,6 +30,7 @@ public class WaterFaucet : StaticInteractable
             HandleFaucet_Off_Audio();
         }
     }
+
     #endregion
     private void HandleFaucet_Off_Audio()
     {
@@ -78,23 +84,34 @@ public class WaterFaucet : StaticInteractable
             _waterDrippingSource.Stop();
         }
     }
-    private void HandleCoffeeCupUnderRunningWater()
+    private void HandleDetectCoffeeCupUnderTap()
     {
-        // Handle coffee cup placed under "running water"
-        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitInfo, float.MaxValue))
+        if (_waterOutputPoint == null) _waterOutputPoint = transform.Find("WaterOutPutPoint");
+
+        if (Physics.Raycast(_waterOutputPoint.position, Vector3.down, out RaycastHit hitInfo, float.MaxValue))
         {
             if (hitInfo.collider.TryGetComponent<Iinteractable>(out var component))
             {
-                _waterRunningLoopSource.Pause();
                 if (component is CoffeeCup)
                 {
+                    _waterRunningLoopSource.Pause();
                     (component as CoffeeCup).FillCupWithWater();
+                    return;
                 }
             }
             else
             {
                 _waterRunningLoopSource.UnPause();
             }
+
+            if(hitInfo.collider.TryGetComponent<PlayerHand>(out var playerHand))
+            {
+                HandlPlayerHandUnderRunningWater(playerHand);
+            }
         }
+    }
+    private void HandlPlayerHandUnderRunningWater(PlayerHand hand)
+    {
+        hand.HandleTouchSlide(_playerHandTouchWaterHapticSettings);
     }
 }

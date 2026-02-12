@@ -43,7 +43,7 @@ public class AudioPlayer : MonoBehaviour
         PlaySoundAtPoint(sender, randomSound, point, usePitchVariation, spatialize);
         return randomSound;
     }
-    public static void PlayerSoundAtPointWithDelay(object sender, Sound soundToPlay, Vector3 point, float delay = 0f, bool usePitchVariation = false, bool spatialize = true)
+    public static void PlaySoundAtPointWithDelay(object sender, Sound soundToPlay, Vector3 point, float delay = 0f, bool usePitchVariation = false, bool spatialize = true)
     {
         if (soundToPlay.Clip == null)
         {
@@ -62,8 +62,6 @@ public class AudioPlayer : MonoBehaviour
         mono.CallWithDelay(() =>
         {
             PlaySoundAtPoint(sender, soundToPlay, point, usePitchVariation, spatialize);
-
-
         }, delay);
 
         Destroy(mono.gameObject, delay + soundToPlay.Clip.length + 1f);
@@ -93,24 +91,30 @@ public class AudioPlayer : MonoBehaviour
 
         return randomClip;
     }
-    public static void PlayErrorSound(object sender)
+    public static void PlayHandInsideColliderError(object sender)
     {
         // The Error Audiosource is never destroyd after creation. 
         if (errorAudioSource == null)
         {
             GameObject tempGameObject = CreateTempGameObjectWithAudioSource(sender, null, Vector3.zero, out errorAudioSource);
-            errorAudioSource.spatialBlend = 0; // Should this be spatialized?
+            tempGameObject.name = "Hand Inside Collider AudioSource";
+            if (tempGameObject.TryGetComponent<MetaXRAudioSource>(out var metaXRAudioSource))
+                    Destroy(metaXRAudioSource); // This is added by default but we don't need it.
+
+            errorAudioSource.spatialize = false;
+            errorAudioSource.spatialBlend = 0; 
             errorAudioSource.minDistance = 1f; // Do not hardcode these
             errorAudioSource.maxDistance = 3f; // Do not hardcode these
-            errorAudioSource.volume = 0.3f;
-            errorAudioSource.loop = false;
+            errorAudioSource.volume = 1f;
+            errorAudioSource.loop = true;
         }
         if (errorAudioSource.clip == null)
         {
-            errorAudioSource.clip = Resources.Load<AudioClip>("Audio/SFX_SineWave");
+            string errorSoundPath = "Audio/SFX_ErrorHum_Loop";
+            errorAudioSource.clip = Resources.Load<AudioClip>(errorSoundPath);
             if (errorAudioSource.clip == null)
             {
-                Debugger.LogWarning("No file sound at 'Audio/SFX_SineWave'");
+                Debugger.LogWarning("No file sound at " + errorSoundPath);
                 return;
             }
         }
@@ -118,7 +122,7 @@ public class AudioPlayer : MonoBehaviour
         if (errorAudioSource.isPlaying == false) errorAudioSource.Play();
 
     }
-    public static void PauseErrorSound()
+    public static void PauseHandInsideColliderError()
     {
         if (errorAudioSource != null)
         {
@@ -187,15 +191,13 @@ public class AudioPlayer : MonoBehaviour
 
         if(audioSource.pitch == 0)
         {
-            Debugger.Log(soundToPlay + "has pitch of 0, reverting to 1");
+            Debugger.Log(soundToPlay + " has pitch of 0, reverting to 1");
             audioSource.pitch = 1;
         }
-
-        //TODO: Make these variable or somehow make sense. These cannot be hardcoded
         float minDistance = 0.5f;
         float maxDistance = 2f;
-        audioSource.minDistance = minDistance;
-        audioSource.maxDistance = maxDistance;
+        audioSource.minDistance = soundToPlay.OverrideDefaultDistances ? soundToPlay.MinDistance : minDistance;
+        audioSource.maxDistance = soundToPlay.OverrideDefaultDistances ? soundToPlay.MaxDistance : maxDistance;
         audioSource.rolloffMode = AudioRolloffMode.Linear; // for default;
 
         // Handle Spatialization
@@ -249,6 +251,10 @@ public class Sound
     [SerializeField][Range(0f, 1f)] public float Volume = 1f;
     [SerializeField][Range(-3, 3f)] public float Pitch = 1;
     [SerializeField] public float SpacialBlend;
+    [Space(15)]
+    [SerializeField] public bool OverrideDefaultDistances;
+    [SerializeField] public float MinDistance = 0.5f;
+    [SerializeField] public float MaxDistance = 2f;
 
     public Sound()
     {
@@ -264,6 +270,8 @@ public class Sound
         Clip = soundToCopyFrom.Clip;
         Mixergroup = soundToCopyFrom.Mixergroup;
         SpacialBlend = soundToCopyFrom.SpacialBlend;
+        MinDistance = soundToCopyFrom.MinDistance;
+        MaxDistance = soundToCopyFrom.MaxDistance;
     }
 
     public override string ToString()

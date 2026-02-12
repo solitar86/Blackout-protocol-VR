@@ -39,6 +39,10 @@ public abstract class StaticInteractable : MonoBehaviour, Iinteractable
             AudioPlayer.PlaySoundAtPoint(this, _touchIdentifyVO, transform.position, true);
         }
     }
+    public virtual void Ping(float delay = 0)
+    {
+
+    }
     public virtual void Activate()
     {
         AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
@@ -88,6 +92,10 @@ public abstract class StaticInteractable : MonoBehaviour, Iinteractable
     void Iinteractable.EndTouch()
     {
         EndTouch();
+    }
+    void Iinteractable.Ping(float delay)
+    {
+        Ping(delay);
     }
     void Iinteractable.PickUp(Transform parent, PlayerHand hand)
     {

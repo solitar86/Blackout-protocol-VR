@@ -13,4 +13,7 @@ MonoBehaviour:
   m_Name: AccessibilityDefaultSettings
   m_EditorClassIdentifier: Assembly-CSharp::AccessibilitySettingsDefaultsSO
   settings:
-    Enabled: 1
+    Hands: 1
+    Particles: 1
+    TouchRipple: 1
+    DebugLight: 0

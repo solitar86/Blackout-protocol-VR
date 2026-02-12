@@ -12,7 +12,7 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
     [SerializeField] private float[] _raycastHeightIntervals = { 0.3f, 0.5f };
     [SerializeField] private int _numberOfRaycasts = 5;
     [Space(15), Header("Sounds")]
-    [SerializeField] private Sound _playerCollisionSound;
+    [SerializeField] private SoundArrayHolder _playerCollisionSoundHolder;
     [SerializeField] private Sound _playerScrapeObstacleSound;
 
     private AudioSource _scrapeWallAudioLoopSource;
@@ -35,7 +35,6 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
 #endif
 
     }
-
     void Update()
     {
         HandleScrapingAudioSourceVolumeDecrease();
@@ -85,7 +84,6 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
 
 
     }
-
     private void HandleScrapingAudioSourceVolumeDecrease()
     {
         if (_audioWasIncreasedThisFrame == false)
@@ -105,7 +103,12 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
     private void HandlePlayerObstacleCollisionStart()
     {
         _wasTouchingLastFrame = true;
-        AudioPlayer.PlaySoundAtPoint(this, _playerCollisionSound, _currentTouchingPoint, true);
+        AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
+                                                    _playerCollisionSoundHolder.SoundArray,
+                                                    _currentTouchingPoint,
+                                                    _playerCollisionSoundHolder.LastPlayedSound,
+                                                    true,
+                                                    true);
     }
     private void HandlePlayerObstacleCollisionStay()
     {
@@ -145,9 +148,6 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
         _wasTouchingLastFrame = false;
 
     }
-
-
-
     private void OnDrawGizmosSelected()
     {
         if (_playerHead == null || _raycastHeightIntervals == null)

@@ -13,10 +13,6 @@ public class VibrationPlayer : MonoBehaviour
     [Space(15)]
     [SerializeField] private HapticImpulsePlayer _impulsePlayer;
 
-    //float _intervalTimer = 0;
-
-
-
     private void OnTriggerStay(Collider other)
     {
         _impulsePlayer.SendHapticImpulse(_amplitude, _duration, _frequency);

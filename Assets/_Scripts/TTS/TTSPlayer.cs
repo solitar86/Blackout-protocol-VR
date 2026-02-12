@@ -15,9 +15,19 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class TTSPlayer : MonoBehaviour
 {
+#region Unity Callbacks
+    private void OnEnable()
+    {
+        EventManager.OnRadialMenuClose.AddListener("TTSPlayer", UnloadUsedTTSClips);
+    }
+    private void OnDisable()
+    {
+        EventManager.OnRadialMenuClose.RemoveListener("TTSPlayer", UnloadUsedTTSClips);
+    }
+#endregion
+
     // TODO: Use this list to unload TTS files at appropriate times
     private static List<AudioClip> _currentlyLoadedClips = new List<AudioClip>();
-
     private const string TTSNUMBERSPATH = "TTS/Numbers/TTS_Numbers_";
     private static float _nextTimeAllowTTS = 0f; // THIS VALUE NEEDS TO BE RESET on ENTER PLAYMODE! TODO!
     private static void PlayTTS(AudioClip clipToPlay, string debugInfo, bool preventInterrupt = false)
@@ -96,6 +106,19 @@ public class TTSPlayer : MonoBehaviour
     {
         if (_currentlyLoadedClips.Contains(clipToPlay)) return;
         _currentlyLoadedClips.Add(clipToPlay);
+    }
+    private static void UnloadUsedTTSClips(int value)
+    {
+        // If this doesn't cause any frame issues then just keep this global.
+        Debugger.Log("Unloading unused Resource-assets globally");
+        Resources.UnloadUnusedAssets();
+        // else
+        /*
+        foreach (var item in _currentlyLoadedClips)
+        {
+            Resources.UnloadAsset(item);
+        }
+        */
     }
     private static string GetStringFromNumber(int number)
     {

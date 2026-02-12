@@ -9,7 +9,10 @@ public class VibrationSettingsSO : ScriptableObject
 	[SerializeField, Range(0f, 1f)] public float Amplitude = 1;
 	[SerializeField, Range(0.001f, 5f)] public float Duration = 1;
 
-	[SerializeField] public float Frequency = 1;
+	[SerializeField] public float Frequency = 250;
+    [SerializeField, Range(1,10)] public int RepeatTimes = 1;
+    [Tooltip("This is the time between repeats")]
+    [SerializeField] public float TimeInterval = 0.25f;
 
 
     private void OnValidate()
