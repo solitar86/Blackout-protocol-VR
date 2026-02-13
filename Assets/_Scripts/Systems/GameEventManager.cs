@@ -14,6 +14,7 @@ public static class EventManager
     public static GameEvent<string> OnTTSPlay = new("TTS Play");
 
     // Input Events
+    public static GameEvent<int> OnPlayerWantSkip = new("Skip performed");
     public static GameEvent<bool> OnPrimaryButtonPressed = new("Primary button pressed");
     public static GameEvent<bool> OnSecondaryButtonPressed = new("Secondary button pressed");
     public static GameEvent<bool> OnTriggerPressed = new("Trigger pressed");
@@ -40,6 +41,9 @@ public static class EventManager
     // Settings events
     public static GameEvent<int> OnAccessibilitySettingsChanged = new("Accessibility Settings Changed");
     public static GameEvent<int> OnMovementSettingsChange = new("Movement Settings Changed");
+
+    //Tutorial specific events or other extremely special case events
+    public static GameEvent<bool> OnToggleRadialMenuOnOff = new("Radial menu system toggled");
 
     public static void DisableEventLogs()
     {

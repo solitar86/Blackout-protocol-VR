@@ -103,12 +103,15 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
     private void HandlePlayerObstacleCollisionStart()
     {
         _wasTouchingLastFrame = true;
-        AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
-                                                    _playerCollisionSoundHolder.SoundArray,
-                                                    _currentTouchingPoint,
-                                                    _playerCollisionSoundHolder.LastPlayedSound,
-                                                    true,
-                                                    true);
+        if(_playerCollisionSoundHolder != null && _playerCollisionSoundHolder.SoundArray != null && _playerCollisionSoundHolder.SoundArray.Length > 0)
+        {
+            AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
+                                                        _playerCollisionSoundHolder.SoundArray,
+                                                        _currentTouchingPoint,
+                                                        _playerCollisionSoundHolder.LastPlayedSound,
+                                                        true,
+                                                        true);
+        }
     }
     private void HandlePlayerObstacleCollisionStay()
     {

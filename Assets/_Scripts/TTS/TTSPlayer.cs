@@ -28,6 +28,7 @@ public class TTSPlayer : MonoBehaviour
 
     // TODO: Use this list to unload TTS files at appropriate times
     private static List<AudioClip> _currentlyLoadedClips = new List<AudioClip>();
+    private static AudioSource _ttsSource;
     private const string TTSNUMBERSPATH = "TTS/Numbers/TTS_Numbers_";
     private static float _nextTimeAllowTTS = 0f; // THIS VALUE NEEDS TO BE RESET on ENTER PLAYMODE! TODO!
     private static void PlayTTS(AudioClip clipToPlay, string debugInfo, bool preventInterrupt = false)
@@ -44,13 +45,14 @@ public class TTSPlayer : MonoBehaviour
             return;
         }
         // TODO: Make this with a permanent reference.
-        var source = FindFirstObjectByType<TTS_SpeedControl>().TTSSource;
-        source.clip = clipToPlay;
-        source.Play();
+        if(_ttsSource == null) _ttsSource = FindFirstObjectByType<TTS_SpeedControl>().TTSSource;
+        _ttsSource.clip = clipToPlay;
+        _ttsSource.loop = false; // This resets us if we are playing a TTS file on loop before.
+        _ttsSource.Play();
 
         TryAddClipToLoadedAssetsList(clipToPlay);
 
-        if (preventInterrupt) _nextTimeAllowTTS = Time.time + source.clip.length / PlayerSettings.Audio.TTS_Speed;
+        if (preventInterrupt) _nextTimeAllowTTS = Time.time + _ttsSource.clip.length / PlayerSettings.Audio.TTS_Speed;
 
         EventManager.OnTTSPlay.Raise("TTS Player", debugInfo);
     }
@@ -89,6 +91,13 @@ public class TTSPlayer : MonoBehaviour
     public static void PlayTTSWithFilePath(string path, bool preventInterrupt = false)
     {
         var clip = Resources.Load<AudioClip>(path);
+        PlayTTS(clip, path, preventInterrupt);
+    }
+    /// Overload with out parameter.
+    public static void PlayTTSWithFilePath(string path, out float clipDuration , bool preventInterrupt = false)
+    {
+        var clip = Resources.Load<AudioClip>(path);
+        clipDuration = clip.length * _ttsSource.pitch;
         PlayTTS(clip, path, preventInterrupt);
     }
     public static void PlayNumber(int number)
@@ -152,5 +161,10 @@ public class TTSPlayer : MonoBehaviour
     public static void ResetStaticVariables()
     {
         _nextTimeAllowTTS = 0f;
+    }
+    public static void PlayOnLoopWithFilePath(string path)
+    {
+        PlayTTSWithFilePath(path);
+        _ttsSource.loop = true;
     }
 }

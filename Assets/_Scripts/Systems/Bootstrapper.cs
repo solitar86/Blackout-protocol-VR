@@ -7,6 +7,8 @@ public static class Bootstrapper
     {
         GameObject.DontDestroyOnLoad(GameObject.Instantiate(Resources.Load("Systems")));
         ResetStaticVariables();
+        Debug.Log(Application.dataPath);
+        Debug.Log(Application.persistentDataPath);
     }
 
     private static void ResetStaticVariables()

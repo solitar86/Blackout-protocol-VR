@@ -13,12 +13,14 @@ public class PlayerInputHandler : MonoBehaviour
     private InputAction _rightPrimaryButton;
     private InputAction _rightSecondaryButton;
     private InputAction _rightMove;
+    private InputAction _rightSkip;
 
     private InputAction _leftTrigger;
     private InputAction _leftSelect;
     private InputAction _leftPrimaryButton;
     private InputAction _leftSecondaryButton;
     private InputAction _leftMove;
+    private InputAction _leftSkip;
 
     private bool _isRightHand = true;
     private static bool _playerIsMoving = false;
@@ -96,6 +98,16 @@ public class PlayerInputHandler : MonoBehaviour
 
 
         ////////////////////////////////
+        ///SKIP ACTIONS
+        ////////////////////////////////
+        if (_leftSkip.WasPerformedThisFrame() || _rightSkip.WasPerformedThisFrame())
+        {
+            Debugger.Log("Skip performed", Debugger.TextColor.LightBlue);
+            EventManager.OnPlayerWantSkip.Raise(this, -1);
+        }
+
+
+        ////////////////////////////////
         // PLAYER MOVEMENT
         ////////////////////////////////
 
@@ -112,11 +124,15 @@ public class PlayerInputHandler : MonoBehaviour
         _rightSecondaryButton = _actionAsset.FindActionMap("XRI Right Interaction").FindAction("Secondary Button");
         _rightMove = _actionAsset.FindActionMap("XRI Right Locomotion").FindAction("Move");
 
+        _rightSkip = _actionAsset.FindActionMap("XRI Right Interaction").FindAction("SkipTutorial");
+
         _leftTrigger = _actionAsset.FindActionMap("XRI Left Interaction").FindAction("Activate");
         _leftSelect = _actionAsset.FindActionMap("XRI Left Interaction").FindAction("Select");
         _leftPrimaryButton = _actionAsset.FindActionMap("XRI Left Interaction").FindAction("Primary Button");
         _leftSecondaryButton = _actionAsset.FindActionMap("XRI Left Interaction").FindAction("Secondary Button");
         _leftMove = _actionAsset.FindActionMap("XRI Left Locomotion").FindAction("Move");
+
+        _leftSkip = _actionAsset.FindActionMap("XRI Left Interaction").FindAction("SkipTutorial");
     }
 
     private void OnRightMove(InputAction.CallbackContext context)

@@ -35,6 +35,7 @@ public class PlayerFoleyHandler : MonoBehaviour
         _footstepHandler.OnPlayerTakeFootstep.RemoveListener(this, HandlePlayerTakeFootStep);
 
         EventManager.OnPlayerStartMove.RemoveListener(this, HandlePlayerStartMove);
+        SnapTurnProvider.OnPlayerSnapTurn -= HandlePlayerMakeSnapTurn;
     }
     #endregion
 

@@ -58,12 +58,10 @@ public class PlayerFootStepHandler : MonoBehaviour
             OnPlayerTakeFootstep.Raise(this, -1);
         }
     }
-
     private SoundArrayHolder GetAppripriateFootStepArray()
     {
         return _defaultFootSteps;
     }
-
     private void HandlePlayerSnapTurnFootSteps(bool wasRightTurn)
     {
         //////////////////////////////////////////////////////////////////////

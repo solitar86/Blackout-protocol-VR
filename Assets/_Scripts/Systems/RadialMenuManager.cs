@@ -18,6 +18,8 @@ public class RadialMenuManager : MonoBehaviour
     private Stack<RadialMenu> _previousMenus = new();
     private bool _menuIsVisible = false;
     private int _selectedMenuPart = 0;
+    private bool _menuSystemDisabled = false;
+    public bool MenuIsOpen => _menuIsVisible;
 
     #region Unity Callbacks
     private void Awake()
@@ -25,12 +27,14 @@ public class RadialMenuManager : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(Instance.gameObject);
     }
-    private void Start()
+    private void OnEnable()
     {
         EventManager.OnPrimaryButtonPressed.AddListener(this, OnPrimaryButtonPressed);
         EventManager.OnTriggerPressed.AddListener(this, OnTriggerPressed);
         EventManager.OnSecondaryButtonPressed.AddListener(this, OnSecondaryButtonPressed);
         EventManager.OnPlayerStartMove.AddListener(this, OnPlayerStartMove);
+
+        EventManager.OnToggleRadialMenuOnOff.AddListener(this, ToggleMenuSystemOnOff);
     }
     private void OnDisable()
     {
@@ -38,6 +42,8 @@ public class RadialMenuManager : MonoBehaviour
         EventManager.OnTriggerPressed.RemoveListener(this, OnTriggerPressed);
         EventManager.OnSecondaryButtonPressed.RemoveListener(this, OnSecondaryButtonPressed);
         EventManager.OnPlayerStartMove.RemoveListener(this, OnPlayerStartMove);
+
+        EventManager.OnToggleRadialMenuOnOff.RemoveListener(this, ToggleMenuSystemOnOff);
     }
     private void Update()
     {
@@ -68,6 +74,7 @@ public class RadialMenuManager : MonoBehaviour
     #region Input Responses
     private void OnPrimaryButtonPressed(bool isRightHand)
     {
+        if (_menuSystemDisabled == true) return;
         // Activate and position menu
         _menuIsVisible = !_menuIsVisible;
         if (!_menuIsVisible)
@@ -79,7 +86,6 @@ public class RadialMenuManager : MonoBehaviour
             OpenRadialMenu(isRightHand);
         }
     }
-
     private void OnTriggerPressed(bool isRightHand)
     {
         // Activate menu item.
@@ -100,13 +106,11 @@ public class RadialMenuManager : MonoBehaviour
         if (_menuIsVisible) CloseRadialMenu();
     }
     #endregion
-
     private void OpenRadialMenu(bool isRightHand)
     {
         if (_menuAnchor == null) _menuAnchor = GetComponentInChildren<TextMeshPro>().transform;
         _menuAnchor.gameObject.SetActive(true);
         _playerMenuHand = isRightHand ? Player.Instance.GetRightHand() : Player.Instance.GetLeftHand();
-        //_menuAnchor.forward = Camera.main.transform.forward;
         _menuAnchor.forward = _playerMenuHand.transform.up;
         _menuAnchor.position = _playerMenuHand.transform.position;
         PopulateCurrentRadialMenu(RadialMenuHolder.Mainmenu);
@@ -205,6 +209,11 @@ public class RadialMenuManager : MonoBehaviour
             default:
                 return string.Empty;
         }
+    }
+    
+    private void ToggleMenuSystemOnOff(bool enabled)
+    {
+        _menuSystemDisabled = !enabled;
     }
     #endregion
 }
