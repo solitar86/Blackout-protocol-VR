@@ -918,8 +918,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e6b17cdb35cdc945b0c88cea6fdf489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _VR_Origin_Transform: {fileID: 0}
+  _VR_Origin_Transform: {fileID: 8376925625639093468}
   _startTransform: {fileID: 0}
+  _playerTransform: {fileID: 8572928370164838739}
 --- !u!114 &7814331776435025466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -932,8 +933,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d69728327f26ac846b3423d50d128a1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  _xrOrigin: {fileID: 6970487752906095010}
   _rightHand: {fileID: 3664093064706276170}
   _leftHand: {fileID: 6285823810573603495}
+  _moveProvider: {fileID: 1640859167379978618}
+  _turnProvider: {fileID: 4017182831678345088}
 --- !u!114 &6970487752906095010
 MonoBehaviour:
   m_ObjectHideFlags: 0

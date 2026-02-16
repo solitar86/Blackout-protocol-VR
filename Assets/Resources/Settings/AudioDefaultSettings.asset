@@ -15,4 +15,4 @@ MonoBehaviour:
   settings:
     MasterVolume: 1
     TTS_Volume: 1
-    TTS_Speed: 1
+    TTS_Speed: 2

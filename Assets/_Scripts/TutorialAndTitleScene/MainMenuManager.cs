@@ -10,6 +10,9 @@ public class MainMenuManager : MonoBehaviour
 
     private bool _skipTutorial = false;
 
+    private bool _hasDroppedWalkieTalkie = false;
+    private bool _hasActivatedFaucet = false;
+
     private const string TTSTUTORIALPATH = "TTS/Tutorial/";
     private IEnumerator Start()
     {
@@ -17,9 +20,7 @@ public class MainMenuManager : MonoBehaviour
         _title?.Hide();
         // Disable menu so player doesn't open it until prompted
         EventManager.OnToggleRadialMenuOnOff.Raise(this, false);
-        // Disable Player movement and turning so they don't wander off.
-        // TODO:
-
+        Player.Instance.DisableTurnAndMove();
 
         yield return new WaitForSeconds(5f);
         _title?.FadeIn();
@@ -36,7 +37,6 @@ public class MainMenuManager : MonoBehaviour
         }
 
     }
-
     private void SkipTutorial(int value)
     {
         _skipTutorial = true;
@@ -57,19 +57,21 @@ public class MainMenuManager : MonoBehaviour
     }
     private IEnumerator TutorialCoroutine()
     {
-        float clipDuration = 0f;
-        yield return StartCoroutine(TTSIntroduction());
+        //float clipDuration = 0f;
+        //yield return StartCoroutine(TTSIntroduction());
 
-        yield return StartCoroutine(RadialMenuTutorial());
+        //yield return StartCoroutine(RadialMenuTutorial());
 
-        //Inform user that we will continue
-        yield return new WaitForSeconds(2f);
-        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Continue", out clipDuration, true);
-        yield return new WaitForSeconds(clipDuration + 1f);
+        ////Inform user that we will continue
+        //yield return new WaitForSeconds(2f);
+        //TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Continue", out clipDuration, true);
+        //yield return new WaitForSeconds(clipDuration + 1f);
 
-        yield return StartCoroutine(CharacterVoiceIntroduction());
+        //yield return StartCoroutine(CharacterVoiceIntroduction());
 
         yield return StartCoroutine(InteractionTutorial());
+
+        yield return StartCoroutine(MovementTutorial());
 
 
 
@@ -126,8 +128,36 @@ public class MainMenuManager : MonoBehaviour
         yield return new WaitForSeconds(clipDuration + 0.1f);
 
         // Wait until player has
-        // Activated both objects
-        // Dropped walkie talkie on floor
+        // Activated both objects and
+        // dropped walkie talkie on floor
+        yield return new WaitUntil(() => _hasActivatedFaucet && _hasDroppedWalkieTalkie);
+
         // Continue with tutorial
+        yield return new WaitForSeconds(1.5f); // A short delay.
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Continue", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 1f);
     }
+
+    private IEnumerator MovementTutorial()
+    {
+        float clipDuration = 0f;
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Movement_part1", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 0.1f);
+
+
+        Player.Instance.EnableTurnAndMove();
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Movement_part2", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 0.1f);
+    }
+
+    #region Helpers
+    public void SetHasDroppedWalkieTalkie(bool value)
+    {
+        _hasDroppedWalkieTalkie = value;
+    }
+    public void SetHasActivatedFaucet(bool value)
+    {
+        _hasActivatedFaucet = value;
+    }
+    #endregion
 }

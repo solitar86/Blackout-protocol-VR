@@ -8,5 +8,4 @@ public class Hammer : PickUpObject
 
     #endregion 
 
-
 }

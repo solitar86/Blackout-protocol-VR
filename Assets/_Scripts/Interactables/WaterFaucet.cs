@@ -4,10 +4,10 @@ using UnityEngine;
 public class WaterFaucet : StaticInteractable
 {
     [Space(15), Header("Water Faucet specific settings")]
+    [SerializeField] private Sound _waterRunningLoop;
     [SerializeField] private Sound _waterDrippingLoopSound;
     [SerializeField] private Sound _faucetStartSound;
     [SerializeField] private Sound _faucetStopSound;
-    [SerializeField] private Sound _waterRunningLoop;
     [Space(15)]
     [SerializeField] private Transform _waterOutputPoint;
     [Header("Vibration settings")]

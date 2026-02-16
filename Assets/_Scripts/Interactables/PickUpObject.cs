@@ -1,26 +1,51 @@
 using System.IO;
 using UnityEngine;
 
+/// <summary>
+/// All object which the player can hold and interact with
+/// derive from this PickUpObjectClass. It handles haptics,
+/// sounds, VO reactions and all other shared functionality
+/// with all "pickuppable" objects. Atleast currently
+/// this violates the single responsibility principle but 
+/// do not be concerned. <3: The developer.
+/// </summary>
 [SelectionBase, RequireComponent(typeof(Rigidbody))]
 public abstract class PickUpObject : MonoBehaviour, Iinteractable
 {
-    [Header("Dialogue to play on player touch and SFX when item is detected by touchable surface")]
+    [Header("Dialogue and SFX for touching this object")]
+    [Tooltip("An array of sounds which we can choose from when we touch this object.")]
     [SerializeField] private SoundArrayHolder _touchSoundsHolder;
+
+    [Tooltip("Character voice-over that should speak when we touch object.")]
     [SerializeField] private Sound _touchIdentifyVO;
+
+    [Tooltip("Sound to make when object is pinged -> surface near is touched.")]
     [SerializeField] private Sound _pingSound;
+
+    [Tooltip("How this object should orient itself in the players hand. Adjust at runtime to see results.")]
     [Space(5), Header("Settings for how item is oriented when held")]
     [SerializeField] private PickUpHoldOffsetSettings _offsetSettings;
+
     [Header("Where can this object be placed?")]
     [SerializeField] private LayerMask _placeableSurfaceLayerMask;
+
     [Space(5), Header("Sounds for interactions")]
+    [Tooltip("An array of sounds which we can choose from when we pickup this object.")]
     [SerializeField] private SoundArrayHolder _pickUpSounds;
+
+    [Tooltip("An array of sounds which we can choose from when we drop this object.")]
     [SerializeField] private SoundArrayHolder _dropSounds;
+
+    [Tooltip("An array of sound to play when we hit this object againts a surface.")]
     [SerializeField] internal Sound _impactSound; // This should be a sound holder, TODO
+
     [Tooltip("What velocity == volume 1f")]
     [SerializeField] private float _velocityToVolumeCap = 10f;
+
     [Tooltip("Curve is built on Awake() based on VelocityToVolumeCap")]
     [SerializeField] private AnimationCurve _velocityToVolumeCurve;
-    [Space(5), Header("Haptic settings for touch, pickup and drop")]
+
+    [Space(5), Header("Haptic settings for touch, pickup, drop and interact")]
     [SerializeField] private VibrationSettingsSO _touchHapticSettings;
     [SerializeField] private VibrationSettingsSO _pickUpAndDropHapticSettings;
 
@@ -35,7 +60,15 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     private Rigidbody _ridibody;
     private Transform parentTransformReference = null;
 
+    /// <summary>
+    /// Is this object currently in the players hand.
+    /// </summary>
     public bool IsHeld => _isHeld;
+
+    /// <summary>
+    /// This can and is used to determine if something hits another object
+    /// With enough force to make a louder sound or break something.
+    /// </summary>
     public float Velocity => _velocity;
 
     #region Unity Callbacks
@@ -110,7 +143,6 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         else
         {
             Debugger.LogWarning(gameObject.name + "has null pickup/drop haptic settings.", gameObject);
-            return;
         }
 
         // Handle drop sounds.
@@ -126,7 +158,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         _holdingHand = null;
         _isHeld = false;
         _nextTimeAllowTouchVO = 0f;
-        HandlePlaceObjectOnSurface();
+        HandleObjectPlacementAfterDrop();
     }
     public virtual void PickUp(Transform parent, PlayerHand hand)
     {
@@ -205,7 +237,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     {
         // Do Something
     }
-    public virtual void HandlePlaceObjectOnSurface()
+    public virtual void HandleObjectPlacementAfterDrop()
     {
         // Place object on ground / surface
         _collider.enabled = false; // Is this necessary?
@@ -214,21 +246,21 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
                                 out RaycastHit hitInfo,
                                 float.MaxValue,
                                 _placeableSurfaceLayerMask);
-        float delay = 0f;
-        if (isValidSurface)
+        float dropSoundDelay = 0f;
+
+        if (isValidSurface == true)
         {
             float height = Vector3.Distance(transform.position, hitInfo.point);
-            delay = Mathf.Sqrt((height * 2) / Mathf.Abs(Physics.gravity.y));
+            dropSoundDelay = CalculateDropSoundDelay(height);
             transform.position = hitInfo.point;
 
             //Rotate to lay flat on ground.
             Vector3 normalDirectionInWorld = transform.forward;
             Quaternion rotation = Quaternion.FromToRotation(normalDirectionInWorld, Vector3.up);
             transform.rotation = rotation * transform.rotation;
-            Sound impactWithModVolume = new Sound(_impactSound);
-            impactWithModVolume.Volume = 0.3f;
-            AudioPlayer.PlaySoundAtPointWithDelay(this, impactWithModVolume, hitInfo.point, delay, true);
-            AudioPlayer.PlaySoundAtPointWithDelay(this, impactWithModVolume, hitInfo.point, delay + Random.Range(0.01f, 0.5f), true);
+
+            PlayObjectHitSufaceSounds(hitInfo.point, dropSoundDelay);
+            EventManager.OnAnyPickUpObjectPlacedOnSurface.Raise(this, this);
         }
         else
         {
@@ -241,17 +273,17 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
             // this is currenly that.
             Debugger.PlayBlipSound();
 
-            float curseDelay = 0.25f;
+            float curseWordDelay = 0.25f;
             this.CallWithDelay(() =>
             {
                 EventManager.OnPlayerCurse.Raise(this, 0);
-            }, curseDelay);
+            }, curseWordDelay);
 
-            delay = 1f;
+            dropSoundDelay = 1f;
             Sound impactWithModVolume = new Sound(_impactSound);
             impactWithModVolume.Volume = 0.3f;
-            AudioPlayer.PlaySoundAtPointWithDelay(this, impactWithModVolume, _startingPosition, delay, true);
-            AudioPlayer.PlaySoundAtPointWithDelay(this, impactWithModVolume, _startingPosition, delay + Random.Range(0.01f, 0.5f), true);
+            PlayObjectHitSufaceSounds(_startingPosition, dropSoundDelay);
+            EventManager.OnAnyPickUpObjectHitFloor.Raise(this, this);
         }
         _collider.enabled = true; // Is this necessary
     }
@@ -301,4 +333,19 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
 
 
     #endregion
+
+    #region Helpers etc.
+    private void PlayObjectHitSufaceSounds(Vector3 point, float delay)
+    {
+        Sound impactWithModVolume = new Sound(_impactSound);
+        impactWithModVolume.Volume = 0.3f;
+        AudioPlayer.PlaySoundAtPointWithDelay(this, impactWithModVolume, point, delay, true);
+        AudioPlayer.PlaySoundAtPointWithDelay(this, impactWithModVolume, point, delay + Random.Range(0.01f, 0.5f), true);
+    }
+    private static float CalculateDropSoundDelay(float height)
+    {
+        return Mathf.Sqrt((height * 2) / Mathf.Abs(Physics.gravity.y));
+    }
+    #endregion
+
 }

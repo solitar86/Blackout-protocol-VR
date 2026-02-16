@@ -51,6 +51,7 @@ public abstract class StaticInteractable : MonoBehaviour, Iinteractable
                                      _activateSoundHolder.LastPlayedSound,
                                      true);
         _isActivated = !_isActivated;
+        EventManager.OnAnyInteractableActivated.Raise(this, this);
     }
     public virtual void EndTouch()
     {

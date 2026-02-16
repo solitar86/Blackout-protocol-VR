@@ -234,7 +234,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5833667702195101368, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 579381170}
+    - targetCorrespondingSourceObject: {fileID: 8492514947936867221, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
 --- !u!4 &70604211 stripped
 Transform:
@@ -280,6 +286,38 @@ Transform:
   - {fileID: 70604211}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &579381164 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5833667702195101368, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
+  m_PrefabInstance: {fileID: 59110760}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &579381170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 579381164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad96c582f8c14e64e86c2d4c70c6e4ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  OnThisObjectDroppedOnFloor:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1898104174}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: SetHasDroppedWalkieTalkie
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!1 &581409992
 GameObject:
   m_ObjectHideFlags: 0
@@ -750,11 +788,46 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!1 &1064212190 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1964894075011802776, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
+  m_PrefabInstance: {fileID: 1649989694}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1304947240 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2613846697645240508, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
   m_PrefabInstance: {fileID: 1649989694}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1304947241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1064212190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0e1d8b4541a0ee4c80cd1418d79a4d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  OnThisActivated:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1898104174}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: SetHasActivatedFaucet
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  OnThisDeactivated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1421772800
 GameObject:
   m_ObjectHideFlags: 0
@@ -973,6 +1046,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1964894075011802776, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1304947241}
     - targetCorrespondingSourceObject: {fileID: 8526126395584692079, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
@@ -993,14 +1069,6 @@ PrefabInstance:
       propertyPath: _startTransform
       value: 
       objectReference: {fileID: 581409993}
-    - target: {fileID: 5490227975979510099, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}
-      propertyPath: _playerTransform
-      value: 
-      objectReference: {fileID: 1675577396}
-    - target: {fileID: 5490227975979510099, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}
-      propertyPath: _VR_Origin_Transform
-      value: 
-      objectReference: {fileID: 1675577395}
     - target: {fileID: 8376925625639093468, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1046,16 +1114,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}
---- !u!4 &1675577395 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8376925625639093468, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}
-  m_PrefabInstance: {fileID: 1675577394}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1675577396 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8572928370164838739, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}
-  m_PrefabInstance: {fileID: 1675577394}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1898104173
 GameObject:
   m_ObjectHideFlags: 0

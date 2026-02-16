@@ -48,9 +48,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed41b2ec8dbf4540a4ef1cad82638db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Hammer
+  _touchSoundsHolder: {fileID: 11400000, guid: afa4c281056ec7649a5b0ca6f2232760, type: 2}
   _touchIdentifyVO:
     Clip: {fileID: 8300000, guid: d0c8ee331a1b190418af8fc136043438, type: 3}
     Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  _pingSound:
+    Clip: {fileID: 0}
+    Mixergroup: {fileID: 0}
     Volume: 1
     Pitch: 1
     SpacialBlend: 0
@@ -195,7 +205,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -285,7 +295,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

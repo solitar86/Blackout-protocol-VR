@@ -46,9 +46,9 @@ public class CoffeeCup : PickUpObject
 
         // Spawn ripple sphere maybe?
     }
-    public override void HandlePlaceObjectOnSurface()
+    public override void HandleObjectPlacementAfterDrop()
     {
-        base.HandlePlaceObjectOnSurface();
+        base.HandleObjectPlacementAfterDrop();
 
         transform.up = Vector3.up;
     }
