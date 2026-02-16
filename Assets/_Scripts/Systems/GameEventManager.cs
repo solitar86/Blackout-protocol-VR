@@ -35,6 +35,11 @@ public static class EventManager
     public static GameEvent<int> OnInteractableDetectedOnSurface = new("Item on surface");
     public static GameEvent<Sound> OnPlayerObjectIDVOShouldPlay = new("ID VO");
 
+    // Interactable object events
+    public static GameEvent<PickUpObject> OnAnyPickUpObjectHitFloor = new("Object dropped on ground");
+    public static GameEvent<PickUpObject> OnAnyPickUpObjectPlacedOnSurface = new("Object placed on surface");
+    public static GameEvent<StaticInteractable> OnAnyInteractableActivated = new("Interactable activated");
+
     // One shot gameplay events
     public static GameEvent<int> OnBreakableMachineBreak = new("Breakable machine broke");
 
@@ -100,5 +105,10 @@ public class GameEvent<T>
         {
             _listenerList[i]?.Invoke(param);
         }
+    }
+
+    internal void AddListener(object wasFaucesActivated)
+    {
+        throw new NotImplementedException();
     }
 }
