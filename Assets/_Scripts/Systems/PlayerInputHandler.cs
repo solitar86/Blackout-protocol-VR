@@ -114,8 +114,6 @@ public class PlayerInputHandler : MonoBehaviour
         _playerIsMoving = _leftMoveVector != Vector2.zero ||
                             _rightMoveVector != Vector2.zero;
     }
-
-
     private void PopulateActions()
     {
         _rightTrigger = _actionAsset.FindActionMap("XRI Right Interaction").FindAction("Activate");
@@ -134,25 +132,24 @@ public class PlayerInputHandler : MonoBehaviour
 
         _leftSkip = _actionAsset.FindActionMap("XRI Left Interaction").FindAction("SkipTutorial");
     }
-
     private void OnRightMove(InputAction.CallbackContext context)
     {
         _rightMoveVector = context.ReadValue<Vector2>();
         //Debugger.Log("Right Move: " _rightMoveVector);
 
     }
-
     private void OnLeftMove(InputAction.CallbackContext context)
     {
         _leftMoveVector = context.ReadValue<Vector2>();
         //Debugger.Log("Left Move: " + _leftMoveVector);
     }
-
     private void OnPlayerStartMove(InputAction.CallbackContext context)
     {
-        EventManager.OnPlayerStartMove.Raise(this, -1);
+        if(Player.Instance.PlayerCanMove)
+        {
+            EventManager.OnPlayerStartMove.Raise(this, -1);
+        }
     }
-
     private void SubscribeToEvents()
     {
         _leftMove.started += OnPlayerStartMove;
