@@ -106,9 +106,4 @@ public class GameEvent<T>
             _listenerList[i]?.Invoke(param);
         }
     }
-
-    internal void AddListener(object wasFaucesActivated)
-    {
-        throw new NotImplementedException();
-    }
 }

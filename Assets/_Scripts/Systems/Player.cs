@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField] private PlayerHand _leftHand;
     [SerializeField] private DynamicMoveProvider _moveProvider;
     [SerializeField] private SnapTurnProvider _turnProvider;
+    [SerializeField] private PlayerFingerSnapHandler _fingerSnapper;
 
 
 
@@ -28,6 +29,16 @@ public class Player : MonoBehaviour
 
     #region Getters, public functions, helpers.
     
+    public void DisableFingerSnapping()
+    {
+        if(_fingerSnapper == null) _fingerSnapper = FindFirstObjectByType<PlayerFingerSnapHandler>();
+        _fingerSnapper.enabled = false;
+    }
+    public void EnableFingerSnapping()
+    {
+        if (_fingerSnapper == null) _fingerSnapper = FindFirstObjectByType<PlayerFingerSnapHandler>();
+        _fingerSnapper.enabled = true;
+    }
     public void DisableTurnAndMove()
     {
         DisableLocomotion();

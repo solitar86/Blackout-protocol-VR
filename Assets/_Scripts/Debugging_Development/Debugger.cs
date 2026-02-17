@@ -146,6 +146,9 @@ public static class Debugger
 
             case TextColor.LightBlue:
                 return "00c3ff";
+
+            case TextColor.Orange:
+                return "FF7100";
         }
         return "Invalid color";
 
@@ -172,6 +175,6 @@ public static class Debugger
 
     public enum TextColor
     {
-        Red, LightRed, Green, LightGreen, Blue, LightBlue, Purple, Yellow
+        Red, LightRed, Green, LightGreen, Blue, LightBlue, Purple, Yellow, Orange
     }
 }

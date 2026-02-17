@@ -16,9 +16,9 @@ public class TouchableSurfaceAudioHandler : MonoBehaviour
     private float _nextTimeAllowTouchVO = 0f;
 
     #region Unity Callbacks
-    private void Start()
+    private void OnEnable()
     {
-        _surface = GetComponent<TouchableSurface>();
+        if(_surface == null) _surface = GetComponent<TouchableSurface>();
         _surface.OnTouchStart.AddListener(this, PlayFirstTouchSound);
         _surface.OnTouchSlide.AddListener(this, HandleHandSlideSound);
         _surface.OnTouchEnd.AddListener(this, PlayTouchEndSound);

@@ -169,7 +169,7 @@ public class AudioPlayer : MonoBehaviour
         if (soundToPlay == null) soundToPlay = new Sound(); // Error handling.
 
         GameObject tempGameObject;
-        tempGameObject = new GameObject(sender + " : " + (soundToPlay.Clip == null ? "null" : soundToPlay.Clip));
+        tempGameObject = new GameObject("SOUND: " + sender + " : " + (soundToPlay.Clip == null ? "null" : soundToPlay.Clip));
         tempGameObject.transform.position = point;
         audioSource = (AudioSource)tempGameObject.AddComponent(typeof(AudioSource));
 

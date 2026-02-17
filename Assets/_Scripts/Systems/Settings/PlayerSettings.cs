@@ -87,15 +87,15 @@ public class PlayerSettings
         // Load accessibility settings - with defaults if none are saved.
         Accessibility = PlayerSettingsStorage.Load<AccessibilitySettings>(ACCESS_STRING, accessDefaults.settings);
     }
-
     public static void SaveSettings()
     {
         PlayerSettingsStorage.Save<AudioPreferences>(AUDIO_STRING, Audio);
         PlayerSettingsStorage.Save<DeveloperSettings>(DEV_STRING, Developer);
         PlayerSettingsStorage.Save<AccessibilitySettings>(ACCESS_STRING, Accessibility);
         PlayerSettingsStorage.Save<MovementSettings>(MOVE_STRING, Movement);
-    }
 
+        Debugger.Log("Player Settings Saved", Debugger.TextColor.Orange);
+    }
     public static void SetAllDefaults()
     {
         // TODO Implement this function.

@@ -156,7 +156,20 @@ public class RadialMenuManager : MonoBehaviour
     {
         _menuAnchor?.GetComponentInChildren<TextMeshPro>().SetText(_currentMenuItems[part].Name);
         _playerMenuHand.HandleTouchEnd(_selectButtonHapticSettings);
-        TTSPlayer.PlayTTSWithFilePath(_currentMenuItems[part].TTSFilePath);
+
+        if(_currentMenuItems[part].InfoTTSFilePath == null)
+        {
+            //This item only has a name, no additional info.
+            TTSPlayer.PlayTTSWithFilePath(_currentMenuItems[part].NameTTSFilePath);
+            return;
+        }
+
+        // This menu item has additional information coming after the name is spoken.
+        // Play those in sequence while allowing for interrupt.
+        TTSPlayer.PlayTTSSequenceWithPaths(false,
+                _currentMenuItems[part].NameTTSFilePath,
+                _currentMenuItems[part].InfoTTSFilePath);
+
 
     }
     private void CloseRadialMenu()
@@ -171,6 +184,8 @@ public class RadialMenuManager : MonoBehaviour
 
         if (_menuIsVisible) _menuIsVisible = false;
         EventManager.OnRadialMenuClose.Raise(this, -1);
+
+        PlayerSettings.SaveSettings();
     }
     private void HandleRadialMenuItemSelection()
     {
@@ -230,18 +245,22 @@ public class RadialMenuItem
     /// </summary>
     /// <param name="name">Name of item</param>
     /// <param name="menuAction">Action to execute on click</param>
-    /// <param name="ttsPath">Soundfile to play on select</param>
-    public RadialMenuItem(string name, Action menuAction, string ttsPath)
+    /// <param name="nameTTSPath">Soundfile to play on select</param>
+    /// <param name="extraInfoTTSPath">Soundfile for optional explanation of item</param>
+    public RadialMenuItem(string name, Action menuAction, string nameTTSPath, string extraInfoTTSPath = null)
     {
         _name = name;
-        _ttsFilePath = ttsPath; // This file will play on select.
+        _nameTTSFilePath = nameTTSPath; // This file will play on select.
         OnActivateAction = menuAction; // This action will execute when pressed.
+        _infoTTSFilePath = extraInfoTTSPath;
     }
     private string _name;
-    private string _ttsFilePath;
+    private string _nameTTSFilePath;
+    public string _infoTTSFilePath;
     private Action OnActivateAction;
 
-    public string TTSFilePath => _ttsFilePath;
+    public string NameTTSFilePath => _nameTTSFilePath;
+    public string InfoTTSFilePath => _infoTTSFilePath;
     public string Name => _name;
 
     public void Activate()
@@ -341,7 +360,8 @@ public static class RadialMenuHolder
                         string ttsPath = enabled ? "TTS_Menu_Enabled" : "TTS_Menu_Disabled";
                         TTSPlayer.PlayTTSWithFilePath(MENUTTSFILEFOLDERPATH + ttsPath, true);
                         },
-                MENUTTSFILEFOLDERPATH + "TTS_Menu_VisibleHands"
+                MENUTTSFILEFOLDERPATH + "TTS_Menu_VisibleHands",
+                MENUTTSFILEFOLDERPATH + "TTS_Menu_Visiblehands_description"
             ),
             new RadialMenuItem(
                 "Movement Particles",
@@ -350,7 +370,8 @@ public static class RadialMenuHolder
                         string ttsPath = enabled ? "TTS_Menu_Enabled" : "TTS_Menu_Disabled";
                         TTSPlayer.PlayTTSWithFilePath(MENUTTSFILEFOLDERPATH + ttsPath, true);
                         },
-                MENUTTSFILEFOLDERPATH + "TTS_Menu_MovementParticles"
+                MENUTTSFILEFOLDERPATH + "TTS_Menu_MovementParticles",
+                MENUTTSFILEFOLDERPATH + "TTS_Menu_MovementParticles_description"
             ),
             BackButton,
             new RadialMenuItem(
@@ -360,7 +381,8 @@ public static class RadialMenuHolder
                         string ttsPath = enabled ? "TTS_Menu_Enabled" : "TTS_Menu_Disabled";
                         TTSPlayer.PlayTTSWithFilePath(MENUTTSFILEFOLDERPATH + ttsPath, true);
                         },
-                MENUTTSFILEFOLDERPATH + "TTS_Menu_TouchRipple"
+                MENUTTSFILEFOLDERPATH + "TTS_Menu_TouchRipple",
+                MENUTTSFILEFOLDERPATH + "TTS_Menu_TouchRipple_description"
             )
 
         }

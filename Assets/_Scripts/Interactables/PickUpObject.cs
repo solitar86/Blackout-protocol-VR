@@ -138,7 +138,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         // Handle drop haptics.
         if (_pickUpAndDropHapticSettings != null)
         {
-            _holdingHand?.HandlePickUpOrDropObject(_pickUpAndDropHapticSettings);
+            _holdingHand?.HandlePickUpOrDropObject(_pickUpAndDropHapticSettings, null);
         }
         else
         {
@@ -173,15 +173,15 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
             return;
         }
 
-        _holdingHand.HandlePickUpOrDropObject(_pickUpAndDropHapticSettings);
+        _holdingHand.HandlePickUpOrDropObject(_pickUpAndDropHapticSettings, this);
 
         if (_pickUpSounds != null && _pickUpSounds.SoundArray != null && _pickUpSounds.SoundArray.Length > 0)
         {
-            AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
-                                                        _pickUpSounds.SoundArray,
-                                                        _holdingHand.transform.position,
-                                                        _pickUpSounds.LastPlayedSound,
-                                                        true);
+            _pickUpSounds.LastPlayedSound = AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
+                                                                                    _pickUpSounds.SoundArray,
+                                                                                    _holdingHand.transform.position,
+                                                                                    _pickUpSounds.LastPlayedSound,
+                                                                                    true);
         }
     }
     public virtual void Touch(PlayerHand hand)
@@ -227,11 +227,13 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         var clip = Resources.Load<AudioClip>("Audio/SFX_ItemDetectPlaceHolder");
         var delayObject = new GameObject("Play clip with delay: " + clip.name);
         var mono = delayObject.AddComponent<Delay>();
+        float buffer = 0.1f;
 
         mono.CallWithDelay(() =>
         {
             AudioPlayer.PlayClipAtPoint(this, clip, transform.position, volume: .5f, true, true);
         }, delay);
+        Destroy(mono.gameObject, delay + buffer);
     }
     public virtual void EndTouch()
     {

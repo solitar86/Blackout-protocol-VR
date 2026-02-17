@@ -6,8 +6,11 @@ public class PlayerHand : MonoBehaviour
 {
     private VibrationPlayerDirect _hapticPlayer;
     private TouchRippleSpawner _touchRippleSpawner;
+    private SphereCollider _sphereCollider;
     private Vector3 _handVelocity;
     private bool _isRightHand;
+    private PickUpObject _pickUpObject;
+    public bool IsHoldingObject => _pickUpObject != null;
     public bool IsRightHand => _isRightHand;
 
     #region UnityCallbacks
@@ -31,8 +34,9 @@ public class PlayerHand : MonoBehaviour
     {
         PlayHapticFeedback(hapticSettings);
     }
-    public void HandlePickUpOrDropObject(VibrationSettingsSO hapticSettings)
+    public void HandlePickUpOrDropObject(VibrationSettingsSO hapticSettings, PickUpObject @object)
     {
+        _pickUpObject = @object;
         PlayHapticFeedback(hapticSettings);
     }
     public void HandleHandInsideCollider(VibrationSettingsSO hapticSettings)
@@ -87,6 +91,9 @@ public class PlayerHand : MonoBehaviour
         }
     }
 
-
-
+    public float GetColliderRadius()
+    {
+        if (_sphereCollider == null) _sphereCollider = GetComponent<SphereCollider>();
+        return _sphereCollider.radius;
+    }
 }

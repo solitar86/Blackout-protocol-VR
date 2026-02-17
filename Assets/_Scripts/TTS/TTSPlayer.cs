@@ -28,6 +28,7 @@ public class TTSPlayer : MonoBehaviour
 
     // TODO: Use this list to unload TTS files at appropriate times
     private static List<AudioClip> _currentlyLoadedClips = new List<AudioClip>();
+    private static List<GameObject> _queuedTTSSequenceGameObjects = new List<GameObject>();
     private static AudioSource _ttsSource;
     private const string TTSNUMBERSPATH = "TTS/Numbers/TTS_Numbers_";
     private static float _nextTimeAllowTTS = 0f; // THIS VALUE NEEDS TO BE RESET on ENTER PLAYMODE! TODO!
@@ -52,7 +53,7 @@ public class TTSPlayer : MonoBehaviour
 
         TryAddClipToLoadedAssetsList(clipToPlay);
 
-        if (preventInterrupt) _nextTimeAllowTTS = Time.time + _ttsSource.clip.length / PlayerSettings.Audio.TTS_Speed;
+        if (preventInterrupt == true) _nextTimeAllowTTS = Time.time + _ttsSource.clip.length / PlayerSettings.Audio.TTS_Speed;
 
         EventManager.OnTTSPlay.Raise("TTS Player", debugInfo);
     }
@@ -79,13 +80,21 @@ public class TTSPlayer : MonoBehaviour
 
             mono.CallWithDelay(() =>
             {
+                // Remove itself from queued object list when 
+                // TTS file starts to play.
+                RemoveFromQueuedList(mono.gameObject);
                 PlayTTS(clip, "TTS Sequence :" + clip.name, preventInterrupt);
             }, totalDelay);
 
             float buffer = 0.01f; // Currently this is necessary to prevent clips from
-                                // interrupting each other. TODO: FIX
+                                  // interrupting each other. TODO: FIX
             totalDelay += clip.length / PlayerSettings.Audio.TTS_Speed + buffer;
+
+            // This list is used to prevent TTS sequence from playing
+            // if 
+            _queuedTTSSequenceGameObjects.Add(mono.gameObject);
             Destroy(mono.gameObject, totalDelay);
+
         }
     }
     public static void PlayTTSWithFilePath(string path, bool preventInterrupt = false)
@@ -115,6 +124,43 @@ public class TTSPlayer : MonoBehaviour
     {
         if (_currentlyLoadedClips.Contains(clipToPlay)) return;
         _currentlyLoadedClips.Add(clipToPlay);
+    }
+    public static void PlayOnLoopWithFilePath(string path)
+    {
+        PlayTTSWithFilePath(path);
+        _ttsSource.loop = true;
+    }
+    public static void ForceStopAllTTS()
+    {
+        Debugger.Log("Force stop all TTS called", Debugger.TextColor.LightRed);
+        _nextTimeAllowTTS = 0f;
+        DestroyAndClearQueuedTTSCalls();
+        UnloadUsedTTSClips(-1);
+        _ttsSource.Stop();
+    }
+
+    #region Helpers etc.
+    private static void DestroyAndClearQueuedTTSCalls()
+    {
+        foreach (var item in _queuedTTSSequenceGameObjects)
+        {
+            if (item != null)
+            {
+                Destroy(item);
+            }
+        }
+        _queuedTTSSequenceGameObjects.Clear();
+    }
+    public static void RemoveFromQueuedList(GameObject go)
+    {
+        if(_queuedTTSSequenceGameObjects.Contains(go))
+        {
+            _queuedTTSSequenceGameObjects.Remove(go);
+        }
+    }
+    public static void ResetStaticVariables()
+    {
+        _nextTimeAllowTTS = 0f;
     }
     private static void UnloadUsedTTSClips(int value)
     {
@@ -158,13 +204,5 @@ public class TTSPlayer : MonoBehaviour
     {
         return TTSNUMBERSPATH + GetStringFromNumber(number);
     }
-    public static void ResetStaticVariables()
-    {
-        _nextTimeAllowTTS = 0f;
-    }
-    public static void PlayOnLoopWithFilePath(string path)
-    {
-        PlayTTSWithFilePath(path);
-        _ttsSource.loop = true;
-    }
+    #endregion
 }
