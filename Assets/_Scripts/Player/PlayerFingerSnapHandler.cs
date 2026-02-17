@@ -12,9 +12,13 @@ public class PlayerFingerSnapHandler : MonoBehaviour
     {
         EventManager.OnTriggerPressed.AddListener(this, OnPlayerPressTrigger);
     }
-
+    private void OnDisable()
+    {
+        EventManager.OnTriggerPressed.RemoveListener(this, OnPlayerPressTrigger);
+    }
     private void OnPlayerPressTrigger(bool isRightHand)
     {
+        if (enabled == false) return;
         if (RadialMenuManager.Instance.MenuIsOpen) return;
         if (InteractableInRange(isRightHand) == true) return;
 
@@ -32,7 +36,6 @@ public class PlayerFingerSnapHandler : MonoBehaviour
 
         RaycastToWallsAndPlaySound(hand.transform.position, _fingerSnapSounds.LastPlayedSound);
     }
-
     private bool InteractableInRange(bool rightHand)
     {
         var position = rightHand ?
@@ -41,7 +44,6 @@ public class PlayerFingerSnapHandler : MonoBehaviour
         float radius = Player.Instance.GetRightHand().GetColliderRadius();
         return Physics.OverlapSphere(position, radius, _interactableLayerMask).Length > 0;
     }
-
     private void RaycastToWallsAndPlaySound(Vector3 startPosition, Sound soundToPlay)
     {
         Vector3[] directions = { Vector3.left, Vector3.right, Vector3.forward, Vector3.back };
@@ -69,4 +71,7 @@ public class PlayerFingerSnapHandler : MonoBehaviour
     }
     #endregion'
 
+    public void Enable() => enabled = true;
+    public void Disable() => enabled = false;
+    
 }

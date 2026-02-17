@@ -32,12 +32,12 @@ public class Player : MonoBehaviour
     public void DisableFingerSnapping()
     {
         if(_fingerSnapper == null) _fingerSnapper = FindFirstObjectByType<PlayerFingerSnapHandler>();
-        _fingerSnapper.enabled = false;
+        _fingerSnapper.Disable();
     }
     public void EnableFingerSnapping()
     {
         if (_fingerSnapper == null) _fingerSnapper = FindFirstObjectByType<PlayerFingerSnapHandler>();
-        _fingerSnapper.enabled = true;
+        _fingerSnapper.Enable();
     }
     public void DisableTurnAndMove()
     {

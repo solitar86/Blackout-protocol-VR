@@ -114,4 +114,8 @@ public class WaterFaucet : StaticInteractable
     {
         hand.HandleTouchSlide(_playerHandTouchWaterHapticSettings);
     }
+    public void Deactivate()
+    {
+        if (IsActivated) Activate();
+    }
 }

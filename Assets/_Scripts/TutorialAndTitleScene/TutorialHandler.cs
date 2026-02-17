@@ -6,6 +6,7 @@ public class TutorialHandler : MonoBehaviour
 {
     [SerializeField] private GameObject _interactionTutorialItems;
     [SerializeField] private Sound _VOIntroDialogue;
+    [SerializeField] private Sound _errorSound;
 
     private bool _skipTutorial = false;
     private bool _hasDroppedWalkieTalkie = false;
@@ -34,11 +35,11 @@ public class TutorialHandler : MonoBehaviour
     }
     private IEnumerator TutorialCoroutine()
     {
-        yield return StartCoroutine(TTSIntroduction());
+        //yield return StartCoroutine(TTSIntroduction());
 
-        yield return StartCoroutine(RadialMenuTutorial());
+        //yield return StartCoroutine(RadialMenuTutorial());
 
-        yield return StartCoroutine(CharacterVoiceIntroduction());
+        //yield return StartCoroutine(CharacterVoiceIntroduction());
 
         yield return StartCoroutine(MovementTutorial());
 
@@ -80,7 +81,10 @@ public class TutorialHandler : MonoBehaviour
         EventManager.OnRadialMenuClose.RemoveListener(this, onMenuClosed);
         EventManager.OnToggleRadialMenuOnOff.Raise(this, false);
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Welldone", true);
+
+        yield return new WaitForSeconds(0.5f);
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Continue", out clipDuration, true);
         yield return new WaitForSeconds(clipDuration + 1f);
     }
@@ -106,6 +110,19 @@ public class TutorialHandler : MonoBehaviour
         // Activated both objects and
         // dropped walkie talkie on floor
         yield return new WaitUntil(() => _hasActivatedFaucet && _hasDroppedWalkieTalkie);
+
+        yield return new WaitForSeconds(1f);
+        FindFirstObjectByType<WaterFaucet>().Deactivate();
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Welldone", out clipDuration,true);
+        yield return new WaitForSeconds(clipDuration + 0.1f);
+
+        // Introduce hand inside collider sound.
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_ErrorSound_part1", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration);
+        AudioPlayer.PlaySoundAtPoint(this, _errorSound, Vector3.zero, false, false);
+        yield return new WaitForSeconds(0.5f);
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_ErrorSound_part2", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration);
 
         // Continue with tutorial
         yield return new WaitForSeconds(1.5f); // A short delay.
@@ -141,5 +158,6 @@ public class TutorialHandler : MonoBehaviour
     {
         _hasActivatedFaucet = value;
     }
+    
     #endregion
 }

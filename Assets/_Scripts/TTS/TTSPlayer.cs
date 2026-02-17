@@ -106,6 +106,13 @@ public class TTSPlayer : MonoBehaviour
     public static void PlayTTSWithFilePath(string path, out float clipDuration , bool preventInterrupt = false)
     {
         var clip = Resources.Load<AudioClip>(path);
+        if (clip == null)
+        {
+            Debugger.LogWarning("No TTS Clip found at: " + path);
+            PlayTTSFileNotFoundError();
+            clipDuration = 0f;
+            return;
+        }
         clipDuration = clip.length *(1 / _ttsSource.pitch);
         PlayTTS(clip, path, preventInterrupt);
     }
