@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d8d921d25fff3a4d87ccbf52c54eeb0, type: 3}
-  m_Name: InteractableFirstTouchDefaultSettingsSO
+  m_Name: InteractableTouchDefaultSettingsSO
   m_EditorClassIdentifier: Assembly-CSharp::VibrationSettingsSO
   DistanceInterval: 1
   Amplitude: 1

@@ -1429,6 +1429,15 @@ MonoBehaviour:
     OverrideDefaultDistances: 0
     MinDistance: 0.5
     MaxDistance: 2
+  _errorSound:
+    Clip: {fileID: 8300000, guid: e2a441935e7f74b40bb2721a6324a232, type: 3}
+    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 0.5
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
 --- !u!1001 &2106701253
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1493,9 +1502,9 @@ SceneRoots:
   - {fileID: 919417685}
   - {fileID: 701331445}
   - {fileID: 1421772801}
+  - {fileID: 1898104175}
   - {fileID: 581409993}
   - {fileID: 1675577394}
-  - {fileID: 1898104175}
   - {fileID: 571443309}
   - {fileID: 2106701253}
   - {fileID: 832835475}
