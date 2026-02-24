@@ -81,7 +81,7 @@ public class PlayerHandInteractor : MonoBehaviour
 
                 // NOTE: If we press interact near a pickup object without holding it
                 // can cause us to get here (apparently) Is that a problem?
-                Debugger.LogWarning("Somehow we got here this time");
+                Debugger.LogWarning("Somehow we got here this time. Pressed Activate near a pickup object");
             }
         }
 

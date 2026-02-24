@@ -190,6 +190,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
 
         if (_nextTimeAllowTouchVO < Time.time)
         {
+            // TODO: Consider should we be able to "touch" something if we are holding it?
             // Play Touch Dialogue for this object
             _nextTimeAllowTouchVO = Time.time + PlayerSettings.Developer.TouchDialogueInterval;
             AudioPlayer.PlaySoundAtPoint(this, _touchIdentifyVO, transform.position, true);

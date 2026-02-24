@@ -15,6 +15,10 @@ public class WalkieTalkie : PickUpObject
         {
             AudioPlayer.PlaySoundAtPoint(this, _releaseCallButtonSound, transform.position, false, true);
         }, delay);
+
+
+
+        ConversationManager.Instance.PlayTestDialogue();
     }
 
 }

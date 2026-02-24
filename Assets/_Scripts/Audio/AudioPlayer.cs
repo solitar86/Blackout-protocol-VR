@@ -22,12 +22,12 @@ public class AudioPlayer : MonoBehaviour
         _defaultMixerGroup = MainMixer.FindMatchingGroups("SFX")[0];
     }
     #endregion
-    public static void PlaySoundAtPoint(object sender, Sound soundToPlay, Vector3 point, bool usePitchVariation = false, bool spatialize = true)
+    public static GameObject PlaySoundAtPoint(object sender, Sound soundToPlay, Vector3 point, bool usePitchVariation = false, bool spatialize = true)
     {
         if (soundToPlay.Clip == null)
         {
             Debugger.Log(nameof(AudioPlayer) + " : " + sender + " sent a null Sound to play");
-            return;
+            return null;
         }
         GameObject tempGameObject =
             CreateTempGameObjectWithAudioSource(sender, soundToPlay, point, out AudioSource audioSource, spatialize);
@@ -35,6 +35,8 @@ public class AudioPlayer : MonoBehaviour
         if (usePitchVariation) audioSource.pitch = AddPitchVariation(soundToPlay.Pitch);
         audioSource.Play();
         Destroy(tempGameObject, audioSource.clip.length);
+        return tempGameObject;
+
     }
     /// <returns>Sound which was picked to play</returns>
     public static Sound PlayRandomSoundFromArrayAtPoint(object sender, Sound[] soundsArray, Vector3 point, Sound previousSound = null, bool usePitchVariation = false, bool spatialize = true)

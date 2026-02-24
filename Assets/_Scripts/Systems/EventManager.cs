@@ -40,6 +40,12 @@ public static class EventManager
     public static GameEvent<PickUpObject> OnAnyPickUpObjectPlacedOnSurface = new("Object placed on surface");
     public static GameEvent<StaticInteractable> OnAnyInteractableActivated = new("Interactable activated");
 
+    // Dialogue Events
+    public static GameEvent<float> OnDialogueStart_Player = new("Player start speaking");
+    public static GameEvent<float> OnDialogueStop_Player = new("Player stop speaking");
+    public static GameEvent<int> OnDialogueStart_Radio = new("Radio start speaking");
+    public static GameEvent<int> OnDialogueStop_Radio = new("Radio stop speaking");
+
     // One shot gameplay events
     public static GameEvent<int> OnBreakableMachineBreak = new("Breakable machine broke");
 

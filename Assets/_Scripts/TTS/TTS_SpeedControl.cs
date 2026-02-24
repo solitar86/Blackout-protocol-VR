@@ -18,21 +18,15 @@ public class TTS_SpeedControl : MonoBehaviour
     {
         // Find the AudioMixerGroups and set the output of the AudioSources to them
 
-        InitAudioSource();
         InitAudioMixer();
-
-        // Init TTS BUS (Has to be created in MainMixer)
-        TTS_bus = _audioMixer.FindMatchingGroups("TTS")[0];
-        _TTS_source.outputAudioMixerGroup = TTS_bus;
+        InitAudioSource();
 
     }
-
     private void Start()
     {
         SetSpeedAndPitch(); // This doesn't work if it's in Awake.
         EventManager.OnTTSSPeedChange.AddListener(this, OnTTSSpeedChanged);
     }
-
     private void OnDisable()
     {
         EventManager.OnTTSSPeedChange.RemoveListener(this, OnTTSSpeedChanged);
@@ -52,10 +46,14 @@ public class TTS_SpeedControl : MonoBehaviour
     {
         _TTS_source = GetComponent<AudioSource>();
 
-        if( _TTS_source == null )
+        if (_TTS_source == null)
         {
-           _TTS_source = gameObject.AddComponent<AudioSource>();
+            _TTS_source = gameObject.AddComponent<AudioSource>();
         }
+
+        // Init TTS BUS (Has to be created in MainMixer)
+        TTS_bus = _audioMixer.FindMatchingGroups("TTS")[0];
+        _TTS_source.outputAudioMixerGroup = TTS_bus;
 
         _TTS_source.loop = false;
         _TTS_source.playOnAwake = false;
