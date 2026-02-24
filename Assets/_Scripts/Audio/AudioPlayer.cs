@@ -198,12 +198,19 @@ public class AudioPlayer : MonoBehaviour
         }
         float minDistance = 0.5f;
         float maxDistance = 2f;
+
         audioSource.minDistance = soundToPlay.OverrideDefaultDistances ? soundToPlay.MinDistance : minDistance;
         audioSource.maxDistance = soundToPlay.OverrideDefaultDistances ? soundToPlay.MaxDistance : maxDistance;
+
+        /* Previous code before customRollOff generator added
         audioSource.rolloffMode = AudioRolloffMode.Linear; // for default;
+        */
+        audioSource.rolloffMode = AudioRolloffMode.Custom;
+        audioSource.SetCustomCurve(AudioSourceCurveType.CustomRolloff,
+                                    CustomRollOff.Instance.GetLogCurve(minDistance, maxDistance));
 
         // Handle Spatialization
-        if(spatialize == true)
+        if (spatialize == true)
         {
             audioSource.spatialize = true;
             audioSource.spatialBlend = 1; // This is an assumption for now.
