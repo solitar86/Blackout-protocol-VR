@@ -24,6 +24,12 @@ public class ConversationManager : MonoBehaviour
     public static void StartConversation(ConversationSO conversation)
     {
         if (Instance == null) return;
+        if(conversation == null) return;
+        if(conversation.DialogueArray == null || conversation.DialogueArray.Length == 0)
+        {
+            Debugger.LogWarning("Null dialogue sent to Conversation manager");
+            return;
+        }
   
         Instance._conversationQueue.Enqueue(conversation);
 
@@ -34,14 +40,32 @@ public class ConversationManager : MonoBehaviour
         }
     }
 
+    public static void OverrideCurrentConversationWith(ConversationSO conversation)
+    {
+        if(Instance != null)
+        {
+            Instance.StopAllCoroutines();
+            Instance._conversationQueue.Clear();
+            Instance._dialogueQueue.Clear();
+        }
+
+        StartConversation(conversation);
+    }
+
     #region Conversation Coroutines
     private IEnumerator RunConversations()
     {
         _isPlayingConversation = true;
-        while(_conversationQueue.Count > 0)
+
+
+        while (_conversationQueue.Count > 0)
         {
+            ConversationSO currentConvo = _conversationQueue.Peek();
             yield return StartCoroutine(Instance.PlayConversation(_conversationQueue.Dequeue()));
+            currentConvo.OnCompleteAction?.Invoke();
         }
+
+
         _isPlayingConversation = false;
     }
     private IEnumerator PlayConversation(ConversationSO conversation)
@@ -60,17 +84,28 @@ public class ConversationManager : MonoBehaviour
     }
     private IEnumerator PlaySingleDialogue(DialogueSO dialogue)
     {
-        float waitTime = dialogue.GetDialogueDuration();
+        float fullDialogueDuration = dialogue.GetDialogueDuration();
+        float audioLenght = dialogue.GetAudioDuration();
         Transform audioObjectParent = GetParentForDialogueAudio(dialogue.GetSpeaker());
 
         TriggerDialogueStartEvent(dialogue.GetSpeaker(), dialogue.GetDialogueDuration());
+
         // Parent the audioplayer to the object so it follows
         // The radio if it's playing on the radio.
         var audioObject = AudioPlayer.PlaySoundAtPoint(this, dialogue.DialogueAudio, audioObjectParent.position, false, true);
         audioObject.transform.SetParent(audioObjectParent);
 
-        yield return new WaitForSeconds(waitTime);
-        TriggerDialogueEndEvent(dialogue.GetSpeaker());
+        // This way we trigger audio on the walkie talkie when the speaker stops even
+        // if there is an assigned delay for the next dialogue line or speaker.
+        // This may be unnecessarily complex but lets keep it for now.
+        this.CallWithDelay(() =>
+        {
+            TriggerDialogueEndEvent(dialogue.GetSpeaker());
+        }, audioLenght - 0.05f);
+
+        // Do not progress to next dialgue until audio + delay has elapsed.
+        yield return new WaitForSeconds(fullDialogueDuration);
+
     }
     #endregion
 

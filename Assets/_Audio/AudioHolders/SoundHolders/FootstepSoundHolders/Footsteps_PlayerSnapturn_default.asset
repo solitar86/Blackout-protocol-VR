@@ -15,17 +15,26 @@ MonoBehaviour:
   SoundArray:
   - Clip: {fileID: 8300000, guid: 682fdc20359718a4e9ba18f548ef656f, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0.1
+    Volume: 0.3
     Pitch: 1
     SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
   - Clip: {fileID: 8300000, guid: 682fdc20359718a4e9ba18f548ef656f, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0.1
+    Volume: 0.3
     Pitch: 1
     SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
   LastPlayedSound:
     Clip: {fileID: 8300000, guid: 682fdc20359718a4e9ba18f548ef656f, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 0.3
     Pitch: 1
     SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2

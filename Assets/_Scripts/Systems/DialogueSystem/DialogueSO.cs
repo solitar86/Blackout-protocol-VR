@@ -1,4 +1,5 @@
 
+using System;
 using UnityEngine;
 using UnityEngine.Audio;
 [CreateAssetMenu(fileName = "DialogueSO", menuName = "DialogueSO")]
@@ -10,12 +11,11 @@ public class DialogueSO : ScriptableObject
     [SerializeField] float _delayAfterDialogue = 0;
 
     public Sound DialogueAudio => _dialogueAudio;
-    /// <summary>
-    /// Returns clip.lenght + delay (which can be negative)
-    /// </summary>
-    /// <returns>How long before next dialogue is allowed to play</returns>
-    public float GetDialogueDuration() => _dialogueAudio.Clip.length + _delayAfterDialogue;
     public Speaker GetSpeaker() => _speaker;
+    /// <returns>Clip.lenght + delay (which can be negative)</returns>
+    public float GetDialogueDuration() => _dialogueAudio.Clip.length + _delayAfterDialogue;
+    /// <returns>Lenght of the audiofile assigned to this dialogue.</returns>
+    public float GetAudioDuration() => _dialogueAudio.Clip.length;
 
     private void OnValidate()
     {

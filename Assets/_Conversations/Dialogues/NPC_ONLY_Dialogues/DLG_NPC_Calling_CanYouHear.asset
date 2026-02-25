@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b6e58aa312f75b499635c6d00d84b9d, type: 3}
-  m_Name: Test_Dialogue_02
+  m_Name: DLG_NPC_Calling_CanYouHear
   m_EditorClassIdentifier: Assembly-CSharp::DialogueSO
   _speaker: 1
   _dialogueAudio:
-    Clip: {fileID: 8300000, guid: 53c16bc3aed27ee44974cc5981c12ff0, type: 3}
+    Clip: {fileID: 8300000, guid: 52c4b2dc39ec14f449baa5757d30e066, type: 3}
     Mixergroup: {fileID: 2977965170243988990, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
@@ -22,4 +22,4 @@ MonoBehaviour:
     OverrideDefaultDistances: 1
     MinDistance: 0.2
     MaxDistance: 3
-  _delayAfterDialogue: 0
+  _delayAfterDialogue: 3

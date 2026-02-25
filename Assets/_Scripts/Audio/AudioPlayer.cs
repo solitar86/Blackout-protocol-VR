@@ -7,6 +7,8 @@ using Random = UnityEngine.Random;
 public class AudioPlayer : MonoBehaviour
 {
     [SerializeField] private AudioMixerGroup _defaultMixerGroup;
+    [SerializeField] private float _audioDefaultMinDistance = 0.4f;
+    [SerializeField] private float _audioDefaultMaxDistance = 3f;
     public static AudioPlayer Instance;
     public static AudioSource errorAudioSource;
     public AudioMixer MainMixer { get; private set; }
@@ -139,6 +141,7 @@ public class AudioPlayer : MonoBehaviour
 
     /// <summary>
     /// Get a looping audiosource to do something with.
+    /// source will begin playing at creation by default.
     /// </summary>
     /// <param name="sender">Used for error checking and naming gameobject</param>
     /// <param name="soundToLoop">The sound to start looping</param>
@@ -196,15 +199,14 @@ public class AudioPlayer : MonoBehaviour
             Debugger.Log(soundToPlay + " has pitch of 0, reverting to 1");
             audioSource.pitch = 1;
         }
-        float minDistance = 0.5f;
-        float maxDistance = 2f;
 
+        float minDistance = Instance._audioDefaultMinDistance;
+        float maxDistance = Instance._audioDefaultMaxDistance;
+
+        // Do we have set overrides for attenuation? If yes then override defaults.
         audioSource.minDistance = soundToPlay.OverrideDefaultDistances ? soundToPlay.MinDistance : minDistance;
         audioSource.maxDistance = soundToPlay.OverrideDefaultDistances ? soundToPlay.MaxDistance : maxDistance;
 
-        /* Previous code before customRollOff generator added
-        audioSource.rolloffMode = AudioRolloffMode.Linear; // for default;
-        */
         audioSource.rolloffMode = AudioRolloffMode.Custom;
         audioSource.SetCustomCurve(AudioSourceCurveType.CustomRolloff,
                                     CustomRollOff.Instance.GetLogCurve(minDistance, maxDistance));
