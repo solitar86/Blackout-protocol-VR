@@ -412,8 +412,9 @@ MonoBehaviour:
     m_Bits: 3073
   _feetSeparationDistance: 1
   _defaultFootSteps: {fileID: 11400000, guid: bf4818b62b1b414458290a185d758b1d, type: 2}
-  _snapTurnFootSounds: {fileID: 11400000, guid: 0af80ae222a039c4a8386855b365cdf0, type: 2}
   _footStepSoundDistanceInterval: 0.5
+  _minDelayBetweenShuffle: 0.05
+  _maxDelayBetweenShuffle: 0.3
 --- !u!114 &4161250646614555834
 MonoBehaviour:
   m_ObjectHideFlags: 0

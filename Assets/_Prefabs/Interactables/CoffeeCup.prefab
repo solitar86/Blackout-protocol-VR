@@ -151,7 +151,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -210,6 +210,7 @@ GameObject:
   - component: {fileID: 5126304057273286274}
   - component: {fileID: 7612156181048436474}
   - component: {fileID: 6898833604895112967}
+  - component: {fileID: 6232046587397438591}
   m_Layer: 6
   m_Name: CoffeeCup
   m_TagString: Untagged
@@ -227,7 +228,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.722, y: 1.053, z: 2.389}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.099999994, y: 0.1, z: 0.099999994}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1558500741671430641}
@@ -325,7 +326,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+  - {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -397,6 +398,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6232046587397438591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5833667702195101368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20f87f59b9d46244892d81a6de093e44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _questProgressionStep:
+    Quest: {fileID: 11400000, guid: 57586e5f71c3dd14ea4d66ca5bdce731, type: 2}
+    ProgressionState: 1
 --- !u!1 &7870458034214191398
 GameObject:
   m_ObjectHideFlags: 0

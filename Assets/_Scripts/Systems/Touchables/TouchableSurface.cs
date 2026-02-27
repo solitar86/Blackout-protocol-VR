@@ -147,15 +147,30 @@ public class TouchableSurface : MonoBehaviour
 
             return true;
         }
+
+        ////////////////////////////////////////
+        ///THIS PART IS UNDER EXPERIMENTATION
+        ////////////////////////////////////////
         if (outerCollider is MeshCollider)
         {
-            Vector3 center = innerCollider.bounds.center;
+            // Check for actual collisions/contact
+            Collider[] hits = Physics.OverlapBox(
+                innerCollider.bounds.center,
+                innerCollider.bounds.extents,
+                innerCollider.transform.rotation,
+                ~0, // All layers
+                QueryTriggerInteraction.Collide
+            );
 
-            // If center is inside mesh volume,
-            // ClosestPoint returns same position
-            Vector3 closest = outerCollider.ClosestPoint(center);
-            return (closest - center).sqrMagnitude < 0.000001f;
+            foreach (var hit in hits)
+            {
+                if (hit == outerCollider)
+                    return true; // The inner collider is still overlapping the mesh
+            }
+
+            return false; // No contact ? false
         }
+
         return false;
     }
     private struct HandCollidingData

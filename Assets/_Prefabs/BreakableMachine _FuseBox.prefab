@@ -209,8 +209,8 @@ GameObject:
   - component: {fileID: 1567065532842801200}
   - component: {fileID: 2961050924001993342}
   - component: {fileID: 7567479316387592368}
-  - component: {fileID: 379437169304089116}
   - component: {fileID: 3736397328724890685}
+  - component: {fileID: 379437169304089116}
   m_Layer: 10
   m_Name: BreakableMachine _FuseBox
   m_TagString: Untagged
@@ -376,6 +376,22 @@ MonoBehaviour:
     MinDistance: 0.5
     MaxDistance: 2
   _touchSoundHolder: {fileID: 11400000, guid: 6369ca3e1e5bd284d9873c9a0c9478a6, type: 2}
+--- !u!114 &3736397328724890685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8377769058188198268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4326c5cf7ad07fa4698c0454b2ac2123, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _addedDetectionBuffer: 0.1
+  _detectableLayers:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!114 &379437169304089116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,19 +435,3 @@ MonoBehaviour:
   _onBreak:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &3736397328724890685
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8377769058188198268}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4326c5cf7ad07fa4698c0454b2ac2123, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  _addedDetectionBuffer: 1.17
-  _detectableLayers:
-    serializedVersion: 2
-    m_Bits: 64

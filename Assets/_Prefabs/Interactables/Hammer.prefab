@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4394234128240405969}
   - component: {fileID: 3892712375394669236}
   - component: {fileID: 4610310793079636556}
+  - component: {fileID: 253687784465848355}
   m_Layer: 6
   m_Name: Hammer
   m_TagString: Untagged
@@ -139,6 +140,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
+--- !u!114 &253687784465848355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 909591685351846644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20f87f59b9d46244892d81a6de093e44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PickUpObjectTouchDetector
+  _questProgressionStep:
+    Quest: {fileID: 11400000, guid: 706ad42d7eb33f244805d0e69eef6671, type: 2}
+    ProgressionState: 1
 --- !u!1 &3919616063995829569
 GameObject:
   m_ObjectHideFlags: 0

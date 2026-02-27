@@ -48,6 +48,12 @@ public static class EventManager
     public static GameEvent<int> OnDialogueStart_Radio = new("Radio start speaking");
     public static GameEvent<int> OnDialogueStop_Radio = new("Radio stop speaking");
 
+    // Quest progression event(s)
+    public static GameEvent<QuestProgressionStep> OnProgressQuest = new("Progress Quest");
+    public static GameEvent<int> OnAnyQuestWasProgressed = new("Quest was progressed");
+    public static GameEvent<QuestSO> OnQuestCompleted = new("Quest Completed");
+
+
     // One shot gameplay events
     public static GameEvent<int> OnBreakableMachineBreak = new("Breakable machine broke");
 

@@ -8,6 +8,7 @@ public class BreakableMachine_Water : MonoBehaviour
     [SerializeField] Sound _takeDamageSound;
     [SerializeField] Sound _isDamagedLoop;
     [SerializeField] Sound _breakSoundEffect;
+    [SerializeField] UnityEvent _onDamaged;
     [SerializeField] UnityEvent _onBreak;
 
     private AudioSource _damageLoopSource = null;
@@ -19,6 +20,7 @@ public class BreakableMachine_Water : MonoBehaviour
 
         if(_isBroken == false)
         {
+            _onDamaged.Invoke();
             if(_damageLoopSource == null) _damageLoopSource = AudioPlayer.CreateLoopingAudioSource(this, _isDamagedLoop);
             _damageLoopSource.transform.position = transform.position;
             AudioPlayer.PlaySoundAtPoint(this, _takeDamageSound, transform.position, true);
