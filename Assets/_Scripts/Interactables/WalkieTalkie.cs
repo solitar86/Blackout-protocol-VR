@@ -9,10 +9,12 @@ public class WalkieTalkie : PickUpObject
     [SerializeField] Sound _transmisisonEndSound;
     [SerializeField] Sound _radioStaticLoop;
 
-    [SerializeField] ConversationSO _testConvo;
+    [SerializeField] ConversationSO _FirstTimeCallPlayerConvoLoop;
+    [SerializeField] ConversationSO _PlayerAnswerRadioConvo;
 
     private AudioSource _staticLoopSource;
     private float _radioStaticDefaultVolume;
+
 
     #region Unity Callbacks
     private void OnEnable()
@@ -32,24 +34,16 @@ public class WalkieTalkie : PickUpObject
     private void Start()
     {
         PlayRadioStaticBeaconLoop();
+        PlayConversationOnLoop(_FirstTimeCallPlayerConvoLoop);
     }
     #endregion
     public override void Activate()
     {
-        PlayConversationOnLoop(_testConvo);
+        ConversationManager.OverrideCurrentConversationWith(_PlayerAnswerRadioConvo);
     }
-    /// <summary>
-    /// This is mostly meant for a situation where we want the player
-    /// to be "lured" to the walkie talkie by the NPC calling for them.
-    /// </summary>
-    /// <param name="convoToLoop"></param>
     public void PlayConversationOnLoop(ConversationSO convoToLoop)
     {
-        convoToLoop.OnCompleteAction = () =>
-        {
-            PlayConversationOnLoop(convoToLoop);
-        };
-        ConversationManager.StartConversation(convoToLoop);
+        ConversationManager.PlayConversationOnLoop(convoToLoop);
     }
     private void PlayRadioStaticBeaconLoop()
     {

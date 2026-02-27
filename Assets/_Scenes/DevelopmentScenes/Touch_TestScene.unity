@@ -1125,13 +1125,14 @@ MonoBehaviour:
   _radioStaticLoop:
     Clip: {fileID: 8300000, guid: 5c182eb69a65630439bfa0f1256da347, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0.3
+    Volume: 0.15
     Pitch: 1
     SpacialBlend: 1
     OverrideDefaultDistances: 1
     MinDistance: 0.2
     MaxDistance: 5
-  _testConvo: {fileID: 11400000, guid: baee1c7386727dd47b959a134dfa239c, type: 2}
+  _FirstTimeCallPlayerConvoLoop: {fileID: 11400000, guid: baee1c7386727dd47b959a134dfa239c, type: 2}
+  _PlayerAnswerRadioConvo: {fileID: 11400000, guid: 97f441fcb81efb745aedcd1d87bde549, type: 2}
 --- !u!4 &1837377727
 Transform:
   m_ObjectHideFlags: 0

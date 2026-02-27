@@ -9,7 +9,7 @@ public class PlayerHandInteractor : MonoBehaviour
     private Collider _collider;
     private List<Iinteractable> _interactablesInRange = new();
     private Iinteractable _heldInteractable;
-    public GameEvent<bool> OnGrabFailed = new("Grab failed");
+    public GameEvent<bool> OnGrabFailed = new("Nothing to grab in range");
 
     #region Unity Callbacks -> Trigger Callbacks
     private void Awake()
