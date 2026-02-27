@@ -1,15 +1,20 @@
 using System;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Turning;
+using Random = UnityEngine.Random;
 
 public class PlayerFootStepHandler : MonoBehaviour
 {
     [SerializeField] LayerMask _whatCountsAsGround;
     [SerializeField] private float _feetSeparationDistance = 0.3f;
     [SerializeField] private SoundArrayHolder _defaultFootSteps;
-    [SerializeField] private SoundArrayHolder _carpetFootsteps;
-    [SerializeField] private SoundArrayHolder _snapTurnFootSounds;
     [SerializeField] private float _footStepSoundDistanceInterval = 0.4f;
+    [Header("Snap turn sound settings")]
+    [Tooltip("Snap turn playes 2 footsteps at random delay. Set min and max here:")]
+    [SerializeField] private float _minDelayBetweenShuffle = 0.05f;
+    [Tooltip("Snap turn playes 2 footsteps at random delay. Set min and max here:")]
+    [SerializeField] private float _maxDelayBetweenShuffle = 1f;
+    
     private bool _isLeftFoot = true; // Player starts with left foot step.
 
     public GameEvent<int> OnPlayerTakeFootstep = new("Player Footstep");
@@ -23,7 +28,6 @@ public class PlayerFootStepHandler : MonoBehaviour
         SnapTurnProvider.OnPlayerSnapTurn += HandlePlayerSnapTurnFootSteps;
         EventManager.OnPlayerStartMove.AddListener(this, HandlePlayerStartMove);
     }
-
     private void OnDisable()
     {
         SnapTurnProvider.OnPlayerSnapTurn -= HandlePlayerSnapTurnFootSteps;
@@ -46,22 +50,29 @@ public class PlayerFootStepHandler : MonoBehaviour
                             Vector3.down,
                             out RaycastHit hitInfo,
                             float.MaxValue,
-                            _whatCountsAsGround))
+                            _whatCountsAsGround, QueryTriggerInteraction.Collide))
         {
-
-            SoundArrayHolder footStepSounds = GetAppripriateFootStepArray();
+            SoundArrayHolder footStepSounds = GetAppripriateFootStepArray(hitInfo);
             var position = CalculateFootStepPosition(hitInfo.point, transform);
-            AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
-                                                        footStepSounds.SoundArray,
-                                                        hitInfo.point,
-                                                        footStepSounds.LastPlayedSound,
-                                                        true);
+            footStepSounds.LastPlayedSound = AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
+                                                                footStepSounds.SoundArray,
+                                                                hitInfo.point,
+                                                                footStepSounds.LastPlayedSound,
+                                                                true);
             OnPlayerTakeFootstep.Raise(this, -1);
         }
     }
-    private SoundArrayHolder GetAppripriateFootStepArray()
+    private SoundArrayHolder GetAppripriateFootStepArray(RaycastHit hitInfo)
     {
-        return _defaultFootSteps;
+        SoundArrayHolder footsteps;
+        hitInfo.collider.TryGetComponent<FootstepSurface>(out var surface);
+
+        if (surface != null)
+            footsteps = surface.GetFootStepSounds();
+        else
+            footsteps = _defaultFootSteps;
+
+        return footsteps;
     }
     private void HandlePlayerSnapTurnFootSteps(bool wasRightTurn)
     {
@@ -71,16 +82,25 @@ public class PlayerFootStepHandler : MonoBehaviour
         //////////////////////////////////////////////////////////////////////
 
         if (Physics.Raycast(transform.position,
-                    Vector3.down,
-                    out RaycastHit hitInfo,
-                    float.MaxValue,
-                    _whatCountsAsGround))
+                            Vector3.down,
+                            out RaycastHit hitInfo,
+                            float.MaxValue,
+                            _whatCountsAsGround, QueryTriggerInteraction.Collide))
         {
-            _snapTurnFootSounds.LastPlayedSound = AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
-                                                        _snapTurnFootSounds.SoundArray,
-                                                        hitInfo.point,
-                                                        _snapTurnFootSounds.LastPlayedSound,
-                                                        true);
+            SoundArrayHolder footStepSounds = GetAppripriateFootStepArray(hitInfo);
+            float delay = 0f;
+            for (int i = 0; i < 2; i++)
+            {
+                this.CallWithDelay(() =>
+                {
+                    footStepSounds.LastPlayedSound = AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
+                                                                footStepSounds.SoundArray,
+                                                                hitInfo.point,
+                                                                footStepSounds.LastPlayedSound,
+                                                                true);
+                }, delay);
+                delay += Random.Range(_minDelayBetweenShuffle, _maxDelayBetweenShuffle);
+            }
         }
     }
     private void HandlePlayerStartMove(int value)
@@ -97,13 +117,13 @@ public class PlayerFootStepHandler : MonoBehaviour
         pointOnGround += transform.right * (_isLeftFoot ? -1f : 1f) * _feetSeparationDistance;
         _isLeftFoot = !_isLeftFoot;
 
-        if(Debugger.isEnabled) Debug.DrawRay(pointOnGround, Vector3.up * 0.5f, Color.green, 5f);
+        if (Debugger.isEnabled) Debug.DrawRay(pointOnGround, Vector3.up * 0.5f, Color.green, 5f);
 
         return pointOnGround;
     }
-
+    
 #if UNITY_EDITOR
-    public void ForceFootStepValues(float footStepSoundDistanceInterval,  float feetSeparationDistance)
+    public void ForceFootStepValues(float footStepSoundDistanceInterval, float feetSeparationDistance)
     {
         _feetSeparationDistance = footStepSoundDistanceInterval;
         _feetSeparationDistance = feetSeparationDistance;
