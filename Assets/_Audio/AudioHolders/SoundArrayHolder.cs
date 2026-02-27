@@ -16,7 +16,6 @@ public class SoundArrayHolder : ScriptableObject
             CorrectPitchFromZero(SoundArray[i]);
             CorrectVolumeFromZero(SoundArray[i]);
         }
-
     }
 
     private void CorrectVolumeFromZero(Sound sound)

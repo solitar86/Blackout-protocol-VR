@@ -1001,7 +1001,7 @@
                     "id": "5cf898eb-fe58-49fa-ac20-869e63147e89",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Hold(duration=2)",
+                    "interactions": "Hold(duration=1.7)",
                     "initialStateCheck": false
                 }
             ],
@@ -2154,7 +2154,7 @@
                     "id": "12fa9ae1-8284-4384-984b-f258c91bcd15",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Hold(duration=2)",
+                    "interactions": "Hold(duration=1.7)",
                     "initialStateCheck": false
                 }
             ],

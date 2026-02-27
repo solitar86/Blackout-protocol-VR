@@ -9,9 +9,6 @@ public class WalkieTalkie : PickUpObject
     [SerializeField] Sound _transmisisonEndSound;
     [SerializeField] Sound _radioStaticLoop;
 
-    [SerializeField] ConversationSO _FirstTimeCallPlayerConvoLoop;
-    [SerializeField] ConversationSO _PlayerAnswerRadioConvo;
-
     private AudioSource _staticLoopSource;
     private float _radioStaticDefaultVolume;
 
@@ -34,12 +31,14 @@ public class WalkieTalkie : PickUpObject
     private void Start()
     {
         PlayRadioStaticBeaconLoop();
-        PlayConversationOnLoop(_FirstTimeCallPlayerConvoLoop);
     }
     #endregion
     public override void Activate()
     {
-        ConversationManager.OverrideCurrentConversationWith(_PlayerAnswerRadioConvo);
+        // FOr now:
+        AudioPlayer.PlaySoundAtPoint(this, _pressCallButtonSound, Player.Instance.transform.position, false, true);
+        // Handle context sensitive conversation triggering somehow
+        // maybe from a Quest manager or hint system or both?
     }
     public void PlayConversationOnLoop(ConversationSO convoToLoop)
     {

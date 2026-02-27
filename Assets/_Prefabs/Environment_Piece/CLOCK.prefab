@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 2551459958758283388}
   - component: {fileID: 6068820565123915930}
   - component: {fileID: 188664550229181759}
+  - component: {fileID: 2946199166881088973}
   m_Layer: 0
   m_Name: CLOCK
   m_TagString: Untagged
@@ -298,3 +299,15 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.05, y: 0.3, z: 0.3}
   m_Center: {x: 0.05, y: 0, z: 0}
+--- !u!114 &2946199166881088973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5319103407514755740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10bc6dd2e5b0ad648ac4e86d92c5c275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SetCustomRollOffOnStart

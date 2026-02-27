@@ -35,11 +35,11 @@ public class TutorialHandler : MonoBehaviour
     }
     private IEnumerator TutorialCoroutine()
     {
-        //yield return StartCoroutine(TTSIntroduction());
+        yield return StartCoroutine(TTSIntroduction());
 
-        //yield return StartCoroutine(RadialMenuTutorial());
+        yield return StartCoroutine(RadialMenuTutorial());
 
-        //yield return StartCoroutine(CharacterVoiceIntroduction());
+        yield return StartCoroutine(CharacterVoiceIntroduction());
 
         yield return StartCoroutine(MovementTutorial());
 

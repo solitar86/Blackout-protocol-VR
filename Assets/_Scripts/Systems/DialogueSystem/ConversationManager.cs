@@ -24,7 +24,7 @@ public class ConversationManager : MonoBehaviour
     #endregion
     
     /// <summary>
-    /// Play the conversation.
+    /// Play a conversation.
     /// </summary>
     /// <param name="conversation"></param>
     public static void StartConversation(ConversationSO conversation)

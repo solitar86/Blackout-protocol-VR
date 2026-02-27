@@ -7,6 +7,7 @@ public class PlayerFootStepHandler : MonoBehaviour
     [SerializeField] LayerMask _whatCountsAsGround;
     [SerializeField] private float _feetSeparationDistance = 0.3f;
     [SerializeField] private SoundArrayHolder _defaultFootSteps;
+    [SerializeField] private SoundArrayHolder _carpetFootsteps;
     [SerializeField] private SoundArrayHolder _snapTurnFootSounds;
     [SerializeField] private float _footStepSoundDistanceInterval = 0.4f;
     private bool _isLeftFoot = true; // Player starts with left foot step.

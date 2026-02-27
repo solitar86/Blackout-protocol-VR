@@ -24,7 +24,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
 
     [Tooltip("How this object should orient itself in the players hand. Adjust at runtime to see results.")]
     [Space(5), Header("Settings for how item is oriented when held")]
-    [SerializeField] private PickUpHoldOffsetSettings _offsetSettings;
+    [SerializeField] private HoldPickupOffsetSettingsSO _offsetSettings;
 
     [Header("Where can this object be placed?")]
     [SerializeField] private LayerMask _placeableSurfaceLayerMask;
