@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6f6faf6563e1f4242adfe756f939d84b, type: 3}
-  m_Name: TESTING_TouchSoundHolder
+  m_Name: TESTING_TouchSoundHolder_Wood
   m_EditorClassIdentifier: Assembly-CSharp::TouchSoundHolderSO
   FirstTouchSound:
-    Clip: {fileID: 8300000, guid: 30014413f4523c74ab9220ff86f08814, type: 3}
+    Clip: {fileID: 8300000, guid: f7f9d9b67577c6b45a275d675443f4cb, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0.1
+    Volume: 0.3
     Pitch: 1
     SpacialBlend: 1
     OverrideDefaultDistances: 0
     MinDistance: 0.5
     MaxDistance: 2
   SlideTouchSound:
-    Clip: {fileID: 8300000, guid: 9355e3ec6b0073f4d9653d4bdef12c30, type: 3}
+    Clip: {fileID: 8300000, guid: 2a8c551143ff40944b1c4c47cb74304d, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 0.3
     Pitch: 1
@@ -31,9 +31,9 @@ MonoBehaviour:
     MinDistance: 0.5
     MaxDistance: 2
   EndTouchSound:
-    Clip: {fileID: 8300000, guid: 4c3004ecea06c594f9ef3958f20e5bf5, type: 3}
+    Clip: {fileID: 8300000, guid: 68c6787b506aae64793381e1928eea19, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0.03
+    Volume: 0.1
     Pitch: 1
     SpacialBlend: 1
     OverrideDefaultDistances: 0
