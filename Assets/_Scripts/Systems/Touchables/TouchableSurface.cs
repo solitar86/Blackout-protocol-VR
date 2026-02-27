@@ -14,12 +14,12 @@ public class TouchableSurface : MonoBehaviour
     public GameEvent<(float distance, Vector3 position)> OnTouchSlide = new("Touch slide");
     public GameEvent<Vector3> OnTouchEnd = new("Touch end");
 
-    private BoxCollider _boxCollider;
+    private Collider _collider;
 
-    #region Unity Callbacks -> Trigger Enter Callbacks
+    #region Unity Callbacks -> Trigger Enter/Exit/Stay Callbacks
     private void OnTriggerEnter(Collider other)
     {
-        if(this.enabled == false) return;
+        if (this.enabled == false) return;
         //Here we handle initial contact. Usually a higher intensity vibration.
         if (other.TryGetComponent<PlayerHand>(out var playerHand))
         {
@@ -27,7 +27,6 @@ public class TouchableSurface : MonoBehaviour
             HandPlayerInitialTouch(other, playerHand);
         }
     }
-
     private void OnTriggerStay(Collider other)
     {
         if (this.enabled == false) return;
@@ -39,7 +38,6 @@ public class TouchableSurface : MonoBehaviour
             HandlePlaySlidingHaptic(other, i);
         }
     }
-
     private void OnTriggerExit(Collider other)
     {
         if (this.enabled == false) return;
@@ -69,7 +67,7 @@ public class TouchableSurface : MonoBehaviour
         if (distance > _touchSlideHapticSettings.DistanceInterval)
         {
             OnTouchSlide.Raise(this, (distance, playerHandCollider.transform.position));
-           // playerHandsDataList[i].hand.PlayHapticFeedback(_touchSlideHapticSettings);
+            // playerHandsDataList[i].hand.PlayHapticFeedback(_touchSlideHapticSettings);
             playerHandsDataList[i].hand.HandleTouchSlide(_touchSlideHapticSettings);
 
 
@@ -132,21 +130,33 @@ public class TouchableSurface : MonoBehaviour
     }
     private bool IsInsideCollider(Collider innerCollider, Collider outerCollider)
     {
-
-        Vector3[] testPoints =
+        if (outerCollider is BoxCollider)
         {
-            innerCollider.bounds.min,
-            innerCollider.bounds.max,
-            innerCollider.bounds.center
-        };
+            Vector3[] testPoints =
+            {
+                innerCollider.bounds.min,
+                innerCollider.bounds.max,
+                innerCollider.bounds.center
+            };
 
-        foreach (var point in testPoints)
-        {
-            if (outerCollider.ClosestPoint(point) != point)
-                return false;
+            foreach (var point in testPoints)
+            {
+                if (outerCollider.ClosestPoint(point) != point)
+                    return false;
+            }
+
+            return true;
         }
+        if (outerCollider is MeshCollider)
+        {
+            Vector3 center = innerCollider.bounds.center;
 
-        return true;
+            // If center is inside mesh volume,
+            // ClosestPoint returns same position
+            Vector3 closest = outerCollider.ClosestPoint(center);
+            return (closest - center).sqrMagnitude < 0.000001f;
+        }
+        return false;
     }
     private struct HandCollidingData
     {
@@ -163,18 +173,19 @@ public class TouchableSurface : MonoBehaviour
         public Vector3 previousPosition;
         public float handInsideColliderTimer;
     }
-
-    public BoxCollider GetBoxCollider()
+    public Collider GetCollider()
     {
-        if(_boxCollider == null)
-            _boxCollider = GetComponent<BoxCollider>();
-        return _boxCollider;
+        if (_collider == null)
+            _collider = GetComponent<Collider>();
+
+        if (_collider == null) return null;
+        return _collider;
     }
     #endregion
 
     #region FPS Testing Helper Functions
 #if UNITY_EDITOR
-public void TestFirstTouch(Vector3 touchPosition)
+    public void TestFirstTouch(Vector3 touchPosition)
     {
         OnTouchStart.Raise(this, touchPosition);
     }

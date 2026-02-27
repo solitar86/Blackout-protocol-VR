@@ -24,7 +24,7 @@ public class TouchableSurfaceItemDetector : MonoBehaviour
     private void OnPlayerTouchBegin(Vector3 touchPosition)
     {
         if (_surface == null) _surface = GetComponent<TouchableSurface>();
-        var surfaceCollider = _surface.GetBoxCollider();
+        var surfaceCollider = _surface.GetCollider();
         if (surfaceCollider == null) return;
 
         var colliders = Physics.OverlapBox(_surface.transform.position,
@@ -77,15 +77,27 @@ public class TouchableSurfaceItemDetector : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         if (_surface == null) _surface = GetComponent<TouchableSurface>();
-        var surfaceCollider = _surface.GetBoxCollider();
+        var surfaceCollider = _surface.GetCollider();
         if (surfaceCollider == null) return;
+
+        var bounds = surfaceCollider.bounds;
+
+        Gizmos.matrix = Matrix4x4.TRS(
+            bounds.center,
+            _surface.transform.rotation,
+            Vector3.one
+        );
+
+        // Exact collider bounds
         Gizmos.color = Color.green;
-        Gizmos.matrix = _surface.transform.localToWorldMatrix;
-        Gizmos.DrawWireCube(Vector3.zero, surfaceCollider.bounds.size);
+        Gizmos.DrawWireCube(Vector3.zero, bounds.size);
+
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(Vector3.zero, surfaceCollider.bounds.size * (1 + _addedDetectionBuffer));
-
+        Gizmos.DrawWireCube(
+            Vector3.zero,
+            bounds.size * (1 + _addedDetectionBuffer)
+        );
     }
 
 }
