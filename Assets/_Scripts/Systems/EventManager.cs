@@ -43,7 +43,7 @@ public static class EventManager
     // Conversation & Dialogue Events
     public static GameEvent<string> OnConversationStarted = new("Conversation started");
     public static GameEvent<string> OnConversationEnded = new("Conversation Ended");
-    public static GameEvent<float> OnDialogueStart_Player = new("Player start speaking");
+    public static GameEvent<DialogueSO> OnDialogueStart_Player = new("Player start speaking");
     public static GameEvent<float> OnDialogueStop_Player = new("Player stop speaking");
     public static GameEvent<int> OnDialogueStart_Radio = new("Radio start speaking");
     public static GameEvent<int> OnDialogueStop_Radio = new("Radio stop speaking");

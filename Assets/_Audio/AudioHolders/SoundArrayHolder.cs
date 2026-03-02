@@ -26,6 +26,18 @@ public class SoundArrayHolder : ScriptableObject
             soundToCheck.SpacialBlend = 1f;
             Debugger.Log("Forcing spatialblend to 1 for file: " + soundToCheck.Clip.name);
         }
+
+        if (soundToCheck.Clip.name.ToLower().Contains("foley"))
+        {
+            soundToCheck.SpacialBlend = 1f;
+            Debugger.Log("Forcing spatialblend to 1 for file: " + soundToCheck.Clip.name);
+        }
+
+        if (soundToCheck.Clip.name.ToLower().Contains("bump"))
+        {
+            soundToCheck.SpacialBlend = 1f;
+            Debugger.Log("Forcing spatialblend to 1 for file: " + soundToCheck.Clip.name);
+        }
     }
 
     private void CorrectVolumeFromZero(Sound sound)

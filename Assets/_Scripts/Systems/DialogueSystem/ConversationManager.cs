@@ -130,7 +130,7 @@ public class ConversationManager : MonoBehaviour
         float audioLenght = dialogue.GetAudioDuration();
         Transform audioObjectParent = GetParentForDialogueAudio(dialogue.GetSpeaker());
 
-        TriggerDialogueStartEvent(dialogue.GetSpeaker(), dialogue.GetDialogueDuration());
+        TriggerDialogueStartEvent(dialogue.GetSpeaker(), dialogue);
 
         // Parent the audioplayer to the object so it follows
         // The radio if it's playing on the radio.
@@ -174,11 +174,11 @@ public class ConversationManager : MonoBehaviour
             return _radioTransform;
         }
     }
-    private void TriggerDialogueStartEvent(Speaker speaker, float dialogDuration)
+    private void TriggerDialogueStartEvent(Speaker speaker, DialogueSO dialogueSO)
     {
         if (speaker is Speaker.Player)
         {
-            EventManager.OnDialogueStart_Player.Raise(this, dialogDuration);
+            EventManager.OnDialogueStart_Player.Raise(this, dialogueSO);
             return;
         }
         EventManager.OnDialogueStart_Radio.Raise(this, -1);

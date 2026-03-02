@@ -17,7 +17,8 @@ public class PlayerFoleyHandler : MonoBehaviour
         _footstepHandler.OnPlayerTakeFootstep.AddListener(this, HandlePlayerTakeFootStep);
 
         EventManager.OnPlayerStartMove.AddListener(this, HandlePlayerStartMove);
-        SnapTurnProvider.OnPlayerSnapTurn += HandlePlayerMakeSnapTurn;
+        //SnapTurnProvider.OnPlayerSnapTurn += HandlePlayerMakeSnapTurn;
+        CustomSnapTurnProviderWrapper.OnPlayerSnapTurn += HandlePlayerMakeSnapTurn;
     }
 
     private void HandlePlayerMakeSnapTurn(bool wasRightTurn)
@@ -35,7 +36,8 @@ public class PlayerFoleyHandler : MonoBehaviour
         _footstepHandler.OnPlayerTakeFootstep.RemoveListener(this, HandlePlayerTakeFootStep);
 
         EventManager.OnPlayerStartMove.RemoveListener(this, HandlePlayerStartMove);
-        SnapTurnProvider.OnPlayerSnapTurn -= HandlePlayerMakeSnapTurn;
+        // SnapTurnProvider.OnPlayerSnapTurn -= HandlePlayerMakeSnapTurn;
+        CustomSnapTurnProviderWrapper.OnPlayerSnapTurn -= HandlePlayerMakeSnapTurn;
     }
     #endregion
 

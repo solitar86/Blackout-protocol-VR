@@ -25,12 +25,14 @@ public class PlayerFootStepHandler : MonoBehaviour
     private void OnEnable()
     {
         lastStepPosition = new Vector3(transform.position.x, 0f, transform.position.z);
-        SnapTurnProvider.OnPlayerSnapTurn += HandlePlayerSnapTurnFootSteps;
+        //SnapTurnProvider.OnPlayerSnapTurn += HandlePlayerSnapTurnFootSteps;
+        CustomSnapTurnProviderWrapper.OnPlayerSnapTurn += HandlePlayerSnapTurnFootSteps;
         EventManager.OnPlayerStartMove.AddListener(this, HandlePlayerStartMove);
     }
     private void OnDisable()
     {
-        SnapTurnProvider.OnPlayerSnapTurn -= HandlePlayerSnapTurnFootSteps;
+        //SnapTurnProvider.OnPlayerSnapTurn -= HandlePlayerSnapTurnFootSteps;
+        CustomSnapTurnProviderWrapper.OnPlayerSnapTurn += HandlePlayerSnapTurnFootSteps;
         EventManager.OnPlayerStartMove.RemoveListener(this, HandlePlayerStartMove);
     }
     private void Update()

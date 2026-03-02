@@ -81,8 +81,9 @@ public class WalkieTalkie : PickUpObject
         AudioPlayer.PlaySoundAtPoint(this, _transmisisonEndSound, transform.position, false, true);
         ResetRadioStaticVolume();
     }
-    private void OnPlayerVOStart(float value)
+    private void OnPlayerVOStart(DialogueSO dialogueSO)
     {
+        if (dialogueSO.IsMonologue) return;
         AudioPlayer.PlaySoundAtPoint(this, _pressCallButtonSound, transform.position, false, true);
         DuckRadioStaticVolumeTo(0f);
     }

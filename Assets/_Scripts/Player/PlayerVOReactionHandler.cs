@@ -21,7 +21,8 @@ public class PlayerVOReactionHandler : MonoBehaviour
         EventManager.OnPlayerCurse.AddListener(this, PlayerSayCurseWord);
         EventManager.OnPlayerObjectIDVOShouldPlay.AddListener(this, PlayTouchIDVoiceLine);
         EventManager.OnInteractableDetectedOnSurface.AddListener(this, PlayItemDetectedVoiceLine);
-        SnapTurnProvider.OnPlayerSnapTurn += HandlePlayerTurn;
+        //SnapTurnProvider.OnPlayerSnapTurn += HandlePlayerTurn;
+        CustomSnapTurnProviderWrapper.OnPlayerSnapTurn += HandlePlayerTurn;
     }
 
     private void OnDisable()
@@ -29,7 +30,9 @@ public class PlayerVOReactionHandler : MonoBehaviour
         EventManager.OnPlayerCurse.RemoveListener(this, PlayerSayCurseWord);
         EventManager.OnPlayerObjectIDVOShouldPlay.RemoveListener(this, PlayTouchIDVoiceLine);
         EventManager.OnInteractableDetectedOnSurface.RemoveListener(this, PlayItemDetectedVoiceLine);
-        SnapTurnProvider.OnPlayerSnapTurn -= HandlePlayerTurn;
+        // SnapTurnProvider.OnPlayerSnapTurn -= HandlePlayerTurn;
+        CustomSnapTurnProviderWrapper.OnPlayerSnapTurn -= HandlePlayerTurn;
+
     }
 
     #endregion

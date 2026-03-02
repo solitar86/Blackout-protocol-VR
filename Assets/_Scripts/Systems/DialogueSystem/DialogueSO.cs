@@ -1,15 +1,16 @@
-
-using System;
 using UnityEngine;
 using UnityEngine.Audio;
-[CreateAssetMenu(fileName = "DialogueSO", menuName = "DialogueSO")]
+[CreateAssetMenu(fileName = "DialogueSO", menuName = "new DialogueSO")]
 public class DialogueSO : ScriptableObject
 {
-    [SerializeField] Speaker _speaker;
-    [SerializeField] Sound _dialogueAudio;
+    [SerializeField] private Speaker _speaker;
+    [SerializeField] private Sound _dialogueAudio;
     [Tooltip("This can be negative to have overlapping dialogue")]
-    [SerializeField] float _delayAfterDialogue = 0;
+    [SerializeField] private float _delayAfterDialogue = 0;
+    [Tooltip("If checked the walkietalkie will not respond to player speech")]
+    [SerializeField] private bool _isMonologue = false;
 
+    public bool IsMonologue => _isMonologue;
     public Sound DialogueAudio => _dialogueAudio;
     public Speaker GetSpeaker() => _speaker;
     /// <returns>Clip.lenght + delay (which can be negative)</returns>

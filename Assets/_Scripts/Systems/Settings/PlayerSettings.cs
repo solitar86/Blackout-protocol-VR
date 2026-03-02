@@ -259,7 +259,7 @@ public class PlayerSettings
 
         private bool TryUpdateSnapTurnAngle()
         {
-            var turnProvider = GameObject.FindFirstObjectByType<SnapTurnProvider>();
+            var turnProvider = GameObject.FindFirstObjectByType<CustomSnapTurnProviderWrapper>();
             if (turnProvider != null)
             {
                 turnProvider.ChangeTurnAmountToAngle(SnapTurnAngle);
