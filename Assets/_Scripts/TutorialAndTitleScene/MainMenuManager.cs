@@ -9,10 +9,17 @@ public class MainMenuManager : MonoBehaviour
 
     private bool _skipTutorial = false;
 
+    private void OnEnable()
+    {
+        
+    }
+    private void OnDisable()
+    {
+        EventManager.OnPlayerWantSkip.RemoveListener(this, SkipTutorial);
+    }
     private const string TTSTUTORIALPATH = "TTS/Tutorial/";
     private IEnumerator Start()
     {
-
         _title?.Hide();
         // Disable menu so player doesn't open it until prompted
         EventManager.OnToggleRadialMenuOnOff.Raise(this, false);

@@ -13,51 +13,75 @@ MonoBehaviour:
   m_Name: Footsteps_Carpet_SoundHolder
   m_EditorClassIdentifier: Assembly-CSharp::SoundArrayHolder
   SoundArray:
-  - Clip: {fileID: 8300000, guid: b9167300a6b36aa4d9b9e7fa74d0be86, type: 3}
+  - Clip: {fileID: 8300000, guid: e900000d5b966644fadfa2f445344fb0, type: 3}
     Mixergroup: {fileID: -3832156174031062668, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
-    SpacialBlend: 0
+    SpacialBlend: 1
     OverrideDefaultDistances: 0
     MinDistance: 0
     MaxDistance: 0
-  - Clip: {fileID: 8300000, guid: 8206f5314978ce947a67338a9166c4d5, type: 3}
+  - Clip: {fileID: 8300000, guid: 743c820432abbe5448ccc214871a7a15, type: 3}
     Mixergroup: {fileID: -3832156174031062668, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
-    SpacialBlend: 0
+    SpacialBlend: 1
     OverrideDefaultDistances: 0
     MinDistance: 0
     MaxDistance: 0
-  - Clip: {fileID: 8300000, guid: bb948c61ced3c794380857be445d684b, type: 3}
+  - Clip: {fileID: 8300000, guid: 0599343204091de4b9c769d94b99e99d, type: 3}
     Mixergroup: {fileID: -3832156174031062668, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
-    SpacialBlend: 0
+    SpacialBlend: 1
     OverrideDefaultDistances: 0
     MinDistance: 0
     MaxDistance: 0
-  - Clip: {fileID: 8300000, guid: 38e6df69c7bf4684caf5d691c2034bde, type: 3}
+  - Clip: {fileID: 8300000, guid: e66141fd1e26cd0408c097008ea1a1d3, type: 3}
     Mixergroup: {fileID: -3832156174031062668, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
-    SpacialBlend: 0
+    SpacialBlend: 1
     OverrideDefaultDistances: 0
     MinDistance: 0
     MaxDistance: 0
-  - Clip: {fileID: 8300000, guid: 1a6409c52e11b774d9a7e9c4b8771026, type: 3}
+  - Clip: {fileID: 8300000, guid: 0df8f9cdafb27ed4a8b935d67dc0655f, type: 3}
     Mixergroup: {fileID: -3832156174031062668, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
-    SpacialBlend: 0
+    SpacialBlend: 1
     OverrideDefaultDistances: 0
     MinDistance: 0
     MaxDistance: 0
-  - Clip: {fileID: 8300000, guid: 65f2391aa98b1044282002a7ce357b29, type: 3}
+  - Clip: {fileID: 8300000, guid: f75c4d5b423628044a9fc905233540c5, type: 3}
     Mixergroup: {fileID: -3832156174031062668, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
-    SpacialBlend: 0
+    SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0
+    MaxDistance: 0
+  - Clip: {fileID: 8300000, guid: 97c86ad620e7e0a4989576d01cf644ba, type: 3}
+    Mixergroup: {fileID: -3832156174031062668, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0
+    MaxDistance: 0
+  - Clip: {fileID: 8300000, guid: f5286f3a6fc48984ba3e24bda238e765, type: 3}
+    Mixergroup: {fileID: -3832156174031062668, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0
+    MaxDistance: 0
+  - Clip: {fileID: 8300000, guid: 43385aeacde368245a1d69fd195e584f, type: 3}
+    Mixergroup: {fileID: -3832156174031062668, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 1
     OverrideDefaultDistances: 0
     MinDistance: 0
     MaxDistance: 0

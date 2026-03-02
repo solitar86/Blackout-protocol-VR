@@ -15,6 +15,16 @@ public class SoundArrayHolder : ScriptableObject
         {
             CorrectPitchFromZero(SoundArray[i]);
             CorrectVolumeFromZero(SoundArray[i]);
+            ApplyDefaultSpatializationBasedOnFileName(SoundArray[i]);
+        }
+    }
+
+    private void ApplyDefaultSpatializationBasedOnFileName(Sound soundToCheck)
+    {
+        if(soundToCheck.Clip.name.ToLower().Contains("foot"))
+        {
+            soundToCheck.SpacialBlend = 1f;
+            Debugger.Log("Forcing spatialblend to 1 for file: " + soundToCheck.Clip.name);
         }
     }
 

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class QuestStateHandler : MonoBehaviour
 {
-    [SerializeField] private List<QuestSO> questList;
+    [SerializeField] private List<QuestSO> questList = new();
 
     #region UnityCallbacks
     private void OnEnable()
@@ -20,12 +20,27 @@ public class QuestStateHandler : MonoBehaviour
 
     public void ProggressQuestTate(QuestProgressionStep progressioInfo)
     {
-        QuestSO quest = questList.Find(quest => quest.name == progressioInfo.Quest.name);
-        if (quest == null)
+        if (questList == null || questList.Count == 0)
         {
-            Debugger.LogWarning($"Quest with name {name} could not be found");
+            Debugger.Log("No Quests in Quest list", Debugger.TextColor.LightRed);
             return;
         }
+
+        if (progressioInfo?.Quest == null)
+        {
+            Debugger.LogWarning("Progression info or Quest is null.");
+            return;
+        }
+
+        var questName = progressioInfo.Quest.name;
+        QuestSO quest = questList.Find(q => q.name == questName);
+
+        if (quest == null)
+        {
+            Debugger.LogWarning($"Quest with name {questName} could not be found");
+            return;
+        }
+
         quest.ChangeStateTo(progressioInfo.ProgressionState);
         EventManager.OnAnyQuestWasProgressed.Raise(this, -1);
     }
@@ -39,7 +54,10 @@ public class QuestStateHandler : MonoBehaviour
     {
         foreach (var quest in questList)
         {
-            quest.ResetState();
+            if(quest != null)
+            {
+                quest.ResetState();
+            }
         }
     }
 }
