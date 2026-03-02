@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerFingerSnapHandler : MonoBehaviour
 {
-    [SerializeField, Range(0f,1f)] float _echoDelayMultiplier = 0.2f;
+    [SerializeField, Range(0f,1f)] float _echoDelayMultiplier = 0.1f;
     [SerializeField] SoundArrayHolder _fingerSnapSounds;
     [SerializeField] LayerMask _layersToPlayEchoFrom;
     [SerializeField] LayerMask _interactableLayerMask;

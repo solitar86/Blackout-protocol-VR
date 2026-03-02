@@ -114,6 +114,7 @@ public class RadialMenuManager : MonoBehaviour
         _menuAnchor.forward = _playerMenuHand.transform.up;
         _menuAnchor.position = _playerMenuHand.transform.position;
         PopulateCurrentRadialMenu(RadialMenuHolder.Mainmenu);
+        EventManager.OnRadialMenuOpen.Raise(this, -1);
     }
     public void SetAsCurrentRadialMenu(RadialMenu menu)
     {

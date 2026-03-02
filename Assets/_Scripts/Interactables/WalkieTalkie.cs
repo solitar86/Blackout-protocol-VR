@@ -6,11 +6,15 @@ public class WalkieTalkie : PickUpObject
     [Header("Walkie Talkie specific settings")]
     [SerializeField] Sound _pressCallButtonSound;
     [SerializeField] Sound _releaseCallButtonSound;
+    [SerializeField] Sound _transmissionStartSound;
     [SerializeField] Sound _transmisisonEndSound;
     [SerializeField] Sound _radioStaticLoop;
 
     private AudioSource _staticLoopSource;
     private float _radioStaticDefaultVolume;
+
+    [SerializeField] ConversationSO _callPlayerConversation;
+    [SerializeField] ConversationSO _response;
 
 
     #region Unity Callbacks
@@ -31,14 +35,16 @@ public class WalkieTalkie : PickUpObject
     private void Start()
     {
         PlayRadioStaticBeaconLoop();
+        PlayConversationOnLoop(_callPlayerConversation);
     }
     #endregion
     public override void Activate()
     {
         // FOr now:
-        AudioPlayer.PlaySoundAtPoint(this, _pressCallButtonSound, Player.Instance.transform.position, false, true);
+        AudioPlayer.PlaySoundAtPoint(this, _pressCallButtonSound, transform.position, false, true);
         // Handle context sensitive conversation triggering somehow
         // maybe from a Quest manager or hint system or both?
+        ConversationManager.OverrideCurrentConversationWith(_response);
     }
     public void PlayConversationOnLoop(ConversationSO convoToLoop)
     {
@@ -67,7 +73,7 @@ public class WalkieTalkie : PickUpObject
     #region EventCallbacks for SFX handling
     private void OnRadioVOStart(int value)
     {
-        // AudioPlayer.PlaySoundAtPoint(this, _transmissionStartSound, transform.position, false, true);
+        AudioPlayer.PlaySoundAtPoint(this, _transmissionStartSound, transform.position, false, true);
         DuckRadioStaticVolumeTo(0.1f);
     }
     private void OnRadioVOStop(int value)
@@ -77,12 +83,12 @@ public class WalkieTalkie : PickUpObject
     }
     private void OnPlayerVOStart(float value)
     {
-        AudioPlayer.PlaySoundAtPoint(this, _pressCallButtonSound, Player.Instance.transform.position, false, true);
+        AudioPlayer.PlaySoundAtPoint(this, _pressCallButtonSound, transform.position, false, true);
         DuckRadioStaticVolumeTo(0f);
     }
     private void OnPlayerVOStop(float value)
     {
-        AudioPlayer.PlaySoundAtPoint(this, _releaseCallButtonSound, Player.Instance.transform.position, false, true);
+        AudioPlayer.PlaySoundAtPoint(this, _releaseCallButtonSound, transform.position, false, true);
         ResetRadioStaticVolume();
     }
     #endregion

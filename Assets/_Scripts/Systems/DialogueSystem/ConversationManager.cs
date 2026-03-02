@@ -27,7 +27,7 @@ public class ConversationManager : MonoBehaviour
     /// Play a conversation.
     /// </summary>
     /// <param name="conversation"></param>
-    public static void StartConversation(ConversationSO conversation)
+    public static void PlayConversation(ConversationSO conversation)
     {
         if (Instance == null) return;
         if (conversation == null)
@@ -64,7 +64,7 @@ public class ConversationManager : MonoBehaviour
         {
             PlayConversationOnLoop(conversation);
         };
-        StartConversation(conversation);
+        PlayConversation(conversation);
     }
     /// <summary>
     /// This can be used to interrupt a looping conversation
@@ -75,7 +75,7 @@ public class ConversationManager : MonoBehaviour
     public static void OverrideCurrentConversationWith(ConversationSO conversation)
     {
         ForceStopConversations();
-        StartConversation(conversation);
+        PlayConversation(conversation);
     }
     private static void ForceStopConversations()
     {

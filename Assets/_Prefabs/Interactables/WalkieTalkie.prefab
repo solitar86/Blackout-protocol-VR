@@ -220,6 +220,15 @@ MonoBehaviour:
     OverrideDefaultDistances: 0
     MinDistance: 0.5
     MaxDistance: 2
+  _transmissionStartSound:
+    Clip: {fileID: 0}
+    Mixergroup: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
   _transmisisonEndSound:
     Clip: {fileID: 8300000, guid: 61e4514952c23934baf205d44be70224, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
@@ -238,8 +247,8 @@ MonoBehaviour:
     OverrideDefaultDistances: 1
     MinDistance: 0.2
     MaxDistance: 5
-  _FirstTimeCallPlayerConvoLoop: {fileID: 11400000, guid: baee1c7386727dd47b959a134dfa239c, type: 2}
-  _PlayerAnswerRadioConvo: {fileID: 11400000, guid: 97f441fcb81efb745aedcd1d87bde549, type: 2}
+  _callPlayerConversation: {fileID: 11400000, guid: baee1c7386727dd47b959a134dfa239c, type: 2}
+  _response: {fileID: 11400000, guid: 97f441fcb81efb745aedcd1d87bde549, type: 2}
 --- !u!54 &3819187237812985059
 Rigidbody:
   m_ObjectHideFlags: 0

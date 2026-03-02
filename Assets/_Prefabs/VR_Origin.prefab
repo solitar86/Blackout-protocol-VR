@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 4161250646614555834}
   - component: {fileID: 3777674870196297913}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: PlayerAndMainCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -441,7 +441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89c3970f815316044a8cb8921c02c750, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _echoDelayMultiplier: 0.1
+  _echoDelayMultiplier: 0
   _fingerSnapSounds: {fileID: 11400000, guid: 585b20a22100ff24e955ba55c5f40918, type: 2}
   _layersToPlayEchoFrom:
     serializedVersion: 2
