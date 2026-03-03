@@ -1,7 +1,12 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+/// <summary>
+/// Responsible for queuing and playing collections of 
+/// DialogueSO objects which contain audio to be played
+/// in a sequence. Handles what that sound sounds like
+/// and where it is played.
+/// </summary>
 public class ConversationManager : MonoBehaviour
 {
     public static ConversationManager Instance;
@@ -15,14 +20,21 @@ public class ConversationManager : MonoBehaviour
     [Space(50)]
     [SerializeField] ConversationSO _testDialogue;
 
+    public static bool IsPlayingConversation => _isPlayingConversation;
+
     #region Unity Callbacks
     private void Awake()
     {
+        _isPlayingConversation = false;
         if (Instance == null) Instance = this;
         else Destroy(this);
     }
+    private void OnDisable()
+    {
+        _isPlayingConversation = false;
+    }
     #endregion
-    
+
     /// <summary>
     /// Play a conversation.
     /// </summary>
@@ -37,18 +49,16 @@ public class ConversationManager : MonoBehaviour
         }
         if(conversation.DialogueArray == null || conversation.DialogueArray.Length == 0)
         {
-            Debugger.Log("Null dialogue sent to Conversation manager", Debugger.TextColor.LightRed);
+            Debugger.Log("Conversation sent to conversation manager has no dialogues", Debugger.TextColor.LightRed);
             return;
         }
-
-        Debugger.Log("Start Conversation is running", Debugger.TextColor.Orange);
 
         Instance._conversationQueue.Enqueue(conversation);
 
         if(_isPlayingConversation == false)
         {
             // Currently not playing conversation, start playing. 
-           Instance.StartCoroutine(Instance.PlayQueudConversations());
+            Instance.StartCoroutine(Instance.PlayQueudConversations());
         }
     }
     /// <summary>
@@ -60,6 +70,11 @@ public class ConversationManager : MonoBehaviour
     /// <param name="convoToLoop"></param>
     public static void PlayConversationOnLoop(ConversationSO conversation)
     {
+        if (conversation == null)
+        {
+            Debugger.Log("Null conversation sent to conversation manager to loop", Debugger.TextColor.LightRed);
+            return;
+        }
         conversation.OnCompleteAction = () =>
         {
             PlayConversationOnLoop(conversation);
@@ -81,6 +96,7 @@ public class ConversationManager : MonoBehaviour
     {
         if (Instance != null)
         {
+            Debugger.Log("Force stopping all conversations", Debugger.TextColor.Orange);
             Instance.StopAllCoroutines();
             Instance._conversationQueue.Clear();
             Instance._dialogueQueue.Clear();
@@ -100,7 +116,6 @@ public class ConversationManager : MonoBehaviour
             yield return StartCoroutine(Instance.PlaySingleConversation(_conversationQueue.Dequeue()));
             currentConvo.OnCompleteAction?.Invoke();
         }
-
         StopCurrentPlayingDialoguesAndEmptyList();
         _isPlayingConversation = false;
     }
@@ -130,7 +145,7 @@ public class ConversationManager : MonoBehaviour
         float audioLenght = dialogue.GetAudioDuration();
         Transform audioObjectParent = GetParentForDialogueAudio(dialogue.GetSpeaker());
 
-        TriggerDialogueStartEvent(dialogue.GetSpeaker(), dialogue);
+        TriggerDialogueStartEvent(dialogue);
 
         // Parent the audioplayer to the object so it follows
         // The radio if it's playing on the radio.
@@ -145,7 +160,7 @@ public class ConversationManager : MonoBehaviour
         float buffer = 0.05f;
         this.CallWithDelay(() =>
         {
-            TriggerDialogueEndEvent(dialogue.GetSpeaker());
+            TriggerDialogueEndEvent(dialogue);
         }, audioLenght - buffer);
 
         // Do not progress to next dialgue until audio + delay has elapsed.
@@ -174,37 +189,37 @@ public class ConversationManager : MonoBehaviour
             return _radioTransform;
         }
     }
-    private void TriggerDialogueStartEvent(Speaker speaker, DialogueSO dialogueSO)
+    private void TriggerDialogueStartEvent(DialogueSO dialogueSO)
     {
-        if (speaker is Speaker.Player)
+        if (dialogueSO.GetSpeaker() is Speaker.Player)
         {
             EventManager.OnDialogueStart_Player.Raise(this, dialogueSO);
             return;
         }
-        EventManager.OnDialogueStart_Radio.Raise(this, -1);
+        EventManager.OnDialogueStart_Radio.Raise(this, dialogueSO);
     }
-    private void TriggerDialogueEndEvent(Speaker speaker)
+    private void TriggerDialogueEndEvent(DialogueSO dialogue)
     {
-        if (speaker is Speaker.Player)
+        if (dialogue.GetSpeaker() is Speaker.Player)
         {
-            EventManager.OnDialogueStop_Player.Raise(this, -1);
+            EventManager.OnDialogueStop_Player.Raise(this, dialogue);
             return;
         }
-        EventManager.OnDialogueStop_Radio.Raise(this, -1);
+        EventManager.OnDialogueStop_Radio.Raise(this, dialogue);
     }
     private static void StopCurrentPlayingDialoguesAndEmptyList()
     {
-        foreach (var item in Instance._currentDialogueAudioObjects)
+        foreach (var dialogueAudioObject in Instance._currentDialogueAudioObjects)
         {
-            if(item != null)
+            if(dialogueAudioObject != null)
             {
-                Destroy(item);
+                Destroy(dialogueAudioObject);
             }
         }
 
         if (_currentPlayingDialogue != null)
         {
-            Instance.TriggerDialogueEndEvent(_currentPlayingDialogue.GetSpeaker());
+            Instance.TriggerDialogueEndEvent(_currentPlayingDialogue);
         }
 
         _currentPlayingDialogue = null;

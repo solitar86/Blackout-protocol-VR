@@ -164,7 +164,11 @@ MonoBehaviour:
     MinDistance: 0.5
     MaxDistance: 5
   _startSoundPosition: {fileID: 1644231323}
+  _delayBeforeFirstConversationStart: -5
   _levelStartConversation: {fileID: 11400000, guid: aeef0ab717cf62e4e9c28fac21421ba5, type: 2}
+  _delayBeforeRadioCallPlayer: 10
+  _radioCallPlayerLoopConversation: {fileID: 11400000, guid: baee1c7386727dd47b959a134dfa239c, type: 2}
+  _playerHasActivatedRadio: 0
 --- !u!4 &367246199
 Transform:
   m_ObjectHideFlags: 0
@@ -474,6 +478,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &883540831
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 883540833}
+  - component: {fileID: 883540832}
+  m_Layer: 0
+  m_Name: ConversationTesterObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &883540832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883540831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ed9d517eeb7ed24a9ad6ae2bfd78d7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _conversationToTest: {fileID: 11400000, guid: aa2924f5188e3e04cae283f8afb6a93d, type: 2}
+--- !u!4 &883540833
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883540831}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &896653583
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -639,6 +688,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2005283078}
   - {fileID: 706406799}
   - {fileID: 445597363}
   - {fileID: 1155327395}
@@ -646,15 +696,9 @@ Transform:
   - {fileID: 1104718451}
   - {fileID: 241687174}
   - {fileID: 1511600783}
-  - {fileID: 1064150176}
-  - {fileID: 730541879}
-  - {fileID: 989952509}
-  - {fileID: 608311268}
-  - {fileID: 2045127974}
   - {fileID: 1376125632}
   - {fileID: 1302104950}
   - {fileID: 1175781650}
-  - {fileID: 797174309}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &998304446
@@ -1227,6 +1271,43 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4675496017abf5544a85fc8642c4205d, type: 3}
+--- !u!1 &2005283077
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2005283078}
+  m_Layer: 0
+  m_Name: INTERACTABLES
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2005283078
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2005283077}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1064150176}
+  - {fileID: 730541879}
+  - {fileID: 989952509}
+  - {fileID: 608311268}
+  - {fileID: 2045127974}
+  - {fileID: 797174309}
+  m_Father: {fileID: 998304445}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2045127974 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2194335862127882568, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
@@ -1238,12 +1319,44 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 998304445}
+    m_TransformParent: {fileID: 2005283078}
     m_Modifications:
     - target: {fileID: 3013656416790952300, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
+    - target: {fileID: 3610909882896857516, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
+      propertyPath: _radioStaticLoop.Volume
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610909882896857516, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
+      propertyPath: _onRadioActivated.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610909882896857516, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
+      propertyPath: _onRadioActivated.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610909882896857516, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
+      propertyPath: _onRadioActivated.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 367246198}
+    - target: {fileID: 3610909882896857516, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
+      propertyPath: _onRadioActivated.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610909882896857516, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
+      propertyPath: _onRadioActivated.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetPlayerHasActivatedRadio
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610909882896857516, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
+      propertyPath: _onRadioActivated.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameStartSequence, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610909882896857516, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
+      propertyPath: _onRadioActivated.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6516922147322332068, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
       propertyPath: m_Name
       value: WalkieTalkie
@@ -1299,7 +1412,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 998304445}
+    m_TransformParent: {fileID: 2005283078}
     m_Modifications:
     - target: {fileID: 2194335862127882568, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1371,7 +1484,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 998304445}
+    m_TransformParent: {fileID: 2005283078}
     m_Modifications:
     - target: {fileID: 379437169304089116, guid: f873964427069be46b7645f73be09811, type: 3}
       propertyPath: _isDamagedLoop.Volume
@@ -1929,7 +2042,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 998304445}
+    m_TransformParent: {fileID: 2005283078}
     m_Modifications:
     - target: {fileID: 1964894075011802776, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
       propertyPath: m_Name
@@ -1997,7 +2110,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 998304445}
+    m_TransformParent: {fileID: 2005283078}
     m_Modifications:
     - target: {fileID: 802038966387455069, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
       propertyPath: m_Name
@@ -2065,7 +2178,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 998304445}
+    m_TransformParent: {fileID: 2005283078}
     m_Modifications:
     - target: {fileID: 322132826343524579, guid: 11252ce50df05ff4380b6bc6ae28d74e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2134,3 +2247,4 @@ SceneRoots:
   - {fileID: 367246199}
   - {fileID: 7209676878777536597}
   - {fileID: 998304445}
+  - {fileID: 883540833}

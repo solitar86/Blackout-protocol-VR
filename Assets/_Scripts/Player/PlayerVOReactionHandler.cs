@@ -16,7 +16,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
     private float _itemDetectedDelay = 1f;
 
     #region Unity Callbacks
-    private void Start()
+    private void OnEnable()
     {
         EventManager.OnPlayerCurse.AddListener(this, PlayerSayCurseWord);
         EventManager.OnPlayerObjectIDVOShouldPlay.AddListener(this, PlayTouchIDVoiceLine);
@@ -71,6 +71,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
     }
     private void PlayPlayerInnerMonologueWithDelay(SoundArrayHolder soundHolder, float delay)
     {
+        if (ConversationManager.IsPlayingConversation == true) return;
         this.CallWithDelay(() =>
         {
             bool spatialize = false;
@@ -85,6 +86,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
     }
     private void PlayPlayerInnerMonologueWithDelay(Sound soundToPlay, float delay)
     {
+        if (ConversationManager.IsPlayingConversation == true) return;
         this.CallWithDelay(() =>
         {
             bool spatialize = false;

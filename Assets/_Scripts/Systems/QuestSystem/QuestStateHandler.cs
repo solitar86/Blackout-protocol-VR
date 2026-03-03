@@ -1,22 +1,45 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Handles updating queststates when calls from QuestProgressor objects call events
+/// Also responsible for starting an appropriate conversation when the player
+/// uses the walkie talkie object based on gamestate.
+/// </summary>
 public class QuestStateHandler : MonoBehaviour
 {
     [SerializeField] private List<QuestSO> questList = new();
 
+    private bool _isFirstRadioConversation = true;
     #region UnityCallbacks
     private void OnEnable()
     {
         EventManager.OnProgressQuest.AddListener(this, ProggressQuestTate);
+        EventManager.OnPlayerTryStartConversation.AddListener(this, HandlePlayerTryStartConversation);
         ResetAllQuestsToStartingState();
     }
     private void OnDisable()
     {
         EventManager.OnProgressQuest.RemoveListener(this, ProggressQuestTate);
+        EventManager.OnPlayerTryStartConversation.RemoveListener(this, HandlePlayerTryStartConversation);
         ResetAllQuestsToStartingState();
     }
+
     #endregion
+
+
+    #region Core functions
+    private void HandlePlayerTryStartConversation(int value)
+    {
+        if (_isFirstRadioConversation)
+        {
+            StartFirstRadioConversation();
+            return;
+        }
+
+        // Here we would figure out what conversation to call based on quest states.
+    }
 
     public void ProggressQuestTate(QuestProgressionStep progressioInfo)
     {
@@ -60,6 +83,17 @@ public class QuestStateHandler : MonoBehaviour
             }
         }
     }
+    #endregion
+
+    #region Helpers and One shots
+
+    private void StartFirstRadioConversation()
+    {
+        _isFirstRadioConversation = false;
+        //ConversationManager.PlayConversation();
+    }
+
+    #endregion
 }
 
 public enum QuestState

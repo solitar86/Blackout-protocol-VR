@@ -21,19 +21,19 @@ public class SoundArrayHolder : ScriptableObject
 
     private void ApplyDefaultSpatializationBasedOnFileName(Sound soundToCheck)
     {
-        if(soundToCheck.Clip.name.ToLower().Contains("foot"))
+        if(soundToCheck.Clip.name.ToLower().Contains("foot") && soundToCheck.SpacialBlend != 1)
         {
             soundToCheck.SpacialBlend = 1f;
             Debugger.Log("Forcing spatialblend to 1 for file: " + soundToCheck.Clip.name);
         }
 
-        if (soundToCheck.Clip.name.ToLower().Contains("foley"))
+        if (soundToCheck.Clip.name.ToLower().Contains("foley") && soundToCheck.SpacialBlend != 1)
         {
             soundToCheck.SpacialBlend = 1f;
             Debugger.Log("Forcing spatialblend to 1 for file: " + soundToCheck.Clip.name);
         }
 
-        if (soundToCheck.Clip.name.ToLower().Contains("bump"))
+        if (soundToCheck.Clip.name.ToLower().Contains("bump") && soundToCheck.SpacialBlend != 1)
         {
             soundToCheck.SpacialBlend = 1f;
             Debugger.Log("Forcing spatialblend to 1 for file: " + soundToCheck.Clip.name);

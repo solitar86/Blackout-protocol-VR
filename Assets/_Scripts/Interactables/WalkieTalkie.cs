@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class WalkieTalkie : PickUpObject
 {
@@ -13,8 +14,7 @@ public class WalkieTalkie : PickUpObject
     private AudioSource _staticLoopSource;
     private float _radioStaticDefaultVolume;
 
-    [SerializeField] ConversationSO _callPlayerConversation;
-    [SerializeField] ConversationSO _response;
+    public UnityEvent OnRadioActivated_UnityEvent;
 
 
     #region Unity Callbacks
@@ -35,16 +35,17 @@ public class WalkieTalkie : PickUpObject
     private void Start()
     {
         PlayRadioStaticBeaconLoop();
-        PlayConversationOnLoop(_callPlayerConversation);
     }
     #endregion
+
+    [ContextMenu("Activate")]
     public override void Activate()
     {
+        if (ConversationManager.IsPlayingConversation == true) return;
         // FOr now:
         AudioPlayer.PlaySoundAtPoint(this, _pressCallButtonSound, transform.position, false, true);
-        // Handle context sensitive conversation triggering somehow
-        // maybe from a Quest manager or hint system or both?
-        ConversationManager.OverrideCurrentConversationWith(_response);
+        EventManager.OnPlayerTryStartConversation.Raise(this, -1);
+        OnRadioActivated_UnityEvent?.Invoke();
     }
     public void PlayConversationOnLoop(ConversationSO convoToLoop)
     {
@@ -71,12 +72,12 @@ public class WalkieTalkie : PickUpObject
     private void ResetRadioStaticVolume() => _staticLoopSource.volume = _radioStaticDefaultVolume;
 
     #region EventCallbacks for SFX handling
-    private void OnRadioVOStart(int value)
+    private void OnRadioVOStart(DialogueSO dialogueSO)
     {
         AudioPlayer.PlaySoundAtPoint(this, _transmissionStartSound, transform.position, false, true);
         DuckRadioStaticVolumeTo(0.1f);
     }
-    private void OnRadioVOStop(int value)
+    private void OnRadioVOStop(DialogueSO dialogueSO)
     {
         AudioPlayer.PlaySoundAtPoint(this, _transmisisonEndSound, transform.position, false, true);
         ResetRadioStaticVolume();
@@ -87,8 +88,9 @@ public class WalkieTalkie : PickUpObject
         AudioPlayer.PlaySoundAtPoint(this, _pressCallButtonSound, transform.position, false, true);
         DuckRadioStaticVolumeTo(0f);
     }
-    private void OnPlayerVOStop(float value)
+    private void OnPlayerVOStop(DialogueSO dialogueSO)
     {
+        if (dialogueSO.IsMonologue) return;
         AudioPlayer.PlaySoundAtPoint(this, _releaseCallButtonSound, transform.position, false, true);
         ResetRadioStaticVolume();
     }

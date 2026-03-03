@@ -1111,6 +1111,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3299586490410713695}
   - component: {fileID: 6504288270664296631}
+  - component: {fileID: 42592192106727338}
   m_Layer: 0
   m_Name: QuestStateHandler
   m_TagString: Untagged
@@ -1148,3 +1149,16 @@ MonoBehaviour:
   questList:
   - {fileID: 11400000, guid: 706ad42d7eb33f244805d0e69eef6671, type: 2}
   - {fileID: 11400000, guid: 57586e5f71c3dd14ea4d66ca5bdce731, type: 2}
+--- !u!114 &42592192106727338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8984574580907404108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44651f695b0a70b4abb76e2dfae22ccd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _conversations: []

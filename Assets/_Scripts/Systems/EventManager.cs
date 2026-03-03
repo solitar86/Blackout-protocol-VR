@@ -41,12 +41,13 @@ public static class EventManager
     public static GameEvent<StaticInteractable> OnAnyInteractableActivated = new("Interactable activated");
 
     // Conversation & Dialogue Events
+    public static GameEvent<int> OnPlayerTryStartConversation = new("Player Try Start Conversation");
     public static GameEvent<string> OnConversationStarted = new("Conversation started");
     public static GameEvent<string> OnConversationEnded = new("Conversation Ended");
     public static GameEvent<DialogueSO> OnDialogueStart_Player = new("Player start speaking");
-    public static GameEvent<float> OnDialogueStop_Player = new("Player stop speaking");
-    public static GameEvent<int> OnDialogueStart_Radio = new("Radio start speaking");
-    public static GameEvent<int> OnDialogueStop_Radio = new("Radio stop speaking");
+    public static GameEvent<DialogueSO> OnDialogueStop_Player = new("Player stop speaking");
+    public static GameEvent<DialogueSO> OnDialogueStart_Radio = new("Radio start speaking");
+    public static GameEvent<DialogueSO> OnDialogueStop_Radio = new("Radio stop speaking");
 
     // Quest progression event(s)
     public static GameEvent<QuestProgressionStep> OnProgressQuest = new("Progress Quest");

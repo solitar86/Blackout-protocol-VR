@@ -6,13 +6,32 @@ public class GameStartSequence : MonoBehaviour
     [SerializeField] private float _startDelay = 1.5f;
     [SerializeField] private Sound _gameStartSFXSequence;
     [SerializeField] private Transform _startSoundPosition;
+    [Tooltip("This can be negative as well.")]
+    [SerializeField] private float _delayBeforeFirstConversationStart = 0;
     [SerializeField] private ConversationSO _levelStartConversation;
+    [Tooltip ("If player doesn't find radio how long until it starts calling player.")]
+    [SerializeField] private float _delayBeforeRadioCallPlayer = 5f;
+    [SerializeField] private ConversationSO _radioCallPlayerLoopConversation;
 
+    public bool _playerHasActivatedRadio;
+
+    public void SetPlayerHasActivatedRadio()
+    {
+        _playerHasActivatedRadio = true;
+    }
     private IEnumerator Start()
     {
         yield return new WaitForSeconds(_startDelay);
         AudioPlayer.PlaySoundAtPoint(this, _gameStartSFXSequence, _startSoundPosition.position, false, true);
-        yield return new WaitForSeconds(_gameStartSFXSequence.Clip.length);
+        yield return new WaitForSeconds(_gameStartSFXSequence.Clip.length + _delayBeforeFirstConversationStart);
         ConversationManager.PlayConversation(_levelStartConversation);
+        yield return new WaitForSeconds(_levelStartConversation.GetConversationDuration());
+
+        yield return new WaitForSeconds(_delayBeforeRadioCallPlayer);
+
+        if( _playerHasActivatedRadio == false)
+        {
+            ConversationManager.PlayConversationOnLoop(_radioCallPlayerLoopConversation);
+        }
     }
 }

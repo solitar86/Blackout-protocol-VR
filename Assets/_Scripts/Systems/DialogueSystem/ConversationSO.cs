@@ -15,4 +15,15 @@ public class ConversationSO : ScriptableObject
     /// the end of a conversation as if the NPC did it etc.
     /// </summary>
     public Action OnCompleteAction = null;
+
+    /// <returns>The sum of all dialogue audios and their post delays</returns>
+    public float GetConversationDuration()
+    {
+        float sum = 0f;
+        for (int i = 0; i < _conversation.Length; i++)
+        {
+            sum += _conversation[i].GetDialogueDuration();
+        }
+        return sum;
+    }
 }

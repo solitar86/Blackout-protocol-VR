@@ -7,6 +7,14 @@ public class QuestSO : ScriptableObject
     [SerializeField] private QuestState _state = QuestState.Unknown;
     public QuestState State => _state;
 
+    [Tooltip("TIP conversation for when player has discovered the quest")]
+    [SerializeField] private ConversationSO _discoveredStateConvo;
+    [Tooltip("TIP conversation for when player has attempted the quest but not completed")]
+    [SerializeField] private ConversationSO _startedStateConvo;
+    ///Completed or Unknown probably don't require their own conversations
+
+
+    #region Helpers
     public void ChangeStateTo(QuestState newState)
     {
         if (_state >= newState)
@@ -26,4 +34,6 @@ public class QuestSO : ScriptableObject
     {
         _state = QuestState.Unknown;
     }
+
+    #endregion
 }
