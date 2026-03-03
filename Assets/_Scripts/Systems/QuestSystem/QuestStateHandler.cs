@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Handles updating queststates when calls from QuestProgressor objects call events
+/// Handles updating Quest states when calls from QuestProgressor objects call events
 /// Also responsible for starting an appropriate conversation when the player
 /// uses the walkie talkie object based on gamestate.
 /// </summary>
@@ -11,7 +11,15 @@ public class QuestStateHandler : MonoBehaviour
 {
     [SerializeField] private List<QuestSO> questList = new();
 
+    [Space(15)]
+    [Header("Oneshot or repeating conversations")]
+    [SerializeField] ConversationSO _firstRadioConversation;
+
+    //Used to avoid reptition in hint conversations
+    private ConversationSO _lastPlaydConversation;
+
     private bool _isFirstRadioConversation = true;
+
     #region UnityCallbacks
     private void OnEnable()
     {
@@ -32,14 +40,75 @@ public class QuestStateHandler : MonoBehaviour
     #region Core functions
     private void HandlePlayerTryStartConversation(int value)
     {
+        if (ConversationManager.IsPlayingConversation == true) return;
+
         if (_isFirstRadioConversation)
         {
             StartFirstRadioConversation();
+            _lastPlaydConversation = _firstRadioConversation;
+            return;
+        }
+
+        ConversationSO hintConversation = TryGetQuestStateConversation();
+        if (hintConversation != null)
+        {
+            PlayThisConversation(hintConversation);
             return;
         }
 
         // Here we would figure out what conversation to call based on quest states.
     }
+
+    private ConversationSO TryGetQuestStateConversation()
+    {
+        var startedQuests = questList.FindAll(q => q.State == QuestState.Started);
+
+        if (startedQuests.Count == 1)
+        {
+            // Player has attempted a quest but hasn't finished it.
+            // This is a priority hint to give
+
+            return null;
+        }
+        else if (startedQuests.Count > 1)
+        {
+            // Player has several started quests. Pick on and play hint conversation
+
+            return null;
+        }
+
+
+        var discoveredQuests = questList.FindAll(q => q.State == QuestState.Discovered);
+
+        if (discoveredQuests.Count == 1)
+        {
+            // Player has attempted a quest but hasn't finished it.
+            // This is a priority hint to give
+
+            return null;
+        }
+        else if (discoveredQuests.Count > 1)
+        {
+            // Player has several started quests. Pick on and play hint conversation
+
+            return null;
+        }
+
+        // Player has no started or discovered quests but is requesting a hint
+        // or maybe just wants to talk to the NPC. Handle that situation
+
+        // DO SOMETHING:
+        return null;
+    }
+
+    private void PlayThisConversation(ConversationSO conversation)
+    {
+        ConversationManager.PlayConversation(conversation);
+        _lastPlaydConversation = conversation;
+    }
+
+
+    #region Quest sprecific functions
 
     public void ProggressQuestTate(QuestProgressionStep progressioInfo)
     {
@@ -77,7 +146,7 @@ public class QuestStateHandler : MonoBehaviour
     {
         foreach (var quest in questList)
         {
-            if(quest != null)
+            if (quest != null)
             {
                 quest.ResetState();
             }
@@ -85,12 +154,14 @@ public class QuestStateHandler : MonoBehaviour
     }
     #endregion
 
+    #endregion
+
     #region Helpers and One shots
 
     private void StartFirstRadioConversation()
     {
         _isFirstRadioConversation = false;
-        //ConversationManager.PlayConversation();
+        ConversationManager.OverrideCurrentConversationWith(_firstRadioConversation);
     }
 
     #endregion

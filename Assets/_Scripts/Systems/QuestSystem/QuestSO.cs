@@ -8,10 +8,9 @@ public class QuestSO : ScriptableObject
     public QuestState State => _state;
 
     [Tooltip("TIP conversation for when player has discovered the quest")]
-    [SerializeField] private ConversationSO _discoveredStateConvo;
+    [SerializeField] private ConversationSO _discoveredStateHintConvo;
     [Tooltip("TIP conversation for when player has attempted the quest but not completed")]
-    [SerializeField] private ConversationSO _startedStateConvo;
-    ///Completed or Unknown probably don't require their own conversations
+    [SerializeField] private ConversationSO _startedStateHintConvo;
 
 
     #region Helpers

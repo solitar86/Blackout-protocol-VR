@@ -1334,6 +1334,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3610909882896857516, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
+      propertyPath: OnRadioActivated_UnityEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610909882896857516, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
       propertyPath: _onRadioActivated.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
@@ -1350,11 +1354,35 @@ PrefabInstance:
       value: SetPlayerHasActivatedRadio
       objectReference: {fileID: 0}
     - target: {fileID: 3610909882896857516, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
+      propertyPath: OnRadioActivated_UnityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610909882896857516, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
+      propertyPath: OnRadioActivated_UnityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 367246198}
+    - target: {fileID: 3610909882896857516, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
+      propertyPath: OnRadioActivated_UnityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610909882896857516, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
+      propertyPath: OnRadioActivated_UnityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetPlayerHasActivatedRadio
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610909882896857516, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
       propertyPath: _onRadioActivated.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: GameStartSequence, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3610909882896857516, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
+      propertyPath: OnRadioActivated_UnityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameStartSequence, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610909882896857516, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
       propertyPath: _onRadioActivated.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610909882896857516, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
+      propertyPath: OnRadioActivated_UnityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6516922147322332068, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
