@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class ConversationManager : MonoBehaviour
     private Queue<ConversationSO> _conversationQueue = new();
     private Queue<DialogueSO> _dialogueQueue = new();
     private static DialogueSO _currentPlayingDialogue;
+    private static ConversationSO _currentPlayingConversation;
     private List<GameObject> _currentDialogueAudioObjects = new();
     private static bool _isPlayingConversation = false;
     private static Transform _playerTransform;
@@ -41,7 +43,11 @@ public class ConversationManager : MonoBehaviour
     /// <param name="conversation"></param>
     public static void PlayConversation(ConversationSO conversation)
     {
-        if (Instance == null) return;
+        if (Instance == null)
+        {
+            Debugger.Log("´Conversation Manager instance was null", Debugger.TextColor.Orange);
+            return;
+        }
         if (conversation == null)
         {
             Debugger.Log("Null conversation sent to conversation manager", Debugger.TextColor.LightRed);
@@ -77,7 +83,7 @@ public class ConversationManager : MonoBehaviour
         }
         conversation.OnCompleteAction = () =>
         {
-            PlayConversationOnLoop(conversation);
+            PlayConversation(conversation);
         };
         PlayConversation(conversation);
     }
@@ -89,21 +95,9 @@ public class ConversationManager : MonoBehaviour
     /// <param name="conversation"></param>
     public static void OverrideCurrentConversationWith(ConversationSO conversation)
     {
+        Debugger.Log("Overriding current conversation", Debugger.TextColor.Orange);
         ForceStopConversations();
         PlayConversation(conversation);
-    }
-    private static void ForceStopConversations()
-    {
-        if (Instance != null)
-        {
-            Debugger.Log("Force stopping all conversations", Debugger.TextColor.Orange);
-            Instance.StopAllCoroutines();
-            Instance._conversationQueue.Clear();
-            Instance._dialogueQueue.Clear();
-            StopCurrentPlayingDialoguesAndEmptyList();
-            EventManager.OnConversationEnded.Raise(Instance, "All");
-            _isPlayingConversation = false;
-        }
     }
 
     #region Conversation Coroutines
@@ -121,6 +115,7 @@ public class ConversationManager : MonoBehaviour
     }
     private IEnumerator PlaySingleConversation(ConversationSO conversation)
     {
+
         Queue<DialogueSO> currentDialoguesQueue = new();
 
         for (int i = 0; i < conversation.DialogueArray.Length; i++)
@@ -128,6 +123,7 @@ public class ConversationManager : MonoBehaviour
             currentDialoguesQueue.Enqueue(conversation.DialogueArray[i]);
         }
 
+        _currentPlayingConversation = conversation;
         EventManager.OnConversationStarted.Raise(this, conversation.name);
 
         while(currentDialoguesQueue.Count > 0)
@@ -135,6 +131,7 @@ public class ConversationManager : MonoBehaviour
             yield return StartCoroutine(PlaySingleDialogue(currentDialoguesQueue.Dequeue()));
         }
 
+        _currentPlayingConversation = null;
         _currentPlayingDialogue = null;
         EventManager.OnConversationEnded.Raise(Instance, conversation.name);
     }
@@ -207,6 +204,19 @@ public class ConversationManager : MonoBehaviour
         }
         EventManager.OnDialogueStop_Radio.Raise(this, dialogue);
     }
+    private static void ForceStopConversations()
+    {
+        if (Instance != null)
+        {
+            Debugger.Log("Force stopping all conversations", Debugger.TextColor.Orange);
+            Instance.StopAllCoroutines();
+            Instance._conversationQueue.Clear();
+            Instance._dialogueQueue.Clear();
+            StopCurrentPlayingDialoguesAndEmptyList();
+            EventManager.OnConversationEnded.Raise(Instance, "All");
+            _isPlayingConversation = false;
+        }
+    }
     private static void StopCurrentPlayingDialoguesAndEmptyList()
     {
         foreach (var dialogueAudioObject in Instance._currentDialogueAudioObjects)
@@ -224,6 +234,26 @@ public class ConversationManager : MonoBehaviour
 
         _currentPlayingDialogue = null;
         Instance._currentDialogueAudioObjects.Clear();
+    }
+    public static void ResetStaticVariables()
+    {
+        _isPlayingConversation = false;
+    }
+
+    public static void SkipCurrentDialogue()
+    {
+        if (Instance == null) return;
+        //if(_currentPlayingDialogue != null)_currentPlayingConversation.OnCompleteAction?.Invoke();
+
+        //if (Instance._conversationQueue.Count != 0)
+        //{
+        //    while(Instance._conversationQueue.Count > 0)
+        //    {
+        //        var convo = Instance._conversationQueue.Dequeue();
+        //        convo.OnCompleteAction?.Invoke();
+        //    }
+        //}
+        ForceStopConversations();
     }
     #endregion
 }

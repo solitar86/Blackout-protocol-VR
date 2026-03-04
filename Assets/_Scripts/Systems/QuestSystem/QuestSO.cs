@@ -12,6 +12,8 @@ public class QuestSO : ScriptableObject
     [Tooltip("TIP conversation for when player has attempted the quest but not completed")]
     [SerializeField] private ConversationSO _startedStateHintConvo;
 
+    public ConversationSO GetStartedHintConversation() => _startedStateHintConvo;
+    public ConversationSO GetDiscoveredHintConversation() => _discoveredStateHintConvo;
 
     #region Helpers
     public void ChangeStateTo(QuestState newState)

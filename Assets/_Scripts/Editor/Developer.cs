@@ -81,6 +81,22 @@ public static class Developer
     }
 
 
+    ////
+    [MenuItem("Developer/Skips etc./Skip Current Conversation")]
+    public static void SkipCurrentConversation()
+    {
+        ConversationManager.SkipCurrentDialogue();
+        Debug.Log("Developer skipped conversation");
+    }
+
+    [MenuItem("Developer/Skips etc./Activate Radio")]
+    public static void ActivateRadio()
+    {
+        GameObject.FindFirstObjectByType<WalkieTalkie>().Activate();
+        Debug.Log("Developer activated radio");
+    }
+
+
 
 }
 

@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::QuestSO
   Name: Hammer to break machine
   _state: 0
+  _discoveredStateHintConvo: {fileID: 11400000, guid: 158b8c3d40d87994cbc6e8103f603692, type: 2}
+  _startedStateHintConvo: {fileID: 11400000, guid: 579b240c8184e1948a02d11ed80552fd, type: 2}

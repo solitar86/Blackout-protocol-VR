@@ -13,7 +13,7 @@ public class GameStartSequence : MonoBehaviour
     [SerializeField] private float _delayBeforeRadioCallPlayer = 5f;
     [SerializeField] private ConversationSO _radioCallPlayerLoopConversation;
 
-    public bool _playerHasActivatedRadio;
+    public bool _playerHasActivatedRadio = false;
 
     public void SetPlayerHasActivatedRadio()
     {
@@ -27,6 +27,7 @@ public class GameStartSequence : MonoBehaviour
         if (_playerHasActivatedRadio == false)
         {
             yield return new WaitForSeconds(_gameStartSFXSequence.Clip.length + _delayBeforeFirstConversationStart);
+
             ConversationManager.PlayConversation(_levelStartConversation);
             yield return new WaitForSeconds(_levelStartConversation.GetConversationDuration());
 
@@ -37,7 +38,6 @@ public class GameStartSequence : MonoBehaviour
             {
                 ConversationManager.PlayConversationOnLoop(_radioCallPlayerLoopConversation);
             }
-
         }
     }
 }

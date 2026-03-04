@@ -274,7 +274,9 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
             // Somehow notify player that the object 
             // teleported back to where it was found from.
             // this is currenly that.
+            //PLACEHOLDER
             Debugger.PlayBlipSound();
+            TTSPlayer.PlayTTSWithFilePath("TTS/TTS_ObjectDroppedOnFloor");
 
             float curseWordDelay = 0.25f;
             this.CallWithDelay(() =>

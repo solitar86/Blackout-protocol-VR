@@ -47,6 +47,10 @@ public class DialogueSO : ScriptableObject
     /// <returns></returns>
     private bool DialogueAudioHasPlayerStringInIt(Sound dialogueAudio)
     {
+        if(dialogueAudio.Clip == null)
+        {
+            Debugger.Log("Null audio in " + nameof(dialogueAudio));
+        }
         if (dialogueAudio.Clip.name.ToLower().Contains("player"))
         {
             Debugger.Log("AutoSetting mixergroup based on clip name for: " + dialogueAudio.Clip.name);
