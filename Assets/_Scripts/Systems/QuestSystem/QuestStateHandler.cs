@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// Handles updating Quest states when calls from QuestProgressor objects call events
@@ -13,12 +14,15 @@ public class QuestStateHandler : MonoBehaviour
 
     [Space(15)]
     [Header("Oneshot or repeating conversations")]
+    [SerializeField] ConversationSO[] _genericStartConversations;
+    [SerializeField] ConversationSO _nothingToSayConversation;
     [SerializeField] ConversationSO _firstRadioConversation;
+    [SerializeField] ConversationSO _noQuestStartedHint;
 
     //Used to avoid reptition in hint conversations
     private ConversationSO _lastPlaydConversation;
 
-    private bool _isFirstRadioConversation = true;
+    private bool _hasNotSpokenOnRadioYet = true;
 
     #region UnityCallbacks
     private void OnEnable()
@@ -36,18 +40,20 @@ public class QuestStateHandler : MonoBehaviour
 
     #endregion
 
-
     #region Core functions
     private void HandlePlayerTryStartConversation(int value)
     {
         if (ConversationManager.IsPlayingConversation == true) return;
 
-        if (_isFirstRadioConversation)
+        if (_hasNotSpokenOnRadioYet)
         {
             StartFirstRadioConversation();
             _lastPlaydConversation = _firstRadioConversation;
             return;
         }
+
+        // Simple player call NPC conversation to start off with.
+        PlayThisConversation(_genericStartConversations[Random.Range(0, _genericStartConversations.Length)], false);
 
         ConversationSO hintConversation = TryGetQuestStateConversation();
         if (hintConversation != null)
@@ -56,7 +62,8 @@ public class QuestStateHandler : MonoBehaviour
             return;
         }
 
-        // Here we would figure out what conversation to call based on quest states.
+        Debugger.Log("Player Try Start Conversation was null", Debugger.TextColor.Orange);
+       
     }
 
     private ConversationSO TryGetQuestStateConversation()
@@ -97,14 +104,18 @@ public class QuestStateHandler : MonoBehaviour
         // Player has no started or discovered quests but is requesting a hint
         // or maybe just wants to talk to the NPC. Handle that situation
 
-        // DO SOMETHING:
-        return null;
+        if(_lastPlaydConversation != _noQuestStartedHint)
+        {
+            return _noQuestStartedHint;
+        }
+
+        return _nothingToSayConversation;
     }
 
-    private void PlayThisConversation(ConversationSO conversation)
+    private void PlayThisConversation(ConversationSO conversation, bool overWriteLastPlayedConversation = true)
     {
         ConversationManager.PlayConversation(conversation);
-        _lastPlaydConversation = conversation;
+        if(overWriteLastPlayedConversation) _lastPlaydConversation = conversation;
     }
 
 
@@ -160,7 +171,7 @@ public class QuestStateHandler : MonoBehaviour
 
     private void StartFirstRadioConversation()
     {
-        _isFirstRadioConversation = false;
+        _hasNotSpokenOnRadioYet = false;
         ConversationManager.OverrideCurrentConversationWith(_firstRadioConversation);
     }
 

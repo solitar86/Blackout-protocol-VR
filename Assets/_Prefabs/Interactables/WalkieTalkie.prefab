@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -221,11 +221,11 @@ MonoBehaviour:
     MinDistance: 0.5
     MaxDistance: 2
   _transmissionStartSound:
-    Clip: {fileID: 0}
-    Mixergroup: {fileID: 0}
+    Clip: {fileID: 8300000, guid: 61e4514952c23934baf205d44be70224, type: 3}
+    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
-    SpacialBlend: 0
+    SpacialBlend: 1
     OverrideDefaultDistances: 0
     MinDistance: 0.5
     MaxDistance: 2
@@ -241,14 +241,27 @@ MonoBehaviour:
   _radioStaticLoop:
     Clip: {fileID: 8300000, guid: 5c182eb69a65630439bfa0f1256da347, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0.15
+    Volume: 0.07
     Pitch: 1
     SpacialBlend: 1
     OverrideDefaultDistances: 1
     MinDistance: 0.2
     MaxDistance: 5
-  _callPlayerConversation: {fileID: 11400000, guid: baee1c7386727dd47b959a134dfa239c, type: 2}
-  _response: {fileID: 11400000, guid: 97f441fcb81efb745aedcd1d87bde549, type: 2}
+  OnRadioActivated_UnityEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GameStartSequence, Assembly-CSharp
+        m_MethodName: SetPlayerHasActivatedRadio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!54 &3819187237812985059
 Rigidbody:
   m_ObjectHideFlags: 0

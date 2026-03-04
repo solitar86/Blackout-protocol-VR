@@ -41,15 +41,8 @@ public class WalkieTalkie : PickUpObject
     [ContextMenu("Activate")]
     public override void Activate()
     {
-        if (ConversationManager.IsPlayingConversation == true) return;
-        // FOr now:
-        AudioPlayer.PlaySoundAtPoint(this, _pressCallButtonSound, transform.position, false, true);
         EventManager.OnPlayerTryStartConversation.Raise(this, -1);
         OnRadioActivated_UnityEvent?.Invoke();
-    }
-    public void PlayConversationOnLoop(ConversationSO convoToLoop)
-    {
-        ConversationManager.PlayConversationOnLoop(convoToLoop);
     }
     private void PlayRadioStaticBeaconLoop()
     {

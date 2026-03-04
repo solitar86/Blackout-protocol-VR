@@ -9,7 +9,7 @@ public class GameStartSequence : MonoBehaviour
     [Tooltip("This can be negative as well.")]
     [SerializeField] private float _delayBeforeFirstConversationStart = 0;
     [SerializeField] private ConversationSO _levelStartConversation;
-    [Tooltip ("If player doesn't find radio how long until it starts calling player.")]
+    [Tooltip("If player doesn't find radio how long until it starts calling player.")]
     [SerializeField] private float _delayBeforeRadioCallPlayer = 5f;
     [SerializeField] private ConversationSO _radioCallPlayerLoopConversation;
 
@@ -23,15 +23,21 @@ public class GameStartSequence : MonoBehaviour
     {
         yield return new WaitForSeconds(_startDelay);
         AudioPlayer.PlaySoundAtPoint(this, _gameStartSFXSequence, _startSoundPosition.position, false, true);
-        yield return new WaitForSeconds(_gameStartSFXSequence.Clip.length + _delayBeforeFirstConversationStart);
-        ConversationManager.PlayConversation(_levelStartConversation);
-        yield return new WaitForSeconds(_levelStartConversation.GetConversationDuration());
 
-        yield return new WaitForSeconds(_delayBeforeRadioCallPlayer);
-
-        if( _playerHasActivatedRadio == false)
+        if (_playerHasActivatedRadio == false)
         {
-            ConversationManager.PlayConversationOnLoop(_radioCallPlayerLoopConversation);
+            yield return new WaitForSeconds(_gameStartSFXSequence.Clip.length + _delayBeforeFirstConversationStart);
+            ConversationManager.PlayConversation(_levelStartConversation);
+            yield return new WaitForSeconds(_levelStartConversation.GetConversationDuration());
+
+            yield return new WaitForSeconds(_delayBeforeRadioCallPlayer);
+            // The player might reach the radio during the delay
+            // Therefore we check again here if they have done so.
+            if (_playerHasActivatedRadio == false)
+            {
+                ConversationManager.PlayConversationOnLoop(_radioCallPlayerLoopConversation);
+            }
+
         }
     }
 }

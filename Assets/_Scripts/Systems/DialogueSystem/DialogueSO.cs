@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Audio;
 [CreateAssetMenu(fileName = "DialogueSO", menuName = "new DialogueSO")]
@@ -23,7 +24,7 @@ public class DialogueSO : ScriptableObject
         var mixer = Resources.Load<AudioMixer>("MainMixer");
         AudioMixerGroup mixergroup;
 
-        if(_speaker == Speaker.Player)
+        if(_speaker == Speaker.Player || DialogueAudioHasPlayerStringInIt(_dialogueAudio))
         {
             mixergroup = mixer.FindMatchingGroups("InnerMonologue")[0];
         }
@@ -37,6 +38,22 @@ public class DialogueSO : ScriptableObject
         }
 
         _dialogueAudio.Mixergroup = mixergroup;
+    }
+    /// <summary>
+    /// If audiofilename contains "player" we assume it's meant to be spoken
+    /// by the player so we set the speaker and output mixergroup accordingly
+    /// </summary>
+    /// <param name="dialogueAudio"></param>
+    /// <returns></returns>
+    private bool DialogueAudioHasPlayerStringInIt(Sound dialogueAudio)
+    {
+        if (dialogueAudio.Clip.name.ToLower().Contains("player"))
+        {
+            Debugger.Log("AutoSetting mixergroup based on clip name for: " + dialogueAudio.Clip.name);
+            _speaker = Speaker.Player;
+            return true;
+        }
+        return false;
     }
 }
 public enum Speaker

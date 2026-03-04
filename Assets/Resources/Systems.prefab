@@ -1111,7 +1111,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3299586490410713695}
   - component: {fileID: 6504288270664296631}
-  - component: {fileID: 42592192106727338}
   m_Layer: 0
   m_Name: QuestStateHandler
   m_TagString: Untagged
@@ -1149,16 +1148,9 @@ MonoBehaviour:
   questList:
   - {fileID: 11400000, guid: 706ad42d7eb33f244805d0e69eef6671, type: 2}
   - {fileID: 11400000, guid: 57586e5f71c3dd14ea4d66ca5bdce731, type: 2}
---- !u!114 &42592192106727338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8984574580907404108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44651f695b0a70b4abb76e2dfae22ccd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  _conversations: []
+  _genericStartConversations:
+  - {fileID: 11400000, guid: a43ecb227ad5f1548b7959710a25d95f, type: 2}
+  - {fileID: 11400000, guid: 449cf4723414bfd4c95d29498f56d4d1, type: 2}
+  _nothingToSayConversation: {fileID: 11400000, guid: f73a54f394683b945a932a5b20fb1be6, type: 2}
+  _firstRadioConversation: {fileID: 11400000, guid: aa2924f5188e3e04cae283f8afb6a93d, type: 2}
+  _noQuestStartedHint: {fileID: 11400000, guid: 389180d60facd5840b0be3b8f2e09ee3, type: 2}

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 234f3728f6364dd4da7e804ddf2aa6e0, type: 3}
+  m_Name: NPC_CallPlayerToRadio_FIRST_TIME_Conversation
+  m_EditorClassIdentifier: Assembly-CSharp::ConversationSO
+  _name: Calling Player to Radio
+  _conversation:
+  - {fileID: 11400000, guid: fee1a63d56c6dba48adffe748662a201, type: 2}
+  - {fileID: 11400000, guid: 2cc47d4b1e19dd54fae815edb142784b, type: 2}
+  - {fileID: 11400000, guid: fd2e341696324544b878a19edf63d3eb, type: 2}
+  - {fileID: 11400000, guid: cd3ac586bfe95d5429bdde1ab93f7e2c, type: 2}

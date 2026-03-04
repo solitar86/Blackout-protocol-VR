@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 234f3728f6364dd4da7e804ddf2aa6e0, type: 3}
-  m_Name: Scene02_FirstConvo_Conversation
+  m_Name: Scene02_FirstTimeRadio_Conversation
   m_EditorClassIdentifier: Assembly-CSharp::ConversationSO
   _name: Level start
   _conversation:
