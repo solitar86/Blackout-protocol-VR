@@ -4,6 +4,9 @@ using UnityEngine.Events;
 
 public class WalkieTalkie : PickUpObject
 {
+    [Header("Default Convo for Tutorial")]
+    [SerializeField] ConversationSO _tutorialConvo;
+    [Space(5)]
     [Header("Walkie Talkie specific settings")]
     [SerializeField] Sound _pressCallButtonSound;
     [SerializeField] Sound _releaseCallButtonSound;
@@ -41,6 +44,13 @@ public class WalkieTalkie : PickUpObject
     [ContextMenu("Activate")]
     public override void Activate()
     {
+        // THis is only for the tutorial
+        if (_tutorialConvo != null)
+        {
+            ConversationManager.PlayConversation(_tutorialConvo);
+            return;
+        }
+
         EventManager.OnPlayerTryStartConversation.Raise(this, -1);
         OnRadioActivated_UnityEvent?.Invoke();
     }
