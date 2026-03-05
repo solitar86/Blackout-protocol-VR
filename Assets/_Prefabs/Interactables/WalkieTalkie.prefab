@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7105720837918694969}
   - component: {fileID: 3013656416790952300}
   - component: {fileID: 4848021178536403476}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WalkieTalkieVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 3610909882896857516}
   - component: {fileID: 3819187237812985059}
   - component: {fileID: 467712855443550695}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WalkieTalkie
   m_TagString: Untagged
   m_Icon: {fileID: 0}

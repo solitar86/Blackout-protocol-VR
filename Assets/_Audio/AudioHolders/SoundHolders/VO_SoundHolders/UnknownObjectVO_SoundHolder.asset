@@ -29,22 +29,6 @@ MonoBehaviour:
     OverrideDefaultDistances: 0
     MinDistance: 0
     MaxDistance: 0
-  - Clip: {fileID: 8300000, guid: 932b5a7bf524fba4dbb7ec6b1575b061, type: 3}
-    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 1
-    Pitch: 1
-    SpacialBlend: 0
-    OverrideDefaultDistances: 0
-    MinDistance: 0
-    MaxDistance: 0
-  - Clip: {fileID: 8300000, guid: 536654432ff0d9149926c9ae0817d071, type: 3}
-    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 1
-    Pitch: 1
-    SpacialBlend: 0
-    OverrideDefaultDistances: 0
-    MinDistance: 0
-    MaxDistance: 0
   - Clip: {fileID: 8300000, guid: 33b97c4e7a1298241833e9c5f8a78852, type: 3}
     Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
