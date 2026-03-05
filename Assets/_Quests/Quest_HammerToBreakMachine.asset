@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 8390e8859b7fc2f45866d820472da0d9, type: 3}
   m_Name: Quest_HammerToBreakMachine
   m_EditorClassIdentifier: Assembly-CSharp::QuestSO
-  Name: Hammer to break machine
+  Name: Hammer to break air conditioner
   _state: 0
   _discoveredStateHintConvo: {fileID: 11400000, guid: 158b8c3d40d87994cbc6e8103f603692, type: 2}
   _startedStateHintConvo: {fileID: 11400000, guid: 579b240c8184e1948a02d11ed80552fd, type: 2}

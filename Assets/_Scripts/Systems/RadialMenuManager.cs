@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class RadialMenuManager : MonoBehaviour
@@ -35,7 +37,10 @@ public class RadialMenuManager : MonoBehaviour
         EventManager.OnPlayerStartMove.AddListener(this, OnPlayerStartMove);
 
         EventManager.OnToggleRadialMenuOnOff.AddListener(this, ToggleMenuSystemOnOff);
+
+        SceneManager.sceneLoaded += OnSceneLoaded_HandleSceneLoad;
     }
+
     private void OnDisable()
     {
         EventManager.OnPrimaryButtonPressed.RemoveListener(this, OnPrimaryButtonPressed);
@@ -44,7 +49,12 @@ public class RadialMenuManager : MonoBehaviour
         EventManager.OnPlayerStartMove.RemoveListener(this, OnPlayerStartMove);
 
         EventManager.OnToggleRadialMenuOnOff.RemoveListener(this, ToggleMenuSystemOnOff);
+
+        SceneManager.sceneLoaded += OnSceneLoaded_HandleSceneLoad;
     }
+
+
+
     private void Update()
     {
         if (_menuIsVisible == false) return;
@@ -74,7 +84,7 @@ public class RadialMenuManager : MonoBehaviour
     #region Input Responses
     private void OnPrimaryButtonPressed(bool isRightHand)
     {
-        if (_menuSystemDisabled == true) return;
+        if (IsRadialMenuBlocked() == true) return;
         // Activate and position menu
         _menuIsVisible = !_menuIsVisible;
         if (!_menuIsVisible)
@@ -106,6 +116,8 @@ public class RadialMenuManager : MonoBehaviour
         if (_menuIsVisible) CloseRadialMenu();
     }
     #endregion
+
+    #region Core Functions
     private void OpenRadialMenu(bool isRightHand)
     {
         if (_menuAnchor == null) _menuAnchor = GetComponentInChildren<TextMeshPro>().transform;
@@ -113,15 +125,23 @@ public class RadialMenuManager : MonoBehaviour
         _playerMenuHand = isRightHand ? Player.Instance.GetRightHand() : Player.Instance.GetLeftHand();
         _menuAnchor.forward = _playerMenuHand.transform.up;
         _menuAnchor.position = _playerMenuHand.transform.position;
-        PopulateCurrentRadialMenu(RadialMenuHolder.Mainmenu);
+
+        if(SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            EmptyAndRePopulateCurrentRadialMenu(RadialMenuHolder.TutorialSceneMainMenu);
+        }
+        else
+        {
+            EmptyAndRePopulateCurrentRadialMenu(RadialMenuHolder.Mainmenu);
+        }
         EventManager.OnRadialMenuOpen.Raise(this, -1);
     }
     public void SetAsCurrentRadialMenu(RadialMenu menu)
     {
-        PopulateCurrentRadialMenu(menu);
+        EmptyAndRePopulateCurrentRadialMenu(menu);
         if (_menuIsVisible == false) EventManager.OnRadialMenuOpen.Raise(this, -1);
     }
-    private void PopulateCurrentRadialMenu(RadialMenu menu, bool wasBackButton = false)
+    private void EmptyAndRePopulateCurrentRadialMenu(RadialMenu menu, bool wasBackButton = false)
     {
         if (menu == null)
         {
@@ -148,13 +168,14 @@ public class RadialMenuManager : MonoBehaviour
     {
         if (_previousMenus.Count > 0)
         {
-            PopulateCurrentRadialMenu(_previousMenus.Pop(), true);
+            EmptyAndRePopulateCurrentRadialMenu(_previousMenus.Pop(), true);
             return;
         }
         CloseRadialMenu();
     }
     private void HandleMenuItemSelectionChange(int part)
     {
+        // TODO: MAKE THIS A PERMANENT REFERENCE (if we need it )
         _menuAnchor?.GetComponentInChildren<TextMeshPro>().SetText(_currentMenuItems[part].Name);
         _playerMenuHand.HandleTouchEnd(_selectButtonHapticSettings);
 
@@ -173,15 +194,20 @@ public class RadialMenuManager : MonoBehaviour
 
 
     }
-    private void CloseRadialMenu()
+    private void CloseRadialMenu(bool wasSceneLoad = false)
     {
         _currentMenuItems.Clear();
         _currentMenu = null;
         _previousMenus.Clear();
-        _menuAnchor.gameObject.SetActive(false);
-        TTSPlayer.PlayTTSSequenceWithPaths(true,
-            RadialMenuHolder.MENUTTSFILEFOLDERPATH + "TTS_Menu_Mainmenu",
-            RadialMenuHolder.MENUTTSFILEFOLDERPATH + "TTS_Menu_Closed");
+        _menuAnchor?.gameObject.SetActive(false);
+        _playerMenuHand = null;
+
+        if(wasSceneLoad ==  false)
+        {
+            TTSPlayer.PlayTTSSequenceWithPaths(true,
+                RadialMenuHolder.MENUTTSFILEFOLDERPATH + "TTS_Menu_Mainmenu",
+                RadialMenuHolder.MENUTTSFILEFOLDERPATH + "TTS_Menu_Closed");
+        }
 
         if (_menuIsVisible) _menuIsVisible = false;
         EventManager.OnRadialMenuClose.Raise(this, -1);
@@ -208,8 +234,9 @@ public class RadialMenuManager : MonoBehaviour
             HandleMenuItemSelectionChange(part);
         }
     }
+    #endregion
 
-    #region Helpers
+    #region Helpers & Maintenance
     public string GetTTSPathForSnapTurnAngle(float angle)
     {
         switch (angle)
@@ -226,11 +253,33 @@ public class RadialMenuManager : MonoBehaviour
                 return string.Empty;
         }
     }
-    
     private void ToggleMenuSystemOnOff(bool enabled)
     {
         _menuSystemDisabled = !enabled;
     }
+    private bool IsRadialMenuBlocked()
+    {
+        if (_menuSystemDisabled == true)
+        {
+            Debugger.Log("Radial menu blocked by being disabled");
+            return true;
+        }
+
+        if(SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            Debugger.Log("Radial menu blocked by us being in bootup scene");
+            return true;
+        }
+
+        return false;
+        
+    }
+    private void OnSceneLoaded_HandleSceneLoad(Scene arg0, LoadSceneMode arg1)
+    {
+        bool wasSceneLoad = true;
+        CloseRadialMenu(wasSceneLoad);
+    }
+
     #endregion
 }
 
@@ -269,7 +318,6 @@ public class RadialMenuItem
         OnActivateAction?.Invoke();
     }
 }
-
 /// <summary>
 /// Holds a list of context menu items and relevant data.
 /// </summary>
@@ -293,6 +341,20 @@ public class RadialMenu
 public static class RadialMenuHolder
 {
     public const string MENUTTSFILEFOLDERPATH = "TTS/Menu/";
+
+    public static RadialMenuItem StartGameButton = new RadialMenuItem("Start Game",
+    () =>
+    {
+        TTSPlayer.PlayTTSWithFilePath(MENUTTSFILEFOLDERPATH + "TTS_Menu_StartingGame");
+        var delayObject = new GameObject("Start Game With Delay Object");
+        var mono = delayObject.AddComponent<Delay>();
+
+        mono.CallWithDelay(() =>
+        {
+            SceneManager.LoadScene(2);
+        }, 3f);
+    },
+    MENUTTSFILEFOLDERPATH + "TTS_Menu_StartGame");
 
     public static RadialMenuItem BackButton = new RadialMenuItem("Previous menu",
         () => RadialMenuManager.Instance.OpenPreviousMenuOrCloseMenu(true),
@@ -516,6 +578,37 @@ public static class RadialMenuHolder
             )
         }
     );
+    #endregion
+
+    #region Tutorial Specific MainMenu
+
+    /////////////////////////
+    // Tutorial Scene Main Menu
+    /////////////////////////
+    public static RadialMenu TutorialSceneMainMenu = new RadialMenu(
+    "Mainmenu", MENUTTSFILEFOLDERPATH + "TTS_Menu_MainMenu",
+    new RadialMenuItem[]
+    {
+           StartGameButton,
+           new RadialMenuItem(
+                "Sound settings",
+                () => { RadialMenuManager.Instance.SetAsCurrentRadialMenu(SoundSettingsMenu); },
+                MENUTTSFILEFOLDERPATH + "TTS_Menu_SoundSettings"
+            ),
+            new RadialMenuItem(
+                "Accessibility settings",
+                () => { RadialMenuManager.Instance.SetAsCurrentRadialMenu(AccessibilityMenu); },
+                MENUTTSFILEFOLDERPATH + "TTS_Menu_AccessibilityOptions"
+            ),
+            BackButton,
+            new RadialMenuItem(
+                "Snap turn settings",
+                () => { RadialMenuManager.Instance.SetAsCurrentRadialMenu(SnapTurnMenu); },
+                MENUTTSFILEFOLDERPATH + "TTS_Menu_SnapTurnAngle"
+            ),
+           QuitButton
+    }
+);
     #endregion
 }
 

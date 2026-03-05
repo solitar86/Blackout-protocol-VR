@@ -182,6 +182,11 @@ public class ConversationManager : MonoBehaviour
             if (_radioTransform == null)
             {
                 _radioTransform = FindFirstObjectByType<WalkieTalkie>().transform;
+                if(_radioTransform == null)
+                {
+                    Debugger.LogError("Scene has no walkie talkie, conversations won't work");
+                    Debugger.Break();
+                }
             }
             return _radioTransform;
         }

@@ -5,15 +5,23 @@ using UnityEngine.Events;
 public class BreakableMachine_Water : MonoBehaviour
 {
     [SerializeField] private int _waterRequiredToBreak = 6;
-    [SerializeField] Sound _takeDamageSound;
-    [SerializeField] Sound _isDamagedLoop;
-    [SerializeField] Sound _breakSoundEffect;
-    [SerializeField] UnityEvent _onDamaged;
-    [SerializeField] UnityEvent _onBreak;
+    [SerializeField] private Sound _fuseBoxHummLoop;
+    [SerializeField] private Sound _takeDamageSound;
+    [SerializeField] private Sound _isDamagedLoop;
+    [SerializeField] private Sound _breakSoundEffect;
+    [SerializeField] private UnityEvent _onDamaged;
+    [SerializeField] private UnityEvent _onBreak;
 
+    private AudioSource _fuseBoxHummSource;
     private AudioSource _damageLoopSource = null;
-
     private bool _isBroken;
+
+    #region Unity Callbacks
+    private void Start()
+    {
+        PlayRadioStaticBeaconLoop();
+    }
+    #endregion
     public void ReactToWater()
     {
         _waterRequiredToBreak--;
@@ -51,7 +59,20 @@ public class BreakableMachine_Water : MonoBehaviour
 #endif
     }
 
-    #region Unity Callbacks
+    private void PlayRadioStaticBeaconLoop()
+    {
+        if (_fuseBoxHummSource == null)
+        {
+            InitStaticLoopAudioSource();
+            return;
+        }
 
-    #endregion
+        _fuseBoxHummSource.Play();
+    }
+    private void InitStaticLoopAudioSource()
+    {
+        _fuseBoxHummSource = AudioPlayer.CreateLoopingAudioSource(this, _fuseBoxHummLoop, true);
+        _fuseBoxHummSource.transform.position = transform.position;
+        _fuseBoxHummSource.transform.SetParent(transform);
+    }
 }

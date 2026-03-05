@@ -169,7 +169,7 @@ public class PlayerHandInteractor : MonoBehaviour
             _interactablesInRange.Remove(interactableToDrop);
         }
 
-        interactableToDrop.Drop();
+        interactableToDrop.Release();
         _heldInteractable = null;
     }
     private void PickUpObject(Iinteractable objectToPickUp)

@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 8390e8859b7fc2f45866d820472da0d9, type: 3}
   m_Name: Quest_WaterToBreakMachine
   m_EditorClassIdentifier: Assembly-CSharp::QuestSO
-  Name: Water to break machine
+  Name: Water to break fusebox
   _state: 0
   _discoveredStateHintConvo: {fileID: 11400000, guid: 663f0e25873397c4b8447711d515b7cd, type: 2}
   _startedStateHintConvo: {fileID: 11400000, guid: 6c711f5c8e1d6f14982ae936742e8ed8, type: 2}

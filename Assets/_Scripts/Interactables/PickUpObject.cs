@@ -130,7 +130,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     {
         // Do Something
     }
-    public virtual void Drop()
+    public virtual void Release()
     {
         transform.SetParent(null);
         parentTransformReference = null;
@@ -235,6 +235,8 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
             AudioPlayer.PlayClipAtPoint(this, clip, transform.position, volume: .5f, true, true);
         }, delay);
         Destroy(mono.gameObject, delay + buffer);
+
+        Debugger.Log("PING: " + gameObject.name);
     }
     public virtual void EndTouch()
     {
@@ -308,10 +310,10 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         Debugger.Log("Activating " + gameObject.name, gameObject);
         Activate();
     }
-    void Iinteractable.Drop()
+    void Iinteractable.Release()
     {
         Debugger.Log("Dropping " + gameObject.name, gameObject);
-        Drop();
+        Release();
     }
     void Iinteractable.CollideWithObject()
     {
