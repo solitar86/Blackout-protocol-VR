@@ -33,8 +33,8 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     [Tooltip("An array of sounds which we can choose from when we pickup this object.")]
     [SerializeField] private SoundArrayHolder _pickUpSounds;
 
-    [Tooltip("An array of sounds which we can choose from when we drop this object.")]
-    [SerializeField] private SoundArrayHolder _dropSounds;
+    [Tooltip("An array of sounds which we can choose from when we let go of this object.")]
+    [SerializeField] private SoundArrayHolder _releaseGripSounds;
 
     [Tooltip("An array of sound to play when we hit this object againts a surface.")]
     [SerializeField] internal Sound _impactSound; // This should be a sound holder, TODO
@@ -146,12 +146,12 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         }
 
         // Handle drop sounds.
-        if (_dropSounds != null && _dropSounds.SoundArray != null && _dropSounds.SoundArray.Length > 0)
+        if (_releaseGripSounds != null && _releaseGripSounds.SoundArray != null && _releaseGripSounds.SoundArray.Length > 0)
         {
             AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
-                                                _dropSounds.SoundArray,
+                                                _releaseGripSounds.SoundArray,
                                                 _holdingHand.transform.position,
-                                                _dropSounds.LastPlayedSound,
+                                                _releaseGripSounds.LastPlayedSound,
                                                 true);
         }
 

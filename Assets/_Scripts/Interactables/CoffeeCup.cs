@@ -4,14 +4,18 @@ using UnityEngine;
 public class CoffeeCup : PickUpObject
 {
     [Space(15)]
+    [SerializeField] private LayerMask _layersToLookForWaterInteractables;
     [SerializeField] private SoundArrayHolder _waterSpillSounds;
     [SerializeField] private float _spillVelocityThreshold = 10;
 
-    private MeshRenderer _renderer;
     private float _timer = 0f;
     private float _spillInterval = 0.3f;
-    private int _waterAmount = 3;
+    private int _waterAmount = 0;
 
+
+#if UNITY_EDITOR
+    private MeshRenderer _renderer;
+#endif
     public void FillCupWithWater()
     {
         _waterAmount = 3;
@@ -32,9 +36,20 @@ public class CoffeeCup : PickUpObject
     {
         _waterAmount--;
 
-        Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitInfo, float.MaxValue);
+        Physics.Raycast(transform.position,
+                        Vector3.down,
+                        out RaycastHit hitInfo,
+                        float.MaxValue,
+                        _layersToLookForWaterInteractables,
+                        QueryTriggerInteraction.UseGlobal);
+
         float height = Vector3.Distance(transform.position, hitInfo.point);
         float delay = Mathf.Sqrt((height * 2) / Mathf.Abs(Physics.gravity.y));
+
+        if(hitInfo.collider != null)
+        {
+            Debugger.Log(hitInfo.collider.gameObject.name, Debugger.TextColor.Orange);
+        }
 
         if (hitInfo.collider.TryGetComponent<BreakableMachine_Water>(out var machine))
         {
@@ -85,8 +100,9 @@ public class CoffeeCup : PickUpObject
         {
             SpillAllWater(false);
         }
-        if (Velocity > _spillVelocityThreshold)
+        if (CustomSnapTurnProviderWrapper.IsSnapTurning == false && Velocity > _spillVelocityThreshold)
         {
+            // This is causing snapturning to cause water spilling.
             SpillAllWater(true);
         }
         // THIS BLOCK OF CODE IS CAUSING CURSING TO HAPPEN TWICE I THINK!

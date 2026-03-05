@@ -959,7 +959,7 @@ MonoBehaviour:
   _rightHand: {fileID: 3664093064706276170}
   _leftHand: {fileID: 6285823810573603495}
   _moveProvider: {fileID: 1640859167379978618}
-  _turnProvider: {fileID: 4017182831678345088}
+  _turnProvider: {fileID: 0}
   _fingerSnapper: {fileID: 3777674870196297913}
 --- !u!114 &6970487752906095010
 MonoBehaviour:
@@ -1088,7 +1088,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4936162898295748781}
-  - component: {fileID: 4017182831678345088}
+  - component: {fileID: 1101241673715428058}
   m_Layer: 2
   m_Name: Turn
   m_TagString: Untagged
@@ -1111,7 +1111,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2867055608030804259}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4017182831678345088
+--- !u!114 &1101241673715428058
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1120,10 +1120,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5856241668885847155}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9f365cf844c03449bc8973eead2c3c1, type: 3}
+  m_Script: {fileID: 11500000, guid: c1e9b5cd662cb844f8a5c808c238c560, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  m_Mediator: {fileID: 5004547900094021216}
+  m_EditorClassIdentifier: Assembly-CSharp::CustomSnapTurnProviderWrapper
+  m_Mediator: {fileID: 0}
   m_TransformationPriority: 0
   m_TurnAmount: 45
   m_DebounceTime: 0.5
@@ -1136,7 +1136,7 @@ MonoBehaviour:
       m_Name: Left Hand Snap Turn
       m_Type: 0
       m_ExpectedControlType: Vector2
-      m_Id: 536e141d-ee23-4272-b0fd-3984d1655f02
+      m_Id: cd1e61da-c805-4ecd-b124-910f65907a48
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -1150,7 +1150,7 @@ MonoBehaviour:
       m_Name: Right Hand Snap Turn
       m_Type: 0
       m_ExpectedControlType: Vector2
-      m_Id: b17ca378-4740-48c7-abe1-7f35bce317e9
+      m_Id: 4736e4d6-5c9d-4dca-99ab-c3e3901e0898
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []

@@ -271,8 +271,8 @@ MonoBehaviour:
   _placeableSurfaceLayerMask:
     serializedVersion: 2
     m_Bits: 1088
-  _pickUpSounds: {fileID: 0}
-  _dropSounds: {fileID: 0}
+  _pickUpSounds: {fileID: 11400000, guid: 48ecfe97804477741b4e2ef11ee3a8db, type: 2}
+  _releaseGripSounds: {fileID: 11400000, guid: 8f3bcfaa927487c44b3160dcf6e9314f, type: 2}
   _impactSound:
     Clip: {fileID: 0}
     Mixergroup: {fileID: 0}
@@ -291,6 +291,9 @@ MonoBehaviour:
     m_RotationOrder: 4
   _touchHapticSettings: {fileID: 11400000, guid: 80f70cf1419046d46b137270443e0ccc, type: 2}
   _pickUpAndDropHapticSettings: {fileID: 11400000, guid: 3eac07092410d594093a49b5e0c40dde, type: 2}
+  _layersToLookForWaterInteractables:
+    serializedVersion: 2
+    m_Bits: 3136
   _waterSpillSounds: {fileID: 11400000, guid: 8d8ce332f8db18c4f8d00c40bf9cd5f6, type: 2}
   _spillVelocityThreshold: 5
 --- !u!33 &3561255036522703810

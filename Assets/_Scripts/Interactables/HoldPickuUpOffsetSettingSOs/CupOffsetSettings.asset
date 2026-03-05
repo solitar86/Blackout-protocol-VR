@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc42b8ca87a9ce448ab875b735d8bdf4, type: 3}
   m_Name: CupOffsetSettings
   m_EditorClassIdentifier: Assembly-CSharp::PickUpHoldOffsetSettings
-  RotationOffset: {x: 90, y: 0, z: 0}
-  PositionOffset: {x: 0, y: 0.05, z: 0.01}
+  RotationOffset: {x: 120, y: -10, z: -180}
+  PositionOffset: {x: 0, y: 0.05, z: 0.05}

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Audio;
 
 [CreateAssetMenu(fileName = "New SoundArrayHolder", menuName = "Audio Holders/New SoundArrayHolder")]
 public class SoundArrayHolder : ScriptableObject
@@ -22,10 +23,16 @@ public class SoundArrayHolder : ScriptableObject
     private void ApplyDefaultSpatializationBasedOnFileName(Sound soundToCheck)
     {
         if (soundToCheck == null || soundToCheck.Clip == null) return;
-        if(soundToCheck.Clip.name.ToLower().Contains("foot") && soundToCheck.SpacialBlend != 1)
+        if(soundToCheck.Clip.name.ToLower().Contains("foot"))
         {
-            soundToCheck.SpacialBlend = 1f;
-            Debugger.Log("Forcing spatialblend to 1 for file: " + soundToCheck.Clip.name);
+            if(soundToCheck.SpacialBlend != 1)
+            {
+                soundToCheck.SpacialBlend = 1f;
+                Debugger.Log("Forcing spatialblend to 1 for file: " + soundToCheck.Clip.name);
+            }
+            Debugger.Log("Changing mixergroup to 'Footsteps' for file: " + soundToCheck.Clip.name + " based on filename.");
+            var mixer = Resources.Load<AudioMixer>("MainMixer");
+            soundToCheck.Mixergroup = mixer.FindMatchingGroups("Footsteps")[0];
         }
 
         if (soundToCheck.Clip.name.ToLower().Contains("foley") && soundToCheck.SpacialBlend != 1)

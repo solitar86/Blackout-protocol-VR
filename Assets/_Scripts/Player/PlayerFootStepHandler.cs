@@ -32,7 +32,7 @@ public class PlayerFootStepHandler : MonoBehaviour
     private void OnDisable()
     {
         //SnapTurnProvider.OnPlayerSnapTurn -= HandlePlayerSnapTurnFootSteps;
-        CustomSnapTurnProviderWrapper.OnPlayerSnapTurn += HandlePlayerSnapTurnFootSteps;
+        CustomSnapTurnProviderWrapper.OnPlayerSnapTurn -= HandlePlayerSnapTurnFootSteps;
         EventManager.OnPlayerStartMove.RemoveListener(this, HandlePlayerStartMove);
     }
     private void Update()

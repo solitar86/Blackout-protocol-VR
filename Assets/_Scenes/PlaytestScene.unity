@@ -850,6 +850,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 177036591}
+  - {fileID: 1815676483}
+  - {fileID: 4536604666743295288}
   - {fileID: 3725977025199450071}
   - {fileID: 579755109}
   - {fileID: 729926864}
@@ -859,8 +861,6 @@ Transform:
   - {fileID: 732963505}
   - {fileID: 1737480023}
   - {fileID: 1155327395}
-  - {fileID: 1815676483}
-  - {fileID: 4536604666743295288}
   - {fileID: 1585453790}
   - {fileID: 1104718451}
   - {fileID: 382847008}
@@ -1263,6 +1263,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: CoffeeCup (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6253809543040060698, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
+      propertyPath: _impactSound.Clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 7885cabd33b6047ebb9b17270fec7c10, type: 3}
+    - target: {fileID: 6253809543040060698, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
+      propertyPath: _releaseGripSounds
+      value: 
+      objectReference: {fileID: 11400000, guid: 48ecfe97804477741b4e2ef11ee3a8db, type: 2}
     - target: {fileID: 7591023614168765612, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -1662,6 +1670,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6045919065621105496, guid: 232a330a6d478fe438af5c46bf63286b, type: 3}
+      propertyPath: _footstepSoundArrayHolder
+      value: 
+      objectReference: {fileID: 11400000, guid: bf4818b62b1b414458290a185d758b1d, type: 2}
     - target: {fileID: 8528537338334098706, guid: 232a330a6d478fe438af5c46bf63286b, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -1959,22 +1971,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5126304057273286274, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 5833667702195101368, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
       propertyPath: m_Name
       value: CoffeeCup
       objectReference: {fileID: 0}
-    - target: {fileID: 7591023614168765612, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
-    - target: {fileID: 9168646221379535648, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -266,6 +266,8 @@ public class PlayerSettings
                 EventManager.OnMovementSettingsChange.Raise(this, -1);
                 return true;
             }
+
+            Debugger.LogWarning("Turnprovider not found : " + turnProvider.ToString());
             return false;
         }
     }
