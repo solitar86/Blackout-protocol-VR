@@ -8,15 +8,15 @@ public class BootupConfirmationHandler : MonoBehaviour
     private void Start()
     {
         TTSPlayer.PlayOnLoopWithFilePath(TTSTUTORIALPATH + "TTS_GameIsRunning");
-        EventManager.OnPlayerWantSkip.AddListener(this, SkipTutorial);
+        EventManager.OnPlayerWantSkip.AddListener(this, OpenTutorialScene);
     }
 
-    private void SkipTutorial(int value)
+    private void OpenTutorialScene(int value)
     {
         if (_hasSkipped == true) return;
         // Skipping tutorial
         _hasSkipped = true;
-        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_StartingGame");
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_OpeningTutorial");
 
         this.CallWithDelay(() =>
         {
@@ -29,6 +29,6 @@ public class BootupConfirmationHandler : MonoBehaviour
 
     private void OnDisable()
     {
-        EventManager.OnPlayerWantSkip.RemoveListener(this, SkipTutorial);
+        EventManager.OnPlayerWantSkip.RemoveListener(this, OpenTutorialScene);
     }
 }

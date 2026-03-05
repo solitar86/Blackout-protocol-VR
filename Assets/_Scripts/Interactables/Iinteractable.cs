@@ -6,7 +6,7 @@ public interface Iinteractable
     public void EndTouch();
     public void PickUp(Transform parent, PlayerHand hand);
     public void Activate();
-    public void Drop();
+    public void Release();
     public void Ping(float delay);
 
     /// <summary>

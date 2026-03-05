@@ -60,7 +60,7 @@ public class QuestStateHandler : MonoBehaviour
         // Simple player call NPC conversation to start off with.
         PlayThisConversation(_genericStartConversations[Random.Range(0, _genericStartConversations.Length)], false);
 
-        ConversationSO hintConversation = TryGetQuestStateConversation();
+        ConversationSO hintConversation = TryGetQuestStateConversationOrDefault();
         if (hintConversation != null)
         {
             PlayThisConversation(hintConversation);
@@ -71,7 +71,7 @@ public class QuestStateHandler : MonoBehaviour
        
     }
 
-    private ConversationSO TryGetQuestStateConversation()
+    private ConversationSO TryGetQuestStateConversationOrDefault()
     {
         // Started quests - handle here. Important as it means
         // Player has tried the right thing, but stopped or given up.

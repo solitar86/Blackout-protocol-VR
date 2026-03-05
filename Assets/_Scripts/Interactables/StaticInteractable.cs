@@ -86,7 +86,7 @@ public abstract class StaticInteractable : MonoBehaviour, Iinteractable
     {
         
     }
-    void Iinteractable.Drop()
+    void Iinteractable.Release()
     {
         
     }

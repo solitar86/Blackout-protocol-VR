@@ -27,8 +27,6 @@ public static class Debugger
     public static bool isEnabled = false;
 #endif
 
-
-
     public static void Logthis(this object obj)
     {
         if (isEnabled == false || obj == null) return;
@@ -74,7 +72,6 @@ public static class Debugger
         Log("<color=#" + c + ">" + t + "</color>");
     }
 
-
     public static void Log(string t, GameObject go)
     {
         if (isEnabled == false) return;
@@ -98,11 +95,27 @@ public static class Debugger
         Debug.LogError(t);
     }
 
+    private static void LogError(string t, TextColor color)
+    {
+        if (isEnabled == false) return;
+        var c = GetColorStringFromEnum(color);
+        var tc = "<color=#" + c + ">" + t + "</color>";
+        Debug.LogError(tc);
+    }
+
     public static void LogWarning(string t)
     {
         if (isEnabled == false) return;
 
         Debug.LogWarning(t);
+    }
+
+    public static void LogWarning(string t, TextColor color)
+    {
+        if (isEnabled == false) return;
+        var c = GetColorStringFromEnum(color);
+        var tc = "<color=#" + c + ">" + t + "</color>";
+        Debug.LogWarning(tc);
     }
 
     public static void LogWarning(string t, GameObject go)
@@ -149,6 +162,9 @@ public static class Debugger
 
             case TextColor.Orange:
                 return "FF7100";
+
+            case TextColor.White:
+                return "FFFFFF";
         }
         return "Invalid color";
 
@@ -159,12 +175,12 @@ public static class Debugger
         isEnabled = false;
         PlayerPrefs.SetInt(PREFSKEY, 0);
     }
+    
     public static void EnableLogs()
     {
         isEnabled = false;
         PlayerPrefs.SetInt(PREFSKEY, 1);
     }
-
 
     public static void WorldSpaceText(string text, Vector3 spawnPoint)
     {
@@ -173,8 +189,24 @@ public static class Debugger
 #endif
     }
 
+    public static void Break()
+    {
+        Debug.Break();
+    }
+
+    public static void Break(string t = "")
+    {
+        LogError(t);
+        Break();
+    }
+    public static void Break(string t = "", TextColor color = TextColor.White)
+    {
+        LogError(t, color);
+        Break();
+    }
+
     public enum TextColor
     {
-        Red, LightRed, Green, LightGreen, Blue, LightBlue, Purple, Yellow, Orange
+        Red, LightRed, Green, LightGreen, Blue, LightBlue, Purple, Yellow, Orange, White
     }
 }

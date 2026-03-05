@@ -21,6 +21,7 @@ public class SoundArrayHolder : ScriptableObject
 
     private void ApplyDefaultSpatializationBasedOnFileName(Sound soundToCheck)
     {
+        if (soundToCheck == null || soundToCheck.Clip == null) return;
         if(soundToCheck.Clip.name.ToLower().Contains("foot") && soundToCheck.SpacialBlend != 1)
         {
             soundToCheck.SpacialBlend = 1f;

@@ -64,7 +64,7 @@ public class WalkieTalkie : PickUpObject
     private void DuckRadioStaticVolumeTo(float ratio) =>_staticLoopSource.volume *= ratio;
     private void ResetRadioStaticVolume() => _staticLoopSource.volume = _radioStaticDefaultVolume;
 
-    #region EventCallbacks for SFX handling
+    #region EventCallbacks for SFX handling during conversations
     private void OnRadioVOStart(DialogueSO dialogueSO)
     {
         AudioPlayer.PlaySoundAtPoint(this, _transmissionStartSound, transform.position, false, true);

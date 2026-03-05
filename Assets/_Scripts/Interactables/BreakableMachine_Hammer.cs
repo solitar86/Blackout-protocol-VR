@@ -6,17 +6,27 @@ public class BreakableMachine_Hammer : MonoBehaviour
 {
     [SerializeField] private int _hitsRequiredToBreak = 3;
     [SerializeField] float _minVelocityToBreak = 10f;
+    [SerializeField] Sound _airConHummLoop;
     [SerializeField] Sound _breakSoundEffect;
+    [SerializeField] private UnityEvent _onDamaged;
     [SerializeField] private UnityEvent _onBreak;
     [SerializeField] private UnityEvent _onHitWithHammerAfterBreak;
 
+    private AudioSource _airConditionerHummLoopSource;
     private int _hitpoints;
     private bool _isBroken;
     public bool IsBroken;
 
+    #region Unity Callbacks
+    
     private void Awake()
     {
         _hitpoints = _hitsRequiredToBreak;
+    }
+
+    private void Start()
+    {
+        PlayRadioStaticBeaconLoop();
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -34,7 +44,16 @@ public class BreakableMachine_Hammer : MonoBehaviour
             }
         }
     }
-
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.TryGetComponent<Hammer>(out var hammer))
+        {
+            Debugger.Log("Hit with hammer after breaking", Debugger.TextColor.Purple);
+            _onHitWithHammerAfterBreak?.Invoke();
+        }
+    }
+    
+    #endregion
     private void TakeHit()
     {
         _hitpoints--;
@@ -42,8 +61,9 @@ public class BreakableMachine_Hammer : MonoBehaviour
         {
             Break();
         }
-    }
 
+        _onDamaged?.Invoke();
+    }
     private void Break()
     {
 
@@ -59,13 +79,25 @@ public class BreakableMachine_Hammer : MonoBehaviour
         GetComponent<MeshRenderer>().material.color = Color.red;
 #endif
     }
-
-    private void OnTriggerEnter(Collider other)
+    private void PlayRadioStaticBeaconLoop()
     {
-        if (other.TryGetComponent<Hammer>(out var hammer))
+        if (_airConditionerHummLoopSource == null)
         {
-            Debugger.Log("Hit with hammer after breaking", Debugger.TextColor.Purple);
-            _onHitWithHammerAfterBreak?.Invoke();
+            InitStaticLoopAudioSource();
+            return;
         }
+
+        _airConditionerHummLoopSource.Play();
     }
+    private void InitStaticLoopAudioSource()
+    {
+        _airConditionerHummLoopSource = AudioPlayer.CreateLoopingAudioSource(this, _airConHummLoop, true);
+        _airConditionerHummLoopSource.transform.position = transform.position;
+        _airConditionerHummLoopSource.transform.SetParent(transform);
+    }
+    public void StopPlayingHummLoop()
+    {
+        _airConditionerHummLoopSource.Stop();
+    }
+
 }

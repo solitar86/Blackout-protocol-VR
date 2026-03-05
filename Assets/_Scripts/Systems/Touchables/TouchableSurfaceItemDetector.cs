@@ -27,11 +27,22 @@ public class TouchableSurfaceItemDetector : MonoBehaviour
         var surfaceCollider = _surface.GetCollider();
         if (surfaceCollider == null) return;
 
+        var bounds = surfaceCollider.bounds;
+        var colliders = Physics.OverlapBox(
+                        bounds.center,
+                        bounds.extents * (1 + _addedDetectionBuffer),
+                        _surface.transform.rotation,
+                        _detectableLayers);
+
+        /*
+        // OLD CODE, DOES THIS NOW MOVE MORE RELIABLY?
         var colliders = Physics.OverlapBox(_surface.transform.position,
                                         surfaceCollider.bounds.extents * (1 + _addedDetectionBuffer),
                                         _surface.transform.rotation,
                                         _detectableLayers
         );
+        */
+        
 
         // Find all interactables among colliders found.
         var interactables = new List<Iinteractable>();
@@ -69,6 +80,7 @@ public class TouchableSurfaceItemDetector : MonoBehaviour
             foreach (var interactable in interactables)
             {
                 interactable.Ping(defaultDelay);
+
                 defaultDelay *= 1.5f;
             }
             _nextTImeAllowPing = Time.time + PlayerSettings.Developer.ItemPingInterval;
