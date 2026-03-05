@@ -30,6 +30,7 @@ public class QuestStateListener : MonoBehaviour
     }
 
     #endregion
+
     private void CheckRequirements(int value)
     {
         if (hasBeenCompleted == true) return;
@@ -60,4 +61,13 @@ public class QuestStateListener : MonoBehaviour
         }
         return null;
     }
+
+#if UNITY_EDITOR
+    [ContextMenu("Call Complete Quests Events")]
+    public void CallOnQuestCompletedEvents()
+    {
+        OnRequirementsMet?.Invoke();
+    }
+    
+#endif
 }

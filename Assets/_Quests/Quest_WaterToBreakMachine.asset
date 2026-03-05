@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::QuestSO
   Name: Water to break machine
   _state: 0
+  _discoveredStateHintConvo: {fileID: 11400000, guid: 663f0e25873397c4b8447711d515b7cd, type: 2}
+  _startedStateHintConvo: {fileID: 11400000, guid: 6c711f5c8e1d6f14982ae936742e8ed8, type: 2}

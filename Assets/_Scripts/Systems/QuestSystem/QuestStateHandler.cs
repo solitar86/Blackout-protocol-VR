@@ -43,14 +43,19 @@ public class QuestStateHandler : MonoBehaviour
     #region Core functions
     private void HandlePlayerTryStartConversation(int value)
     {
-        if (ConversationManager.IsPlayingConversation == true) return;
-
-        if (_hasNotSpokenOnRadioYet)
+        // Handle the case that player is speaking for the first time.
+        if (_hasNotSpokenOnRadioYet == true)
         {
             StartFirstRadioConversation();
             _lastPlaydConversation = _firstRadioConversation;
             return;
         }
+
+        //TODO Handle situatioon where during gameplay
+        // NPC is calling player to pick-up radio.
+        // That currently can't be interrupted with this event response.
+
+        if (ConversationManager.IsPlayingConversation == true) return;
 
         // Simple player call NPC conversation to start off with.
         PlayThisConversation(_genericStartConversations[Random.Range(0, _genericStartConversations.Length)], false);
@@ -68,42 +73,49 @@ public class QuestStateHandler : MonoBehaviour
 
     private ConversationSO TryGetQuestStateConversation()
     {
+        // Started quests - handle here. Important as it means
+        // Player has tried the right thing, but stopped or given up.
         var startedQuests = questList.FindAll(q => q.State == QuestState.Started);
 
         if (startedQuests.Count == 1)
         {
             // Player has attempted a quest but hasn't finished it.
             // This is a priority hint to give
-
-            return null;
+            return startedQuests[0].GetStartedHintConversation();
         }
         else if (startedQuests.Count > 1)
         {
             // Player has several started quests. Pick on and play hint conversation
-
-            return null;
+            QuestSO selectedQuest;
+            do
+            {
+                selectedQuest = startedQuests[Random.Range(0, startedQuests.Count)];
+            } while (selectedQuest.GetStartedHintConversation() == _lastPlaydConversation);
+            return selectedQuest.GetStartedHintConversation();
         }
 
-
+        // Discovered quests - handle here. These are less priority if 
+        // Player has started quests.
         var discoveredQuests = questList.FindAll(q => q.State == QuestState.Discovered);
 
         if (discoveredQuests.Count == 1)
         {
-            // Player has attempted a quest but hasn't finished it.
-            // This is a priority hint to give
-
-            return null;
+            // Player has discovered a quest. 
+            return discoveredQuests[0].GetDiscoveredHintConversation();
         }
         else if (discoveredQuests.Count > 1)
         {
             // Player has several started quests. Pick on and play hint conversation
-
-            return null;
+            QuestSO selectedQuest;
+            do
+            {
+                selectedQuest = discoveredQuests[Random.Range(0, discoveredQuests.Count)];
+            } while (selectedQuest.GetDiscoveredHintConversation() == _lastPlaydConversation);
+            return selectedQuest.GetDiscoveredHintConversation();
         }
 
         // Player has no started or discovered quests but is requesting a hint
         // or maybe just wants to talk to the NPC. Handle that situation
-
         if(_lastPlaydConversation != _noQuestStartedHint)
         {
             return _noQuestStartedHint;
@@ -111,7 +123,11 @@ public class QuestStateHandler : MonoBehaviour
 
         return _nothingToSayConversation;
     }
-
+    /// <summary>
+    /// Tells Conversation manager to play conversation.
+    /// </summary>
+    /// <param name="conversation">Conversation to play</param>
+    /// <param name="overWriteLastPlayedConversation">So Generic Start conversations don't overwrite previously played convo</param>
     private void PlayThisConversation(ConversationSO conversation, bool overWriteLastPlayedConversation = true)
     {
         ConversationManager.PlayConversation(conversation);
