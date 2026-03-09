@@ -271,10 +271,13 @@ MonoBehaviour:
   _placeableSurfaceLayerMask:
     serializedVersion: 2
     m_Bits: 1088
+  _floorLayer:
+    serializedVersion: 2
+    m_Bits: 2048
   _pickUpSounds: {fileID: 11400000, guid: 48ecfe97804477741b4e2ef11ee3a8db, type: 2}
-  _releaseGripSounds: {fileID: 11400000, guid: 8f3bcfaa927487c44b3160dcf6e9314f, type: 2}
+  _dropOnSurfaceSounds: {fileID: 0}
   _impactSound:
-    Clip: {fileID: 0}
+    Clip: {fileID: 8300000, guid: 7885cabd33b6047ebb9b17270fec7c10, type: 3}
     Mixergroup: {fileID: 0}
     Volume: 1
     Pitch: 1
@@ -294,6 +297,15 @@ MonoBehaviour:
   _layersToLookForWaterInteractables:
     serializedVersion: 2
     m_Bits: 3136
+  _glassBreakSound:
+    Clip: {fileID: 8300000, guid: 99a7a7b394b7e4bb5bb9a43f85d3ce61, type: 3}
+    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
   _waterSpillSounds: {fileID: 11400000, guid: 8d8ce332f8db18c4f8d00c40bf9cd5f6, type: 2}
   _spillVelocityThreshold: 5
 --- !u!33 &3561255036522703810

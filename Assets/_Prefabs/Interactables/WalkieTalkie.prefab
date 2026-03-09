@@ -182,8 +182,11 @@ MonoBehaviour:
   _placeableSurfaceLayerMask:
     serializedVersion: 2
     m_Bits: 1088
+  _floorLayer:
+    serializedVersion: 2
+    m_Bits: 2048
   _pickUpSounds: {fileID: 11400000, guid: 02d6cafe43869bb4e8cf97139c9c90c8, type: 2}
-  _dropSounds: {fileID: 11400000, guid: 8f3bcfaa927487c44b3160dcf6e9314f, type: 2}
+  _dropOnSurfaceSounds: {fileID: 0}
   _impactSound:
     Clip: {fileID: 0}
     Mixergroup: {fileID: 0}
@@ -202,6 +205,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   _touchHapticSettings: {fileID: 11400000, guid: 80f70cf1419046d46b137270443e0ccc, type: 2}
   _pickUpAndDropHapticSettings: {fileID: 11400000, guid: 3eac07092410d594093a49b5e0c40dde, type: 2}
+  _tutorialConvo: {fileID: 0}
   _pressCallButtonSound:
     Clip: {fileID: 8300000, guid: ede623f5268afe0468f128f6ff263fec, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}

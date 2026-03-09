@@ -28,13 +28,14 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
 
     [Header("Where can this object be placed?")]
     [SerializeField] private LayerMask _placeableSurfaceLayerMask;
+    [SerializeField] private LayerMask _floorLayer;
 
     [Space(5), Header("Sounds for interactions")]
     [Tooltip("An array of sounds which we can choose from when we pickup this object.")]
     [SerializeField] private SoundArrayHolder _pickUpSounds;
 
     [Tooltip("An array of sounds which we can choose from when we let go of this object.")]
-    [SerializeField] private SoundArrayHolder _releaseGripSounds;
+    [SerializeField] private SoundArrayHolder _dropOnSurfaceSounds;
 
     [Tooltip("An array of sound to play when we hit this object againts a surface.")]
     [SerializeField] internal Sound _impactSound; // This should be a sound holder, TODO
@@ -146,12 +147,12 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         }
 
         // Handle drop sounds.
-        if (_releaseGripSounds != null && _releaseGripSounds.SoundArray != null && _releaseGripSounds.SoundArray.Length > 0)
+        if (_dropOnSurfaceSounds != null && _dropOnSurfaceSounds.SoundArray != null && _dropOnSurfaceSounds.SoundArray.Length > 0)
         {
             AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
-                                                _releaseGripSounds.SoundArray,
+                                                _dropOnSurfaceSounds.SoundArray,
                                                 _holdingHand.transform.position,
-                                                _releaseGripSounds.LastPlayedSound,
+                                                _dropOnSurfaceSounds.LastPlayedSound,
                                                 true);
         }
 
@@ -251,10 +252,11 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
                                 out RaycastHit hitInfo,
                                 float.MaxValue,
                                 _placeableSurfaceLayerMask);
-        float dropSoundDelay = 0f;
+
 
         if (isValidSurface == true)
         {
+            float dropSoundDelay = 0f;
             float height = Vector3.Distance(transform.position, hitInfo.point);
             dropSoundDelay = CalculateDropSoundDelay(height);
             transform.position = hitInfo.point;
@@ -264,36 +266,51 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
             Quaternion rotation = Quaternion.FromToRotation(normalDirectionInWorld, Vector3.up);
             transform.rotation = rotation * transform.rotation;
 
-            PlayObjectHitSufaceSounds(hitInfo.point, dropSoundDelay);
+            PlayObjectPlacedOnSurfaceSound(_impactSound, hitInfo.point, dropSoundDelay);
             EventManager.OnAnyPickUpObjectPlacedOnSurface.Raise(this, this);
         }
         else
         {
-            // We are droppin someplace which isn't good - like floor - Handle that case.
-            transform.position = _startingPosition;
-            transform.rotation = _startingRotation;
-
-            // Somehow notify player that the object 
-            // teleported back to where it was found from.
-            // this is currenly that.
-            //PLACEHOLDER
-            Debugger.PlayBlipSound();
-            TTSPlayer.PlayTTSWithFilePath("TTS/TTS_ObjectDroppedOnFloor");
-
-            float curseWordDelay = 0.25f;
-            this.CallWithDelay(() =>
-            {
-                EventManager.OnPlayerCurse.Raise(this, 0);
-            }, curseWordDelay);
-
-            dropSoundDelay = 1f;
-            Sound impactWithModVolume = new Sound(_impactSound);
-            impactWithModVolume.Volume = 0.3f;
-            PlayObjectHitSufaceSounds(_startingPosition, dropSoundDelay);
-            EventManager.OnAnyPickUpObjectHitFloor.Raise(this, this);
+            HandleObjectDropOnFloor();
         }
         _collider.enabled = true; // Is this necessary
     }
+
+    public virtual void HandleObjectDropOnFloor()
+    {
+        Physics.Raycast(transform.position,
+                        Vector3.down,
+                        out RaycastHit hitInfo,
+                        float.MaxValue,
+                        _floorLayer);
+
+        Vector3 dropHitPosition = hitInfo.point;
+        Debugger.Log("DropPos Was: " + dropHitPosition, Debugger.TextColor.LightBlue);
+        // We are droppin someplace which isn't good - like floor - Handle that case.
+        transform.position = _startingPosition;
+        transform.rotation = _startingRotation;
+
+        // Somehow notify player that the object 
+        // teleported back to where it was found from.
+        // this is currenly that.
+        //PLACEHOLDER
+        Debugger.PlayBlipSound();
+        //TTSPlayer.PlayTTSWithFilePath("TTS/TTS_ObjectDroppedOnFloor");
+
+        float curseWordDelay = 0.25f;
+        this.CallWithDelay(() =>
+        {
+            EventManager.OnPlayerCurse.Raise(this, 0);
+        }, curseWordDelay);
+
+        float dropSoundDelay = 1f; // Hard coded duration for dropping on floor.
+        Sound impactWithModVolume = new Sound(_impactSound);
+        impactWithModVolume.Volume = 0.3f;
+        PlayObjectPlacedOnSurfaceSound(_impactSound, dropHitPosition, dropSoundDelay);
+        HandleSpecialCasesForHittingFloor(dropHitPosition, dropSoundDelay);
+        EventManager.OnAnyPickUpObjectHitFloor.Raise(this, this);
+    }
+
     public virtual void HandleCollisiondWithEnvironment()
     {
         if (_isHeld == false) return; // This now assumes that we have to be holding
@@ -302,6 +319,10 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         Sound impactWithModVolume = new Sound(_impactSound);
         impactWithModVolume.Volume = _velocityToVolumeCurve.Evaluate(Velocity);
         AudioPlayer.PlaySoundAtPoint(this, impactWithModVolume, transform.position, true);
+    }
+    public virtual void HandleSpecialCasesForHittingFloor(Vector3 dropPosition, float delay)
+    {
+        // Do something if necessary.
     }
 
     #region InterfaceFunctions
@@ -342,9 +363,9 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     #endregion
 
     #region Helpers etc.
-    private void PlayObjectHitSufaceSounds(Vector3 point, float delay)
+    public virtual void PlayObjectPlacedOnSurfaceSound(Sound impactSound, Vector3 point, float delay)
     {
-        Sound impactWithModVolume = new Sound(_impactSound);
+        Sound impactWithModVolume = new Sound(impactSound);
         impactWithModVolume.Volume = 0.3f;
         AudioPlayer.PlaySoundAtPointWithDelay(this, impactWithModVolume, point, delay, true);
         AudioPlayer.PlaySoundAtPointWithDelay(this, impactWithModVolume, point, delay + Random.Range(0.01f, 0.5f), true);

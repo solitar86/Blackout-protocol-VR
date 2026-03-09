@@ -5,6 +5,7 @@ public class CoffeeCup : PickUpObject
 {
     [Space(15)]
     [SerializeField] private LayerMask _layersToLookForWaterInteractables;
+    [SerializeField] private Sound _glassBreakSound;
     [SerializeField] private SoundArrayHolder _waterSpillSounds;
     [SerializeField] private float _spillVelocityThreshold = 10;
 
@@ -46,7 +47,7 @@ public class CoffeeCup : PickUpObject
         float height = Vector3.Distance(transform.position, hitInfo.point);
         float delay = Mathf.Sqrt((height * 2) / Mathf.Abs(Physics.gravity.y));
 
-        if(hitInfo.collider != null)
+        if (hitInfo.collider != null)
         {
             Debugger.Log(hitInfo.collider.gameObject.name, Debugger.TextColor.Orange);
         }
@@ -66,6 +67,11 @@ public class CoffeeCup : PickUpObject
         base.HandleObjectPlacementAfterDrop();
 
         transform.up = Vector3.up;
+    }
+
+    public override void HandleSpecialCasesForHittingFloor(Vector3 dropPosition, float delay)
+    {
+        AudioPlayer.PlaySoundAtPointWithDelay(this, _glassBreakSound, dropPosition, delay, usePitchVariation:false);
     }
 
     #region Unity Callbacks

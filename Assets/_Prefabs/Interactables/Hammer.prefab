@@ -72,8 +72,11 @@ MonoBehaviour:
   _placeableSurfaceLayerMask:
     serializedVersion: 2
     m_Bits: 1088
+  _floorLayer:
+    serializedVersion: 2
+    m_Bits: 2048
   _pickUpSounds: {fileID: 11400000, guid: 02d6cafe43869bb4e8cf97139c9c90c8, type: 2}
-  _dropSounds: {fileID: 11400000, guid: 8f3bcfaa927487c44b3160dcf6e9314f, type: 2}
+  _dropOnSurfaceSounds: {fileID: 0}
   _impactSound:
     Clip: {fileID: 8300000, guid: 6c29321f6951ccb41a4efa625203fa7e, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
@@ -221,7 +224,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+  - {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -311,7 +314,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+  - {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eeae2281397605244aeb544e2f667def, type: 3}
+  m_Name: Footsteps_Metal_SoundHolder
+  m_EditorClassIdentifier: Assembly-CSharp::SoundArrayHolder
+  _importerArrayList: []
+  SoundArray:
+  - Clip: {fileID: 8300000, guid: 366caea32c45344c38f5ac160066fd69, type: 3}
+    Mixergroup: {fileID: -3832156174031062668, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  - Clip: {fileID: 8300000, guid: a6f6922d0e96a4936aa476819e58ac73, type: 3}
+    Mixergroup: {fileID: -3832156174031062668, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  - Clip: {fileID: 8300000, guid: 8165bfa7f032244d1bd310497c7402d2, type: 3}
+    Mixergroup: {fileID: -3832156174031062668, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  - Clip: {fileID: 8300000, guid: cc2043c5784a342b7a536fecf8419b16, type: 3}
+    Mixergroup: {fileID: -3832156174031062668, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  - Clip: {fileID: 8300000, guid: 4a1ca50dd7dcb4eff95577b31dd32ecc, type: 3}
+    Mixergroup: {fileID: -3832156174031062668, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  - Clip: {fileID: 8300000, guid: 82bb055c9c23a456cb98aef61c9fbe60, type: 3}
+    Mixergroup: {fileID: -3832156174031062668, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  - Clip: {fileID: 8300000, guid: 5e486a8c12eb440cfaea9125d68f5f5f, type: 3}
+    Mixergroup: {fileID: -3832156174031062668, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  - Clip: {fileID: 8300000, guid: f29d9179338a94cb290f91a714488c1c, type: 3}
+    Mixergroup: {fileID: -3832156174031062668, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  - Clip: {fileID: 8300000, guid: ec88c81130cc749559976cc024785d95, type: 3}
+    Mixergroup: {fileID: -3832156174031062668, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  LastPlayedSound:
+    Clip: {fileID: 0}
+    Mixergroup: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2

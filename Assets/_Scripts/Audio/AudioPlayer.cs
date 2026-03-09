@@ -273,6 +273,14 @@ public class Sound
         Pitch = 1;
         SpacialBlend = 0f;
     }
+
+    public Sound(AudioClip clip)
+    {
+        Clip = clip;
+        Volume = 1f;
+        Pitch = 1;
+        SpacialBlend = 0f;
+    }
     public Sound(Sound soundToCopyFrom)
     {
         Volume = soundToCopyFrom.Volume;
