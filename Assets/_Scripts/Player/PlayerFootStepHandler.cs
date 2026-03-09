@@ -106,8 +106,12 @@ public class PlayerFootStepHandler : MonoBehaviour
         }
     }
     private void HandlePlayerStartMove(int value)
-    {
-        HandleAppropriateFootStepSound();
+    {   
+        //This is disabled because it caused
+        //confusion in playtesters about
+        //how much they were actually moving.
+
+        //HandleAppropriateFootStepSound();
     }
     private Vector3 CalculateFootStepPosition(Vector3 pointOnGround, Transform transform)
     {
