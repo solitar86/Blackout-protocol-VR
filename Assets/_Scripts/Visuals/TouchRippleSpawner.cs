@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.Pool;
-using UnityEngine.UIElements;
 
 [RequireComponent (typeof(VibrationPlayerDirect))]
 public class TouchRippleSpawner : MonoBehaviour

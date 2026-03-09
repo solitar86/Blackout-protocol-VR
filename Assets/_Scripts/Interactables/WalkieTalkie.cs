@@ -70,6 +70,7 @@ public class WalkieTalkie : PickUpObject
         _radioStaticDefaultVolume = _radioStaticLoop.Volume;
         _staticLoopSource.transform.position = transform.position;
         _staticLoopSource.transform.SetParent(transform);
+        _staticLoopSource.gameObject.AddComponent<BeaconLPFController>();
     }
     private void DuckRadioStaticVolumeTo(float ratio) =>_staticLoopSource.volume *= ratio;
     private void ResetRadioStaticVolume() => _staticLoopSource.volume = _radioStaticDefaultVolume;

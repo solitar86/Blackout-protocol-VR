@@ -34,6 +34,7 @@ public static class EventManager
     public static GameEvent<PickUpObject> OnPlayerTouchPickUp = new("Player touch pickup");
     public static GameEvent<int> OnInteractableDetectedOnSurface = new("Item on surface");
     public static GameEvent<Sound> OnPlayerObjectIDVOShouldPlay = new("ID VO");
+    public static GameEvent<Sound> OnPlayerBumpIDVOShouldPlay = new("Bump ID VO");
 
     // Interactable object events
     public static GameEvent<PickUpObject> OnAnyPickUpObjectHitFloor = new("Object dropped on ground");
@@ -53,7 +54,6 @@ public static class EventManager
     public static GameEvent<QuestProgressionStep> OnProgressQuest = new("Progress Quest");
     public static GameEvent<int> OnAnyQuestWasProgressed = new("Quest was progressed");
     public static GameEvent<QuestSO> OnQuestCompleted = new("Quest Completed");
-
 
     // One shot gameplay events
     public static GameEvent<int> OnBreakableMachineBreak = new("Breakable machine broke");

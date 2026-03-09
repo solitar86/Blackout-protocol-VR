@@ -441,7 +441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89c3970f815316044a8cb8921c02c750, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _echoDelayMultiplier: 0
+  _echoDelayMultiplier: 0.25
   _fingerSnapSounds: {fileID: 11400000, guid: 585b20a22100ff24e955ba55c5f40918, type: 2}
   _layersToPlayEchoFrom:
     serializedVersion: 2
@@ -956,10 +956,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   _xrOrigin: {fileID: 6970487752906095010}
+  _playerHead: {fileID: 8572928370164838739}
   _rightHand: {fileID: 3664093064706276170}
   _leftHand: {fileID: 6285823810573603495}
   _moveProvider: {fileID: 1640859167379978618}
-  _turnProvider: {fileID: 0}
+  _turnProvider: {fileID: 1101241673715428058}
   _fingerSnapper: {fileID: 3777674870196297913}
 --- !u!114 &6970487752906095010
 MonoBehaviour:
@@ -1053,11 +1054,11 @@ MonoBehaviour:
   - 0.2
   - 0.4
   _numberOfRaycasts: 5
-  _playerCollisionSoundHolder: {fileID: 11400000, guid: 0f3aeb9cf4ac00441b8f5da7016cc971, type: 2}
+  _defaultPlayerCollisionSoundHolder: {fileID: 11400000, guid: 0f3aeb9cf4ac00441b8f5da7016cc971, type: 2}
   _playerScrapeObstacleSound:
     Clip: {fileID: 8300000, guid: 87bd53f2369882e4c9a4a995048e8da5, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0.25
+    Volume: 1
     Pitch: 1
     SpacialBlend: 1
     OverrideDefaultDistances: 0
@@ -1079,6 +1080,7 @@ MonoBehaviour:
   _rightTurnVO: {fileID: 11400000, guid: 9aa14a58648eb694d9b6ed72c8fd7cc0, type: 2}
   _curseWordsVO: {fileID: 11400000, guid: a918566031832f2418befa23be5c3844, type: 2}
   _somethingHereVO: {fileID: 11400000, guid: 280da1e425a2fe84eb6e3bcf5ef23d9d, type: 2}
+  _bumpIDUnknownObstacleVO: {fileID: 11400000, guid: dfd47d5f37867734eaa723a7d66e1d59, type: 2}
 --- !u!1 &5856241668885847155
 GameObject:
   m_ObjectHideFlags: 0

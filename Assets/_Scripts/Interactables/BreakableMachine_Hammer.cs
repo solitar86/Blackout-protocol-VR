@@ -94,6 +94,7 @@ public class BreakableMachine_Hammer : MonoBehaviour
         _airConditionerHummLoopSource = AudioPlayer.CreateLoopingAudioSource(this, _airConHummLoop, true);
         _airConditionerHummLoopSource.transform.position = transform.position;
         _airConditionerHummLoopSource.transform.SetParent(transform);
+        _airConditionerHummLoopSource.gameObject.AddComponent<BeaconLPFController>();
     }
     public void StopPlayingHummLoop()
     {

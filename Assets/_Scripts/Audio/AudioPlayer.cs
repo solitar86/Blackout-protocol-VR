@@ -26,11 +26,17 @@ public class AudioPlayer : MonoBehaviour
     #endregion
     public static GameObject PlaySoundAtPoint(object sender, Sound soundToPlay, Vector3 point, bool usePitchVariation = false, bool spatialize = true)
     {
-        if (soundToPlay.Clip == null)
+        if(soundToPlay == null)
         {
-            Debugger.Log(nameof(AudioPlayer) + " : " + sender + " sent a null Sound to play");
+            Debugger.Log(nameof(AudioPlayer) + " : " + sender + " sent null sound to play");
             return null;
         }
+        if (soundToPlay.Clip == null)
+        {
+            Debugger.Log(nameof(AudioPlayer) + " : " + sender + " sent Sound with no Clip to play");
+            return null;
+        }
+
         GameObject tempGameObject =
             CreateTempGameObjectWithAudioSource(sender, soundToPlay, point, out AudioSource audioSource, spatialize);
 
@@ -49,9 +55,14 @@ public class AudioPlayer : MonoBehaviour
     }
     public static void PlaySoundAtPointWithDelay(object sender, Sound soundToPlay, Vector3 point, float delay = 0f, bool usePitchVariation = false, bool spatialize = true)
     {
+        if (soundToPlay == null)
+        {
+            Debugger.Log(nameof(AudioPlayer) + " : " + sender + " sent null sound to play");
+            return;
+        }
         if (soundToPlay.Clip == null)
         {
-            Debugger.Log(nameof(AudioPlayer) + " : " + sender + " sent a null Sound to play");
+            Debugger.Log(nameof(AudioPlayer) + " : " + sender + " sent Sound with no Clip to play");
             return;
         }
 

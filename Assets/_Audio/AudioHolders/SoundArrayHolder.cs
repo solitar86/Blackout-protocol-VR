@@ -66,8 +66,11 @@ public class SoundArrayHolder : ScriptableObject
         if (soundToCheck == null || soundToCheck.Clip == null) return;
 
         var mixer = Resources.Load<AudioMixer>("MainMixer");
-        var footstepBus = soundToCheck.Mixergroup = mixer.FindMatchingGroups("Footsteps")[0];
-        var SFXBus = soundToCheck.Mixergroup = mixer.FindMatchingGroups("SFX")[0];
+        var footstepBus = mixer.FindMatchingGroups("Footsteps")[0];
+        var SFXBus = mixer.FindMatchingGroups("SFX")[0];
+        var monologueBus =  mixer.FindMatchingGroups("Inner")[0];
+        var bodyCollisionBus = mixer.FindMatchingGroups("BodyCollision")[0];
+
         var fileNamePart = soundToCheck.Clip.name.ToLower();
 
         if (fileNamePart.Contains("foot"))
@@ -81,21 +84,32 @@ public class SoundArrayHolder : ScriptableObject
             soundToCheck.Mixergroup = footstepBus;
         }
 
-        if (fileNamePart.Contains("bump"))
+        if (fileNamePart.Contains("bump") && fileNamePart.Contains("vo") == false)
         {
             if (soundToCheck.SpacialBlend != 1)
             {
                 soundToCheck.SpacialBlend = 1f;
                 Debugger.Log("Forcing spatialblend to 1 for file: " + soundToCheck.Clip.name);
             }
-            Debugger.Log("Changing mixergroup to 'Bump' for file: " + soundToCheck.Clip.name + " based on filename.");
-            soundToCheck.Mixergroup = SFXBus;
+            Debugger.Log("Changing mixergroup to 'BodyCollision' for file: " + soundToCheck.Clip.name + " based on filename.");
+            soundToCheck.Mixergroup = bodyCollisionBus;
         }
 
         if (fileNamePart.Contains("foley") && soundToCheck.SpacialBlend != 1)
         {
             soundToCheck.SpacialBlend = 1f;
             Debugger.Log("Forcing spatialblend to 1 for file: " + soundToCheck.Clip.name);
+        }
+
+        if (fileNamePart.Contains("vo"))
+        {
+            if (soundToCheck.SpacialBlend != 0)
+            {
+                soundToCheck.SpacialBlend = 0f;
+                Debugger.Log("Forcing spatialblend to 0 for file: " + soundToCheck.Clip.name);
+            }
+            Debugger.Log("Changing mixergroup to 'InnerMonologue' for file: " + soundToCheck.Clip.name + " based on filename.");
+            soundToCheck.Mixergroup = monologueBus;
         }
 
     }

@@ -231,6 +231,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6450323749905132122, guid: 3b0a9e171874c6c4dbd670f605bfbd3a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1170342619}
     - targetCorrespondingSourceObject: {fileID: 6937081238269902198, guid: 3b0a9e171874c6c4dbd670f605bfbd3a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
@@ -636,6 +639,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2194335862127882568, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
   m_PrefabInstance: {fileID: 732963504}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &831363346 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6450323749905132122, guid: bc09acc5ce4dc06488c14d8bd97634b6, type: 3}
+  m_PrefabInstance: {fileID: 2025710962}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1024,6 +1032,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 10, y: 2.220446e-16, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1170342612 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6450323749905132122, guid: 3b0a9e171874c6c4dbd670f605bfbd3a, type: 3}
+  m_PrefabInstance: {fileID: 210235149}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1170342619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170342612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cf2de450a213a942a40942c08e23302, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BodyCollisionSoundHolder
+  _playerBodyCollisionSoundHolder: {fileID: 11400000, guid: 6ca1d2b05abe463408e24826f0987705, type: 2}
+  _ID_voiceline:
+    Clip: {fileID: 8300000, guid: 51b209bfc1262e447b8906fe7c854d11, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
 --- !u!1 &1217213029
 GameObject:
   m_ObjectHideFlags: 0
@@ -1131,6 +1166,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6450323749905132122, guid: bc09acc5ce4dc06488c14d8bd97634b6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2057024553}
     - targetCorrespondingSourceObject: {fileID: 6937081238269902198, guid: bc09acc5ce4dc06488c14d8bd97634b6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
@@ -1140,6 +1178,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2417033642183055198, guid: 5a5955cbbbce9bc45834fbe411579a25, type: 3}
   m_PrefabInstance: {fileID: 896653583}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1540950824 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5319103407514755740, guid: 0f501f279df8471489d996933ad888aa, type: 3}
+  m_PrefabInstance: {fileID: 1711318995}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1540950831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540950824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1607bf14790e6045a5c3783bccc6bd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _lowPassFilter: {fileID: 0}
+  _lowPassHighestValue: 0
 --- !u!4 &1585453790 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2417033642183055198, guid: 5a5955cbbbce9bc45834fbe411579a25, type: 3}
@@ -1221,7 +1278,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5319103407514755740, guid: 0f501f279df8471489d996933ad888aa, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1540950831}
   m_SourcePrefab: {fileID: 100100000, guid: 0f501f279df8471489d996933ad888aa, type: 3}
 --- !u!1001 &1737480022
 PrefabInstance:
@@ -1499,6 +1559,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6450323749905132122, guid: bc09acc5ce4dc06488c14d8bd97634b6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2025710970}
     - targetCorrespondingSourceObject: {fileID: 6937081238269902198, guid: bc09acc5ce4dc06488c14d8bd97634b6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
@@ -1508,6 +1571,55 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4069613615387274456, guid: bc09acc5ce4dc06488c14d8bd97634b6, type: 3}
   m_PrefabInstance: {fileID: 2025710962}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2025710970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 831363346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cf2de450a213a942a40942c08e23302, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BodyCollisionSoundHolder
+  _playerBodyCollisionSoundHolder: {fileID: 11400000, guid: 3133cc751be7104438439e6b7f40c78a, type: 2}
+  _ID_voiceline:
+    Clip: {fileID: 8300000, guid: 3b49a0a8c117cfa48bc3d5a7a8a00ff0, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+--- !u!1 &2057024546 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6450323749905132122, guid: bc09acc5ce4dc06488c14d8bd97634b6, type: 3}
+  m_PrefabInstance: {fileID: 1265235950}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2057024553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057024546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cf2de450a213a942a40942c08e23302, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BodyCollisionSoundHolder
+  _playerBodyCollisionSoundHolder: {fileID: 11400000, guid: c995d75005bacae489a7d3f68a6542a4, type: 2}
+  _ID_voiceline:
+    Clip: {fileID: 8300000, guid: 968fd068adb29b94081f6cbe5c5b02c7, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
 --- !u!4 &2057813869 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2194335862127882568, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
@@ -2153,10 +2265,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3777674870196297913, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}
-      propertyPath: _echoDelayMultiplier
-      value: 0.25
-      objectReference: {fileID: 0}
     - target: {fileID: 5304522184512835325, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}
       propertyPath: m_Name
       value: VR_Origin

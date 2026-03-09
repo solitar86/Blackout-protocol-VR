@@ -12,7 +12,7 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
     [SerializeField] private float[] _raycastHeightIntervals = { 0.3f, 0.5f };
     [SerializeField] private int _numberOfRaycasts = 5;
     [Space(15), Header("Sounds")]
-    [SerializeField] private SoundArrayHolder _playerCollisionSoundHolder;
+    [SerializeField] private SoundArrayHolder _defaultPlayerCollisionSoundHolder;
     [SerializeField] private Sound _playerScrapeObstacleSound;
 
     private AudioSource _scrapeWallAudioLoopSource;
@@ -65,7 +65,7 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
                 {
                     _isTouchingObstacle = true;
                     _currentTouchingPoint = hit.point;
-                    if (_wasTouchingLastFrame == false) HandlePlayerObstacleCollisionStart();
+                    if (_wasTouchingLastFrame == false) HandlePlayerObstacleCollisionStart(hit);
                     
                     break;
                 }
@@ -100,17 +100,35 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
     }
     #endregion
 
-    private void HandlePlayerObstacleCollisionStart()
+    private void HandlePlayerObstacleCollisionStart(RaycastHit hitInfo)
     {
         _wasTouchingLastFrame = true;
-        if(_playerCollisionSoundHolder != null && _playerCollisionSoundHolder.SoundArray != null && _playerCollisionSoundHolder.SoundArray.Length > 0)
+
+        if(hitInfo.collider.TryGetComponent<BodyCollisionSoundHolder>(out var holder))
+        {
+            // Found sound holder, use those sounds.
+            AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
+                                            holder.GetSoundArrayHolder().SoundArray,
+                                            _currentTouchingPoint,
+                                            holder.GetSoundArrayHolder().LastPlayedSound,
+                                            true,
+                                            true);
+
+            EventManager.OnPlayerBumpIDVOShouldPlay.Raise(this, holder.GetIdVoiceLine());
+
+            return;
+        }
+
+        /// If no holder present, play default
+        if(_defaultPlayerCollisionSoundHolder != null && _defaultPlayerCollisionSoundHolder.SoundArray != null && _defaultPlayerCollisionSoundHolder.SoundArray.Length > 0)
         {
             AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
-                                                        _playerCollisionSoundHolder.SoundArray,
+                                                        _defaultPlayerCollisionSoundHolder.SoundArray,
                                                         _currentTouchingPoint,
-                                                        _playerCollisionSoundHolder.LastPlayedSound,
+                                                        _defaultPlayerCollisionSoundHolder.LastPlayedSound,
                                                         true,
                                                         true);
+            EventManager.OnPlayerBumpIDVOShouldPlay.Raise(this, null);
         }
     }
     private void HandlePlayerObstacleCollisionStay()

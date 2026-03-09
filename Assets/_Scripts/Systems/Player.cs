@@ -1,6 +1,5 @@
 using Unity.XR.CoreUtils;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Turning;
 using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
 
@@ -8,6 +7,7 @@ public class Player : MonoBehaviour
 {
     public static Player Instance;
     [SerializeField] private XROrigin _xrOrigin;
+    [SerializeField] private Transform _playerHead;
     [SerializeField] private PlayerHand _rightHand;
     [SerializeField] private PlayerHand _leftHand;
     [SerializeField] private DynamicMoveProvider _moveProvider;
@@ -81,6 +81,8 @@ public class Player : MonoBehaviour
     public XROrigin GetXROrigin() => _xrOrigin;
     public DynamicMoveProvider GetDynamicMoveProvider() => _moveProvider;
     public SnapTurnProvider GetSnapTurnProvider() => _turnProvider;
+    public Transform GetPlayerHeadTransform() => _playerHead;
+    public Vector3 GetPlayerLookingDirection() => _playerHead.forward;
     public PlayerHand GetRightHand()
     {
         if (_rightHand != null) return _rightHand;

@@ -74,5 +74,6 @@ public class BreakableMachine_Water : MonoBehaviour
         _fuseBoxHummSource = AudioPlayer.CreateLoopingAudioSource(this, _fuseBoxHummLoop, true);
         _fuseBoxHummSource.transform.position = transform.position;
         _fuseBoxHummSource.transform.SetParent(transform);
+        _fuseBoxHummSource.gameObject.AddComponent<BeaconLPFController>();
     }
 }
