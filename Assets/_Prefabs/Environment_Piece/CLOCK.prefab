@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1d1fab4015cac46c08cbc1fe0a1eb0c2, type: 2}
+  - {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 6068820565123915930}
   - component: {fileID: 188664550229181759}
   - component: {fileID: 2946199166881088973}
+  - component: {fileID: 2049509989395833273}
   m_Layer: 0
   m_Name: CLOCK
   m_TagString: Untagged
@@ -141,7 +142,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 4b4cf71faeb46ba4994f9f73266230be, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -150,7 +151,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 0.2
-  MaxDistance: 3.5
+  MaxDistance: 4
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -311,3 +312,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10bc6dd2e5b0ad648ac4e86d92c5c275, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SetCustomRollOffOnStart
+--- !u!114 &2049509989395833273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5319103407514755740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1607bf14790e6045a5c3783bccc6bd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _lowPassFilter: {fileID: 0}
+  _lowPassHighestValue: 0

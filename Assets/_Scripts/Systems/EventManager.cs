@@ -17,6 +17,8 @@ public static class EventManager
     public static GameEvent<int> OnPlayerWantSkip = new("Skip performed");
     public static GameEvent<bool> OnPrimaryButtonPressed = new("Primary button pressed");
     public static GameEvent<bool> OnSecondaryButtonPressed = new("Secondary button pressed");
+    public static GameEvent<bool> OnSecondaryButtonHeld = new("Secondary button is held");
+    public static GameEvent<bool> OnSecondaryButtonReleased = new("Secondary button released");
     public static GameEvent<bool> OnTriggerPressed = new("Trigger pressed");
     public static GameEvent<bool> OnGripPressed = new("Grip button pressed");
     public static GameEvent<bool> OnGripReleased = new("Grip button released");
@@ -32,6 +34,7 @@ public static class EventManager
     // Player Interaction and Reaction Events
     public static GameEvent<int> OnPlayerCurse = new("Player curse");
     public static GameEvent<PickUpObject> OnPlayerTouchPickUp = new("Player touch pickup");
+    public static GameEvent<int> OnCantCarryObject = new("Player Can't carry that");
     public static GameEvent<int> OnInteractableDetectedOnSurface = new("Item on surface");
     public static GameEvent<Sound> OnPlayerObjectIDVOShouldPlay = new("ID VO");
     public static GameEvent<Sound> OnPlayerBumpIDVOShouldPlay = new("Bump ID VO");

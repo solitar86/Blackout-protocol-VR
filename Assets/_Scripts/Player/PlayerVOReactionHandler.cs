@@ -11,16 +11,19 @@ public class PlayerVOReactionHandler : MonoBehaviour
     [SerializeField] private SoundArrayHolder _curseWordsVO;
     [SerializeField] private SoundArrayHolder _somethingHereVO;
     [SerializeField] private SoundArrayHolder _bumpIDUnknownObstacleVO;
+    [SerializeField] private SoundArrayHolder _cantCarryVO;
 
     private float _turnVODelay = 0.25f;
     private float _curseDelay = 1.5f;
     private float _itemDetectedDelay = 1f;
+    private float _cantCarryDelay = 0.25f;
 
 
     #region Unity Callbacks
     private void OnEnable()
     {
         EventManager.OnPlayerCurse.AddListener(this, PlayerSayCurseWord);
+        EventManager.OnCantCarryObject.AddListener(this, PlayerSayCantCarry);
         EventManager.OnPlayerObjectIDVOShouldPlay.AddListener(this, PlayTouchIDVoiceLine);
         EventManager.OnPlayerBumpIDVOShouldPlay.AddListener(this, PlayBumpIDVoiceLine);
         EventManager.OnInteractableDetectedOnSurface.AddListener(this, PlayItemDetectedVoiceLine);
@@ -28,9 +31,11 @@ public class PlayerVOReactionHandler : MonoBehaviour
         CustomSnapTurnProviderWrapper.OnPlayerSnapTurn += HandlePlayerTurn;
     }
 
+
     private void OnDisable()
     {
         EventManager.OnPlayerCurse.RemoveListener(this, PlayerSayCurseWord);
+        EventManager.OnCantCarryObject.RemoveListener(this, PlayerSayCantCarry);
         EventManager.OnPlayerObjectIDVOShouldPlay.RemoveListener(this, PlayTouchIDVoiceLine);
         EventManager.OnPlayerBumpIDVOShouldPlay.RemoveListener(this, PlayBumpIDVoiceLine);
         EventManager.OnInteractableDetectedOnSurface.RemoveListener(this, PlayItemDetectedVoiceLine);
@@ -65,12 +70,19 @@ public class PlayerVOReactionHandler : MonoBehaviour
             PlayPlayerInnerMonologueWithDelay(_curseWordsVO, _curseDelay);
         }
     }
+    private void PlayerSayCantCarry(int value)
+    {
+        PlayPlayerInnerMonologueWithDelay(_cantCarryVO, _cantCarryDelay);
+    }
+
     private void PlayTouchIDVoiceLine(Sound IDVOSound)
     {
+
         PlayPlayerInnerMonologueWithDelay(IDVOSound, PlayerSettings.Developer.IdentifyVODelay);
     }
     private void PlayBumpIDVoiceLine(Sound sound)
     {
+        // This null check is here because the Sound comes from another object.
         if(sound != null && sound.Clip != null)
         {
             PlayPlayerInnerMonologueWithDelay(sound, PlayerSettings.Developer.IdentifyVODelay);

@@ -39,6 +39,16 @@ public class PlayerHand : MonoBehaviour
         _pickUpObject = @object;
         PlayHapticFeedback(hapticSettings);
     }
+    /// <summary>
+    /// This overload plays a default haptic feedback set in 
+    /// Vibration Player without picking up anything.
+    /// </summary>
+    public void HandlePickUpOrDropObject()
+    {
+        string haptic = "HAPTIC 1";
+        haptic.Logthis();
+        PlayDefaultHapticFeedback();
+    }
     public void HandleHandInsideCollider(VibrationSettingsSO hapticSettings)
     {
         PlayHapticFeedback(hapticSettings);
@@ -72,6 +82,16 @@ public class PlayerHand : MonoBehaviour
             Destroy(mono.gameObject, totalDelay);
         }
 
+    }
+    /// <summary>
+    /// This overload plays a default haptic feedback set in Vibration Player.
+    /// </summary>
+    /// 
+    private void PlayDefaultHapticFeedback()
+    {
+        string haptic = "HAPTIC 2";
+        haptic.Logthis();
+        _hapticPlayer?.PlayDefaultHaptic();
     }
     private void SpawnTouchVisual(Vector3 position)
     {

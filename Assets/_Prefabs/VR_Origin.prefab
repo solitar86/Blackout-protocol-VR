@@ -901,6 +901,7 @@ GameObject:
   - component: {fileID: 3772448111277943149}
   - component: {fileID: 9192435655589177954}
   - component: {fileID: 6593406574328471588}
+  - component: {fileID: 5430152879863439837}
   m_Layer: 9
   m_Name: VR_Origin
   m_TagString: Untagged
@@ -1081,6 +1082,30 @@ MonoBehaviour:
   _curseWordsVO: {fileID: 11400000, guid: a918566031832f2418befa23be5c3844, type: 2}
   _somethingHereVO: {fileID: 11400000, guid: 280da1e425a2fe84eb6e3bcf5ef23d9d, type: 2}
   _bumpIDUnknownObstacleVO: {fileID: 11400000, guid: dfd47d5f37867734eaa723a7d66e1d59, type: 2}
+  _cantCarryVO: {fileID: 11400000, guid: 59362c78a026e9d4fb6add749d6639eb, type: 2}
+--- !u!114 &5430152879863439837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5304522184512835325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0d9c9004baa8eb4cb6351d9ea3a9557, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _volumeFadeDur: 0.5
+  _beaconPosition: {x: -2, y: 0}
+  _northBeaconSound:
+    Clip: {fileID: 8300000, guid: 3bb8e838c381f0b409315fe7d7e8cd3f, type: 3}
+    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 1
+    OverrideDefaultDistances: 1
+    MinDistance: 0.2
+    MaxDistance: 4
 --- !u!1 &5856241668885847155
 GameObject:
   m_ObjectHideFlags: 0

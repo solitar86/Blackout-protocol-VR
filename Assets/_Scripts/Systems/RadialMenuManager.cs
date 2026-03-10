@@ -216,6 +216,12 @@ public class RadialMenuManager : MonoBehaviour
     }
     private void HandleRadialMenuItemSelection()
     {
+        if(_playerMenuHand == null)
+        {
+            // Something has gone wrong for us to get here.
+            Debugger.LogWarning("Player hand transform is missing, closing radial menu.", Debugger.TextColor.LightRed);
+            CloseRadialMenu();
+        }
         float handDistanceFromMenu = Vector3.Distance(_playerMenuHand.transform.position,
                                                         _menuAnchor.transform.position);
         if (handDistanceFromMenu < _minDistanceFromCenterToSelect) return;

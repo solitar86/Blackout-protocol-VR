@@ -275,7 +275,6 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         }
         _collider.enabled = true; // Is this necessary
     }
-
     public virtual void HandleObjectDropOnFloor()
     {
         Physics.Raycast(transform.position,
@@ -310,7 +309,6 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         HandleSpecialCasesForHittingFloor(dropHitPosition, dropSoundDelay);
         EventManager.OnAnyPickUpObjectHitFloor.Raise(this, this);
     }
-
     public virtual void HandleCollisiondWithEnvironment()
     {
         if (_isHeld == false) return; // This now assumes that we have to be holding
@@ -358,7 +356,6 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     {
         Ping(delay);
     }
-
 
     #endregion
 

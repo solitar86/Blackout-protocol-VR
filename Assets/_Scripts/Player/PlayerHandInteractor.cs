@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerHandInteractor : MonoBehaviour
 {
-    private PlayerHand _hand;
-    public PlayerHand Hand => _hand;
+    private PlayerHand _thisHand;
+    public PlayerHand Hand => _thisHand;
     private Collider _collider;
     private List<Iinteractable> _interactablesInRange = new();
     private Iinteractable _heldInteractable;
@@ -14,7 +14,7 @@ public class PlayerHandInteractor : MonoBehaviour
     #region Unity Callbacks -> Trigger Callbacks
     private void Awake()
     {
-        _hand = GetComponent<PlayerHand>();
+        _thisHand = GetComponent<PlayerHand>();
         _collider = GetComponent<Collider>();
     }
     private void OnEnable()
@@ -39,7 +39,7 @@ public class PlayerHandInteractor : MonoBehaviour
                 return;
             }
             _interactablesInRange.Add(interactable);
-            interactable.Touch(_hand);
+            interactable.Touch(_thisHand);
         }
     }
     private void OnTriggerExit(Collider other)
@@ -56,7 +56,7 @@ public class PlayerHandInteractor : MonoBehaviour
     #region Input Responses
     private void HandleTriggerPressed(bool isRightHand)
     {
-        if (isRightHand != _hand.IsRightHand) return;
+        if (isRightHand != _thisHand.IsRightHand) return;
         if (_interactablesInRange.Count <= 0) return;
 
         if (_heldInteractable != null)
@@ -97,7 +97,7 @@ public class PlayerHandInteractor : MonoBehaviour
     }
     private void HandleGripPressed(bool isRightHand)
     {
-        if (isRightHand != _hand.IsRightHand) return;
+        if (isRightHand != _thisHand.IsRightHand) return;
         if (_interactablesInRange.Count <= 0)
         {
             OnGrabFailed.Raise(this, isRightHand);
@@ -111,6 +111,13 @@ public class PlayerHandInteractor : MonoBehaviour
             {
                 // Only one item on list and it can be picked up.
                 PickUpObject(_interactablesInRange[0]);
+                return;
+            }
+            else if(_interactablesInRange[0] is StaticInteractable)
+            {
+                // This will not pickup the object but play
+                // a voiceline statinc the object can't be picked up.
+                _interactablesInRange[0].PickUp(transform, _thisHand);
                 return;
             }
             else
@@ -151,7 +158,7 @@ public class PlayerHandInteractor : MonoBehaviour
     }
     private void HandleGripReleased(bool isRightHand)
     {
-        if (isRightHand != _hand.IsRightHand) return;
+        if (isRightHand != _thisHand.IsRightHand) return;
 
         if (_heldInteractable != null)
         {
@@ -174,7 +181,7 @@ public class PlayerHandInteractor : MonoBehaviour
     }
     private void PickUpObject(Iinteractable objectToPickUp)
     {
-        objectToPickUp.PickUp(transform, _hand);
+        objectToPickUp.PickUp(transform, _thisHand);
         _heldInteractable = objectToPickUp;
     }
 }

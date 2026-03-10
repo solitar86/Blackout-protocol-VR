@@ -39,6 +39,12 @@ public abstract class StaticInteractable : MonoBehaviour, Iinteractable
             AudioPlayer.PlaySoundAtPoint(this, _touchIdentifyVO, transform.position, true);
         }
     }
+
+    private void PickUp(Transform parent, PlayerHand hand)
+    {
+        EventManager.OnCantCarryObject.Raise(this, -1);
+        hand.HandlePickUpOrDropObject();
+    }
     public virtual void Ping(float delay = 0)
     {
 
@@ -100,8 +106,11 @@ public abstract class StaticInteractable : MonoBehaviour, Iinteractable
     }
     void Iinteractable.PickUp(Transform parent, PlayerHand hand)
     {
-        
+        PickUp(parent, hand);
     }
+
+
+
     void Iinteractable.Touch(PlayerHand hand)
     {
         Touch(hand);

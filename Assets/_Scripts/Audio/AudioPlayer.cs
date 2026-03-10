@@ -241,6 +241,7 @@ public class AudioPlayer : MonoBehaviour
         soundToPlay.Pitch = 1;
         soundToPlay.Volume = volume;
         soundToPlay.Clip = clipToPlay;
+        soundToPlay.SpacialBlend = spatialize ? 1 : 0;
 
         PlaySoundAtPoint(sender, soundToPlay, point, usePitchVariation, spatialize);
     }

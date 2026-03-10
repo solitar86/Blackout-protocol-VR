@@ -33,8 +33,6 @@ public class BeaconLPFController : MonoBehaviour
         playerLookDirection.y = 0;
         playerLookDirection.Normalize();
 
-
-        //TODO: Should I zero out the Y component???
         float dotProduct = Vector3.Dot(directionToPlayerHead,
                                         playerLookDirection);
 
@@ -42,7 +40,7 @@ public class BeaconLPFController : MonoBehaviour
          _lowPassFilter.cutoffFrequency = Mathf.Lerp(_lowPassHighestValue, _lpfMaxValue, lerpValue);
         
         //Debugger.Log("ToPlayer: " + directionToPlayerHeadNormalized.ToString() + " LookDIR: " + playerLookDirection.ToString());
-        Debugger.Log("DOT:" + dotProduct.ToString("F2")+" LERP: " + lerpValue.ToString("F2"), Debugger.TextColor.Yellow);
+        //Debugger.Log("DOT:" + dotProduct.ToString("F2")+" LERP: " + lerpValue.ToString("F2"), Debugger.TextColor.Yellow);
     }
 
     private bool InitLowPassFilter()

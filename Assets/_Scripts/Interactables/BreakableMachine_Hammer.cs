@@ -23,7 +23,6 @@ public class BreakableMachine_Hammer : MonoBehaviour
     {
         _hitpoints = _hitsRequiredToBreak;
     }
-
     private void Start()
     {
         PlayRadioStaticBeaconLoop();

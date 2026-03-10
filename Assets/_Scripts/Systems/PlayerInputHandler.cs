@@ -64,6 +64,16 @@ public class PlayerInputHandler : MonoBehaviour
             Debugger.Log("Right Secondary Button Pressed", Debugger.TextColor.LightBlue);
             EventManager.OnSecondaryButtonPressed.Raise(this, _isRightHand);
         }
+        if (_rightSecondaryButton.IsPressed())
+        {
+            Debugger.Log("Right Secondary is Held", Debugger.TextColor.LightBlue);
+            EventManager.OnSecondaryButtonHeld.Raise(this, _isRightHand);
+        }
+        if (_rightSecondaryButton.WasReleasedThisFrame())
+        {
+            Debugger.Log("Right Secondary Button Released", Debugger.TextColor.LightBlue);
+            EventManager.OnSecondaryButtonReleased.Raise(this, _isRightHand);
+        }
 
         ////////////////////////////////
         // LEFT HAND BUTTONS
@@ -94,6 +104,16 @@ public class PlayerInputHandler : MonoBehaviour
         {
             Debugger.Log("Left Secondary Button Pressed", Debugger.TextColor.LightBlue);
             EventManager.OnSecondaryButtonPressed.Raise(this, !_isRightHand);
+        }
+        if (_leftSecondaryButton.IsPressed())
+        {
+            Debugger.Log("Left Secondary is Held", Debugger.TextColor.LightBlue);
+            EventManager.OnSecondaryButtonHeld.Raise(this, !_isRightHand);
+        }
+        if (_leftSecondaryButton.WasReleasedThisFrame())
+        {
+            Debugger.Log("Left Secondary Button Released", Debugger.TextColor.LightBlue);
+            EventManager.OnSecondaryButtonReleased.Raise(this, !_isRightHand);
         }
 
 

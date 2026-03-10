@@ -1178,25 +1178,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2417033642183055198, guid: 5a5955cbbbce9bc45834fbe411579a25, type: 3}
   m_PrefabInstance: {fileID: 896653583}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1540950824 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5319103407514755740, guid: 0f501f279df8471489d996933ad888aa, type: 3}
-  m_PrefabInstance: {fileID: 1711318995}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1540950831
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1540950824}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1607bf14790e6045a5c3783bccc6bd3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  _lowPassFilter: {fileID: 0}
-  _lowPassHighestValue: 0
 --- !u!4 &1585453790 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2417033642183055198, guid: 5a5955cbbbce9bc45834fbe411579a25, type: 3}
@@ -1218,10 +1199,6 @@ PrefabInstance:
     - target: {fileID: 5319103407514755740, guid: 0f501f279df8471489d996933ad888aa, type: 3}
       propertyPath: m_Name
       value: CLOCK
-      objectReference: {fileID: 0}
-    - target: {fileID: 5319103407514755740, guid: 0f501f279df8471489d996933ad888aa, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5878436453932700352, guid: 0f501f279df8471489d996933ad888aa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1263,29 +1240,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7015902174833320260, guid: 0f501f279df8471489d996933ad888aa, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
-    - target: {fileID: 8993115359335207810, guid: 0f501f279df8471489d996933ad888aa, type: 3}
-      propertyPath: m_Volume
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8993115359335207810, guid: 0f501f279df8471489d996933ad888aa, type: 3}
-      propertyPath: MaxDistance
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8993115359335207810, guid: 0f501f279df8471489d996933ad888aa, type: 3}
-      propertyPath: MinDistance
-      value: 0.2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5319103407514755740, guid: 0f501f279df8471489d996933ad888aa, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1540950831}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f501f279df8471489d996933ad888aa, type: 3}
 --- !u!1001 &1737480022
 PrefabInstance:
@@ -2276,6 +2234,22 @@ PrefabInstance:
     - target: {fileID: 5304522184512835325, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}
       propertyPath: m_Name
       value: VR_Origin
+      objectReference: {fileID: 0}
+    - target: {fileID: 5430152879863439837, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}
+      propertyPath: _beaconPosition.x
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5430152879863439837, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}
+      propertyPath: _northBeaconSound.Clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 3bb8e838c381f0b409315fe7d7e8cd3f, type: 3}
+    - target: {fileID: 5430152879863439837, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}
+      propertyPath: _northBeaconSound.MaxDistance
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5430152879863439837, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}
+      propertyPath: _northBeaconSound.MinDistance
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5490227975979510099, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}
       propertyPath: _startTransform

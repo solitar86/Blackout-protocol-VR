@@ -55,6 +55,29 @@ public class VibrationPlayerDirect : MonoBehaviour
         _controller.SendHapticImpulse(0, vibrationSettings.Amplitude, vibrationSettings.Duration);
         _nextTimeCanPlayHaptics = Time.time + vibrationSettings.Duration;
     }
+    /// <summary>
+    /// Playes default haptic feedback with amplitude = 1 and duration = 0.2f;
+    /// </summary>
+    public void PlayDefaultHaptic()
+    {
+        string haptic = "HAPTIC 2";
+        haptic.Logthis();
+        if (PreviousHapticDurationHasElapsed() == false) return;
+
+        if (_controller == null)
+        {
+            if (TryInitializeDevice() == false) return;
+        }
+        if (_controller.isValid == false)
+        {
+            if (TryInitializeDevice() == false) return;
+        }
+
+        var amplitude = 1;
+        var duration = 0.2f;
+        _controller.SendHapticImpulse(0, amplitude, duration);
+        _nextTimeCanPlayHaptics = Time.time + duration;
+    }
 
     private bool PreviousHapticDurationHasElapsed()
     {
