@@ -9,6 +9,8 @@ public class PlayerNorthBeaconHandler : MonoBehaviour
     [SerializeField] private Vector2 _beaconPosition;
     [SerializeField] private Sound _northBeaconSound;
     private AudioSource _northBeaconSource;
+    private bool _enabled = true;
+    public bool Enabled => _enabled;
     #region  Unity Callbacks
     private void OnEnable()
     {
@@ -27,6 +29,7 @@ public class PlayerNorthBeaconHandler : MonoBehaviour
     #endregion
     private void StartNorthBeaconSoundLoop(bool isRightHand)
     {
+        if (_enabled == false) return;
         if(_northBeaconSource == null)
         {
             _northBeaconSource = AudioPlayer.CreateLoopingAudioSource(this,
@@ -42,6 +45,7 @@ public class PlayerNorthBeaconHandler : MonoBehaviour
     }
     private void UpdateNorthBeaconPosition(bool isRightHand)
     {
+        if (_enabled == false) return;
         _northBeaconSource.transform.position =
                             transform.position +
                             new Vector3(_beaconPosition.x,
@@ -71,7 +75,6 @@ public class PlayerNorthBeaconHandler : MonoBehaviour
         StartCoroutine(FadeSourceVolumeTo(0f));
 
     }
-
     private IEnumerator FadeSourceVolumeTo(float targetVolume)
     {
         float timer = 0f;
@@ -86,7 +89,6 @@ public class PlayerNorthBeaconHandler : MonoBehaviour
         _northBeaconSource.volume = targetVolume;
         if (targetVolume == 0 && _northBeaconSource.isPlaying == true) _northBeaconSource.Stop();
     }
-
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
@@ -98,4 +100,7 @@ public class PlayerNorthBeaconHandler : MonoBehaviour
         Vector3 position = transform.position + new Vector3(_beaconPosition.x, playerHeadPos.y, _beaconPosition.y);
         Gizmos.DrawCube(position, Vector3.one * 0.1f);
     }
+    public void Enable() => _enabled = true;
+    public void Disable() => _enabled = false;
+    
 }

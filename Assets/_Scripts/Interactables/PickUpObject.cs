@@ -37,7 +37,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     [Tooltip("An array of sounds which we can choose from when we let go of this object.")]
     [SerializeField] private SoundArrayHolder _dropOnSurfaceSounds;
 
-    [Tooltip("An array of sound to play when we hit this object againts a surface.")]
+    [Tooltip("An array of sound to play when we hit this object againts a surface while it's beind held.")]
     [SerializeField] internal Sound _impactSound; // This should be a sound holder, TODO
 
     [Tooltip("What velocity == volume 1f")]

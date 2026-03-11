@@ -18,6 +18,8 @@ GameObject:
   - component: {fileID: 541135448873169059}
   - component: {fileID: 3847940972307062427}
   - component: {fileID: 3937725805804409759}
+  - component: {fileID: 276926023458938028}
+  - component: {fileID: 785026988930319055}
   m_Layer: 10
   m_Name: BreakableMachine_AirConditioner
   m_TagString: Untagged
@@ -35,7 +37,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.44, y: 0.69, z: 2.34}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.90365, y: 1.1451052, z: 0.90365}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5930949515443299371}
@@ -158,19 +160,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d74cdf0640a05a46bf357b39821d00f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _hitsRequiredToBreak: 3
+  _hitsRequiredToBreak: 1
   _minVelocityToBreak: 7
   _airConHummLoop:
-    Clip: {fileID: 8300000, guid: 25f7e7cf7ad1dbc40928b3bb4c9ffb69, type: 3}
+    Clip: {fileID: 8300000, guid: 97644c1a517a14475bb05ccf3842f6e4, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 1
+    Volume: 0.6
     Pitch: 1
     SpacialBlend: 1
     OverrideDefaultDistances: 1
     MinDistance: 0.2
-    MaxDistance: 3
+    MaxDistance: 4
   _breakSoundEffect:
-    Clip: {fileID: 8300000, guid: 1bc6028667c67584c8d7be948bb95cfb, type: 3}
+    Clip: {fileID: 8300000, guid: a4d41555e3bc14659be256b3eea2e222, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
@@ -178,6 +180,21 @@ MonoBehaviour:
     OverrideDefaultDistances: 0
     MinDistance: 0.5
     MaxDistance: 2
+  _onHitTooSoftly:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 276926023458938028}
+        m_TargetAssemblyTypeName: SoundHolderForUnityEvent, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _onDamaged:
     m_PersistentCalls:
       m_Calls: []
@@ -194,7 +211,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 541135448873169059}
         m_TargetAssemblyTypeName: TouchableSurfaceAudioHandler, Assembly-CSharp
@@ -206,7 +223,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 3937725805804409759}
         m_TargetAssemblyTypeName: QuestProgressor_CallWithUnityEvent, Assembly-CSharp
@@ -293,6 +310,55 @@ MonoBehaviour:
   _questProgressionStep:
     Quest: {fileID: 11400000, guid: 706ad42d7eb33f244805d0e69eef6671, type: 2}
     ProgressionState: 3
+--- !u!114 &276926023458938028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802038966387455069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adce140b42922bb49aaf3767059b444a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundHolderForUnityEvent
+  _soundToPlay:
+    Clip: {fileID: 8300000, guid: cab3077053e323c45a780dfd320f0a2d, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  _spatialize: 0
+  _pitchVariation: 0
+  _delay: 0
+  _optionalPositionToPlayAt: {fileID: 0}
+  _preventOverlappingPlayes: 1
+--- !u!114 &785026988930319055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802038966387455069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cf2de450a213a942a40942c08e23302, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BodyCollisionSoundHolder
+  _playerBodyCollisionSoundHolder: {fileID: 0}
+  _ID_voiceline:
+    Clip: {fileID: 8300000, guid: ce4e25eac726d004aa9cd04d26808dde, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  _IDVoicelineHolder: {fileID: 0}
 --- !u!1 &810035546937523392
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,8 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
     [SerializeField] private float _raycastDistance = 0.3f;
     [SerializeField] private float[] _raycastHeightIntervals = { 0.3f, 0.5f };
     [SerializeField] private int _numberOfRaycasts = 5;
+    [Tooltip("How far away from the player is the collision sound played. Artifically increase directionality.")]
+    [SerializeField] private float _touchSoundDistanceMultiplier = 1f;
     [Space(15), Header("Sounds")]
     [SerializeField] private SoundArrayHolder _defaultPlayerCollisionSoundHolder;
     [SerializeField] private Sound _playerScrapeObstacleSound;
@@ -66,7 +69,7 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
                     _isTouchingObstacle = true;
                     _currentTouchingPoint = hit.point;
                     if (_wasTouchingLastFrame == false) HandlePlayerObstacleCollisionStart(hit);
-                    
+
                     break;
                 }
             }
@@ -84,51 +87,60 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
 
 
     }
-    private void HandleScrapingAudioSourceVolumeDecrease()
-    {
-        if (_audioWasIncreasedThisFrame == false)
-        {
-            if (_scrapeWallAudioLoopSource != null)
-            {
-                _scrapeWallAudioLoopSource.volume = Mathf.SmoothDamp(_scrapeWallAudioLoopSource.volume,
-                                                    0f,
-                                                    ref _audioSmoothDampVelocity,
-                                                    PlayerSettings.Developer.SlideAudioChangeSpeed * 2);
-            }
-        }
-        _audioWasIncreasedThisFrame = false;
-    }
     #endregion
-
     private void HandlePlayerObstacleCollisionStart(RaycastHit hitInfo)
     {
         _wasTouchingLastFrame = true;
 
-        if(hitInfo.collider.TryGetComponent<BodyCollisionSoundHolder>(out var holder))
-        {
-            // Found sound holder, use those sounds.
-            AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
-                                            holder.GetSoundArrayHolder().SoundArray,
-                                            _currentTouchingPoint,
-                                            holder.GetSoundArrayHolder().LastPlayedSound,
-                                            true,
-                                            true);
+        var soundPosition = CalculateSoundPlayPosition(_currentTouchingPoint);
 
+        if (hitInfo.collider.TryGetComponent<BodyCollisionSoundHolder>(out var holder))
+        {
+            // This object has a body collision  handler component.
             EventManager.OnPlayerBumpIDVOShouldPlay.Raise(this, holder.GetIdVoiceLine());
-
-            return;
+            if (holder.GetSoundArrayHolder() == null ||
+                                        holder.GetSoundArrayHolder().SoundArray == null ||
+                                        holder.GetSoundArrayHolder().SoundArray.Length == 0)
+            {
+                // Has holder but Holder has null or 0 length array of sounds.
+                Debugger.LogWarning("No body collision sounds applied to: " + holder.gameObject.name);
+                PlayDefaultBodyCollisionSound(soundPosition, holder.gameObject);
+            }
+            else
+            {
+                // Found sound holder and it has sounds to play for collision. Play and return.
+                AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
+                                                holder.GetSoundArrayHolder().SoundArray,
+                                                soundPosition,
+                                                holder.GetSoundArrayHolder().LastPlayedSound,
+                                                true,
+                                                true);
+                return;
+            }
         }
+    }
 
+    private Vector3 CalculateSoundPlayPosition(Vector3 currentTouchingPoint)
+    {
+        var playerXZwithTouchZ = new Vector3(transform.position.x, currentTouchingPoint.y, transform.position.z);
+        var directionToTouchPointNormalized = (currentTouchingPoint - playerXZwithTouchZ).normalized;
+        return transform.position + directionToTouchPointNormalized * _touchSoundDistanceMultiplier;
+
+    }
+
+    private void PlayDefaultBodyCollisionSound(Vector3 soundPosition, GameObject holderObject)
+    {
         /// If no holder present, play default
-        if(_defaultPlayerCollisionSoundHolder != null && _defaultPlayerCollisionSoundHolder.SoundArray != null && _defaultPlayerCollisionSoundHolder.SoundArray.Length > 0)
+        if (_defaultPlayerCollisionSoundHolder != null && _defaultPlayerCollisionSoundHolder.SoundArray != null && _defaultPlayerCollisionSoundHolder.SoundArray.Length > 0)
         {
+            EventManager.OnPlayerBumpIDVOShouldPlay.Raise(this, null);
+            Debugger.Log("No body collision sounds assigned. Playing default body collision SFX for: " + holderObject.name);
             AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
                                                         _defaultPlayerCollisionSoundHolder.SoundArray,
-                                                        _currentTouchingPoint,
+                                                        soundPosition,
                                                         _defaultPlayerCollisionSoundHolder.LastPlayedSound,
                                                         true,
                                                         true);
-            EventManager.OnPlayerBumpIDVOShouldPlay.Raise(this, null);
         }
     }
     private void HandlePlayerObstacleCollisionStay()
@@ -157,6 +169,20 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
 #if UNITY_EDITOR
         _hitMarker.position = _currentTouchingPoint;
 #endif
+    }
+    private void HandleScrapingAudioSourceVolumeDecrease()
+    {
+        if (_audioWasIncreasedThisFrame == false)
+        {
+            if (_scrapeWallAudioLoopSource != null)
+            {
+                _scrapeWallAudioLoopSource.volume = Mathf.SmoothDamp(_scrapeWallAudioLoopSource.volume,
+                                                    0f,
+                                                    ref _audioSmoothDampVelocity,
+                                                    PlayerSettings.Developer.SlideAudioChangeSpeed * 2);
+            }
+        }
+        _audioWasIncreasedThisFrame = false;
     }
     private void HandlePlayerObstacleCollisionStop()
     {

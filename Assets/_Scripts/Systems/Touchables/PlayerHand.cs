@@ -45,8 +45,6 @@ public class PlayerHand : MonoBehaviour
     /// </summary>
     public void HandlePickUpOrDropObject()
     {
-        string haptic = "HAPTIC 1";
-        haptic.Logthis();
         PlayDefaultHapticFeedback();
     }
     public void HandleHandInsideCollider(VibrationSettingsSO hapticSettings)
@@ -89,8 +87,6 @@ public class PlayerHand : MonoBehaviour
     /// 
     private void PlayDefaultHapticFeedback()
     {
-        string haptic = "HAPTIC 2";
-        haptic.Logthis();
         _hapticPlayer?.PlayDefaultHaptic();
     }
     private void SpawnTouchVisual(Vector3 position)

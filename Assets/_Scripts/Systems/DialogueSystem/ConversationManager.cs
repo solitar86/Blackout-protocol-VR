@@ -17,26 +17,36 @@ public class ConversationManager : MonoBehaviour
     private static ConversationSO _currentPlayingConversation;
     private List<GameObject> _currentDialogueAudioObjects = new();
     private static bool _isPlayingConversation = false;
+    private static bool _playerIsSpeaking = false;
+    private static bool _NPCIsSpeaking = false;
     private static Transform _playerTransform;
     private static Transform _radioTransform;
     [Space(50)]
     [SerializeField] ConversationSO _testDialogue;
 
     public static bool IsPlayingConversation => _isPlayingConversation;
+    public static bool PlayerIsSpeaking => _playerIsSpeaking;
+    public static bool NPCIsSpeaking => _NPCIsSpeaking;
+
 
     #region Unity Callbacks
     private void Awake()
     {
         _isPlayingConversation = false;
+        _playerIsSpeaking = false;
+        _NPCIsSpeaking = false;
         if (Instance == null) Instance = this;
         else Destroy(this);
     }
     private void OnDisable()
     {
         _isPlayingConversation = false;
+        _playerIsSpeaking = false;
+        _NPCIsSpeaking = false;
     }
     #endregion
 
+    #region Core Functions
     /// <summary>
     /// Play a conversation.
     /// </summary>
@@ -92,13 +102,15 @@ public class ConversationManager : MonoBehaviour
     /// t.ex from the walkie talkie to start and actual important
     /// conversation with gameplay importance.
     /// </summary>
-    /// <param name="conversation"></param>
+    /// <param name="conversation"> Conversation to start after interrupt. </param>
     public static void OverrideCurrentConversationWith(ConversationSO conversation)
     {
         Debugger.Log("Overriding current conversation", Debugger.TextColor.Orange);
         ForceStopConversations();
         PlayConversation(conversation);
     }
+
+    #endregion
 
     #region Conversation Coroutines
     private IEnumerator PlayQueudConversations()
@@ -112,6 +124,8 @@ public class ConversationManager : MonoBehaviour
         }
         StopCurrentPlayingDialoguesAndEmptyList();
         _isPlayingConversation = false;
+        _playerIsSpeaking = false;
+        _NPCIsSpeaking = false;
     }
     private IEnumerator PlaySingleConversation(ConversationSO conversation)
     {
@@ -195,18 +209,24 @@ public class ConversationManager : MonoBehaviour
     {
         if (dialogueSO.GetSpeaker() is Speaker.Player)
         {
+            _NPCIsSpeaking = false;
+            _playerIsSpeaking = true;
             EventManager.OnDialogueStart_Player.Raise(this, dialogueSO);
             return;
         }
+        _NPCIsSpeaking = true;
+        _playerIsSpeaking = false;
         EventManager.OnDialogueStart_Radio.Raise(this, dialogueSO);
     }
     private void TriggerDialogueEndEvent(DialogueSO dialogue)
     {
         if (dialogue.GetSpeaker() is Speaker.Player)
         {
+            _playerIsSpeaking = false;
             EventManager.OnDialogueStop_Player.Raise(this, dialogue);
             return;
         }
+        _NPCIsSpeaking = false;
         EventManager.OnDialogueStop_Radio.Raise(this, dialogue);
     }
     private static void ForceStopConversations()
@@ -220,8 +240,13 @@ public class ConversationManager : MonoBehaviour
             StopCurrentPlayingDialoguesAndEmptyList();
             EventManager.OnConversationEnded.Raise(Instance, "All");
             _isPlayingConversation = false;
+            _playerIsSpeaking = false;
+            _NPCIsSpeaking = false;
         }
     }
+    /// <summary>
+    /// This is a clean-up function for when conversations end or are force-stopped.
+    /// </summary>
     private static void StopCurrentPlayingDialoguesAndEmptyList()
     {
         foreach (var dialogueAudioObject in Instance._currentDialogueAudioObjects)
@@ -243,8 +268,9 @@ public class ConversationManager : MonoBehaviour
     public static void ResetStaticVariables()
     {
         _isPlayingConversation = false;
+        _playerIsSpeaking = false;
+        _NPCIsSpeaking= false;
     }
-
     public static void SkipCurrentDialogue()
     {
         if (Instance == null) return;

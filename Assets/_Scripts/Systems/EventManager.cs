@@ -23,6 +23,7 @@ public static class EventManager
     public static GameEvent<bool> OnGripPressed = new("Grip button pressed");
     public static GameEvent<bool> OnGripReleased = new("Grip button released");
     public static GameEvent<int> OnPlayerStartMove = new("Player start move");
+    public static GameEvent<bool> OnPlayerPushJoystick = new("Player push stick");
     public static GameEvent<bool> OnPlayerSnapTurn = new("Plauer snap turn");
 
     // UI Events
@@ -77,6 +78,11 @@ public static class EventManager
     {
         LogsEnabled = false;
         PlayerPrefs.SetInt(PREFSKEY, 1);
+    }
+
+    public static void EmptyCallEventSubsribers()
+    {
+
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]

@@ -15,10 +15,8 @@ public class PlayerFootStepHandler : MonoBehaviour
     [Tooltip("Snap turn playes 2 footsteps at random delay. Set min and max here:")]
     [SerializeField] private float _maxDelayBetweenShuffle = 1f;
     
-    private bool _isLeftFoot = true; // Player starts with left foot step.
-
+    private bool _isLeftFoot = true; // Player starts with left foot step
     public GameEvent<int> OnPlayerTakeFootstep = new("Player Footstep");
-
     private Vector3 lastStepPosition;
 
     #region Unity Callbacks

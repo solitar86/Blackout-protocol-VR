@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5165877891008581881}
   - component: {fileID: 6049071369163457006}
   - component: {fileID: 2566378272959106147}
+  - component: {fileID: 3080558911186623848}
   m_Layer: 10
   m_Name: Table_Metal
   m_TagString: Untagged
@@ -30,9 +31,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6450323749905132122}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.3674, y: -0.98529994, z: 2.7199998}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5519537, y: 1, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 437958810284692610}
@@ -71,7 +72,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+  - {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -144,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TouchableSurfaceAudioHandler
   _touchIdentifyVO:
-    Clip: {fileID: 8300000, guid: eabc89e5c2f7c9a4cb7a16cdeeab8ae2, type: 3}
+    Clip: {fileID: 8300000, guid: 9ac01fde14755714d8ed65656774627e, type: 3}
     Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
@@ -169,6 +170,29 @@ MonoBehaviour:
   _detectableLayers:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &3080558911186623848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6450323749905132122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cf2de450a213a942a40942c08e23302, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BodyCollisionSoundHolder
+  _playerBodyCollisionSoundHolder: {fileID: 11400000, guid: c995d75005bacae489a7d3f68a6542a4, type: 2}
+  _ID_voiceline:
+    Clip: {fileID: 8300000, guid: 968fd068adb29b94081f6cbe5c5b02c7, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  _IDVoicelineHolder: {fileID: 0}
 --- !u!1 &6937081238269902198
 GameObject:
   m_ObjectHideFlags: 0

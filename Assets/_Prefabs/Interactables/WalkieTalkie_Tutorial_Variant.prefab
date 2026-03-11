@@ -12,13 +12,17 @@ PrefabInstance:
       propertyPath: _tutorialConvo
       value: 
       objectReference: {fileID: 11400000, guid: 7967b71039953384eb86d2f9484475f3, type: 2}
+    - target: {fileID: 3610909882896857516, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
+      propertyPath: _dropOnSurfaceSounds
+      value: 
+      objectReference: {fileID: 11400000, guid: 12639cb57c22f6948891df3c589ef093, type: 2}
     - target: {fileID: 6516922147322332068, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
       propertyPath: m_Name
-      value: WalkieTalkie Variant
+      value: WalkieTalkie_Tutorial_Variant
       objectReference: {fileID: 0}
     - target: {fileID: 7524808710466664724, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.039
+      value: -0.151
       objectReference: {fileID: 0}
     - target: {fileID: 7524808710466664724, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
       propertyPath: m_LocalPosition.y
@@ -26,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7524808710466664724, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.008
+      value: 0.087
       objectReference: {fileID: 0}
     - target: {fileID: 7524808710466664724, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
       propertyPath: m_LocalRotation.w

@@ -9,9 +9,15 @@ public class SoundHolderForUnityEvent : MonoBehaviour
     [SerializeField] private float _delay = 0f;
     [Tooltip("If this field is assigned, sound will play here instead of transform.position")]
     [SerializeField] private Transform _optionalPositionToPlayAt;
+    [Tooltip("Prevent new sound from playing until previous has finished")]
+    [SerializeField] private bool _preventOverlappingPlayes = false;
+
+    private float nextTimeAllowPlayback = 0f;
 
     public void PlaySound()
     {
+        if (_preventOverlappingPlayes == true && nextTimeAllowPlayback < Time.time) return;
+
         var pos = transform.position;
         if (_optionalPositionToPlayAt != null) pos = _optionalPositionToPlayAt.position;
 
@@ -22,6 +28,8 @@ public class SoundHolderForUnityEvent : MonoBehaviour
             AudioPlayer.PlaySoundAtPoint(this, _soundToPlay, pos, _pitchVariation, _spatialize);
         }, _delay);
         Destroy(mono.gameObject, _delay + _soundToPlay.Clip.length + 1f);
+
+        nextTimeAllowPlayback = Time.time + _soundToPlay.Clip.length;
     }
 
 }

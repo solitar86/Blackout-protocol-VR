@@ -213,6 +213,7 @@ GameObject:
   - component: {fileID: 379437169304089116}
   - component: {fileID: 2954144552857420833}
   - component: {fileID: 1131534540517204726}
+  - component: {fileID: 3225423651286714103}
   m_Layer: 10
   m_Name: BreakableMachine _FuseBox
   m_TagString: Untagged
@@ -230,7 +231,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.431, y: 0.69, z: 2.34}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.90365, y: 1.1451052, z: 0.90365}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 268328561781897950}
@@ -406,7 +407,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53f1c0e0a1d9b814789d010ceb2f6e43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _waterRequiredToBreak: 6
+  _waterRequiredToBreak: 1
+  _fuseBoxHummLoop:
+    Clip: {fileID: 8300000, guid: 84426b0632a9f4f3db9c1e5bdc1aa882, type: 3}
+    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 0.25
+    Pitch: 1
+    SpacialBlend: 1
+    OverrideDefaultDistances: 1
+    MinDistance: 0.2
+    MaxDistance: 4
   _takeDamageSound:
     Clip: {fileID: 8300000, guid: 3afa7d160343ffb4e829c0c8939c7a26, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
@@ -496,3 +506,26 @@ MonoBehaviour:
   _questProgressionStep:
     Quest: {fileID: 11400000, guid: 57586e5f71c3dd14ea4d66ca5bdce731, type: 2}
     ProgressionState: 3
+--- !u!114 &3225423651286714103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8377769058188198268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cf2de450a213a942a40942c08e23302, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BodyCollisionSoundHolder
+  _playerBodyCollisionSoundHolder: {fileID: 0}
+  _ID_voiceline:
+    Clip: {fileID: 8300000, guid: 60564798e02c5144d999d35b911e16b5, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  _IDVoicelineHolder: {fileID: 0}

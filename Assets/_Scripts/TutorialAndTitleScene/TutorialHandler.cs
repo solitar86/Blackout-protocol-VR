@@ -74,7 +74,7 @@ public class TutorialHandler : MonoBehaviour
         // If player has not opened menu yet, remind them. 
         yield return new WaitForSeconds(5f);
         if (_menuWasClosed == false && RadialMenuManager.Instance.MenuIsOpen == false)
-            TTSPlayer.PlayOnLoopWithFilePath(TTSTUTORIALPATH + "TTS_MenuInfo_Reminder");
+            TTSPlayer.PlayOnLoopUntilInterruptWithFilePath(TTSTUTORIALPATH + "TTS_MenuInfo_Reminder");
 
         // Player has opened and closed menu atleast once. Continue.
         yield return new WaitUntil(() => _menuWasClosed == true);

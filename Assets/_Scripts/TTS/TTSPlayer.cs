@@ -15,6 +15,8 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class TTSPlayer : MonoBehaviour
 {
+
+    private static string TTS_ERROR_FILEPATH = "TTS/TTS_Error_TTSFileNotFound";
 #region Unity Callbacks
     private void OnEnable()
     {
@@ -67,7 +69,10 @@ public class TTSPlayer : MonoBehaviour
         foreach (var path in paths)
         {
             AudioClip clip = Resources.Load<AudioClip>(path);
-            if (clip == null)Debugger.Log("TTS Sequence clip not found with path: " + path);
+            if (clip == null)
+            {
+                clip = Resources.Load<AudioClip>(TTS_ERROR_FILEPATH);
+            }
             else clips.Add(clip);
         }
 
@@ -102,7 +107,12 @@ public class TTSPlayer : MonoBehaviour
         var clip = Resources.Load<AudioClip>(path);
         PlayTTS(clip, path, preventInterrupt);
     }
-    /// Overload with out parameter.
+    /// <summary>
+    /// An overload that can give the duration of the clip is an out float.
+    /// </summary>
+    /// <param name="path">Where in Resources is this file</param>
+    /// <param name="clipDuration">Out how long is the audio file</param>
+    /// <param name="preventInterrupt">Can another TTS line interrupt this TTS line</param>
     public static void PlayTTSWithFilePath(string path, out float clipDuration , bool preventInterrupt = false)
     {
         var clip = Resources.Load<AudioClip>(path);
@@ -124,15 +134,16 @@ public class TTSPlayer : MonoBehaviour
     }
     private static void PlayTTSFileNotFoundError()
     {
-        var clip = Resources.Load<AudioClip>("TTS/TTS_Error_TTSFileNotFound");
+        var clip = Resources.Load<AudioClip>(TTS_ERROR_FILEPATH);
         PlayTTS(clip, "Error Clip");
     }
+    private static string GetTTSErrorFilePath() => TTS_ERROR_FILEPATH;
     private static void TryAddClipToLoadedAssetsList(AudioClip clipToPlay)
     {
         if (_currentlyLoadedClips.Contains(clipToPlay)) return;
         _currentlyLoadedClips.Add(clipToPlay);
     }
-    public static void PlayOnLoopWithFilePath(string path)
+    public static void PlayOnLoopUntilInterruptWithFilePath(string path)
     {
         PlayTTSWithFilePath(path);
         _ttsSource.loop = true;
@@ -144,6 +155,7 @@ public class TTSPlayer : MonoBehaviour
         DestroyAndClearQueuedTTSCalls();
         UnloadUsedTTSClips(-1);
         _ttsSource.Stop();
+        _ttsSource.loop = false;
     }
 
     #region Helpers etc.

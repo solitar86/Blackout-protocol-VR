@@ -8,6 +8,7 @@ public class BreakableMachine_Hammer : MonoBehaviour
     [SerializeField] float _minVelocityToBreak = 10f;
     [SerializeField] Sound _airConHummLoop;
     [SerializeField] Sound _breakSoundEffect;
+    [SerializeField] private UnityEvent _onHitTooSoftly;
     [SerializeField] private UnityEvent _onDamaged;
     [SerializeField] private UnityEvent _onBreak;
     [SerializeField] private UnityEvent _onHitWithHammerAfterBreak;
@@ -18,7 +19,7 @@ public class BreakableMachine_Hammer : MonoBehaviour
     public bool IsBroken;
 
     #region Unity Callbacks
-    
+ 
     private void Awake()
     {
         _hitpoints = _hitsRequiredToBreak;
@@ -41,6 +42,9 @@ public class BreakableMachine_Hammer : MonoBehaviour
                 Debugger.WorldSpaceText("Hit vel: " + hammer.Velocity.ToString("F1"), collision.contacts[0].point);
                 TakeHit();
             }
+
+            _onHitTooSoftly?.Invoke();
+
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -70,7 +74,7 @@ public class BreakableMachine_Hammer : MonoBehaviour
         _isBroken = true;
         _onBreak?.Invoke();
         AudioPlayer.PlaySoundAtPoint(this, _breakSoundEffect, transform.position);
-        GetComponent<Collider>().isTrigger = true;
+        StopPlayingHummLoop();
         EventManager.OnBreakableMachineBreak.Raise(this, -1);
 
 #if UNITY_EDITOR

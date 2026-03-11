@@ -244,10 +244,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: VR_Origin
       objectReference: {fileID: 0}
-    - target: {fileID: 7814331776435025466, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}
-      propertyPath: _turnProvider
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 8376925625639093468, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -13,6 +13,7 @@ public class PlayerInputHandler : MonoBehaviour
     private InputAction _rightPrimaryButton;
     private InputAction _rightSecondaryButton;
     private InputAction _rightMove;
+    private InputAction _rightTurn;
     private InputAction _rightSkip;
 
     private InputAction _leftTrigger;
@@ -20,6 +21,7 @@ public class PlayerInputHandler : MonoBehaviour
     private InputAction _leftPrimaryButton;
     private InputAction _leftSecondaryButton;
     private InputAction _leftMove;
+    private InputAction _leftTurn;
     private InputAction _leftSkip;
 
     private bool _isRightHand = true;
@@ -28,12 +30,14 @@ public class PlayerInputHandler : MonoBehaviour
     private Vector2 _leftMoveVector;
     private Vector2 _rightMoveVector;
 
+    private bool _leftStickMoved = false;
+    private bool _rightStickMoved = false;
+
     public static bool PlayerIsMoving => _playerIsMoving;
 
 
     private void Update()
     {
-
         ////////////////////////////////
         // RIGHT HAND BUTTONS
         ////////////////////////////////
@@ -130,9 +134,16 @@ public class PlayerInputHandler : MonoBehaviour
         ////////////////////////////////
         // PLAYER MOVEMENT
         ////////////////////////////////
+        if (_leftMoveVector != Vector2.zero && _leftStickMoved != true)
+        {
+            // Right stick (which is assigned to turn) is handled by the Performed event of Right Snap Turn.
+            _leftStickMoved = true;
+            EventManager.OnPlayerPushJoystick.Raise(this, false);
+        }
+        else if (_leftMoveVector == Vector2.zero) _leftStickMoved = false;
 
         _playerIsMoving = _leftMoveVector != Vector2.zero ||
-                            _rightMoveVector != Vector2.zero;
+                                _rightMoveVector != Vector2.zero;
     }
     private void PopulateActions()
     {
@@ -141,6 +152,7 @@ public class PlayerInputHandler : MonoBehaviour
         _rightPrimaryButton = _actionAsset.FindActionMap("XRI Right Interaction").FindAction("Primary Button");
         _rightSecondaryButton = _actionAsset.FindActionMap("XRI Right Interaction").FindAction("Secondary Button");
         _rightMove = _actionAsset.FindActionMap("XRI Right Locomotion").FindAction("Move");
+        _rightTurn = _actionAsset.FindActionMap("XRI Right Locomotion").FindAction("Snap Turn");
 
         _rightSkip = _actionAsset.FindActionMap("XRI Right Interaction").FindAction("SkipTutorial");
 
@@ -149,19 +161,18 @@ public class PlayerInputHandler : MonoBehaviour
         _leftPrimaryButton = _actionAsset.FindActionMap("XRI Left Interaction").FindAction("Primary Button");
         _leftSecondaryButton = _actionAsset.FindActionMap("XRI Left Interaction").FindAction("Secondary Button");
         _leftMove = _actionAsset.FindActionMap("XRI Left Locomotion").FindAction("Move");
+        _leftTurn = _actionAsset.FindActionMap("XRI Left Locomotion").FindAction("Snap Turn");
 
         _leftSkip = _actionAsset.FindActionMap("XRI Left Interaction").FindAction("SkipTutorial");
     }
     private void OnRightMove(InputAction.CallbackContext context)
     {
         _rightMoveVector = context.ReadValue<Vector2>();
-        //Debugger.Log("Right Move: " _rightMoveVector);
 
     }
     private void OnLeftMove(InputAction.CallbackContext context)
     {
         _leftMoveVector = context.ReadValue<Vector2>();
-        //Debugger.Log("Left Move: " + _leftMoveVector);
     }
     private void OnPlayerStartMove(InputAction.CallbackContext context)
     {
@@ -169,6 +180,16 @@ public class PlayerInputHandler : MonoBehaviour
         {
             EventManager.OnPlayerStartMove.Raise(this, -1);
         }
+    }
+
+    private void OnRightTurn(InputAction.CallbackContext context)
+    {
+        EventManager.OnPlayerPushJoystick.Raise(this, true);
+    }
+
+    private void OnLeftTurn(InputAction.CallbackContext context)
+    {
+        EventManager.OnPlayerPushJoystick.Raise(this, false);
     }
     private void SubscribeToEvents()
     {
@@ -180,14 +201,23 @@ public class PlayerInputHandler : MonoBehaviour
         _rightMove.performed += OnRightMove;
         _rightMove.canceled += OnRightMove;
 
+        _rightTurn.performed += OnRightTurn;
+        _leftTurn.performed += OnLeftTurn;
     }
+
+
     private void UnsubscribeFromEvents()
     {
         _leftMove.performed -= OnLeftMove;
         _leftMove.canceled -= OnLeftMove;
         _rightMove.performed -= OnRightMove;
         _rightMove.canceled -= OnRightMove;
+
+        _rightTurn.performed -= OnRightTurn;
+        _leftTurn.performed -= OnLeftTurn;
     }
+
+
     private void OnEnable()
     {
         if (_actionAsset != null)

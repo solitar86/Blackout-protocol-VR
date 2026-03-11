@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] private DynamicMoveProvider _moveProvider;
     [SerializeField] private SnapTurnProvider _turnProvider;
     [SerializeField] private PlayerFingerSnapHandler _fingerSnapper;
+    [SerializeField] private PlayerNorthBeaconHandler _northBeacon;
 
 
 
@@ -39,22 +40,32 @@ public class Player : MonoBehaviour
         if (_fingerSnapper == null) _fingerSnapper = FindFirstObjectByType<PlayerFingerSnapHandler>();
         _fingerSnapper.Enable();
     }
+    public void DisableNorthBeacon()
+    {
+        if (_northBeacon == null) _northBeacon = FindFirstObjectByType<PlayerNorthBeaconHandler>();
+        _northBeacon.Disable();
+    }
+    public void EnableNorthBeacon()
+    {
+        if (_northBeacon == null) _northBeacon = FindFirstObjectByType<PlayerNorthBeaconHandler>();
+        _northBeacon.Enable();
+    }
     public void DisableTurnAndMove()
     {
-        DisableLocomotion();
+        DisableMovement();
         DisableSnapTurn();
     }
     public void EnableTurnAndMove()
     {
-        EnableLocomotion();
+        EnableMovement();
         EnableSnapTurn();
     }
-    public void DisableLocomotion()
+    public void DisableMovement()
     {
         if(_moveProvider == null) _moveProvider = FindFirstObjectByType<DynamicMoveProvider>();
         _moveProvider.enabled = false;
     }
-    public void EnableLocomotion()
+    public void EnableMovement()
     {
         if (_moveProvider == null) _moveProvider = FindFirstObjectByType<DynamicMoveProvider>();
         _moveProvider.enabled = true;

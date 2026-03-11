@@ -68,7 +68,6 @@ public class CoffeeCup : PickUpObject
 
         transform.up = Vector3.up;
     }
-
     public override void HandleSpecialCasesForHittingFloor(Vector3 dropPosition, float delay)
     {
         AudioPlayer.PlaySoundAtPointWithDelay(this, _glassBreakSound, dropPosition, delay, usePitchVariation:false);

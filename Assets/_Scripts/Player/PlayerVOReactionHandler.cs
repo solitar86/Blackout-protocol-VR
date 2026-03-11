@@ -30,8 +30,6 @@ public class PlayerVOReactionHandler : MonoBehaviour
         //SnapTurnProvider.OnPlayerSnapTurn += HandlePlayerTurn;
         CustomSnapTurnProviderWrapper.OnPlayerSnapTurn += HandlePlayerTurn;
     }
-
-
     private void OnDisable()
     {
         EventManager.OnPlayerCurse.RemoveListener(this, PlayerSayCurseWord);
@@ -41,11 +39,14 @@ public class PlayerVOReactionHandler : MonoBehaviour
         EventManager.OnInteractableDetectedOnSurface.RemoveListener(this, PlayItemDetectedVoiceLine);
         // SnapTurnProvider.OnPlayerSnapTurn -= HandlePlayerTurn;
         CustomSnapTurnProviderWrapper.OnPlayerSnapTurn -= HandlePlayerTurn;
-
     }
 
     #endregion
     
+    /// <summary>
+    /// Handles VO reactions to player using snapturn with controller.
+    /// </summary>
+    /// <param name="isRightTurn"> Are we turning right or left.</param>
     private void HandlePlayerTurn(bool isRightTurn)
     {
         if (isRightTurn == false)
@@ -74,30 +75,50 @@ public class PlayerVOReactionHandler : MonoBehaviour
     {
         PlayPlayerInnerMonologueWithDelay(_cantCarryVO, _cantCarryDelay);
     }
-
+    /// <summary>
+    /// Playes a corresponsind voiceline from an event to inform player what they are touching.
+    /// </summary>
+    /// <param name="IDVOSound"> The corresponding voiceline to play</param>
     private void PlayTouchIDVoiceLine(Sound IDVOSound)
     {
-
         PlayPlayerInnerMonologueWithDelay(IDVOSound, PlayerSettings.Developer.IdentifyVODelay);
     }
-    private void PlayBumpIDVoiceLine(Sound sound)
+    /// <summary>
+    /// Playes a corresponsind voiceline from an event to inform player what they bumped into.
+    /// </summary>
+    /// <param name="IDVOSound">The corresponding voiceline to play</param>
+    private void PlayBumpIDVoiceLine(Sound IDVOSound)
     {
         // This null check is here because the Sound comes from another object.
-        if(sound != null && sound.Clip != null)
+        if(IDVOSound != null && IDVOSound.Clip != null)
         {
-            PlayPlayerInnerMonologueWithDelay(sound, PlayerSettings.Developer.IdentifyVODelay);
+            PlayPlayerInnerMonologueWithDelay(IDVOSound, PlayerSettings.Developer.IdentifyVODelay);
             return;
         }
 
+        Debugger.LogWarning("Bump ID VO was called with null sound", Debugger.TextColor.Orange);
         PlayPlayerInnerMonologueWithDelay(_bumpIDUnknownObstacleVO, PlayerSettings.Developer.IdentifyVODelay);
     }
+    
+    /// <summary>
+    /// Playes a generic "something here" voiceline when player
+    /// touches a TouchableSurface that has a PickUp object on it.
+    /// </summary>
+    /// <param name="obj"></param>
     private void PlayItemDetectedVoiceLine(int obj)
     {
         PlayPlayerInnerMonologueWithDelay(_somethingHereVO, _itemDetectedDelay);
     }
+    
+    /// <summary>
+    /// Playes one sound from an array with no spatialization as if they are players thoughts.
+    /// All InnerMonologue goes through "with delay" and 0 delay = immediately.
+    /// </summary>
+    /// <param name="soundHolder">Soundholder with variations of sound to play.</param>
+    /// <param name="delay">If set to 0 will play immediately</param>
     private void PlayPlayerInnerMonologueWithDelay(SoundArrayHolder soundHolder, float delay)
     {
-        if (ConversationManager.IsPlayingConversation == true) return; // CHANGE THIS: playtest notes
+        if (InnerMonologueIsBlocked() == true) return;
 
         //if(soundHolder?.SoundArray?.Length > 0)
         if (soundHolder != null && soundHolder.SoundArray != null && soundHolder.SoundArray.Length > 0)
@@ -118,14 +139,20 @@ public class PlayerVOReactionHandler : MonoBehaviour
         }
         else
         {
-            Debugger.Log("Inner monologue with delay was called with null or empty sound");
+            Debugger.Log("Inner monologue with delay was called with null or empty sound or sound holder");
         }
     }
+    /// <summary>
+    /// Playes a single sound with no spatialization as if they are players thoughts.
+    /// All InnerMonologue goes through "with delay" and 0 delay = immediately.
+    /// </summary>
+    /// <param name="soundHolder">Soundholder with variations of sound to play.</param>
+    /// <param name="delay">If set to 0 will play immediately</param>
     private void PlayPlayerInnerMonologueWithDelay(Sound soundToPlay, float delay)
     {
-        if (ConversationManager.IsPlayingConversation == true) return; // CHANGE THIS: playtest notes
+        if (InnerMonologueIsBlocked() == true) return;
 
-        if(soundToPlay != null && soundToPlay.Clip != null)
+        if (soundToPlay != null && soundToPlay.Clip != null)
         {
             this.CallWithDelay(() =>
             {
@@ -142,5 +169,11 @@ public class PlayerVOReactionHandler : MonoBehaviour
         {
             Debugger.Log("Inner monologue was called with null or empty sound");
         }
+    }
+    private bool InnerMonologueIsBlocked()
+    {
+        if(ConversationManager.PlayerIsSpeaking == true) return true;
+        if(RadialMenuManager.Instance.MenuIsOpen == true) return true;
+        return false;
     }
 }

@@ -22,10 +22,9 @@ public class SoundArrayHolder : ScriptableObject
         {
             CorrectPitchFromZero(SoundArray[i]);
             CorrectVolumeFromZero(SoundArray[i]);
-            ApplyDefaultSpatializationBasedOnFileName(SoundArray[i]);
+            ApplyDefaultSpatializationAndMixerGroupsBasedOnFileName(SoundArray[i]);
         }
     }
-
     private void CreateSoundsFromImportArray()
     {
         if (_importerArrayList == null) return;
@@ -60,20 +59,19 @@ public class SoundArrayHolder : ScriptableObject
         }
         return false;
     }
-
-    private void ApplyDefaultSpatializationBasedOnFileName(Sound soundToCheck)
+    private void ApplyDefaultSpatializationAndMixerGroupsBasedOnFileName(Sound soundToCheck)
     {
         if (soundToCheck == null || soundToCheck.Clip == null) return;
 
-        var mixer = Resources.Load<AudioMixer>("MainMixer");
-        var footstepBus = mixer.FindMatchingGroups("Footsteps")[0];
+        var mixer = Resources.Load<AudioMixer>(PlayerSettings.MAINMIXER_STRING);
+        var footstepBus = mixer.FindMatchingGroups(PlayerSettings.FOOTSTEP_MIXERGROUP_STRING)[0];
         var SFXBus = mixer.FindMatchingGroups("SFX")[0];
-        var monologueBus =  mixer.FindMatchingGroups("Inner")[0];
-        var bodyCollisionBus = mixer.FindMatchingGroups("BodyCollision")[0];
+        var monologueBus =  mixer.FindMatchingGroups(PlayerSettings.INNER_MONOLOGUE_MIXERGROUP_STRING)[0];
+        var bodyCollisionBus = mixer.FindMatchingGroups(PlayerSettings.PLAYER_BODY_COLLISION_STRING)[0];
 
         var fileNamePart = soundToCheck.Clip.name.ToLower();
 
-        if (fileNamePart.Contains("foot"))
+        if (fileNamePart.Contains(PlayerSettings.FOOTSTEP_MIXERGROUP_STRING))
         {
             if(soundToCheck.SpacialBlend != 1)
             {
@@ -113,12 +111,10 @@ public class SoundArrayHolder : ScriptableObject
         }
 
     }
-
     private void CorrectVolumeFromZero(Sound sound)
     {
         if (sound != null && sound.Volume == 0) sound.Volume = 0.5f;
     }
-
     private void CorrectPitchFromZero(Sound sound)
     {
         if (sound != null && sound.Pitch == 0) sound.Pitch = 1;

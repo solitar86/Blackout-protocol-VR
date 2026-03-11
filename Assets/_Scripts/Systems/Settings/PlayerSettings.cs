@@ -27,7 +27,11 @@ public class PlayerSettings
     public static string ACCESS_STRING = "access";
 
     // String references for other classes to get globally
+    public static string MAINMIXER_STRING = "MainMixer";
     public static string INNER_MONOLOGUE_MIXERGROUP_STRING = "InnerMonologue";
+    public static string FOOTSTEP_MIXERGROUP_STRING = "Footsteps";
+    public static string FOLEY_MIXERGROUP_STRING = "Foley";
+    public static string PLAYER_BODY_COLLISION_STRING = "BodyCollision";
 
     #region Save / Load
     public static void LoadSettings()

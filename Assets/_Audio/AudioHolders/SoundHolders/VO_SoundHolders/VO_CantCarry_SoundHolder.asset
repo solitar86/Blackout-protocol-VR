@@ -13,7 +13,15 @@ MonoBehaviour:
   m_Name: VO_CantCarry_SoundHolder
   m_EditorClassIdentifier: Assembly-CSharp::SoundArrayHolder
   _importerArrayList: []
-  SoundArray: []
+  SoundArray:
+  - Clip: {fileID: 8300000, guid: e8c95930f4fd3cb4ca7ef207329b03d6, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 0.5
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0
+    MaxDistance: 0
   LastPlayedSound:
     Clip: {fileID: 0}
     Mixergroup: {fileID: 0}

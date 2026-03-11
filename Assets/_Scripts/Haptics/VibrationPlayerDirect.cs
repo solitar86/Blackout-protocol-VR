@@ -60,8 +60,6 @@ public class VibrationPlayerDirect : MonoBehaviour
     /// </summary>
     public void PlayDefaultHaptic()
     {
-        string haptic = "HAPTIC 2";
-        haptic.Logthis();
         if (PreviousHapticDurationHasElapsed() == false) return;
 
         if (_controller == null)

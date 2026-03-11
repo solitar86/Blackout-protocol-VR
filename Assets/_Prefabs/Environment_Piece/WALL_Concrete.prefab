@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3451382273625955579}
   - component: {fileID: 224675105883108950}
   - component: {fileID: -6565024771361913528}
+  - component: {fileID: -7565553378375720925}
   m_Layer: 10
   m_Name: WALL_Concrete
   m_TagString: Untagged
@@ -147,4 +148,30 @@ MonoBehaviour:
     Volume: 1
     Pitch: 1
     SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
   _touchSoundHolder: {fileID: 11400000, guid: 50718ee13912f3c48ba3df0fffa4ac88, type: 2}
+--- !u!114 &-7565553378375720925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8801040907280533362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cf2de450a213a942a40942c08e23302, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BodyCollisionSoundHolder
+  _playerBodyCollisionSoundHolder: {fileID: 11400000, guid: 6ca1d2b05abe463408e24826f0987705, type: 2}
+  _ID_voiceline:
+    Clip: {fileID: 8300000, guid: 968fd068adb29b94081f6cbe5c5b02c7, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  _IDVoicelineHolder: {fileID: 11400000, guid: ef8ad59d82be0e84584c5b49de385b3e, type: 2}
