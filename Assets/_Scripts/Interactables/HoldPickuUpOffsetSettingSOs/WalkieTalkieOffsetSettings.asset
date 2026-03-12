@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc42b8ca87a9ce448ab875b735d8bdf4, type: 3}
   m_Name: WalkieTalkieOffsetSettings
   m_EditorClassIdentifier: Assembly-CSharp::PickUpHoldOffsetSettings
-  RotationOffset: {x: 90, y: -100, z: 260}
-  PositionOffset: {x: -0.025, y: 0.03, z: -0.01}
+  RotationOffset: {x: -51.4, y: 0, z: 0}
+  PositionOffset: {x: 0, y: -0.04, z: 0.06}

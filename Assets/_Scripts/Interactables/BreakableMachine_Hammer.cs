@@ -16,7 +16,7 @@ public class BreakableMachine_Hammer : MonoBehaviour
     private AudioSource _airConditionerHummLoopSource;
     private int _hitpoints;
     private bool _isBroken;
-    public bool IsBroken;
+    public bool IsBroken => _isBroken;
 
     #region Unity Callbacks
  

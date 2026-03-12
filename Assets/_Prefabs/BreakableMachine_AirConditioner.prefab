@@ -17,9 +17,11 @@ GameObject:
   - component: {fileID: 7486740853580388550}
   - component: {fileID: 541135448873169059}
   - component: {fileID: 3847940972307062427}
-  - component: {fileID: 3937725805804409759}
-  - component: {fileID: 276926023458938028}
   - component: {fileID: 785026988930319055}
+  - component: {fileID: 276926023458938028}
+  - component: {fileID: 3937725805804409759}
+  - component: {fileID: 2131692491793359104}
+  - component: {fileID: 7691539573164801101}
   m_Layer: 10
   m_Name: BreakableMachine_AirConditioner
   m_TagString: Untagged
@@ -37,7 +39,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.44, y: 0.69, z: 2.34}
-  m_LocalScale: {x: 0.90365, y: 1.1451052, z: 0.90365}
+  m_LocalScale: {x: 0.90365, y: 1.2907627, z: 0.90365}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5930949515443299371}
@@ -195,6 +197,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2131692491793359104}
+        m_TargetAssemblyTypeName: QuestProgressor_CallWithUnityEvent, Assembly-CSharp
+        m_MethodName: ProgressQuest
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _onDamaged:
     m_PersistentCalls:
       m_Calls: []
@@ -240,7 +254,6 @@ MonoBehaviour:
   _onHitWithHammerAfterBreak:
     m_PersistentCalls:
       m_Calls: []
-  IsBroken: 0
 --- !u!114 &7486740853580388550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,6 +269,21 @@ MonoBehaviour:
   _firstTouchHapticSettings: {fileID: 11400000, guid: cbab00ff2d842964fa80b2074c71c7c1, type: 2}
   _touchSlideHapticSettings: {fileID: 11400000, guid: 884731a6ab1dae043ad72c3c65e29b8c, type: 2}
   _touchEndHapticSettings: {fileID: 11400000, guid: e76ac0bd148cf384eb645ed5c07d5bbb, type: 2}
+  _onSurfaceTouched:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &541135448873169059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,48 +322,6 @@ MonoBehaviour:
   _detectableLayers:
     serializedVersion: 2
     m_Bits: 64
---- !u!114 &3937725805804409759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 802038966387455069}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86f7e644917da1b498d9c6d192751b42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  Name: 
-  _questProgressionStep:
-    Quest: {fileID: 11400000, guid: 706ad42d7eb33f244805d0e69eef6671, type: 2}
-    ProgressionState: 3
---- !u!114 &276926023458938028
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 802038966387455069}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adce140b42922bb49aaf3767059b444a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SoundHolderForUnityEvent
-  _soundToPlay:
-    Clip: {fileID: 8300000, guid: cab3077053e323c45a780dfd320f0a2d, type: 3}
-    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 1
-    Pitch: 1
-    SpacialBlend: 0
-    OverrideDefaultDistances: 0
-    MinDistance: 0.5
-    MaxDistance: 2
-  _spatialize: 0
-  _pitchVariation: 0
-  _delay: 0
-  _optionalPositionToPlayAt: {fileID: 0}
-  _preventOverlappingPlayes: 1
 --- !u!114 &785026988930319055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,6 +345,81 @@ MonoBehaviour:
     MinDistance: 0.5
     MaxDistance: 2
   _IDVoicelineHolder: {fileID: 0}
+--- !u!114 &276926023458938028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802038966387455069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adce140b42922bb49aaf3767059b444a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundHolderForUnityEvent
+  _soundToPlay:
+    Clip: {fileID: 8300000, guid: cab3077053e323c45a780dfd320f0a2d, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  _spatialize: 0
+  _pitchVariation: 0
+  _delay: 1
+  _optionalPositionToPlayAt: {fileID: 0}
+  _preventOverlappingPlayes: 1
+  _postDelay: 0
+--- !u!114 &3937725805804409759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802038966387455069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86f7e644917da1b498d9c6d192751b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  Name: Hammer quest complete
+  _questProgressionStep:
+    Quest: {fileID: 11400000, guid: 706ad42d7eb33f244805d0e69eef6671, type: 2}
+    ProgressionState: 3
+--- !u!114 &2131692491793359104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802038966387455069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86f7e644917da1b498d9c6d192751b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestProgressor_CallWithUnityEvent
+  Name: Has tried  hammer on Air vent
+  _questProgressionStep:
+    Quest: {fileID: 11400000, guid: 706ad42d7eb33f244805d0e69eef6671, type: 2}
+    ProgressionState: 2
+--- !u!114 &7691539573164801101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802038966387455069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b5bb5a5e5f9d44babbbf034b2aba0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  Name: Player touched Airvent
+  _questProgressionStep:
+    Quest: {fileID: 11400000, guid: 706ad42d7eb33f244805d0e69eef6671, type: 2}
+    ProgressionState: 1
 --- !u!1 &810035546937523392
 GameObject:
   m_ObjectHideFlags: 0

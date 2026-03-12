@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class TouchableSurface : MonoBehaviour
 {
     [SerializeField] private VibrationSettingsSO _firstTouchHapticSettings;
     [SerializeField] private VibrationSettingsSO _touchSlideHapticSettings;
     [SerializeField] private VibrationSettingsSO _touchEndHapticSettings;
+    [Space(15)]
+    [SerializeField] private UnityEvent _onSurfaceTouched;
 
     // This keeps track of hand while collision is happening eg. slide or stay.
     private List<HandCollidingData> playerHandsDataList = new();
@@ -59,6 +62,7 @@ public class TouchableSurface : MonoBehaviour
         playerHandsDataList.Add(new HandCollidingData(playerHand, other, playerHand.transform.position));
         playerHand.HandleTouchBegin(_firstTouchHapticSettings, other.transform.position);
         OnTouchStart.Raise(this, other.transform.position);
+        _onSurfaceTouched?.Invoke();
     }
     private void HandlePlaySlidingHaptic(Collider playerHandCollider, int i)
     {

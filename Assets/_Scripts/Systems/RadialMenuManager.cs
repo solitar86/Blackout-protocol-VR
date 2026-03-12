@@ -126,7 +126,7 @@ public class RadialMenuManager : MonoBehaviour
         _menuAnchor.forward = _playerMenuHand.transform.up;
         _menuAnchor.position = _playerMenuHand.transform.position;
 
-        if(SceneManager.GetActiveScene().buildIndex == 1)
+        if (SceneManager.GetActiveScene().buildIndex == 1)
         {
             EmptyAndRePopulateCurrentRadialMenu(RadialMenuHolder.TutorialSceneMainMenu);
         }
@@ -179,7 +179,7 @@ public class RadialMenuManager : MonoBehaviour
         _menuAnchor?.GetComponentInChildren<TextMeshPro>().SetText(_currentMenuItems[part].Name);
         _playerMenuHand.HandleTouchEnd(_selectButtonHapticSettings);
 
-        if(_currentMenuItems[part].InfoTTSFilePath == null)
+        if (_currentMenuItems[part].InfoTTSFilePath == null)
         {
             //This item only has a name, no additional info.
             TTSPlayer.PlayTTSWithFilePath(_currentMenuItems[part].NameTTSFilePath);
@@ -202,7 +202,7 @@ public class RadialMenuManager : MonoBehaviour
         _menuAnchor?.gameObject.SetActive(false); //BUG NOTE: This caused a null reference for some reason??
         _playerMenuHand = null;
 
-        if(wasSceneLoad ==  false)
+        if (wasSceneLoad == false)
         {
             TTSPlayer.PlayTTSSequenceWithPaths(true,
                 RadialMenuHolder.MENUTTSFILEFOLDERPATH + "TTS_Menu_Mainmenu",
@@ -216,7 +216,7 @@ public class RadialMenuManager : MonoBehaviour
     }
     private void HandleRadialMenuItemSelection()
     {
-        if(_playerMenuHand == null)
+        if (_playerMenuHand == null)
         {
             // Something has gone wrong for us to get here.
             Debugger.LogWarning("Player hand transform is missing, closing radial menu.", Debugger.TextColor.LightRed);
@@ -271,14 +271,14 @@ public class RadialMenuManager : MonoBehaviour
             return true;
         }
 
-        if(SceneManager.GetActiveScene().buildIndex == 0)
+        if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             Debugger.Log("Radial menu blocked by us being in bootup scene");
             return true;
         }
 
         return false;
-        
+
     }
     private void OnSceneLoaded_HandleSceneLoad(Scene arg0, LoadSceneMode arg1)
     {
@@ -300,14 +300,14 @@ public class RadialMenuItem
     /// Constructor for a single Radial menu which can go in a menu holder.
     /// </summary>
     /// <param name="name">Name of item</param>
-    /// <param name="menuAction">Action to execute on click</param>
+    /// <param name="buttonAction">Delegate to execute on click</param>
     /// <param name="nameTTSPath">Soundfile to play on select</param>
     /// <param name="extraInfoTTSPath">Soundfile for optional explanation of item</param>
-    public RadialMenuItem(string name, Action menuAction, string nameTTSPath, string extraInfoTTSPath = null)
+    public RadialMenuItem(string name, Action buttonAction, string nameTTSPath, string extraInfoTTSPath = null)
     {
         _name = name;
         _nameTTSFilePath = nameTTSPath; // This file will play on select.
-        OnActivateAction = menuAction; // This action will execute when pressed.
+        OnActivateAction = buttonAction; // This action will execute when pressed.
         _infoTTSFilePath = extraInfoTTSPath;
     }
     private string _name;
@@ -392,7 +392,27 @@ public static class RadialMenuHolder
         "Mainmenu", MENUTTSFILEFOLDERPATH + "TTS_Menu_MainMenu",
         new RadialMenuItem[]
         {
-           new RadialMenuItem(
+            new RadialMenuItem(
+                "Options Menu",
+                () => { RadialMenuManager.Instance.SetAsCurrentRadialMenu(OptionsMenu); },
+                MENUTTSFILEFOLDERPATH + "TTS_Menu_Options"
+            ),
+            BackButton,
+           QuitButton
+        }
+    );
+
+    #endregion
+    #region OptionsMenu
+    /////////////////////////
+    // OPTIONS MENU
+    /////////////////////////
+    #endregion
+    public static RadialMenu OptionsMenu = new RadialMenu(
+    "OptionsMenu", MENUTTSFILEFOLDERPATH + "TTS_Menu_Options",
+    new RadialMenuItem[]
+    {
+            new RadialMenuItem(
                 "Sound settings",
                 () => { RadialMenuManager.Instance.SetAsCurrentRadialMenu(SoundSettingsMenu); },
                 MENUTTSFILEFOLDERPATH + "TTS_Menu_SoundSettings"
@@ -408,12 +428,14 @@ public static class RadialMenuHolder
                 () => { RadialMenuManager.Instance.SetAsCurrentRadialMenu(SnapTurnMenu); },
                 MENUTTSFILEFOLDERPATH + "TTS_Menu_SnapTurnAngle"
             ),
-           QuitButton
-        }
-    );
-
-    #endregion
-
+            new RadialMenuItem(
+                "List Controls",
+                () => { TTSPlayer.PlayTTSWithFilePath("TTS/Tutorial/TTS_ControlsListed", true); },
+                "TTS/Tutorial/TTS_ListControls",
+                "TTS/Tutorial/TTS_ListControls_Info"
+            ),
+    }
+);
     #region Accessibility menu
     /////////////////////////
     // ACCESSIBILITY MENU

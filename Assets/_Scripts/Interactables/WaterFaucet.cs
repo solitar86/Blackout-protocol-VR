@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class WaterFaucet : StaticInteractable
 {
@@ -10,6 +11,7 @@ public class WaterFaucet : StaticInteractable
     [SerializeField] private Sound _faucetStopSound;
     [Space(15)]
     [SerializeField] private Transform _waterOutputPoint;
+    [SerializeField] private UnityEvent _onPlayerTouchRunningWater;
     [Header("Vibration settings")]
     [SerializeField] private VibrationSettingsSO _playerHandTouchWaterHapticSettings;
 
@@ -106,6 +108,7 @@ public class WaterFaucet : StaticInteractable
                 {
                     _waterRunningLoopSource.Pause();
                     (component as CoffeeCup).FillCupWithWater();
+                    _onPlayerTouchRunningWater?.Invoke();
                     return;
                 }
             }
@@ -117,6 +120,7 @@ public class WaterFaucet : StaticInteractable
             if(hitInfo.collider.TryGetComponent<PlayerHand>(out var playerHand))
             {
                 HandlPlayerHandUnderRunningWater(playerHand);
+                _onPlayerTouchRunningWater?.Invoke();
             }
         }
     }

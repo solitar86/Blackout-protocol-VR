@@ -14,7 +14,9 @@ GameObject:
   - component: {fileID: 732117889084728253}
   - component: {fileID: 7908761564180327782}
   - component: {fileID: 6200905331589807394}
-  m_Layer: 10
+  - component: {fileID: 3538988509031409643}
+  - component: {fileID: 9017409647624432599}
+  m_Layer: 6
   m_Name: WaterFaucet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +73,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+  - {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -141,15 +143,24 @@ MonoBehaviour:
   _touchEndHolder: {fileID: 11400000, guid: 992d0181e1a826c4a86ffacd3e6c11a9, type: 2}
   _activateSoundHolder: {fileID: 11400000, guid: 807a9bf8242f9f345bcdc592d07c8c50, type: 2}
   _touchHapticSettings: {fileID: 11400000, guid: 3eac07092410d594093a49b5e0c40dde, type: 2}
+  _waterRunningLoop:
+    Clip: {fileID: 8300000, guid: 332abad0008e5b44cbbbf9792fe8fee0, type: 3}
+    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 0.2
+    Pitch: 1
+    SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
   _waterDrippingLoopSound:
-    Clip: {fileID: 8300000, guid: fb710a0838fc1a8458f4d8db80917094, type: 3}
+    Clip: {fileID: 8300000, guid: 27c95c9ac3d0f4432aba7185d12a8929, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
     SpacialBlend: 1
     OverrideDefaultDistances: 1
     MinDistance: 0.1
-    MaxDistance: 2
+    MaxDistance: 4
   _faucetStartSound:
     Clip: {fileID: 8300000, guid: b5f9c5ab37a41284680207919718b733, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
@@ -168,16 +179,22 @@ MonoBehaviour:
     OverrideDefaultDistances: 1
     MinDistance: 0.5
     MaxDistance: 2
-  _waterRunningLoop:
-    Clip: {fileID: 8300000, guid: 332abad0008e5b44cbbbf9792fe8fee0, type: 3}
-    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0.2
-    Pitch: 1
-    SpacialBlend: 1
-    OverrideDefaultDistances: 0
-    MinDistance: 0.5
-    MaxDistance: 2
   _waterOutputPoint: {fileID: 5494741714073442392}
+  _onPlayerTouchRunningWater:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9017409647624432599}
+        m_TargetAssemblyTypeName: QuestProgressor_CallWithUnityEvent, Assembly-CSharp
+        m_MethodName: ProgressQuest
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _playerHandTouchWaterHapticSettings: {fileID: 11400000, guid: 884731a6ab1dae043ad72c3c65e29b8c, type: 2}
 --- !u!65 &6200905331589807394
 BoxCollider:
@@ -200,6 +217,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 2.5, z: 0.41}
   m_Center: {x: 0, y: -0.77, z: 0.64}
+--- !u!114 &3538988509031409643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1964894075011802776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42681db4355625d498395d3843a852bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _questProgressionStep:
+    Quest: {fileID: 11400000, guid: 57586e5f71c3dd14ea4d66ca5bdce731, type: 2}
+    ProgressionState: 1
+--- !u!114 &9017409647624432599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1964894075011802776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86f7e644917da1b498d9c6d192751b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestProgressor_CallWithUnityEvent
+  Name: Player touched water
+  _questProgressionStep:
+    Quest: {fileID: 11400000, guid: 57586e5f71c3dd14ea4d66ca5bdce731, type: 2}
+    ProgressionState: 2
 --- !u!1 &6403350339493467298
 GameObject:
   m_ObjectHideFlags: 0
@@ -209,7 +257,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5494741714073442392}
-  m_Layer: 10
+  m_Layer: 6
   m_Name: WaterOutPutPoint
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
@@ -243,7 +291,7 @@ GameObject:
   - component: {fileID: 4436176315699963200}
   - component: {fileID: 8926805286140685037}
   - component: {fileID: 3883857693547658791}
-  m_Layer: 10
+  m_Layer: 6
   m_Name: TEXT (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

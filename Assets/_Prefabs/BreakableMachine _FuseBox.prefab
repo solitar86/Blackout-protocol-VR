@@ -213,7 +213,9 @@ GameObject:
   - component: {fileID: 379437169304089116}
   - component: {fileID: 2954144552857420833}
   - component: {fileID: 1131534540517204726}
+  - component: {fileID: 7086296050635378096}
   - component: {fileID: 3225423651286714103}
+  - component: {fileID: 7874639758789324390}
   m_Layer: 10
   m_Name: BreakableMachine _FuseBox
   m_TagString: Untagged
@@ -231,7 +233,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.431, y: 0.69, z: 2.34}
-  m_LocalScale: {x: 0.90365, y: 1.1451052, z: 0.90365}
+  m_LocalScale: {x: 0.90365, y: 1.2907627, z: 0.90365}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 268328561781897950}
@@ -357,6 +359,21 @@ MonoBehaviour:
   _firstTouchHapticSettings: {fileID: 11400000, guid: cbab00ff2d842964fa80b2074c71c7c1, type: 2}
   _touchSlideHapticSettings: {fileID: 11400000, guid: 884731a6ab1dae043ad72c3c65e29b8c, type: 2}
   _touchEndHapticSettings: {fileID: 11400000, guid: e76ac0bd148cf384eb645ed5c07d5bbb, type: 2}
+  _onSurfaceTouched:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7086296050635378096}
+        m_TargetAssemblyTypeName: QuestProgressor_CallWithUnityEvent, Assembly-CSharp
+        m_MethodName: ProgressQuest
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7567479316387592368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -474,6 +491,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  _onTouchedWithHammer:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7874639758789324390}
+        m_TargetAssemblyTypeName: SoundHolderForUnityEvent, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2954144552857420833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -506,6 +538,22 @@ MonoBehaviour:
   _questProgressionStep:
     Quest: {fileID: 11400000, guid: 57586e5f71c3dd14ea4d66ca5bdce731, type: 2}
     ProgressionState: 3
+--- !u!114 &7086296050635378096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8377769058188198268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86f7e644917da1b498d9c6d192751b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestProgressor_CallWithUnityEvent
+  Name: Get hint about water
+  _questProgressionStep:
+    Quest: {fileID: 11400000, guid: 57586e5f71c3dd14ea4d66ca5bdce731, type: 2}
+    ProgressionState: 1
 --- !u!114 &3225423651286714103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -529,3 +577,30 @@ MonoBehaviour:
     MinDistance: 0.5
     MaxDistance: 2
   _IDVoicelineHolder: {fileID: 0}
+--- !u!114 &7874639758789324390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8377769058188198268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adce140b42922bb49aaf3767059b444a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundHolderForUnityEvent
+  _soundToPlay:
+    Clip: {fileID: 8300000, guid: ca3de45052f1e5e4dbd330638825fec7, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  _spatialize: 0
+  _pitchVariation: 0
+  _delay: 1
+  _optionalPositionToPlayAt: {fileID: 0}
+  _preventOverlappingPlayes: 1
+  _postDelay: 10

@@ -148,8 +148,8 @@ MonoBehaviour:
     MinDistance: 0.5
     MaxDistance: 2
   _pingSound:
-    Clip: {fileID: 0}
-    Mixergroup: {fileID: 0}
+    Clip: {fileID: 8300000, guid: ede623f5268afe0468f128f6ff263fec, type: 3}
+    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
     SpacialBlend: 0
@@ -164,7 +164,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2048
   _pickUpSounds: {fileID: 11400000, guid: 02d6cafe43869bb4e8cf97139c9c90c8, type: 2}
-  _dropOnSurfaceSounds: {fileID: 0}
+  _dropOnSurfaceSounds: {fileID: 11400000, guid: 5ee4507b2dc2c1146b1a414b52358dbc, type: 2}
   _impactSound:
     Clip: {fileID: 0}
     Mixergroup: {fileID: 0}
@@ -223,7 +223,7 @@ MonoBehaviour:
   _radioStaticLoop:
     Clip: {fileID: 8300000, guid: 233caa11ada194107a7049344a82cce1, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0.5
+    Volume: 0.25
     Pitch: 1
     SpacialBlend: 1
     OverrideDefaultDistances: 1
