@@ -12,12 +12,15 @@ public class PlayerVOReactionHandler : MonoBehaviour
     [SerializeField] private SoundArrayHolder _somethingHereVO;
     [SerializeField] private SoundArrayHolder _bumpIDUnknownObstacleVO;
     [SerializeField] private SoundArrayHolder _cantCarryVO;
+    [SerializeField] private SoundArrayHolder _pickupSuccesfulVO;
 
     private float _turnVODelay = 0.25f;
     private float _curseDelay = 1.5f;
     private float _itemDetectedDelay = 1f;
     private float _cantCarryDelay = 0.25f;
+    private float _innerMonologueBuffer = 0.75f;
 
+    private float _nextTimeAllowInnerMonologue = 0f;
 
     #region Unity Callbacks
     private void OnEnable()
@@ -27,6 +30,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
         EventManager.OnPlayerObjectIDVOShouldPlay.AddListener(this, PlayTouchIDVoiceLine);
         EventManager.OnPlayerBumpIDVOShouldPlay.AddListener(this, PlayBumpIDVoiceLine);
         EventManager.OnInteractableDetectedOnSurface.AddListener(this, PlayItemDetectedVoiceLine);
+        EventManager.OnAnyObjectPickUpObjectPickedUp.AddListener(this, PlayPickUpSuccesfulVoiceLine);
         //SnapTurnProvider.OnPlayerSnapTurn += HandlePlayerTurn;
         CustomSnapTurnProviderWrapper.OnPlayerSnapTurn += HandlePlayerTurn;
     }
@@ -37,12 +41,12 @@ public class PlayerVOReactionHandler : MonoBehaviour
         EventManager.OnPlayerObjectIDVOShouldPlay.RemoveListener(this, PlayTouchIDVoiceLine);
         EventManager.OnPlayerBumpIDVOShouldPlay.RemoveListener(this, PlayBumpIDVoiceLine);
         EventManager.OnInteractableDetectedOnSurface.RemoveListener(this, PlayItemDetectedVoiceLine);
+        EventManager.OnAnyObjectPickUpObjectPickedUp.RemoveListener(this, PlayPickUpSuccesfulVoiceLine);
         // SnapTurnProvider.OnPlayerSnapTurn -= HandlePlayerTurn;
         CustomSnapTurnProviderWrapper.OnPlayerSnapTurn -= HandlePlayerTurn;
     }
 
     #endregion
-    
     /// <summary>
     /// Handles VO reactions to player using snapturn with controller.
     /// </summary>
@@ -90,7 +94,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
     private void PlayBumpIDVoiceLine(Sound IDVOSound)
     {
         // This null check is here because the Sound comes from another object.
-        if(IDVOSound != null && IDVOSound.Clip != null)
+        if (IDVOSound != null && IDVOSound.Clip != null)
         {
             PlayPlayerInnerMonologueWithDelay(IDVOSound, PlayerSettings.Developer.IdentifyVODelay);
             return;
@@ -99,17 +103,23 @@ public class PlayerVOReactionHandler : MonoBehaviour
         Debugger.LogWarning("Bump ID VO was called with null sound", Debugger.TextColor.Orange);
         PlayPlayerInnerMonologueWithDelay(_bumpIDUnknownObstacleVO, PlayerSettings.Developer.IdentifyVODelay);
     }
-    
     /// <summary>
     /// Playes a generic "something here" voiceline when player
     /// touches a TouchableSurface that has a PickUp object on it.
     /// </summary>
     /// <param name="obj"></param>
-    private void PlayItemDetectedVoiceLine(int obj)
+    private void PlayItemDetectedVoiceLine(int value)
     {
         PlayPlayerInnerMonologueWithDelay(_somethingHereVO, _itemDetectedDelay);
     }
-    
+    /// <summary>
+    /// Played when a pickup action is succesful.
+    /// </summary>
+    /// <param name="value"></param>
+    private void PlayPickUpSuccesfulVoiceLine(int value)
+    {
+        PlayPlayerInnerMonologueWithDelay(_pickupSuccesfulVO, 0f);
+    }
     /// <summary>
     /// Playes one sound from an array with no spatialization as if they are players thoughts.
     /// All InnerMonologue goes through "with delay" and 0 delay = immediately.
@@ -118,29 +128,16 @@ public class PlayerVOReactionHandler : MonoBehaviour
     /// <param name="delay">If set to 0 will play immediately</param>
     private void PlayPlayerInnerMonologueWithDelay(SoundArrayHolder soundHolder, float delay)
     {
-        if (InnerMonologueIsBlocked() == true) return;
-
-        //if(soundHolder?.SoundArray?.Length > 0)
         if (soundHolder != null && soundHolder.SoundArray != null && soundHolder.SoundArray.Length > 0)
         {
-
-            this.CallWithDelay(() =>
-            {
-                bool spatialize = false;
-                bool pitchVary = false;
-                AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
-                                                            soundHolder.SoundArray,
-                                                            transform.position,
-                                                            soundHolder.LastPlayedSound,
-                                                            pitchVary,
-                                                            spatialize);
-            }, delay);
-            return;
+            var sound = AudioPlayer.GetRandomSoundFromArray(soundHolder.SoundArray, soundHolder.LastPlayedSound);
+            PlayPlayerInnerMonologueWithDelay(sound, delay);
         }
         else
         {
-            Debugger.Log("Inner monologue with delay was called with null or empty sound or sound holder");
+            Debugger.Log("Inner monologue with delay was called with null or empty sound holder");
         }
+
     }
     /// <summary>
     /// Playes a single sound with no spatialization as if they are players thoughts.
@@ -151,7 +148,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
     private void PlayPlayerInnerMonologueWithDelay(Sound soundToPlay, float delay)
     {
         if (InnerMonologueIsBlocked() == true) return;
-
+        _nextTimeAllowInnerMonologue = Time.time + _innerMonologueBuffer;
         if (soundToPlay != null && soundToPlay.Clip != null)
         {
             this.CallWithDelay(() =>
@@ -172,8 +169,9 @@ public class PlayerVOReactionHandler : MonoBehaviour
     }
     private bool InnerMonologueIsBlocked()
     {
-        if(ConversationManager.PlayerIsSpeaking == true) return true;
-        if(RadialMenuManager.Instance.MenuIsOpen == true) return true;
+        if (_nextTimeAllowInnerMonologue > Time.time) return true;
+        if (ConversationManager.PlayerIsSpeaking == true) return true;
+        if (RadialMenuManager.Instance.MenuIsOpen == true) return true;
         return false;
     }
 }

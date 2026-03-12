@@ -30,21 +30,17 @@ public class BreakableMachine_Hammer : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        // Handle sound logic
-        // TODO:
-
-        // Handle breaking logic
         if (_isBroken) return;
         if (collision.gameObject.TryGetComponent<Hammer>(out var hammer))
         {
             if (hammer.IsHeld && hammer.Velocity >= _minVelocityToBreak)
             {
-                Debugger.WorldSpaceText("Hit vel: " + hammer.Velocity.ToString("F1"), collision.contacts[0].point);
-                TakeHit();
+                TakeHitAndGetDamaged();
+                return;
             }
 
             _onHitTooSoftly?.Invoke();
-
+            Debugger.Log("Hit too softly", Debugger.TextColor.Green);
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -57,7 +53,7 @@ public class BreakableMachine_Hammer : MonoBehaviour
     }
     
     #endregion
-    private void TakeHit()
+    private void TakeHitAndGetDamaged()
     {
         _hitpoints--;
         if (_hitpoints <= 0 && _isBroken == false)

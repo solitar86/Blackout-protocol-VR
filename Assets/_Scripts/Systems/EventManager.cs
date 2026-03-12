@@ -35,6 +35,7 @@ public static class EventManager
     // Player Interaction and Reaction Events
     public static GameEvent<int> OnPlayerCurse = new("Player curse");
     public static GameEvent<PickUpObject> OnPlayerTouchPickUp = new("Player touch pickup");
+    public static GameEvent<int> OnAnyObjectPickUpObjectPickedUp = new("Object picked up");
     public static GameEvent<int> OnCantCarryObject = new("Player Can't carry that");
     public static GameEvent<int> OnInteractableDetectedOnSurface = new("Item on surface");
     public static GameEvent<Sound> OnPlayerObjectIDVOShouldPlay = new("ID VO");

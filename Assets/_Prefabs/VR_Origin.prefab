@@ -963,6 +963,7 @@ MonoBehaviour:
   _moveProvider: {fileID: 1640859167379978618}
   _turnProvider: {fileID: 1101241673715428058}
   _fingerSnapper: {fileID: 3777674870196297913}
+  _northBeacon: {fileID: 5430152879863439837}
 --- !u!114 &6970487752906095010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1055,6 +1056,7 @@ MonoBehaviour:
   - 0.2
   - 0.4
   _numberOfRaycasts: 5
+  _touchSoundDistanceMultiplier: 1
   _defaultPlayerCollisionSoundHolder: {fileID: 11400000, guid: 0f3aeb9cf4ac00441b8f5da7016cc971, type: 2}
   _playerScrapeObstacleSound:
     Clip: {fileID: 8300000, guid: 87bd53f2369882e4c9a4a995048e8da5, type: 3}

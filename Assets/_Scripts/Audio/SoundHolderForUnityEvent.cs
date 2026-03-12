@@ -11,12 +11,15 @@ public class SoundHolderForUnityEvent : MonoBehaviour
     [SerializeField] private Transform _optionalPositionToPlayAt;
     [Tooltip("Prevent new sound from playing until previous has finished")]
     [SerializeField] private bool _preventOverlappingPlayes = false;
+    [Tooltip("How long a pause until sound is allowed to play again (Requires PreventOverlap)")]
+    [SerializeField] private float _postDelay = 0f;
 
     private float nextTimeAllowPlayback = 0f;
 
     public void PlaySound()
     {
-        if (_preventOverlappingPlayes == true && nextTimeAllowPlayback < Time.time) return;
+        Debugger.Log("Playing Sound", Debugger.TextColor.Green);
+        if (_preventOverlappingPlayes == true && nextTimeAllowPlayback > Time.time) return;
 
         var pos = transform.position;
         if (_optionalPositionToPlayAt != null) pos = _optionalPositionToPlayAt.position;
@@ -28,8 +31,7 @@ public class SoundHolderForUnityEvent : MonoBehaviour
             AudioPlayer.PlaySoundAtPoint(this, _soundToPlay, pos, _pitchVariation, _spatialize);
         }, _delay);
         Destroy(mono.gameObject, _delay + _soundToPlay.Clip.length + 1f);
-
-        nextTimeAllowPlayback = Time.time + _soundToPlay.Clip.length;
+        nextTimeAllowPlayback = Time.time + _soundToPlay.Clip.length + _postDelay;
     }
 
 }

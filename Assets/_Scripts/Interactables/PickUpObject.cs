@@ -12,6 +12,8 @@ using UnityEngine;
 [SelectionBase, RequireComponent(typeof(Rigidbody))]
 public abstract class PickUpObject : MonoBehaviour, Iinteractable
 {
+    #region Fields
+
     [Header("Dialogue and SFX for touching this object")]
     [Tooltip("An array of sounds which we can choose from when we touch this object.")]
     [SerializeField] private SoundArrayHolder _touchSoundsHolder;
@@ -52,7 +54,8 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
 
     private bool _isHeld;
     private float _velocity;
-    private float _nextTimeAllowTouchVO = 0f;
+    private float _nextTimeAllowImpactSound = 0f;
+    private float _impactSoundBuffer = 0.25f;
     private Vector3 _startingPosition;
     private Vector3 _previousPosition;
     private Quaternion _startingRotation;
@@ -71,6 +74,8 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     /// With enough force to make a louder sound or break something.
     /// </summary>
     public float Velocity => _velocity;
+
+    #endregion
 
     #region Unity Callbacks
     public virtual void Awake()
@@ -127,6 +132,8 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         }
     }
     #endregion
+
+    #region Core functions
     public virtual void Activate()
     {
         // Do Something
@@ -149,6 +156,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         // Handle drop sounds.
         if (_dropOnSurfaceSounds != null && _dropOnSurfaceSounds.SoundArray != null && _dropOnSurfaceSounds.SoundArray.Length > 0)
         {
+            //BUG NOTE: Holding hand can sometimes be null here?
             AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
                                                 _dropOnSurfaceSounds.SoundArray,
                                                 _holdingHand.transform.position,
@@ -158,7 +166,6 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
 
         _holdingHand = null;
         _isHeld = false;
-        _nextTimeAllowTouchVO = 0f;
         HandleObjectPlacementAfterDrop();
     }
     public virtual void PickUp(Transform parent, PlayerHand hand)
@@ -184,43 +191,18 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
                                                                                     _pickUpSounds.LastPlayedSound,
                                                                                     true);
         }
+
+        EventManager.OnAnyObjectPickUpObjectPickedUp.Raise(this, -1);
     }
     public virtual void Touch(PlayerHand hand)
     {
-        EventManager.OnPlayerTouchPickUp.Raise(this, this);
-
-        if (_nextTimeAllowTouchVO < Time.time)
-        {
-            // TODO: Consider should we be able to "touch" something if we are holding it?
-            // Play Touch Dialogue for this object
-            _nextTimeAllowTouchVO = Time.time + PlayerSettings.Developer.TouchDialogueInterval;
-            AudioPlayer.PlaySoundAtPoint(this, _touchIdentifyVO, transform.position, true);
-        }
-
-        // Play item specific touch sound
-        if(_touchSoundsHolder != null && _touchSoundsHolder.SoundArray != null && _touchSoundsHolder.SoundArray.Length > 0)
-        {
-            AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
-                                                        _touchSoundsHolder.SoundArray,
-                                                        hand.transform.position,
-                                                        _touchSoundsHolder.LastPlayedSound,
-                                                        true,
-                                                        true);
-        }
-
-        if (_touchHapticSettings == null)
-        {
-            Debugger.LogWarning(gameObject.name + " has null touch haptic settings.", gameObject);
-            return;
-        }
-
-        hand.HandleTouchBegin(_touchHapticSettings, this.transform.position);
-
-
+        HandTouchIDVoiceline();
+        HandleItemTouchSound(hand);
+        HandleTouchHaptics(hand);
     }
     public virtual void Ping(float delay)
     {
-        if(_pingSound.Clip != null)
+        if (_pingSound.Clip != null)
         {
             AudioPlayer.PlaySoundAtPointWithDelay(this, _pingSound, transform.position, delay, true, true);
             return;
@@ -271,11 +253,11 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         }
         else
         {
-            HandleObjectDropOnFloor();
+            HandleObjectDroppedOnFloor();
         }
         _collider.enabled = true; // Is this necessary
     }
-    public virtual void HandleObjectDropOnFloor()
+    public virtual void HandleObjectDroppedOnFloor()
     {
         Physics.Raycast(transform.position,
                         Vector3.down,
@@ -314,14 +296,20 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         if (_isHeld == false) return; // This now assumes that we have to be holding
                                       // the object for it to make an impact sound
                                       // does not work if we want objects to be thrown.
+
+        if (_nextTimeAllowImpactSound > Time.time) return;
+
         Sound impactWithModVolume = new Sound(_impactSound);
         impactWithModVolume.Volume = _velocityToVolumeCurve.Evaluate(Velocity);
         AudioPlayer.PlaySoundAtPoint(this, impactWithModVolume, transform.position, true);
+        _nextTimeAllowImpactSound = Time.time + _impactSoundBuffer;
     }
     public virtual void HandleSpecialCasesForHittingFloor(Vector3 dropPosition, float delay)
     {
         // Do something if necessary.
     }
+
+    #endregion;
 
     #region InterfaceFunctions
     void Iinteractable.Activate()
@@ -359,7 +347,39 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
 
     #endregion
 
-    #region Helpers etc.
+    #region Private functions / helpers for organization purposes
+    private void HandTouchIDVoiceline()
+    {
+        EventManager.OnPlayerTouchPickUp.Raise(this, this);
+        // TODO: Consider should we be able to "touch" something if we are holding it?
+        // Play Touch Dialogue for this object
+        //_nextTimeAllowTouchVO = Time.time + PlayerSettings.Developer.TouchDialogueInterval;
+        //AudioPlayer.PlaySoundAtPoint(this, _touchIdentifyVO, transform.position, true);
+        EventManager.OnPlayerObjectIDVOShouldPlay.Raise(this, _touchIdentifyVO);
+
+    }
+    private void HandleTouchHaptics(PlayerHand hand)
+    {
+        if (_touchHapticSettings != null)
+        {
+            hand.HandleTouchBegin(_touchHapticSettings, this.transform.position);
+            return;
+        }
+        Debugger.LogWarning(gameObject.name + " has null touch haptic settings.", gameObject);
+    }
+    private void HandleItemTouchSound(PlayerHand hand)
+    {
+        // Play item specific touch sound
+        if (_touchSoundsHolder != null && _touchSoundsHolder.SoundArray != null && _touchSoundsHolder.SoundArray.Length > 0)
+        {
+            AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
+                                                        _touchSoundsHolder.SoundArray,
+                                                        hand.transform.position,
+                                                        _touchSoundsHolder.LastPlayedSound,
+                                                        true,
+                                                        true);
+        }
+    }
     public virtual void PlayObjectPlacedOnSurfaceSound(Sound impactSound, Vector3 point, float delay)
     {
         Sound impactWithModVolume = new Sound(impactSound);

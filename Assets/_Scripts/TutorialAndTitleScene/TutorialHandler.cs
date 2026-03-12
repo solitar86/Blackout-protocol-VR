@@ -137,6 +137,7 @@ public class TutorialHandler : MonoBehaviour
 
 
         Player.Instance.EnableTurnAndMove();
+        Player.Instance.EnableFingerSnapping(); // This needs to be tutorialized.
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Movement_part2", out clipDuration, true);
         yield return new WaitForSeconds(clipDuration + 0.1f);
 

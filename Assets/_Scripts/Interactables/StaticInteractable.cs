@@ -1,6 +1,9 @@
-using System;
 using UnityEngine;
 
+/// <summary>
+/// This is the baseclass for all interactables which can't be picked up by the player.
+/// But which can be activated by pressing trigger and then they do something.
+/// </summary>
 [RequireComponent(typeof(Collider))]
 public abstract class StaticInteractable : MonoBehaviour, Iinteractable
 {
@@ -21,6 +24,15 @@ public abstract class StaticInteractable : MonoBehaviour, Iinteractable
 
     public bool IsActivated => _isActivated;
 
+    #region Core Functions
+    public virtual void TouchStay(PlayerHand hand)
+    {
+        if(hand == null)
+        {
+            Debugger.Log($"Touching {gameObject.name}, but player hand is null");
+        }
+        hand.HandleTouchSlide(_touchHapticSettings);
+    }
     public virtual void Touch(PlayerHand hand)
     {
         _touchingHand = hand;
@@ -39,7 +51,6 @@ public abstract class StaticInteractable : MonoBehaviour, Iinteractable
             AudioPlayer.PlaySoundAtPoint(this, _touchIdentifyVO, transform.position, true);
         }
     }
-
     private void PickUp(Transform parent, PlayerHand hand)
     {
         EventManager.OnCantCarryObject.Raise(this, -1);
@@ -73,11 +84,18 @@ public abstract class StaticInteractable : MonoBehaviour, Iinteractable
         _touchingHand = null;
     }
 
+    #endregion
+    
     #region Unity Callbacks
     private void Awake()
     {
         _collider = GetComponent<Collider>();
         _collider.isTrigger = true;
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        TouchStay(_touchingHand);
     }
 
     #endregion
@@ -108,8 +126,6 @@ public abstract class StaticInteractable : MonoBehaviour, Iinteractable
     {
         PickUp(parent, hand);
     }
-
-
 
     void Iinteractable.Touch(PlayerHand hand)
     {

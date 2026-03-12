@@ -199,7 +199,7 @@ public class RadialMenuManager : MonoBehaviour
         _currentMenuItems.Clear();
         _currentMenu = null;
         _previousMenus.Clear();
-        _menuAnchor?.gameObject.SetActive(false);
+        _menuAnchor?.gameObject.SetActive(false); //BUG NOTE: This caused a null reference for some reason??
         _playerMenuHand = null;
 
         if(wasSceneLoad ==  false)
@@ -220,7 +220,7 @@ public class RadialMenuManager : MonoBehaviour
         {
             // Something has gone wrong for us to get here.
             Debugger.LogWarning("Player hand transform is missing, closing radial menu.", Debugger.TextColor.LightRed);
-            CloseRadialMenu();
+            CloseRadialMenu(); return;
         }
         float handDistanceFromMenu = Vector3.Distance(_playerMenuHand.transform.position,
                                                         _menuAnchor.transform.position);

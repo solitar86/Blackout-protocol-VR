@@ -11,6 +11,7 @@ public class BreakableMachine_Water : MonoBehaviour
     [SerializeField] private Sound _breakSoundEffect;
     [SerializeField] private UnityEvent _onDamaged;
     [SerializeField] private UnityEvent _onBreak;
+    [SerializeField] private UnityEvent _onTouchedWithHammer;
 
     private AudioSource _fuseBoxHummSource;
     private AudioSource _damageLoopSource = null;
@@ -21,6 +22,16 @@ public class BreakableMachine_Water : MonoBehaviour
     {
         PlayRadioStaticBeaconLoop();
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (_isBroken) return;
+        if (collision.gameObject.TryGetComponent<Hammer>(out var hammer))
+        {
+            _onTouchedWithHammer?.Invoke();
+        }
+    }
+
     #endregion
     public void ReactToWater()
     {
@@ -45,11 +56,10 @@ public class BreakableMachine_Water : MonoBehaviour
     }
     private void Break()
     {
-
-        Debugger.Log("Breaking machine", Debugger.TextColor.Purple);
         _isBroken = true;
         _onBreak?.Invoke();
         _damageLoopSource.Stop();
+        _fuseBoxHummSource.Stop();
         AudioPlayer.PlaySoundAtPoint(this, _breakSoundEffect, transform.position);
         EventManager.OnBreakableMachineBreak.Raise(this, -1);
 
@@ -58,7 +68,6 @@ public class BreakableMachine_Water : MonoBehaviour
         GetComponent<MeshRenderer>().material.color = Color.red;
 #endif
     }
-
     private void PlayRadioStaticBeaconLoop()
     {
         if (_fuseBoxHummSource == null)

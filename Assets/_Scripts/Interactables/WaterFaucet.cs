@@ -32,6 +32,16 @@ public class WaterFaucet : StaticInteractable
     }
 
     #endregion
+
+    #region Core Functions
+    public override void TouchStay(PlayerHand hand)
+    {
+        // This check is so we can find the tap, but
+        // so that it wouldn't get confused with 
+        // touching the running water.
+        if (IsActivated == true) return;
+        HandlPlayerHandUnderRunningWater(hand);
+    }
     private void HandleFaucet_Off_Audio()
     {
         if (_waterDrippingSource == null)
@@ -118,4 +128,5 @@ public class WaterFaucet : StaticInteractable
     {
         if (IsActivated) Activate();
     }
+    #endregion
 }

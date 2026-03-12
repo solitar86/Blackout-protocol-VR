@@ -9,6 +9,7 @@ public class MainMenuManager : MonoBehaviour
 
     private bool _skipTutorial = false;
 
+    #region Unity Callbacks
     private void OnEnable()
     {
         
@@ -41,12 +42,15 @@ public class MainMenuManager : MonoBehaviour
         }
 
     }
+
+    #endregion
     private void SkipTutorial(int value)
     {
         _skipTutorial = true;
         GetComponent<TutorialHandler>().StopTutorial();
         StopAllCoroutines();
         EventManager.OnPlayerWantSkip.RemoveListener(this, SkipTutorial);
+        Player.Instance.EnableFingerSnapping();
         InitMainMenuSetup();
     }
     private void InitMainMenuSetup()
