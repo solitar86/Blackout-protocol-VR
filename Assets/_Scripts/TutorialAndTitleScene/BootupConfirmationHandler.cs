@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class BootupConfirmationHandler : MonoBehaviour
 {
+    [SerializeField] private float _loopingTTSDelay = 7f;
     private const string TTSTUTORIALPATH = "TTS/Tutorial/";
     private bool _hasSkipped = false;
 
@@ -30,11 +31,16 @@ public class BootupConfirmationHandler : MonoBehaviour
 
     private void Start()
     {
-        StartLoopingTTS();
+        PlayBootUpConfirmationTTS(_loopingTTSDelay);
         Player.Instance.DisableFingerSnapping();
         Player.Instance.DisableTurnAndMove();
         Player.Instance.DisableNorthBeacon();
 
+        SubscribeToEvents();
+    }
+
+    private void SubscribeToEvents()
+    {
         EventManager.OnPlayerWantSkip.AddListener(this, OpenTutorialScene);
 
         EventManager.OnPlayerPushJoystick.AddListener(this, StickTTS);
@@ -42,6 +48,17 @@ public class BootupConfirmationHandler : MonoBehaviour
         EventManager.OnSecondaryButtonPressed.AddListener(this, SecondaryButtonTTS);
         EventManager.OnTriggerPressed.AddListener(this, TriggerButtonTTS);
         EventManager.OnGripPressed.AddListener(this, GripButtonTTS);
+    }
+
+    private void UnsubcribeFromEvents()
+    {
+        EventManager.OnPlayerWantSkip.RemoveListener(this, OpenTutorialScene);
+
+        EventManager.OnPlayerPushJoystick.RemoveListener(this, StickTTS);
+        EventManager.OnPrimaryButtonPressed.RemoveListener(this, PrimaryButtonTTS);
+        EventManager.OnSecondaryButtonPressed.RemoveListener(this, SecondaryButtonTTS);
+        EventManager.OnTriggerPressed.RemoveListener(this, TriggerButtonTTS);
+        EventManager.OnGripPressed.RemoveListener(this, GripButtonTTS);
     }
 
 
@@ -55,8 +72,10 @@ public class BootupConfirmationHandler : MonoBehaviour
         // Skipping tutorial
         _hasSkipped = true;
         CancelInvoke();
+        UnsubcribeFromEvents();
         TTSPlayer.ForceStopAllTTS();
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_OpeningTutorial", true);
+
 
         this.CallWithDelay(() =>
         {
@@ -74,43 +93,49 @@ public class BootupConfirmationHandler : MonoBehaviour
         string handednessString = isRightHand ? rightHandTTSFileString : leftHandTTSFileString;
         TTSPlayer.PlayTTSSequenceWithPaths(false, handednessString, TTSTUTORIALPATH + "TTS_Stick");
         TTSPlayer.PlayTTSSequenceWithPaths(false, handednessString);
-        RestartLoopingTTS();
+        RestartBootUpConfirmationTTS(_loopingTTSDelay);
     }
     private void PrimaryButtonTTS(bool isRightHand)
     {
         string handednessString = isRightHand ? rightHandTTSFileString : leftHandTTSFileString;
         TTSPlayer.PlayTTSSequenceWithPaths(false, handednessString, TTSTUTORIALPATH + "TTS_PrimaryButton");
         TTSPlayer.PlayTTSSequenceWithPaths(false, handednessString);
-        RestartLoopingTTS();
+        RestartBootUpConfirmationTTS(_loopingTTSDelay);
     }
     private void SecondaryButtonTTS(bool isRightHand)
     {
         string handednessString = isRightHand ? rightHandTTSFileString : leftHandTTSFileString;
         TTSPlayer.PlayTTSSequenceWithPaths(false, handednessString, TTSTUTORIALPATH + "TTS_SecondaryButton");
-        RestartLoopingTTS();
+        RestartBootUpConfirmationTTS(_loopingTTSDelay);
     }
     private void TriggerButtonTTS(bool isRightHand)
     {
         string handednessString = isRightHand ? rightHandTTSFileString : leftHandTTSFileString;
         TTSPlayer.PlayTTSSequenceWithPaths(false, handednessString, TTSTUTORIALPATH + "TTS_TriggerButton");
-        RestartLoopingTTS();
+        RestartBootUpConfirmationTTS(_loopingTTSDelay);
     }
     private void GripButtonTTS(bool isRightHand)
     {
         string handednessString = isRightHand ? rightHandTTSFileString : leftHandTTSFileString;
         TTSPlayer.PlayTTSSequenceWithPaths(false, handednessString, TTSTUTORIALPATH + "TTS_GripButton");
-        RestartLoopingTTS();
+        RestartBootUpConfirmationTTS(_loopingTTSDelay);
     }
-
-    private void RestartLoopingTTS(float delay  = 2f)
+    private void RestartBootUpConfirmationTTS(float delay  = 2f)
     {
-        CancelInvoke();
-        Invoke(nameof(StartLoopingTTS), delay);
+        StopAllCoroutines();
+        PlayBootUpConfirmationTTS();
     }
-
-    private void StartLoopingTTS()
+    private void PlayBootUpConfirmationTTS(float delay = 7f)
     {
-        TTSPlayer.PlayOnLoopUntilInterruptWithFilePath(TTSTUTORIALPATH + "TTS_GameIsRunning");
+        this.CallWithDelay(() =>
+        {
+            TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_GameIsRunning");
+        }, delay);
+
+        this.CallWithDelay(() =>
+        {
+            TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_GameIsRunning");
+        }, delay * 2);
     }
 
 }

@@ -403,11 +403,11 @@ public static class RadialMenuHolder
     );
 
     #endregion
+
     #region OptionsMenu
     /////////////////////////
     // OPTIONS MENU
     /////////////////////////
-    #endregion
     public static RadialMenu OptionsMenu = new RadialMenu(
     "OptionsMenu", MENUTTSFILEFOLDERPATH + "TTS_Menu_Options",
     new RadialMenuItem[]
@@ -436,6 +436,9 @@ public static class RadialMenuHolder
             ),
     }
 );
+
+    #endregion
+
     #region Accessibility menu
     /////////////////////////
     // ACCESSIBILITY MENU
@@ -612,30 +615,22 @@ public static class RadialMenuHolder
 
     /////////////////////////
     // Tutorial Scene Main Menu
+    // If necessary this can have
+    // REPLAY TUTORIAL PART
+    // selections at some point.
     /////////////////////////
     public static RadialMenu TutorialSceneMainMenu = new RadialMenu(
     "Mainmenu", MENUTTSFILEFOLDERPATH + "TTS_Menu_MainMenu",
-    new RadialMenuItem[]
-    {
-           StartGameButton,
-           new RadialMenuItem(
-                "Sound settings",
-                () => { RadialMenuManager.Instance.SetAsCurrentRadialMenu(SoundSettingsMenu); },
-                MENUTTSFILEFOLDERPATH + "TTS_Menu_SoundSettings"
-            ),
+        new RadialMenuItem[]
+        {
             new RadialMenuItem(
-                "Accessibility settings",
-                () => { RadialMenuManager.Instance.SetAsCurrentRadialMenu(AccessibilityMenu); },
-                MENUTTSFILEFOLDERPATH + "TTS_Menu_AccessibilityOptions"
+                "Options Menu",
+                () => { RadialMenuManager.Instance.SetAsCurrentRadialMenu(OptionsMenu); },
+                MENUTTSFILEFOLDERPATH + "TTS_Menu_Options"
             ),
             BackButton,
-            new RadialMenuItem(
-                "Snap turn settings",
-                () => { RadialMenuManager.Instance.SetAsCurrentRadialMenu(SnapTurnMenu); },
-                MENUTTSFILEFOLDERPATH + "TTS_Menu_SnapTurnAngle"
-            ),
            QuitButton
-    }
+        }
 );
     #endregion
 }
