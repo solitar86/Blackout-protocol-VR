@@ -2064,10 +2064,6 @@ PrefabInstance:
       propertyPath: _startTransform
       value: 
       objectReference: {fileID: 1217213030}
-    - target: {fileID: 6593406574328471588, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}
-      propertyPath: _innerMonologueBuffer
-      value: 0.75
-      objectReference: {fileID: 0}
     - target: {fileID: 8376925625639093468, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.77

@@ -162,7 +162,7 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
             _scrapeWallAudioLoopSource.volume = Mathf.SmoothDamp(_scrapeWallAudioLoopSource.volume,
                                                         _playerScrapeObstacleSound.Volume,
                                                         ref _audioSmoothDampVelocity,
-                                                        PlayerSettings.Developer.SlideAudioChangeSpeed);
+                                                        PlayerSettings.Developer.SlideAudioChangeTime);
 
             _previousTouchingPoint = _currentTouchingPoint;
         }
@@ -179,7 +179,7 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
                 _scrapeWallAudioLoopSource.volume = Mathf.SmoothDamp(_scrapeWallAudioLoopSource.volume,
                                                     0f,
                                                     ref _audioSmoothDampVelocity,
-                                                    PlayerSettings.Developer.SlideAudioChangeSpeed * 2);
+                                                    PlayerSettings.Developer.SlideAudioChangeTime * 2);
             }
         }
         _audioWasIncreasedThisFrame = false;

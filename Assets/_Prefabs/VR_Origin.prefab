@@ -1079,6 +1079,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04bc37d6781823c4b96718db4432b1ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  _maxQueudVoicelines: 2
+  _innerMonologueBuffer: 0.75
   _leftTurnVO: {fileID: 11400000, guid: 75082ac6c73e39d4aabd1a501c6d915b, type: 2}
   _rightTurnVO: {fileID: 11400000, guid: 9aa14a58648eb694d9b6ed72c8fd7cc0, type: 2}
   _curseWordsVO: {fileID: 11400000, guid: a918566031832f2418befa23be5c3844, type: 2}

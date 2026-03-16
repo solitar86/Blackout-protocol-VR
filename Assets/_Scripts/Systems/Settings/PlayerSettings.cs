@@ -207,7 +207,7 @@ public class PlayerSettings
         public float TouchDialogueInterval = 2f;
         public float ItemPingInterval = 4f;
         public float IdentifyVODelay = 0.3f;
-        public float SlideAudioChangeSpeed = 0.0125f;
+        public float SlideAudioChangeTime = 0.1f;
     }
 
     ////////////////////////

@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.LightTransport;
-using UnityEngine.XR.Interaction.Toolkit.Locomotion.Turning;
 /// <summary>
 /// Many VO's are held by objects themselves, this class deals with non-specific
 /// VO reactioons such as "Ouch!" and curse words etc.
@@ -26,6 +23,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
     private float _curseDelay = 1.5f;
     private float _itemDetectedDelay = 1f;
     private float _cantCarryDelay = 0.25f;
+    private float _pickUpSuccessDelay = 0.1f;
 
     private float _nextTimeAllowInnerMonologue = 0f;
 
@@ -40,7 +38,6 @@ public class PlayerVOReactionHandler : MonoBehaviour
         EventManager.OnPlayerBumpIDVOShouldPlay.AddListener(this, PlayBumpIDVoiceLine);
         EventManager.OnInteractableDetectedOnSurface.AddListener(this, PlayItemDetectedVoiceLine);
         EventManager.OnAnyObjectPickUpObjectPickedUp.AddListener(this, PlayPickUpSuccesfulVoiceLine);
-        //SnapTurnProvider.OnPlayerSnapTurn += HandlePlayerTurn;
         CustomSnapTurnProviderWrapper.OnPlayerSnapTurn += HandlePlayerTurn;
     }
     private void OnDisable()
@@ -51,11 +48,10 @@ public class PlayerVOReactionHandler : MonoBehaviour
         EventManager.OnPlayerBumpIDVOShouldPlay.RemoveListener(this, PlayBumpIDVoiceLine);
         EventManager.OnInteractableDetectedOnSurface.RemoveListener(this, PlayItemDetectedVoiceLine);
         EventManager.OnAnyObjectPickUpObjectPickedUp.RemoveListener(this, PlayPickUpSuccesfulVoiceLine);
-        // SnapTurnProvider.OnPlayerSnapTurn -= HandlePlayerTurn;
         CustomSnapTurnProviderWrapper.OnPlayerSnapTurn -= HandlePlayerTurn;
     }
-
     #endregion
+
     /// <summary>
     /// Handles VO reactions to player using snapturn with controller.
     /// </summary>
@@ -127,7 +123,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
     /// <param name="value"></param>
     private void PlayPickUpSuccesfulVoiceLine(int value)
     {
-        PlayPlayerInnerMonologueWithDelay(_pickupSuccesfulVO, 0f);
+        PlayPlayerInnerMonologueWithDelay(_pickupSuccesfulVO, _pickUpSuccessDelay);
     }
     /// <summary>
     /// Playes one sound from an array with no spatialization as if they are players thoughts.
@@ -188,7 +184,6 @@ public class PlayerVOReactionHandler : MonoBehaviour
             Debugger.Log("Inner monologue was called with null or empty sound");
         }
     }
-
     private void TryPlayedQueudVOReaction()
     {
         if(_queuedVoiceLines.Count > 0)
