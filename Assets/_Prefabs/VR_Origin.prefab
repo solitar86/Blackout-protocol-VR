@@ -1079,12 +1079,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04bc37d6781823c4b96718db4432b1ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  _maxQueudVoicelines: 2
+  _innerMonologueBuffer: 0.75
   _leftTurnVO: {fileID: 11400000, guid: 75082ac6c73e39d4aabd1a501c6d915b, type: 2}
   _rightTurnVO: {fileID: 11400000, guid: 9aa14a58648eb694d9b6ed72c8fd7cc0, type: 2}
   _curseWordsVO: {fileID: 11400000, guid: a918566031832f2418befa23be5c3844, type: 2}
   _somethingHereVO: {fileID: 11400000, guid: 280da1e425a2fe84eb6e3bcf5ef23d9d, type: 2}
   _bumpIDUnknownObstacleVO: {fileID: 11400000, guid: dfd47d5f37867734eaa723a7d66e1d59, type: 2}
   _cantCarryVO: {fileID: 11400000, guid: 59362c78a026e9d4fb6add749d6639eb, type: 2}
+  _pickupSuccesfulVO: {fileID: 11400000, guid: a39bbf9a709fc05439c4f75a55b17131, type: 2}
 --- !u!114 &5430152879863439837
 MonoBehaviour:
   m_ObjectHideFlags: 0

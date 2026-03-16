@@ -18,26 +18,18 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     [Tooltip("An array of sounds which we can choose from when we touch this object.")]
     [SerializeField] private SoundArrayHolder _touchSoundsHolder;
 
-    [Tooltip("Character voice-over that should speak when we touch object.")]
-    [SerializeField] private Sound _touchIdentifyVO;
-
-    [Tooltip("Sound to make when object is pinged -> surface near is touched.")]
-    [SerializeField] private Sound _pingSound;
-
-    [Tooltip("How this object should orient itself in the players hand. Adjust at runtime to see results.")]
-    [Space(5), Header("Settings for how item is oriented when held")]
-    [SerializeField] private HoldPickupOffsetSettingsSO _offsetSettings;
-
-    [Header("Where can this object be placed?")]
-    [SerializeField] private LayerMask _placeableSurfaceLayerMask;
-    [SerializeField] private LayerMask _floorLayer;
-
     [Space(5), Header("Sounds for interactions")]
     [Tooltip("An array of sounds which we can choose from when we pickup this object.")]
     [SerializeField] private SoundArrayHolder _pickUpSounds;
 
     [Tooltip("An array of sounds which we can choose from when we let go of this object.")]
     [SerializeField] private SoundArrayHolder _dropOnSurfaceSounds;
+
+    [Tooltip("Character voice-over that should speak when we touch object.")]
+    [SerializeField] private Sound _touchIdentifyVO;
+
+    [Tooltip("Sound to make when object is pinged -> surface near is touched.")]
+    [SerializeField] private Sound _pingSound;
 
     [Tooltip("An array of sound to play when we hit this object againts a surface while it's beind held.")]
     [SerializeField] internal Sound _impactSound; // This should be a sound holder, TODO
@@ -51,6 +43,14 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     [Space(5), Header("Haptic settings for touch, pickup, drop and interact")]
     [SerializeField] private VibrationSettingsSO _touchHapticSettings;
     [SerializeField] private VibrationSettingsSO _pickUpAndDropHapticSettings;
+
+    [Tooltip("How this object should orient itself in the players hand. Adjust at runtime to see results.")]
+    [Space(5), Header("Settings for how item is oriented when held")]
+    [SerializeField] private HoldPickupOffsetSettingsSO _offsetSettings;
+
+    [Header("Where can this object be placed?")]
+    [SerializeField] private LayerMask _placeableSurfaceLayerMask;
+    [SerializeField] private LayerMask _floorLayer;
 
     private bool _isHeld;
     private float _velocity;

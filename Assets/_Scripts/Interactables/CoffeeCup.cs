@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CoffeeCup : PickUpObject
 {
-    [Space(15)]
+    [Space(15), Header("Coffee cup specific settings")]
     [SerializeField] private LayerMask _layersToLookForWaterInteractables;
     [SerializeField] private Sound _glassBreakSound;
     [SerializeField] private SoundArrayHolder _waterSpillSounds;
