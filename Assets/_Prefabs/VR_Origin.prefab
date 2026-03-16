@@ -1085,6 +1085,7 @@ MonoBehaviour:
   _somethingHereVO: {fileID: 11400000, guid: 280da1e425a2fe84eb6e3bcf5ef23d9d, type: 2}
   _bumpIDUnknownObstacleVO: {fileID: 11400000, guid: dfd47d5f37867734eaa723a7d66e1d59, type: 2}
   _cantCarryVO: {fileID: 11400000, guid: 59362c78a026e9d4fb6add749d6639eb, type: 2}
+  _pickupSuccesfulVO: {fileID: 11400000, guid: a39bbf9a709fc05439c4f75a55b17131, type: 2}
 --- !u!114 &5430152879863439837
 MonoBehaviour:
   m_ObjectHideFlags: 0

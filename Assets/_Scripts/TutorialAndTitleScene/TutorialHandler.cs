@@ -43,6 +43,10 @@ public class TutorialHandler : MonoBehaviour
 
         yield return StartCoroutine(MovementTutorial());
 
+        yield return StartCoroutine(NorthBeaconTutorial());
+
+        yield return StartCoroutine(FingerSnapTutorial());
+
         yield return StartCoroutine(InteractionTutorial());
 
         yield return new WaitForSeconds(1.5f);
@@ -65,24 +69,22 @@ public class TutorialHandler : MonoBehaviour
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_MenuInfo", out clipDuration, true);
         yield return new WaitForSeconds(clipDuration);
         EventManager.OnToggleRadialMenuOnOff.Raise(this, true);
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_MenuInfo2", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration);
 
-        // Enable Player Menu here and subscribe listener to OnCloseEvent to continue.
-        bool _menuWasClosed = false;
-        Action<int> onMenuClosed = (_) => _menuWasClosed = true;
-        EventManager.OnRadialMenuClose.AddListener(this, onMenuClosed);
+        // Enable Player Menu here and subscribe listener to OnPlayerWantSkip to continue.
+        bool playerWantProgress = false;
+        Action<int> playerWantProgressDelegate = (_) => playerWantProgress = true;
+        EventManager.OnPlayerWantSkip.AddListener(this, playerWantProgressDelegate);
 
         // If player has not opened menu yet, remind them. 
         yield return new WaitForSeconds(5f);
-        if (_menuWasClosed == false && RadialMenuManager.Instance.MenuIsOpen == false)
+        if (playerWantProgress == false && RadialMenuManager.Instance.MenuIsOpen == false)
             TTSPlayer.PlayOnLoopUntilInterruptWithFilePath(TTSTUTORIALPATH + "TTS_MenuInfo_Reminder");
 
-        // Player has opened and closed menu atleast once. Continue.
-        yield return new WaitUntil(() => _menuWasClosed == true);
-        EventManager.OnRadialMenuClose.RemoveListener(this, onMenuClosed);
-        EventManager.OnToggleRadialMenuOnOff.Raise(this, false);
-
-        yield return new WaitForSeconds(0.5f);
-        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Welldone", true);
+        // Player wants to progress tutorial.
+        yield return new WaitUntil(() => playerWantProgress == true);
+        EventManager.OnPlayerWantSkip.RemoveListener(this, playerWantProgressDelegate);
 
         yield return new WaitForSeconds(0.5f);
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Continue", out clipDuration, true);
@@ -94,6 +96,69 @@ public class TutorialHandler : MonoBehaviour
         yield return new WaitForSeconds(2);
         AudioPlayer.PlaySoundAtPoint(this, _VOIntroDialogue, transform.position, false, false);
         yield return new WaitForSeconds(_VOIntroDialogue.Clip.length + 2f);
+    }
+    private IEnumerator MovementTutorial()
+    {
+        float clipDuration = 0f;
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Movement_part1", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 0.1f);
+
+
+        Player.Instance.EnableTurnAndMove();
+        Player.Instance.EnableFingerSnapping(); // This needs to be tutorialized.
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Movement_part2", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 0.1f);
+
+        // Enable Player Menu here and subscribe listener to OnPlayerWantSkip to continue.
+        bool playerWantProgress = false;
+        Action<int> playerWantProgressDelegate = (_) => playerWantProgress = true;
+        EventManager.OnPlayerWantSkip.AddListener(this, playerWantProgressDelegate);
+
+        // Player wants to progress tutorial.
+        yield return new WaitUntil(() => playerWantProgress == true);
+        EventManager.OnPlayerWantSkip.RemoveListener(this, playerWantProgressDelegate);
+
+        yield return new WaitForSeconds(0.5f);
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Continue", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 1f);
+    }
+    private IEnumerator NorthBeaconTutorial()
+    {
+        float clipDuration = 0f;
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_NorthBeacon", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 0.1f);
+
+        // Wait for player to hold trigger to progress
+        bool playerWantProgress = false;
+        Action<int> playerWantProgressDelegate = (_) => playerWantProgress = true;
+        EventManager.OnPlayerWantSkip.AddListener(this, playerWantProgressDelegate);
+
+        // Player wants to progress tutorial.
+        yield return new WaitUntil(() => playerWantProgress == true);
+        EventManager.OnPlayerWantSkip.RemoveListener(this, playerWantProgressDelegate);
+
+        yield return new WaitForSeconds(0.5f);
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Continue", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 1f);
+    }
+    private IEnumerator FingerSnapTutorial()
+    {
+        float clipDuration = 0f;
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_FingerSnap", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 0.1f);
+
+        // Wait for player to hold trigger to progress
+        bool playerWantProgress = false;
+        Action<int> playerWantProgressDelegate = (_) => playerWantProgress = true;
+        EventManager.OnPlayerWantSkip.AddListener(this, playerWantProgressDelegate);
+
+        // Player wants to progress tutorial.
+        yield return new WaitUntil(() => playerWantProgress == true);
+        EventManager.OnPlayerWantSkip.RemoveListener(this, playerWantProgressDelegate);
+
+        yield return new WaitForSeconds(0.5f);
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Continue", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 1f);
     }
     private IEnumerator InteractionTutorial()
     {
@@ -126,23 +191,6 @@ public class TutorialHandler : MonoBehaviour
 
         // Continue with tutorial
         yield return new WaitForSeconds(1.5f); // A short delay.
-        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Continue", out clipDuration, true);
-        yield return new WaitForSeconds(clipDuration + 1f);
-    }
-    private IEnumerator MovementTutorial()
-    {
-        float clipDuration = 0f;
-        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Movement_part1", out clipDuration, true);
-        yield return new WaitForSeconds(clipDuration + 0.1f);
-
-
-        Player.Instance.EnableTurnAndMove();
-        Player.Instance.EnableFingerSnapping(); // This needs to be tutorialized.
-        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Movement_part2", out clipDuration, true);
-        yield return new WaitForSeconds(clipDuration + 0.1f);
-
-        // Short pause before continue
-        yield return new WaitForSeconds(1.5f);
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Continue", out clipDuration, true);
         yield return new WaitForSeconds(clipDuration + 1f);
     }

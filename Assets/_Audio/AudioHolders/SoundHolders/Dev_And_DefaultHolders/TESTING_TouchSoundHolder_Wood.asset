@@ -24,7 +24,7 @@ MonoBehaviour:
   SlideTouchSound:
     Clip: {fileID: 8300000, guid: 4a30f89e2acbb4dbba611e11c7fccbf4, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0.3
+    Volume: 0.15
     Pitch: 1
     SpacialBlend: 1
     OverrideDefaultDistances: 0

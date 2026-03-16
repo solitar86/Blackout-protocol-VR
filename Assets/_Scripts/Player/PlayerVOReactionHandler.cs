@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.LightTransport;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Turning;
 /// <summary>
 /// Many VO's are held by objects themselves, this class deals with non-specific
@@ -7,6 +9,12 @@ using UnityEngine.XR.Interaction.Toolkit.Locomotion.Turning;
 /// </summary>
 public class PlayerVOReactionHandler : MonoBehaviour
 {
+    [Tooltip("How many reactions can be queued before more can be added")]
+    [SerializeField] private int _maxQueudVoicelines = 2;
+    [SerializeField] private float _innerMonologueBuffer = 0.75f;
+    //[Tooltip("Multiplies clip duration by this number when allowing for overlapping dialogue")]
+    //[SerializeField] private float _allowOverlapDurMultiplier = 0.8f;
+    [Space(5), Header("Voiceline Sound Holders")]
     [SerializeField] private SoundArrayHolder _leftTurnVO, _rightTurnVO;
     [SerializeField] private SoundArrayHolder _curseWordsVO;
     [SerializeField] private SoundArrayHolder _somethingHereVO;
@@ -18,9 +26,10 @@ public class PlayerVOReactionHandler : MonoBehaviour
     private float _curseDelay = 1.5f;
     private float _itemDetectedDelay = 1f;
     private float _cantCarryDelay = 0.25f;
-    private float _innerMonologueBuffer = 0.75f;
 
     private float _nextTimeAllowInnerMonologue = 0f;
+
+    private Queue<Sound> _queuedVoiceLines = new();
 
     #region Unity Callbacks
     private void OnEnable()
@@ -147,7 +156,13 @@ public class PlayerVOReactionHandler : MonoBehaviour
     /// <param name="delay">If set to 0 will play immediately</param>
     private void PlayPlayerInnerMonologueWithDelay(Sound soundToPlay, float delay)
     {
-        if (InnerMonologueIsBlocked() == true) return;
+        if (InnerMonologueIsBlocked() == true)
+        {
+            if (_queuedVoiceLines.Count >= _maxQueudVoicelines) return;
+            _queuedVoiceLines.Enqueue(soundToPlay);
+            return;
+        }
+
         _nextTimeAllowInnerMonologue = Time.time + _innerMonologueBuffer;
         if (soundToPlay != null && soundToPlay.Clip != null)
         {
@@ -161,10 +176,24 @@ public class PlayerVOReactionHandler : MonoBehaviour
                                             pitchVary,
                                             spatialize);
             }, delay);
+
+            // if we have queued reactions, try play the next one.
+            this.CallWithDelay(() =>
+            {
+                TryPlayedQueudVOReaction();
+            }, delay + _innerMonologueBuffer);
         }
         else
         {
             Debugger.Log("Inner monologue was called with null or empty sound");
+        }
+    }
+
+    private void TryPlayedQueudVOReaction()
+    {
+        if(_queuedVoiceLines.Count > 0)
+        {
+            PlayPlayerInnerMonologueWithDelay(_queuedVoiceLines.Dequeue(), delay: 0f);
         }
     }
     private bool InnerMonologueIsBlocked()

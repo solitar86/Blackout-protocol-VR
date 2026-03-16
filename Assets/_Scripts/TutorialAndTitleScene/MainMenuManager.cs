@@ -66,6 +66,7 @@ public class MainMenuManager : MonoBehaviour
     private void StartTutorial()
     {
         StopAllCoroutines();
+        EventManager.OnPlayerWantSkip.RemoveListener(this, SkipTutorial);
         GetComponent<TutorialHandler>().StartTutorial(InitMainMenuSetup);
     }
 
