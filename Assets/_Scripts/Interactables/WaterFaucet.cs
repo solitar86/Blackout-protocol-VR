@@ -9,6 +9,7 @@ public class WaterFaucet : StaticInteractable
     [SerializeField] private Sound _waterDrippingLoopSound;
     [SerializeField] private Sound _faucetStartSound;
     [SerializeField] private Sound _faucetStopSound;
+    [SerializeField] private Sound _cupOverFlowLoop;
     [Space(15)]
     [SerializeField] private Transform _waterOutputPoint;
     [SerializeField] private UnityEvent _onPlayerTouchRunningWater;
@@ -16,6 +17,7 @@ public class WaterFaucet : StaticInteractable
     [SerializeField] private VibrationSettingsSO _playerHandTouchWaterHapticSettings;
 
     private AudioSource _waterRunningLoopSource;
+    private AudioSource _cupOverFlowAudioSource;
     private AudioSource _waterDrippingSource;
 
     #region Unity Callbacks
@@ -46,31 +48,59 @@ public class WaterFaucet : StaticInteractable
     }
     private void HandleFaucet_Off_Audio()
     {
-        if (_waterDrippingSource == null)
-        {
-            // First time deactivated (could be start of scene)
-            // Create dripping sound source and start loop.
-            _waterDrippingSource = AudioPlayer.CreateLoopingAudioSource(this, _waterDrippingLoopSound);
-            _waterDrippingSource.transform.position = transform.position;
-        }
-
-        if (_waterDrippingSource.isPlaying == false)
-        {
-            // We arent playing dripping loop yet
-            // but we shuold be. Begin playing. 
-            _waterDrippingSource.Play();
-        }
-
-
-        if (_waterRunningLoopSource != null && _waterRunningLoopSource.isPlaying == true)
-        {
-            // We were just deactivated. Stop water running sound
-            // and play faucet stop sound.
-            _waterRunningLoopSource.Stop();
-            AudioPlayer.PlaySoundAtPoint(this, _faucetStopSound, transform.position, true);
-        }
+        HandleRunningWaterSoundWhenDeactivated();
     }
     private void HandleFaucet_On_Audio()
+    {
+        HandleRunningWaterSoundWhenActivated();
+    }
+    private void HandleDetectCoffeeCupUnderTap()
+    {
+        if (_waterOutputPoint == null) _waterOutputPoint = transform.Find("WaterOutPutPoint");
+
+        if (Physics.Raycast(_waterOutputPoint.position, Vector3.down, out RaycastHit hitInfo, float.MaxValue))
+        {
+            if (hitInfo.collider.TryGetComponent<Iinteractable>(out var component))
+            {
+                if (component is CoffeeCup)
+                {
+                    // Player has placed a cup after the running water.
+                    HandleCupPlacedUnderRunningWaterSounds();
+                    _waterRunningLoopSource.Pause();
+                    (component as CoffeeCup).FillCupWithWater();
+                    _onPlayerTouchRunningWater?.Invoke();
+                    return;
+                }
+            }
+            else
+            {
+                // There is no coffee cup under the faucet currently.
+                HandleNoCupUnderRunningWaterSounds();
+                _waterRunningLoopSource.UnPause();
+            }
+
+            if(hitInfo.collider.TryGetComponent<PlayerHand>(out var playerHand))
+            {
+                // Players hand is in the raycast of the running water.
+                HandlPlayerHandUnderRunningWater(playerHand);
+                _onPlayerTouchRunningWater?.Invoke();
+            }
+        }
+    }
+
+
+
+    private void HandlPlayerHandUnderRunningWater(PlayerHand hand)
+    {
+        hand.HandleTouchSlide(_playerHandTouchWaterHapticSettings);
+    }
+    public void Deactivate()
+    {
+        if (IsActivated) Activate();
+    }
+    #endregion
+
+    private void HandleRunningWaterSoundWhenActivated()
     {
         if (_waterRunningLoopSource == null)
         {
@@ -96,41 +126,59 @@ public class WaterFaucet : StaticInteractable
             _waterDrippingSource.Stop();
         }
     }
-    private void HandleDetectCoffeeCupUnderTap()
+    private void HandleRunningWaterSoundWhenDeactivated()
     {
-        if (_waterOutputPoint == null) _waterOutputPoint = transform.Find("WaterOutPutPoint");
-
-        if (Physics.Raycast(_waterOutputPoint.position, Vector3.down, out RaycastHit hitInfo, float.MaxValue))
+        if (_waterDrippingSource == null)
         {
-            if (hitInfo.collider.TryGetComponent<Iinteractable>(out var component))
-            {
-                if (component is CoffeeCup)
-                {
-                    _waterRunningLoopSource.Pause();
-                    (component as CoffeeCup).FillCupWithWater();
-                    _onPlayerTouchRunningWater?.Invoke();
-                    return;
-                }
-            }
-            else
-            {
-                _waterRunningLoopSource.UnPause();
-            }
+            // First time deactivated (could be start of scene)
+            // Create dripping sound source and start loop.
+            _waterDrippingSource = AudioPlayer.CreateLoopingAudioSource(this, _waterDrippingLoopSound);
+            _waterDrippingSource.transform.position = transform.position;
+        }
 
-            if(hitInfo.collider.TryGetComponent<PlayerHand>(out var playerHand))
-            {
-                HandlPlayerHandUnderRunningWater(playerHand);
-                _onPlayerTouchRunningWater?.Invoke();
-            }
+        if (_waterDrippingSource.isPlaying == false)
+        {
+            // We arent playing dripping loop yet
+            // but we shuold be. Begin playing. 
+            _waterDrippingSource.Play();
+        }
+
+
+        if (_waterRunningLoopSource != null && _waterRunningLoopSource.isPlaying == true)
+        {
+            // We were just deactivated. Stop water running sound
+            // and play faucet stop sound.
+            _waterRunningLoopSource.Stop();
+            AudioPlayer.PlaySoundAtPoint(this, _faucetStopSound, transform.position, true);
         }
     }
-    private void HandlPlayerHandUnderRunningWater(PlayerHand hand)
+    private void HandleCupPlacedUnderRunningWaterSounds()
     {
-        hand.HandleTouchSlide(_playerHandTouchWaterHapticSettings);
+        if(_cupOverFlowAudioSource == null)
+        {
+            _cupOverFlowAudioSource = AudioPlayer.CreateLoopingAudioSource(this, _cupOverFlowLoop);
+            _cupOverFlowAudioSource.transform.position = transform.position;
+        }
+
+        if (_cupOverFlowAudioSource.isPlaying == false)
+        {
+            // We arent playing dripping loop yet
+            // but we shuold be. Begin playing. 
+            _cupOverFlowAudioSource.Play();
+        }
     }
-    public void Deactivate()
+    private void HandleNoCupUnderRunningWaterSounds()
     {
-        if (IsActivated) Activate();
+        if (_cupOverFlowAudioSource == null)
+        {
+            _cupOverFlowAudioSource = AudioPlayer.CreateLoopingAudioSource(this, _cupOverFlowLoop);
+            _cupOverFlowAudioSource.transform.position = transform.position;
+        }
+
+        if (_cupOverFlowAudioSource.isPlaying == true)
+        {
+            // We had a cup underneath the faucet and it was removed. 
+            _cupOverFlowAudioSource.Stop();
+        }
     }
-    #endregion
 }
