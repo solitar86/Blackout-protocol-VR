@@ -149,7 +149,7 @@ MonoBehaviour:
     MaxDistance: 2
   _pingSound:
     Clip: {fileID: 8300000, guid: 7885cabd33b6047ebb9b17270fec7c10, type: 3}
-    Mixergroup: {fileID: 0}
+    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
     SpacialBlend: 1
@@ -159,14 +159,14 @@ MonoBehaviour:
   _impactSound:
     Clip: {fileID: 8300000, guid: 7885cabd33b6047ebb9b17270fec7c10, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 1
+    Volume: 0.5
     Pitch: 1
     SpacialBlend: 0
     OverrideDefaultDistances: 0
     MinDistance: 0.5
     MaxDistance: 2
-  _velocityToVolumeCap: 10
   _velocityEffectsVolume: 0
+  _velocityToVolumeCap: 10
   _velocityToVolumeCurve:
     serializedVersion: 2
     m_Curve: []
@@ -185,6 +185,7 @@ MonoBehaviour:
   _layersToLookForWaterInteractables:
     serializedVersion: 2
     m_Bits: 3136
+  _breakOnImpactVelocityThreshold: 6
   _glassBreakSound:
     Clip: {fileID: 8300000, guid: 99a7a7b394b7e4bb5bb9a43f85d3ce61, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}

@@ -2072,10 +2072,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CoffeeCup
       objectReference: {fileID: 0}
-    - target: {fileID: 6253809543040060698, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
-      propertyPath: _pingSound.Mixergroup
-      value: 
-      objectReference: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
