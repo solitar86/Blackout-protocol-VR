@@ -10,13 +10,13 @@ public class QuestProgressor_OnTouchTouchableSurface : MonoBehaviour
 
     private void OnEnable()
     {
-        GetComponent<TouchableSurface>().OnTouchStart.AddListener(this, OnTouched);
+        GetComponent<TouchableSurface>().OnHandTouchStart.AddListener(this, OnTouched);
     }
 
 
     private void OnDisable()
     {
-        GetComponent<TouchableSurface>().OnTouchStart.RemoveListener(this, OnTouched);
+        GetComponent<TouchableSurface>().OnHandTouchStart.RemoveListener(this, OnTouched);
     }
 
     private void OnTouched(Vector3 vector)

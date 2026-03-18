@@ -9,6 +9,7 @@ public static class Developer
     public static void DeleteAllPlayerPrefs()
     {
         PlayerPrefs.DeleteAll();
+        PlayerSettings.SetAllDefaults();
         Debugger.Log("Player Prefs have been cleared", Debugger.TextColor.LightGreen);
     }
 

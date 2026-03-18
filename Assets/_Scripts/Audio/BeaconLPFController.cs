@@ -3,7 +3,7 @@ using UnityEngine;
 public class BeaconLPFController : MonoBehaviour
 {
     [SerializeField] private AudioLowPassFilter _lowPassFilter;
-    [SerializeField] private float _lowPassHighestValue = 0f;
+    [SerializeField] private float _lowPassHighestValue = 80f;
 
     private float _lpfMaxValue = 220000f;
     private AudioSource _source;
@@ -19,7 +19,6 @@ public class BeaconLPFController : MonoBehaviour
             
         }
     }
-
     private void Update()
     {
         if (_source.isVirtual) return;
@@ -39,10 +38,7 @@ public class BeaconLPFController : MonoBehaviour
         var lerpValue = Mathf.InverseLerp(1f, -1f, dotProduct);
          _lowPassFilter.cutoffFrequency = Mathf.Lerp(_lowPassHighestValue, _lpfMaxValue, lerpValue);
         
-        //Debugger.Log("ToPlayer: " + directionToPlayerHeadNormalized.ToString() + " LookDIR: " + playerLookDirection.ToString());
-        //Debugger.Log("DOT:" + dotProduct.ToString("F2")+" LERP: " + lerpValue.ToString("F2"), Debugger.TextColor.Yellow);
     }
-
     private bool InitLowPassFilter()
     {
         TryGetComponent<AudioSource>(out _source);
@@ -54,17 +50,14 @@ public class BeaconLPFController : MonoBehaviour
             }
             else
             {
-                Debugger.Log("Filter is null");
                 if (TryGetComponent<AudioLowPassFilter>(out var filter))
                 {
                     _lowPassFilter = filter;
-                    Debugger.Log("Found filter");
                     return true;
                 }
                 else
                 {
                     _lowPassFilter = gameObject.AddComponent<AudioLowPassFilter>();
-                    Debugger.Log("Added filter");
                     return true;
                 }
             }

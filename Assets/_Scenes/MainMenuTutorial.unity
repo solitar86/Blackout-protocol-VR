@@ -921,6 +921,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7908761564180327782, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
+      propertyPath: _cupOverFlowLoop.Clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0682e93ef5407e14ab8311bf710a564f, type: 3}
+    - target: {fileID: 7908761564180327782, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
+      propertyPath: _faucetStopSound.Clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 801a5b67813d3af4ebfd065c1c8d6993, type: 3}
+    - target: {fileID: 7908761564180327782, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
+      propertyPath: _faucetStartSound.Clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 76deb085c0054a44fb849b58bb8383ea, type: 3}
+    - target: {fileID: 7908761564180327782, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
+      propertyPath: _waterRunningLoop.Clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 3b5caf2d81493a2418e305dbbbb24d1a, type: 3}
+    - target: {fileID: 7908761564180327782, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
+      propertyPath: _cupOverFlowLoop.Volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7908761564180327782, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
+      propertyPath: _waterRunningLoop.Volume
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7908761564180327782, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
+      propertyPath: _cupOverFlowLoop.Mixergroup
+      value: 
+      objectReference: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

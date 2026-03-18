@@ -106,7 +106,6 @@ public class PlayerHand : MonoBehaviour
             Gizmos.DrawSphere(worldCenter, collider.radius);
         }
     }
-
     public float GetColliderRadius()
     {
         if (_sphereCollider == null) _sphereCollider = GetComponent<SphereCollider>();

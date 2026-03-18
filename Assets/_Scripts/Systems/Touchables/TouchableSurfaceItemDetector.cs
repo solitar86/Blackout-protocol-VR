@@ -14,11 +14,11 @@ public class TouchableSurfaceItemDetector : MonoBehaviour
     private void OnEnable()
     {
         _surface = GetComponent<TouchableSurface>();
-        _surface.OnTouchStart.AddListener(this, OnPlayerTouchBegin);
+        _surface.OnHandTouchStart.AddListener(this, OnPlayerTouchBegin);
     }
     private void OnDisable()
     {
-        _surface.OnTouchStart.RemoveListener(this, OnPlayerTouchBegin);
+        _surface.OnHandTouchStart.RemoveListener(this, OnPlayerTouchBegin);
     }
     #endregion
     private void OnPlayerTouchBegin(Vector3 touchPosition)

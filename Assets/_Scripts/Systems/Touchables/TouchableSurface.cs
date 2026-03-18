@@ -13,9 +13,10 @@ public class TouchableSurface : MonoBehaviour
     // This keeps track of hand while collision is happening eg. slide or stay.
     private List<HandCollidingData> playerHandsDataList = new();
 
-    public GameEvent<Vector3> OnTouchStart = new("First touch");
-    public GameEvent<(float distance, Vector3 position)> OnTouchSlide = new("Touch slide");
-    public GameEvent<Vector3> OnTouchEnd = new("Touch end");
+    public GameEvent<Vector3> OnHandTouchStart = new("First touch");
+    public GameEvent<(float distance, Vector3 position)> OnHandTouchSlide = new("Touch slide");
+    public GameEvent<Vector3> OnHandTouchEnd = new("Touch end");
+    public GameEvent<Iinteractable> OnTouchedWithObject = new("Interactable touch surface");
 
     private Collider _collider;
 
@@ -51,7 +52,7 @@ public class TouchableSurface : MonoBehaviour
             {
                 playerHand.HandleTouchEnd(_touchEndHapticSettings);
                 RemoveThisHandsDataFromList(playerHand);
-                OnTouchEnd.Raise(this, other.transform.position);
+                OnHandTouchEnd.Raise(this, other.transform.position);
             }
         }
     }
@@ -61,7 +62,7 @@ public class TouchableSurface : MonoBehaviour
     {
         playerHandsDataList.Add(new HandCollidingData(playerHand, other, playerHand.transform.position));
         playerHand.HandleTouchBegin(_firstTouchHapticSettings, other.transform.position);
-        OnTouchStart.Raise(this, other.transform.position);
+        OnHandTouchStart.Raise(this, other.transform.position);
         _onSurfaceTouched?.Invoke();
     }
     private void HandlePlaySlidingHaptic(Collider playerHandCollider, int i)
@@ -70,7 +71,7 @@ public class TouchableSurface : MonoBehaviour
 
         if (distance > _touchSlideHapticSettings.DistanceInterval)
         {
-            OnTouchSlide.Raise(this, (distance, playerHandCollider.transform.position));
+            OnHandTouchSlide.Raise(this, (distance, playerHandCollider.transform.position));
             // playerHandsDataList[i].hand.PlayHapticFeedback(_touchSlideHapticSettings);
             playerHandsDataList[i].hand.HandleTouchSlide(_touchSlideHapticSettings);
 
@@ -111,7 +112,11 @@ public class TouchableSurface : MonoBehaviour
             AudioPlayer.PauseHandInsideColliderError();
         }
     }
-
+    public void HandleTouchedWithPickUpObject(Iinteractable pickUpObject)
+    {
+        OnTouchedWithObject.Raise(this, pickUpObject);
+    }
+    
     #region Helper functions and HandData Struct
     private void RemoveThisHandsDataFromList(PlayerHand playerHand)
     {
@@ -206,18 +211,18 @@ public class TouchableSurface : MonoBehaviour
 #if UNITY_EDITOR
     public void TestFirstTouch(Vector3 touchPosition)
     {
-        OnTouchStart.Raise(this, touchPosition);
+        OnHandTouchStart.Raise(this, touchPosition);
     }
 
     public void TestTouchEnd(Vector3 touchPosition)
     {
-        OnTouchEnd.Raise(this, touchPosition);
+        OnHandTouchEnd.Raise(this, touchPosition);
     }
 
     public void TestTouchSlide(Vector3 touchPosition)
     {
         float distance = 1f;
-        OnTouchSlide.Raise(this, (distance, touchPosition));
+        OnHandTouchSlide.Raise(this, (distance, touchPosition));
     }
 #endif
     #endregion

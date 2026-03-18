@@ -166,6 +166,7 @@ MonoBehaviour:
     MinDistance: 0.5
     MaxDistance: 2
   _velocityToVolumeCap: 10
+  _velocityEffectsVolume: 0
   _velocityToVolumeCurve:
     serializedVersion: 2
     m_Curve: []

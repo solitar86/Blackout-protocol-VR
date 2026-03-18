@@ -31,6 +31,8 @@ public static class EventManager
     public static GameEvent<int> OnRadialMenuClose = new("Radial menu close");
     public static GameEvent<float> OnMenuItemSelect = new("UI Button select changed");
     public static GameEvent<int> OnMenuItemActivate = new("UI Button activated");
+    public static GameEvent<int> OnPreviousMenuOpened = new("Previous Menu opened");
+    public static GameEvent<int> OnMenuBlocked = new("Menu blocked");
 
     // Player Interaction and Reaction Events
     public static GameEvent<int> OnPlayerCurse = new("Player curse");

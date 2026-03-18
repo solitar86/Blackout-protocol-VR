@@ -169,6 +169,7 @@ public class RadialMenuManager : MonoBehaviour
         if (_previousMenus.Count > 0)
         {
             EmptyAndRePopulateCurrentRadialMenu(_previousMenus.Pop(), true);
+            EventManager.OnPreviousMenuOpened.Raise(this, -1);  
             return;
         }
         CloseRadialMenu();
@@ -268,12 +269,14 @@ public class RadialMenuManager : MonoBehaviour
         if (_menuSystemDisabled == true)
         {
             Debugger.Log("Radial menu blocked by being disabled");
+            EventManager.OnMenuBlocked.Raise(this, -1);
             return true;
         }
 
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             Debugger.Log("Radial menu blocked by us being in bootup scene");
+            EventManager.OnMenuBlocked.Raise(this, -1);
             return true;
         }
 

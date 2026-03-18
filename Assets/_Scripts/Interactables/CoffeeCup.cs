@@ -5,6 +5,7 @@ public class CoffeeCup : PickUpObject
 {
     [Space(15), Header("Coffee cup specific settings")]
     [SerializeField] private LayerMask _layersToLookForWaterInteractables;
+    [SerializeField] private float _breakOnImpactVelocityThreshold = 6;
     [SerializeField] private Sound _glassBreakSound;
     [SerializeField] private SoundArrayHolder _waterSpillSounds;
     [SerializeField] private float _spillVelocityThreshold = 10;
@@ -12,11 +13,8 @@ public class CoffeeCup : PickUpObject
     private float _timer = 0f;
     private float _spillInterval = 0.3f;
     private int _waterAmount = 0;
+    public bool IsFull => _waterAmount != 0;
 
-
-#if UNITY_EDITOR
-    private MeshRenderer _renderer;
-#endif
     public void FillCupWithWater()
     {
         _waterAmount = 3;
@@ -72,14 +70,21 @@ public class CoffeeCup : PickUpObject
     {
         AudioPlayer.PlaySoundAtPointWithDelay(this, _glassBreakSound, dropPosition, delay, usePitchVariation:false);
     }
+    public override void HandleCollisiondWithEnvironment(GameObject environmentObject)
+    {
+        base.HandleCollisiondWithEnvironment(environmentObject);
+
+        if(Velocity > _breakOnImpactVelocityThreshold)
+        {
+            AudioPlayer.PlaySoundAtPoint(this, _glassBreakSound, transform.position, usePitchVariation: false);
+            ForceRemoveObjectFromHandAndReturnToStartPosition();
+        }
+    }
 
     #region Unity Callbacks
     public override void Awake()
     {
         base.Awake();
-#if UNITY_EDITOR
-        _renderer = GetComponent<MeshRenderer>();
-#endif
     }
     public override void Update()
     {
@@ -113,17 +118,6 @@ public class CoffeeCup : PickUpObject
         // THIS BLOCK OF CODE IS CAUSING CURSING TO HAPPEN TWICE I THINK!
 
         GetComponentInChildren<TextMeshProUGUI>()?.SetText(_timer.ToString("F2") + "\nW:" + _waterAmount);
-
-#if UNITY_EDITOR
-        if (dot < 0.5f)
-        {
-            _renderer.material.color = Color.red;
-        }
-        else
-        {
-            _renderer.material.color = Color.white;
-        }
-#endif
     }
     #endregion
 }

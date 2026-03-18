@@ -33,16 +33,22 @@ public class PlayerSettings
     public static string FOLEY_MIXERGROUP_STRING = "Foley";
     public static string PLAYER_BODY_COLLISION_STRING = "BodyCollision";
 
+    public static string AUDIO_DEFAULTS_FILEPATH = "Settings/AudioDefaultSettings";
+    public static string MOVEMENT_DEFAULTS_FILEPATH = "Settings/MovementDefaultSettings";
+    public static string DEVELOPER_DEFAULTS_FILEPATH = "Settings/DeveloperDefaultSettings";
+    public static string ACCESSIBILITY_DEFAULTS_FILEPATH = "Settings/AccessibilityDefaultSettings";
+
+
     #region Save / Load
     public static void LoadSettings()
     {
         ////////////////////////////
         // Get Default Audiosettings
         ////////////////////////////
-        AudioSettingDefaultsSO audioDefaults = Resources.Load<AudioSettingDefaultsSO>("Settings/AudioDefaultSettings");
+        AudioSettingDefaultsSO audioDefaults = Resources.Load<AudioSettingDefaultsSO>(AUDIO_DEFAULTS_FILEPATH);
         if (audioDefaults == null)
         {
-            Debugger.LogError("Audio settings default not found at path 'Settings/AudioDefaultSettings'");
+            Debugger.LogError("Audio settings default not found at path:" + AUDIO_DEFAULTS_FILEPATH);
             return;
         }
 
@@ -53,10 +59,10 @@ public class PlayerSettings
         ////////////////////////////
         // Get Default Movement
         ////////////////////////////
-        MovementSettingsDefaultsSO moveDefault = Resources.Load<MovementSettingsDefaultsSO>("Settings/MovementDefaultSettings");
+        MovementSettingsDefaultsSO moveDefault = Resources.Load<MovementSettingsDefaultsSO>(MOVEMENT_DEFAULTS_FILEPATH);
         if (moveDefault == null)
         {
-            Debugger.LogError("Audio settings default not found at path 'Settings/MovementDefaultSettings'");
+            Debugger.LogError("Audio settings default not found at path: " + MOVEMENT_DEFAULTS_FILEPATH);
             return;
         }
 
@@ -67,10 +73,10 @@ public class PlayerSettings
         ////////////////////////////
         // Get Default Developer settings
         ////////////////////////////
-        DeveloperSettingDefaultsSO developerDefaults = Resources.Load<DeveloperSettingDefaultsSO>("Settings/DeveloperDefaultSettings");
+        DeveloperSettingDefaultsSO developerDefaults = Resources.Load<DeveloperSettingDefaultsSO>(DEVELOPER_DEFAULTS_FILEPATH);
         if (developerDefaults == null)
         {
-            Debugger.LogError("Developer settings default not found at path 'Settings/DeveloperDefaults'");
+            Debugger.LogError("Developer settings default not found at path:" + DEVELOPER_DEFAULTS_FILEPATH);
             return;
         }
 
@@ -81,10 +87,10 @@ public class PlayerSettings
         ////////////////////////////
         // Get Default Accessibility settings
         ////////////////////////////
-       AccessibilitySettingsDefaultsSO accessDefaults = Resources.Load<AccessibilitySettingsDefaultsSO>("Settings/AccessibilityDefaultSettings");
+       AccessibilitySettingsDefaultsSO accessDefaults = Resources.Load<AccessibilitySettingsDefaultsSO>(ACCESSIBILITY_DEFAULTS_FILEPATH);
         if (accessDefaults == null)
         {
-            Debugger.LogError("Accessibility settings default not found at path 'Settings/AccessibilityDefaultSettings'");
+            Debugger.LogError("Accessibility settings default not found at path:" +ACCESSIBILITY_DEFAULTS_FILEPATH);
             return;
         }
 
@@ -102,7 +108,10 @@ public class PlayerSettings
     }
     public static void SetAllDefaults()
     {
-        // TODO Implement this function.
+        Audio = Resources.Load<AudioSettingDefaultsSO>("Settings/AudioDefaultSettings")?.settings;
+        Movement = Resources.Load<MovementSettingsDefaultsSO>("Settings/MovementDefaultSettings")?.settings;
+        Developer = Resources.Load<DeveloperSettingDefaultsSO>("Settings/DeveloperDefaultSettings")?.settings;
+        Accessibility = Resources.Load<AccessibilitySettingsDefaultsSO>("Settings/AccessibilityDefaultSettings")?.settings;
     }
 
     #endregion
@@ -162,8 +171,10 @@ public class PlayerSettings
             TryChangeTTSVolume();
         }
 
+
         private void TryChangeTTSVolume()
         {
+            /// THIS FUNCTION COULD BE MADE GENERIC TO CHANGE ANY MIXER VALUE
             var succesful = AudioPlayer.Instance?.MainMixer?.SetFloat(TTS_VOLUME_STRING, GetDecibelsFromNormalizedFloat(TTS_Volume));
             if (succesful.Value == true)
             {

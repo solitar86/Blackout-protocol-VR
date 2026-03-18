@@ -106,10 +106,10 @@ public abstract class StaticInteractable : MonoBehaviour, Iinteractable
     {
         Activate();
     }
-    void Iinteractable.CollideWithObject()
-    {
+    //void Iinteractable.CollideWithEnvironment()
+    //{
         
-    }
+    //}
     void Iinteractable.Release()
     {
         

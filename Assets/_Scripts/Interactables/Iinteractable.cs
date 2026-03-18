@@ -12,5 +12,5 @@ public interface Iinteractable
     /// <summary>
     /// This is meant for when player touches something with the held object.
     /// </summary>
-    public void CollideWithObject();
+   // public void CollideWithEnvironment();
 }

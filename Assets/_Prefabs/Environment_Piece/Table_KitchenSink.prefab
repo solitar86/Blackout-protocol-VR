@@ -33,7 +33,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: -1.548, y: 0.49999994, z: 5.585}
-  m_LocalScale: {x: 2.27, y: 1.1272, z: 0.5}
+  m_LocalScale: {x: 2.27, y: 1.0721927, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5039358864802372307}
@@ -132,6 +132,9 @@ MonoBehaviour:
   _firstTouchHapticSettings: {fileID: 11400000, guid: cbab00ff2d842964fa80b2074c71c7c1, type: 2}
   _touchSlideHapticSettings: {fileID: 11400000, guid: 884731a6ab1dae043ad72c3c65e29b8c, type: 2}
   _touchEndHapticSettings: {fileID: 11400000, guid: e76ac0bd148cf384eb645ed5c07d5bbb, type: 2}
+  _onSurfaceTouched:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1596788407965918601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,7 +156,7 @@ MonoBehaviour:
     OverrideDefaultDistances: 0
     MinDistance: 0.5
     MaxDistance: 2
-  _touchSoundHolder: {fileID: 11400000, guid: 6369ca3e1e5bd284d9873c9a0c9478a6, type: 2}
+  _touchSoundHolder: {fileID: 11400000, guid: 55e077181c1b40c4b87c71d110f96403, type: 2}
 --- !u!114 &2920861208109310554
 MonoBehaviour:
   m_ObjectHideFlags: 0

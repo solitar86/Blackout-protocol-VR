@@ -34,6 +34,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     [Tooltip("An array of sound to play when we hit this object againts a surface while it's beind held.")]
     [SerializeField] internal Sound _impactSound; // This should be a sound holder, TODO
 
+    [SerializeField] private bool _velocityEffectsVolume = true;
     [Tooltip("What velocity == volume 1f")]
     [SerializeField] private float _velocityToVolumeCap = 10f;
 
@@ -62,6 +63,9 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     private PlayerHand _holdingHand;
     private Collider _collider;
     private Rigidbody _ridibody;
+    /// <summary>
+    /// I Do not remember why this field exists.
+    /// </summary>
     private Transform parentTransformReference = null;
 
     /// <summary>
@@ -118,7 +122,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     {
         // We make the assumption that this object is
         // being held or it won't make a sound.
-        HandleCollisiondWithEnvironment();
+        HandleCollisiondWithEnvironment(collision.gameObject);
     }
     private void Reset()
     {
@@ -140,6 +144,9 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     }
     public virtual void Release()
     {
+        if(_isHeld == false || _holdingHand == null)
+                return; // This can happen if object is force removed from player.
+
         transform.SetParent(null);
         parentTransformReference = null;
 
@@ -266,17 +273,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
                         _floorLayer);
 
         Vector3 dropHitPosition = hitInfo.point;
-        Debugger.Log("DropPos Was: " + dropHitPosition, Debugger.TextColor.LightBlue);
-        // We are droppin someplace which isn't good - like floor - Handle that case.
-        transform.position = _startingPosition;
-        transform.rotation = _startingRotation;
-
-        // Somehow notify player that the object 
-        // teleported back to where it was found from.
-        // this is currenly that.
-        //PLACEHOLDER
-        Debugger.PlayBlipSound();
-        //TTSPlayer.PlayTTSWithFilePath("TTS/TTS_ObjectDroppedOnFloor");
+        ResetPositionAndRotationToStartPosAndRot();
 
         float curseWordDelay = 0.25f;
         this.CallWithDelay(() =>
@@ -291,7 +288,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         HandleSpecialCasesForHittingFloor(dropHitPosition, dropSoundDelay);
         EventManager.OnAnyPickUpObjectHitFloor.Raise(this, this);
     }
-    public virtual void HandleCollisiondWithEnvironment()
+    public virtual void HandleCollisiondWithEnvironment(GameObject environmentObject)
     {
         if (_isHeld == false) return; // This now assumes that we have to be holding
                                       // the object for it to make an impact sound
@@ -299,14 +296,36 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
 
         if (_nextTimeAllowImpactSound > Time.time) return;
 
-        Sound impactWithModVolume = new Sound(_impactSound);
-        impactWithModVolume.Volume = _velocityToVolumeCurve.Evaluate(Velocity);
-        AudioPlayer.PlaySoundAtPoint(this, impactWithModVolume, transform.position, true);
+        if (_velocityEffectsVolume == true)
+        {
+            Sound impactWithModVolume = new Sound(_impactSound);
+            impactWithModVolume.Volume = _velocityToVolumeCurve.Evaluate(Velocity);
+            AudioPlayer.PlaySoundAtPoint(this, impactWithModVolume, transform.position, true);
+        }
+        else
+        {
+            AudioPlayer.PlaySoundAtPoint(this, _impactSound, transform.position, true);
+        }
+        
+        if(environmentObject.TryGetComponent<TouchableSurface>(out var surface))
+        {
+            surface.HandleTouchedWithPickUpObject(this);
+        }
+
         _nextTimeAllowImpactSound = Time.time + _impactSoundBuffer;
     }
     public virtual void HandleSpecialCasesForHittingFloor(Vector3 dropPosition, float delay)
     {
         // Do something if necessary.
+    }
+    public virtual void ForceRemoveObjectFromHandAndReturnToStartPosition()
+    {
+        transform.SetParent(null);
+        parentTransformReference = null;
+        //_holdingHand.
+        _holdingHand = null;
+        _isHeld = false;
+        ResetPositionAndRotationToStartPosAndRot();
     }
 
     #endregion;
@@ -319,12 +338,11 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     }
     void Iinteractable.Release()
     {
+        // This can be called after ForceRemove has been called
+        // and player releases grip on "empty" hand.
+        // Currently doesn't call major issues so DON'T FIX
         Debugger.Log("Dropping " + gameObject.name, gameObject);
         Release();
-    }
-    void Iinteractable.CollideWithObject()
-    {
-        HandleCollisiondWithEnvironment();
     }
     void Iinteractable.PickUp(Transform parent, PlayerHand hand)
     {
@@ -348,6 +366,11 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     #endregion
 
     #region Private functions / helpers for organization purposes
+    private void ResetPositionAndRotationToStartPosAndRot()
+    {
+        transform.position = _startingPosition;
+        transform.rotation = _startingRotation;
+    }
     private void HandTouchIDVoiceline()
     {
         EventManager.OnPlayerTouchPickUp.Raise(this, this);

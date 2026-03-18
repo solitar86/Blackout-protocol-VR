@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(TouchableSurface))]
 public class TouchableSurfaceAudioHandler : MonoBehaviour
@@ -18,10 +19,14 @@ public class TouchableSurfaceAudioHandler : MonoBehaviour
     private void OnEnable()
     {
         if(_surface == null) _surface = GetComponent<TouchableSurface>();
-        _surface.OnTouchStart.AddListener(this, PlayFirstTouchSound);
-        _surface.OnTouchSlide.AddListener(this, HandleHandSlideSound);
-        _surface.OnTouchEnd.AddListener(this, PlayTouchEndSound);
+        _surface.OnHandTouchStart.AddListener(this, PlayFirstTouchSound);
+        _surface.OnHandTouchSlide.AddListener(this, HandleHandSlideSound);
+        _surface.OnHandTouchEnd.AddListener(this, PlayTouchEndSound);
+        _surface.OnTouchedWithObject.AddListener(this, HandleTouchedWithObjectSound);
     }
+
+
+
     private void Update()
     {
         if (_audioWasIncreasedThisFrame == false)
@@ -36,9 +41,10 @@ public class TouchableSurfaceAudioHandler : MonoBehaviour
     }
     private void OnDisable()
     {
-        _surface.OnTouchStart.RemoveListener(this, PlayFirstTouchSound);
-        _surface.OnTouchSlide.RemoveListener(this, HandleHandSlideSound);
-        _surface.OnTouchEnd.RemoveListener(this, PlayTouchEndSound);
+        _surface.OnHandTouchStart.RemoveListener(this, PlayFirstTouchSound);
+        _surface.OnHandTouchSlide.RemoveListener(this, HandleHandSlideSound);
+        _surface.OnHandTouchEnd.RemoveListener(this, PlayTouchEndSound);
+        _surface.OnTouchedWithObject.RemoveListener(this, HandleTouchedWithObjectSound);
     }
     #endregion
     private void PlayFirstTouchSound(Vector3 position)
@@ -77,6 +83,11 @@ public class TouchableSurfaceAudioHandler : MonoBehaviour
         {
             Destroy(_slideAudioSource.gameObject);
         }
+    }
+    private void HandleTouchedWithObjectSound(Iinteractable iinteractable)
+    {
+        var position = (iinteractable as MonoBehaviour).transform.position;
+        AudioPlayer.PlaySoundAtPoint(this, _touchSoundHolder.FirstTouchSound, position, true);
     }
 
     private void OnValidate()

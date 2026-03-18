@@ -508,10 +508,69 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
+      propertyPath: _onBreak.m_PersistentCalls.m_Calls.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
+      propertyPath: _onDamaged.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
+      propertyPath: _onBreak.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
+      propertyPath: _onBreak.m_PersistentCalls.m_Calls.Array.data[3].m_Target
+      value: 
+      objectReference: {fileID: 1285781691}
+    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
+      propertyPath: _onDamaged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
+      propertyPath: _onDamaged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1285781691}
+    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
+      propertyPath: _onBreak.m_PersistentCalls.m_Calls.Array.data[3].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
+      propertyPath: _onBreak.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
+      value: PlaySound
+      objectReference: {fileID: 0}
+    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
+      propertyPath: _onDamaged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
+      propertyPath: _onDamaged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlaySound
+      objectReference: {fileID: 0}
+    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
+      propertyPath: _onBreak.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
+      value: SoundHolderForUnityEvent, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
+      propertyPath: _onDamaged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SoundHolderForUnityEvent, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
+      propertyPath: _onBreak.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
+      propertyPath: _onDamaged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 802038966387455069, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1285781691}
     - targetCorrespondingSourceObject: {fileID: 810035546937523392, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
@@ -1167,6 +1226,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1285781677 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 802038966387455069, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
+  m_PrefabInstance: {fileID: 579755108}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1285781691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1285781677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adce140b42922bb49aaf3767059b444a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundHolderForUnityEvent
+  _soundToPlay:
+    Clip: {fileID: 8300000, guid: 5f0865797f2bb47d4b01a784d9fd21a1, type: 3}
+    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  _spatialize: 1
+  _pitchVariation: 1
+  _delay: 0
+  _optionalPositionToPlayAt: {fileID: 0}
+  _preventOverlappingPlayes: 0
+  _postDelay: 0
 --- !u!4 &1511600783 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2417033642183055198, guid: 5a5955cbbbce9bc45834fbe411579a25, type: 3}
@@ -1466,7 +1557,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2613846697645240508, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.29
+      value: 1.423
       objectReference: {fileID: 0}
     - target: {fileID: 2613846697645240508, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1500,53 +1591,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7908761564180327782, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
-      propertyPath: _cupOverFlowLoop.Clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 0682e93ef5407e14ab8311bf710a564f, type: 3}
-    - target: {fileID: 7908761564180327782, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
-      propertyPath: _faucetStopSound.Clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 76deb085c0054a44fb849b58bb8383ea, type: 3}
-    - target: {fileID: 7908761564180327782, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
-      propertyPath: _cupUnderTapSound.Clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 0682e93ef5407e14ab8311bf710a564f, type: 3}
-    - target: {fileID: 7908761564180327782, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
-      propertyPath: _faucetStartSound.Clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 801a5b67813d3af4ebfd065c1c8d6993, type: 3}
-    - target: {fileID: 7908761564180327782, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
-      propertyPath: _waterRunningLoop.Clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 3b5caf2d81493a2418e305dbbbb24d1a, type: 3}
-    - target: {fileID: 7908761564180327782, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
-      propertyPath: _cupOverFlowLoop.Volume
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7908761564180327782, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
-      propertyPath: _cupUnderTapSound.Volume
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7908761564180327782, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
-      propertyPath: _cupOverFlowLoop.Mixergroup
-      value: 
-      objectReference: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    - target: {fileID: 7908761564180327782, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
-      propertyPath: _cupUnderTapSound.Mixergroup
-      value: 
-      objectReference: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    - target: {fileID: 7908761564180327782, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
-      propertyPath: _cupUnderTapSound.SpacialBlend
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8526126395584692079, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
 --- !u!4 &798598598396196463 stripped
 Transform:
@@ -1678,6 +1726,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Table_Desk
       objectReference: {fileID: 0}
+    - target: {fileID: 5783868554631953880, guid: 3df18977d26bab24093a6ed3b5c3c8b8, type: 3}
+      propertyPath: _touchSoundHolder
+      value: 
+      objectReference: {fileID: 11400000, guid: aa07b5b260557bd47a3cf816756116ef, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1772,10 +1824,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 998304445}
     m_Modifications:
     - target: {fileID: 6981055092257794428, guid: f873964427069be46b7645f73be09811, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.2277734
-      objectReference: {fileID: 0}
-    - target: {fileID: 6981055092257794428, guid: f873964427069be46b7645f73be09811, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.957
       objectReference: {fileID: 0}
@@ -1850,10 +1898,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 998304445}
     m_Modifications:
-    - target: {fileID: 1244208735149448786, guid: 6a04aadb307575544b018fdb19ae849e, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.0721927
-      objectReference: {fileID: 0}
     - target: {fileID: 1244208735149448786, guid: 6a04aadb307575544b018fdb19ae849e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.548
@@ -2028,6 +2072,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CoffeeCup
       objectReference: {fileID: 0}
+    - target: {fileID: 6253809543040060698, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
+      propertyPath: _pingSound.Mixergroup
+      value: 
+      objectReference: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2238,10 +2286,6 @@ PrefabInstance:
       propertyPath: _hitMarker
       value: 
       objectReference: {fileID: 663231769}
-    - target: {fileID: 9192435655589177954, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}
-      propertyPath: _touchSoundDistanceMultiplier
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
