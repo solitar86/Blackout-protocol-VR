@@ -79,6 +79,11 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     /// </summary>
     public float Velocity => _velocity;
 
+    /// <summary>
+    /// Reference to the hand which SHOULD BE holding this object if it's held.
+    /// </summary>
+    public PlayerHand HoldingHand => _holdingHand;
+
     #endregion
 
     #region Unity Callbacks
@@ -122,6 +127,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     {
         // We make the assumption that this object is
         // being held or it won't make a sound.
+        Debugger.Log("Collision", Debugger.TextColor.Orange);
         HandleCollisiondWithEnvironment(collision.gameObject);
     }
     private void Reset()
@@ -171,6 +177,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
                                                 true);
         }
 
+        Debugger.Log("Setting Holding HandTo Null", Debugger.TextColor.Orange);
         _holdingHand = null;
         _isHeld = false;
         HandleObjectPlacementAfterDrop();
@@ -190,14 +197,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
 
         _holdingHand.HandlePickUpOrDropObject(_pickUpAndDropHapticSettings, this);
 
-        if (_pickUpSounds != null && _pickUpSounds.SoundArray != null && _pickUpSounds.SoundArray.Length > 0)
-        {
-            _pickUpSounds.LastPlayedSound = AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
-                                                                                    _pickUpSounds.SoundArray,
-                                                                                    _holdingHand.transform.position,
-                                                                                    _pickUpSounds.LastPlayedSound,
-                                                                                    true);
-        }
+        PlayPickUpSound();
 
         EventManager.OnAnyObjectPickUpObjectPickedUp.Raise(this, -1);
     }
@@ -318,11 +318,18 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     {
         // Do something if necessary.
     }
-    public virtual void ForceRemoveObjectFromHandAndReturnToStartPosition()
+    public virtual void ForceRemoveObjectFromHandAndReturnToStartPosition(PlayerHand holdingHand)
     {
         transform.SetParent(null);
         parentTransformReference = null;
-        //_holdingHand.
+
+        if(holdingHand != null)
+        {
+            // I do not understand why sometimes holdingHand is null if you hit
+            // a coffee cup againts a wall but it isn't if you hit a table etc.
+            EventManager.OnForceRemovePickUpObject.Raise(this, holdingHand.IsRightHand);
+        }
+
         _holdingHand = null;
         _isHeld = false;
         ResetPositionAndRotationToStartPosAndRot();
@@ -338,15 +345,10 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     }
     void Iinteractable.Release()
     {
-        // This can be called after ForceRemove has been called
-        // and player releases grip on "empty" hand.
-        // Currently doesn't call major issues so DON'T FIX
-        Debugger.Log("Dropping " + gameObject.name, gameObject);
         Release();
     }
     void Iinteractable.PickUp(Transform parent, PlayerHand hand)
     {
-        Debugger.Log("Picking up " + gameObject.name, gameObject);
         PickUp(parent, hand);
     }
     void Iinteractable.Touch(PlayerHand hand)
@@ -355,7 +357,6 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     }
     void Iinteractable.EndTouch()
     {
-        //Debugger.Log("Stopped touching " + gameObject.name, gameObject);
         EndTouch();
     }
     void Iinteractable.Ping(float delay)
@@ -409,6 +410,20 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         impactWithModVolume.Volume = 0.3f;
         AudioPlayer.PlaySoundAtPointWithDelay(this, impactWithModVolume, point, delay, true);
         AudioPlayer.PlaySoundAtPointWithDelay(this, impactWithModVolume, point, delay + Random.Range(0.01f, 0.5f), true);
+    }
+    public virtual void PlayPickUpSound()
+    {
+        if (_pickUpSounds != null && _pickUpSounds.SoundArray != null && _pickUpSounds.SoundArray.Length > 0)
+        {
+            var position = transform.position;
+            if(_holdingHand != null) position = _holdingHand.transform.position;
+
+            _pickUpSounds.LastPlayedSound = AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
+                                                                                    _pickUpSounds.SoundArray,
+                                                                                    position,
+                                                                                    _pickUpSounds.LastPlayedSound,
+                                                                                    true);
+        }
     }
     private static float CalculateDropSoundDelay(float height)
     {

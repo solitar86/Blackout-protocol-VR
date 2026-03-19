@@ -6,6 +6,10 @@ using UnityEngine.XR.Interaction.Toolkit.Locomotion.Turning;
 using static Debugger;
 using static PlayerSettings.AudioPreferences;
 
+/// <summary>
+/// A class for keeping and handling player settings / preferences and keeping
+/// track of relevant static data such as immutable filepaths and string references.
+/// </summary>
 public class PlayerSettings
 {
     // Classes that hold data and string for saving them to PlayerPrefs.
@@ -32,6 +36,8 @@ public class PlayerSettings
     public static string FOOTSTEP_MIXERGROUP_STRING = "Footsteps";
     public static string FOLEY_MIXERGROUP_STRING = "Foley";
     public static string PLAYER_BODY_COLLISION_STRING = "BodyCollision";
+    public static string MUSIC_MIXERGROUP_STRING = "Music";
+    public static string MUSIC_VOLUME_STRING = "MusicVolume";
 
     public static string AUDIO_DEFAULTS_FILEPATH = "Settings/AudioDefaultSettings";
     public static string MOVEMENT_DEFAULTS_FILEPATH = "Settings/MovementDefaultSettings";

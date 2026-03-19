@@ -102,6 +102,11 @@ public class TTSPlayer : MonoBehaviour
 
         }
     }
+    /// <summary>
+    /// Play a single TTS file from the Resources-folder.
+    /// </summary>
+    /// <param name="path">Where in Resources is this file (without file-extention) Usually "TTS/Folder/Filename"</param>
+    /// <param name="preventInterrupt">Can this be interrupted by another TTS call</param>
     public static void PlayTTSWithFilePath(string path, bool preventInterrupt = false)
     {
         var clip = Resources.Load<AudioClip>(path);
@@ -110,7 +115,7 @@ public class TTSPlayer : MonoBehaviour
     /// <summary>
     /// An overload that can give the duration of the clip is an out float.
     /// </summary>
-    /// <param name="path">Where in Resources is this file</param>
+    /// <param name="path">Where in Resources is this file (without file-extention)</param>
     /// <param name="clipDuration">Out how long is the audio file</param>
     /// <param name="preventInterrupt">Can another TTS line interrupt this TTS line</param>
     public static void PlayTTSWithFilePath(string path, out float clipDuration , bool preventInterrupt = false)

@@ -77,7 +77,8 @@ public class CoffeeCup : PickUpObject
         if(Velocity > _breakOnImpactVelocityThreshold)
         {
             AudioPlayer.PlaySoundAtPoint(this, _glassBreakSound, transform.position, usePitchVariation: false);
-            ForceRemoveObjectFromHandAndReturnToStartPosition();
+            Debugger.Log("CoffeeCup Break", Debugger.TextColor.Orange);
+            ForceRemoveObjectFromHandAndReturnToStartPosition(HoldingHand);
         }
     }
 

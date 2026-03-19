@@ -95,6 +95,13 @@ public static class Debugger
         Debug.LogError(t);
     }
 
+    public static void LogError(string t, GameObject g)
+    {
+        if (isEnabled == false) return;
+
+        Debug.LogError(t,g);
+    }
+
     private static void LogError(string t, TextColor color)
     {
         if (isEnabled == false) return;

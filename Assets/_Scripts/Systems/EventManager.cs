@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 [DefaultExecutionOrder(-999)]
 public static class EventManager
@@ -24,7 +25,8 @@ public static class EventManager
     public static GameEvent<bool> OnGripReleased = new("Grip button released");
     public static GameEvent<int> OnPlayerStartMove = new("Player start move");
     public static GameEvent<bool> OnPlayerPushJoystick = new("Player push stick");
-    public static GameEvent<bool> OnPlayerSnapTurn = new("Plauer snap turn");
+    public static GameEvent<bool> OnPlayerSnapTurn = new("Player snap turn");
+    public static GameEvent<bool> OnStickPressed = new("Stick pressed");
 
     // UI Events
     public static GameEvent<int> OnRadialMenuOpen = new("Radial menu open");
@@ -48,6 +50,7 @@ public static class EventManager
     public static GameEvent<PickUpObject> OnAnyPickUpObjectHitFloor = new("Object dropped on ground");
     public static GameEvent<PickUpObject> OnAnyPickUpObjectPlacedOnSurface = new("Object placed on surface");
     public static GameEvent<StaticInteractable> OnAnyInteractableActivated = new("Interactable activated");
+    public static GameEvent<bool> OnForceRemovePickUpObject = new("Force remove object");
 
     // Conversation & Dialogue Events
     public static GameEvent<int> OnPlayerTryStartConversation = new("Player Try Start Conversation");

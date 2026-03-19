@@ -211,6 +211,8 @@ AudioMixerController:
   m_EnableSuspend: 1
   m_UpdateMode: 0
   m_ExposedParameters:
+  - guid: aa7e6eabf86815b44b8940d2e3bd4391
+    name: MusicVolume
   - guid: eac11b284446ace4bb591034193efb55
     name: TTSVolume
   - guid: 81005cd4365a5fa46bff9bfcfb728aa2

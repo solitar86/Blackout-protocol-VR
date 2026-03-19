@@ -111,4 +111,14 @@ public class PlayerHand : MonoBehaviour
         if (_sphereCollider == null) _sphereCollider = GetComponent<SphereCollider>();
         return _sphereCollider.radius;
     }
+    public float GetCurrentVelocity()
+    {
+        var controller = InputDevices.GetDeviceAtXRNode(GetHandXRNode());
+        if(controller.TryGetFeatureValue(CommonUsages.deviceVelocity, out var velocity))
+        {
+            Debugger.WorldSpaceText(velocity.magnitude.ToString("F2"), transform.position);
+            return velocity.magnitude;
+        }
+        return 0f;
+    }
 }

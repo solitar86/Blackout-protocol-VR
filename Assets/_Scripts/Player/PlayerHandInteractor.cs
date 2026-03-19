@@ -1,12 +1,13 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerHandInteractor : MonoBehaviour
 {
     private PlayerHand _thisHand;
     public PlayerHand Hand => _thisHand;
-    private Collider _collider;
+    private SphereCollider _collider;
     private List<Iinteractable> _interactablesInRange = new();
     private Iinteractable _heldInteractable;
     public GameEvent<bool> OnGrabFailed = new("Nothing to grab in range");
@@ -15,13 +16,14 @@ public class PlayerHandInteractor : MonoBehaviour
     private void Awake()
     {
         _thisHand = GetComponent<PlayerHand>();
-        _collider = GetComponent<Collider>();
+        _collider = GetComponent<SphereCollider>();
     }
     private void OnEnable()
     {
         EventManager.OnGripPressed.AddListener(this, HandleGripPressed);
         EventManager.OnGripReleased.AddListener(this, HandleGripReleased);
         EventManager.OnTriggerPressed.AddListener(this, HandleTriggerPressed);
+        EventManager.OnForceRemovePickUpObject.AddListener(this, HandleForceRemoveObject);
 //
     }
     private void OnDisable()
@@ -29,7 +31,9 @@ public class PlayerHandInteractor : MonoBehaviour
         EventManager.OnGripPressed.RemoveListener(this, HandleGripPressed);
         EventManager.OnGripReleased.RemoveListener(this, HandleGripReleased);
         EventManager.OnTriggerPressed.RemoveListener(this, HandleTriggerPressed);
+        EventManager.OnForceRemovePickUpObject.RemoveListener(this, HandleForceRemoveObject);
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent<Iinteractable>(out var interactable))
@@ -100,6 +104,7 @@ public class PlayerHandInteractor : MonoBehaviour
         if (isRightHand != _thisHand.IsRightHand) return;
         if (_interactablesInRange.Count <= 0)
         {
+            //CheckForLargeObjectsAndReactWithVO();
             OnGrabFailed.Raise(this, isRightHand);
             return;
         }
@@ -156,6 +161,22 @@ public class PlayerHandInteractor : MonoBehaviour
         PickUpObject(closest);
         Debugger.Log("Picked Up Item With Closest Distance, Rare case", Debugger.TextColor.Red);
     }
+
+    //private void CheckForLargeObjectsAndReactWithVO()
+    //{
+    //    var radius = _collider.radius;
+    //    var objects = Physics.OverlapSphere(transform.position, radius);
+
+    //    for (int i = 0; i < objects.Length; i++)
+    //    {
+    //        if(objects[i].TryGetComponent<TouchableSurface>( out var surface))
+    //        {
+    //            surface.HandlePlayerCantGrabThis(transform.position);
+    //            break;
+    //        }
+    //    }
+    //}
+
     private void HandleGripReleased(bool isRightHand)
     {
         if (isRightHand != _thisHand.IsRightHand) return;
@@ -169,6 +190,13 @@ public class PlayerHandInteractor : MonoBehaviour
     }
 
     #endregion
+
+    private void HandleForceRemoveObject(bool isRightHand)
+    {
+        if (isRightHand != _thisHand.IsRightHand) return;
+        _heldInteractable = null;
+        _interactablesInRange.Clear();
+    }
     private void DropThisObjectAndEmptyHand(Iinteractable interactableToDrop)
     {
         if (_interactablesInRange.Contains(interactableToDrop))

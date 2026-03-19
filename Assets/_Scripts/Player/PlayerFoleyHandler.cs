@@ -25,7 +25,8 @@ public class PlayerFoleyHandler : MonoBehaviour
         AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
                                             _foleySounds.SoundArray,
                                             _foleySoundPosition.position,
-                                            _foleySounds.LastPlayedSound, true);
+                                            _foleySounds.LastPlayedSound,
+                                            true);
     }
 
     private void OnDisable()

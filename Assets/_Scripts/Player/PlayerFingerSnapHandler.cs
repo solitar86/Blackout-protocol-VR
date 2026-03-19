@@ -27,7 +27,7 @@ public class PlayerFingerSnapHandler : MonoBehaviour
 
         if(_fingerSnapSounds != null && _fingerSnapSounds.SoundArray != null && _fingerSnapSounds.SoundArray.Length > 0)
         {
-            _fingerSnapSounds.LastPlayedSound = AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
+            AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
                                                             _fingerSnapSounds.SoundArray,
                                                             hand.transform.position,
                                                             _fingerSnapSounds.LastPlayedSound,

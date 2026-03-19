@@ -116,7 +116,11 @@ public class TouchableSurface : MonoBehaviour
     {
         OnTouchedWithObject.Raise(this, pickUpObject);
     }
-    
+    //public void HandlePlayerCantGrabThis(Vector3 position)
+    //{
+    //    EventManager.OnCantCarryObject.Raise(this, -1);
+    //}
+
     #region Helper functions and HandData Struct
     private void RemoveThisHandsDataFromList(PlayerHand playerHand)
     {

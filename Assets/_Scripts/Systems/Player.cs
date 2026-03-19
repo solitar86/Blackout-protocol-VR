@@ -1,3 +1,4 @@
+using System;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Turning;
@@ -15,21 +16,59 @@ public class Player : MonoBehaviour
     [SerializeField] private PlayerFingerSnapHandler _fingerSnapper;
     [SerializeField] private PlayerNorthBeaconHandler _northBeacon;
 
-
+    private Transform _startTransform = null;
 
     public bool PlayerCanMove => _moveProvider.enabled;
     public bool PlayerCanTurn => _turnProvider.enabled;
 
     #region Unity Callbacks
+
+    private void OnEnable()
+    {
+        EventManager.OnStickPressed.AddListener(this, RecenterPlayer);
+    }
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(Instance.gameObject);
+
+    }
+
+    private void OnDisable()
+    {
+        EventManager.OnStickPressed.RemoveListener(this, RecenterPlayer);
     }
     #endregion
 
     #region Getters, public functions, helpers.
-    
+
+    private void RecenterPlayer(bool isRightHand)
+    {
+        if (_xrOrigin == null) _xrOrigin = FindFirstObjectByType<XROrigin>();
+        if ((_startTransform == null))
+        {
+            var marker = FindFirstObjectByType<PlayerStartMarker>();
+            if(marker != null)
+            {
+                _startTransform = marker.transform;
+            }
+            else
+            {
+                TTSPlayer.PlayTTSWithFilePath("TTS/TTS_RecenterFailed");
+                return;
+            }
+        }
+
+        var worldPos = _startTransform.position;
+        var facingDirection = _startTransform.forward;
+        float cameraYHeight = _xrOrigin.Camera.transform.position.y;
+        worldPos.y = cameraYHeight;
+        _xrOrigin.MoveCameraToWorldLocation(worldPos);
+        _xrOrigin.MatchOriginUpCameraForward(Vector3.up, facingDirection);
+
+        TTSPlayer.PlayTTSWithFilePath("TTS/TTS_Recentered");
+    }
     public void DisableFingerSnapping()
     {
         if(_fingerSnapper == null) _fingerSnapper = FindFirstObjectByType<PlayerFingerSnapHandler>();
@@ -126,6 +165,11 @@ public class Player : MonoBehaviour
 
         return null;
     }
+    public Vector3 GetPlayerEarPosition(bool rightEar)
+    {
+        return _playerHead.position + _playerHead.right * (rightEar ? 0.2f : -0.2f);
+    }
+
     public bool IsRightHand(PlayerHand hand) => hand == _rightHand;
     #endregion
 }

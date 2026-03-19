@@ -15,7 +15,7 @@ public class PlayerInputHandler : MonoBehaviour
     private InputAction _rightMove;
     private InputAction _rightTurn;
     private InputAction _rightSkip;
-
+    private InputAction _rightStickPress;
     private InputAction _leftTrigger;
     private InputAction _leftSelect;
     private InputAction _leftPrimaryButton;
@@ -23,7 +23,7 @@ public class PlayerInputHandler : MonoBehaviour
     private InputAction _leftMove;
     private InputAction _leftTurn;
     private InputAction _leftSkip;
-
+    private InputAction _leftStickPress;
     private bool _isRightHand = true;
     private static bool _playerIsMoving = false;
 
@@ -35,7 +35,24 @@ public class PlayerInputHandler : MonoBehaviour
 
     public static bool PlayerIsMoving => _playerIsMoving;
 
-
+    #region Unity Callbacks
+    private void OnEnable()
+    {
+        if (_actionAsset != null)
+        {
+            _actionAsset.Enable();
+            PopulateActions();
+            SubscribeToEvents();
+        }
+    }
+    private void OnDisable()
+    {
+        if (_actionAsset != null)
+        {
+            UnsubscribeFromEvents();
+            _actionAsset.Disable();
+        }
+    }
     private void Update()
     {
         ////////////////////////////////
@@ -78,6 +95,11 @@ public class PlayerInputHandler : MonoBehaviour
             Debugger.Log("Right Secondary Button Released", Debugger.TextColor.LightBlue);
             EventManager.OnSecondaryButtonReleased.Raise(this, _isRightHand);
         }
+        if(_rightStickPress.WasPerformedThisFrame())
+        {
+            Debugger.Log("Right Stick was pressed", Debugger.TextColor.LightBlue);
+            EventManager.OnStickPressed.Raise(this, _isRightHand);
+        }
 
         ////////////////////////////////
         // LEFT HAND BUTTONS
@@ -119,6 +141,11 @@ public class PlayerInputHandler : MonoBehaviour
             Debugger.Log("Left Secondary Button Released", Debugger.TextColor.LightBlue);
             EventManager.OnSecondaryButtonReleased.Raise(this, !_isRightHand);
         }
+        if (_leftStickPress.WasPerformedThisFrame())
+        {
+            Debugger.Log("Left Stick was pressed", Debugger.TextColor.LightBlue);
+            EventManager.OnStickPressed.Raise(this, !_isRightHand);
+        }
 
 
         ////////////////////////////////
@@ -145,6 +172,8 @@ public class PlayerInputHandler : MonoBehaviour
         _playerIsMoving = _leftMoveVector != Vector2.zero ||
                                 _rightMoveVector != Vector2.zero;
     }
+
+    #endregion
     private void PopulateActions()
     {
         _rightTrigger = _actionAsset.FindActionMap("XRI Right Interaction").FindAction("Activate");
@@ -155,6 +184,7 @@ public class PlayerInputHandler : MonoBehaviour
         _rightTurn = _actionAsset.FindActionMap("XRI Right Locomotion").FindAction("Snap Turn");
 
         _rightSkip = _actionAsset.FindActionMap("XRI Right Interaction").FindAction("SkipTutorial");
+        _rightStickPress = _actionAsset.FindActionMap("XRI Right Interaction").FindAction("StickPressed");
 
         _leftTrigger = _actionAsset.FindActionMap("XRI Left Interaction").FindAction("Activate");
         _leftSelect = _actionAsset.FindActionMap("XRI Left Interaction").FindAction("Select");
@@ -164,6 +194,7 @@ public class PlayerInputHandler : MonoBehaviour
         _leftTurn = _actionAsset.FindActionMap("XRI Left Locomotion").FindAction("Snap Turn");
 
         _leftSkip = _actionAsset.FindActionMap("XRI Left Interaction").FindAction("SkipTutorial");
+        _leftStickPress = _actionAsset.FindActionMap("XRI Left Interaction").FindAction("StickPressed");
     }
     private void OnRightMove(InputAction.CallbackContext context)
     {
@@ -181,12 +212,10 @@ public class PlayerInputHandler : MonoBehaviour
             EventManager.OnPlayerStartMove.Raise(this, -1);
         }
     }
-
     private void OnRightTurn(InputAction.CallbackContext context)
     {
         EventManager.OnPlayerPushJoystick.Raise(this, true);
     }
-
     private void OnLeftTurn(InputAction.CallbackContext context)
     {
         EventManager.OnPlayerPushJoystick.Raise(this, false);
@@ -204,8 +233,6 @@ public class PlayerInputHandler : MonoBehaviour
         _rightTurn.performed += OnRightTurn;
         _leftTurn.performed += OnLeftTurn;
     }
-
-
     private void UnsubscribeFromEvents()
     {
         _leftMove.performed -= OnLeftMove;
@@ -218,21 +245,4 @@ public class PlayerInputHandler : MonoBehaviour
     }
 
 
-    private void OnEnable()
-    {
-        if (_actionAsset != null)
-        {
-            _actionAsset.Enable();
-            PopulateActions();
-            SubscribeToEvents();
-        }
-    }
-    private void OnDisable()
-    {
-        if (_actionAsset != null)
-        {
-            UnsubscribeFromEvents();
-            _actionAsset.Disable();
-        }
-    }
 }

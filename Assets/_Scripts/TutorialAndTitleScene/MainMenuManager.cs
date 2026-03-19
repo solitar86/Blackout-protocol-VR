@@ -26,13 +26,14 @@ public class MainMenuManager : MonoBehaviour
         EventManager.OnToggleRadialMenuOnOff.Raise(this, false);
         Player.Instance.DisableTurnAndMove();
         Player.Instance.DisableFingerSnapping();
+        Player.Instance.DisableNorthBeacon();
+        EventManager.OnPlayerWantSkip.AddListener(this, SkipTutorial);
 
         yield return new WaitForSeconds(5f);
         _title?.FadeIn();
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Welcome");
         yield return new WaitForSeconds(2f);
 
-        EventManager.OnPlayerWantSkip.AddListener(this, SkipTutorial);
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_ToSkipTutorial", out float clipDuration);
         yield return new WaitForSeconds(clipDuration + 3f);
 
@@ -62,12 +63,18 @@ public class MainMenuManager : MonoBehaviour
         // Make sure player movement is enabled
         Player.Instance.EnableTurnAndMove();
         Player.Instance.EnableFingerSnapping();
+        Player.Instance.EnableNorthBeacon();
     }
     private void StartTutorial()
     {
         StopAllCoroutines();
         EventManager.OnPlayerWantSkip.RemoveListener(this, SkipTutorial);
         GetComponent<TutorialHandler>().StartTutorial(InitMainMenuSetup);
+    }
+
+    public void RestartTutorial()
+    {
+        StartTutorial();
     }
 
     #region Helpers

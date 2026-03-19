@@ -1,5 +1,4 @@
 using System;
-using System.Drawing;
 using UnityEngine;
 using UnityEngine.Audio;
 using Random = UnityEngine.Random;
@@ -12,6 +11,7 @@ public class AudioPlayer : MonoBehaviour
     public static AudioPlayer Instance;
     public static AudioSource errorAudioSource;
     public AudioMixer MainMixer { get; private set; }
+    private AudioMixerGroup _musicMixerGroup = null;
 
     #region Unity Callbacks
     private void Awake()
@@ -24,9 +24,11 @@ public class AudioPlayer : MonoBehaviour
         _defaultMixerGroup = MainMixer.FindMatchingGroups("SFX")[0];
     }
     #endregion
+
+    #region Play Functions
     public static GameObject PlaySoundAtPoint(object sender, Sound soundToPlay, Vector3 point, bool usePitchVariation = false, bool spatialize = true)
     {
-        if(soundToPlay == null)
+        if (soundToPlay == null)
         {
             Debugger.Log(nameof(AudioPlayer) + " : " + sender + " sent null sound to play");
             return null;
@@ -46,12 +48,24 @@ public class AudioPlayer : MonoBehaviour
         return tempGameObject;
 
     }
-    /// <returns>Sound which was picked to play</returns>
+    /// <returns>Selected sound. Store as LastPlayedSound to avoid repetition</returns>
     public static Sound PlayRandomSoundFromArrayAtPoint(object sender, Sound[] soundsArray, Vector3 point, Sound previousSound = null, bool usePitchVariation = false, bool spatialize = true)
     {
         Sound randomSound = GetRandomSoundFromArray(soundsArray, previousSound);
         PlaySoundAtPoint(sender, randomSound, point, usePitchVariation, spatialize);
         return randomSound;
+    }
+    /// <summary>
+    /// This is handles LastPlayedSound by itself and returns the game object
+    /// In case you want to do something with the GO after the sound is selected
+    /// Currently this is mostly used for adding directionality to BodyCollisions
+    /// </summary>
+    /// <returns>The Gameobject holding the OneShot Audiosource.</returns>
+    public static GameObject PlayRandomSoundFromSoundHolderAtPoint(object sender, SoundArrayHolder holder, Vector3 point, bool usePitchVariation = false, bool spatialize = true)
+    {
+        Sound randomSound = GetRandomSoundFromArray(holder.SoundArray, holder.LastPlayedSound);
+        holder.LastPlayedSound = randomSound;
+        return PlaySoundAtPoint(sender, randomSound, point, usePitchVariation, spatialize);
     }
     public static void PlaySoundAtPointWithDelay(object sender, Sound soundToPlay, Vector3 point, float delay = 0f, bool usePitchVariation = false, bool spatialize = true)
     {
@@ -81,6 +95,16 @@ public class AudioPlayer : MonoBehaviour
 
         Destroy(mono.gameObject, delay + soundToPlay.Clip.length + 1f);
     }
+    public static void PlayClipAtPoint(object sender, AudioClip clipToPlay, Vector3 point, float volume = 1f, bool usePitchVariation = false, bool spatialize = false)
+    {
+        Sound soundToPlay = new Sound();
+        soundToPlay.Pitch = 1;
+        soundToPlay.Volume = volume;
+        soundToPlay.Clip = clipToPlay;
+        soundToPlay.SpacialBlend = spatialize ? 1 : 0;
+
+        PlaySoundAtPoint(sender, soundToPlay, point, usePitchVariation, spatialize);
+    }
     public static Sound GetRandomSoundFromArray(Sound[] soundArray, Sound previousSound = null)
     {
 
@@ -92,7 +116,7 @@ public class AudioPlayer : MonoBehaviour
             return sound;
         }
 
-        if(soundArray.Length == 1)
+        if (soundArray.Length == 1)
         {
             //Only one option. Return that
             return soundArray[0];
@@ -106,6 +130,8 @@ public class AudioPlayer : MonoBehaviour
 
         return randomClip;
     }
+
+    #endregion
     public static void PlayHandInsideColliderError(object sender)
     {
         // The Error Audiosource is never destroyd after creation. 
@@ -114,10 +140,10 @@ public class AudioPlayer : MonoBehaviour
             GameObject tempGameObject = CreateTempGameObjectWithAudioSource(sender, null, Vector3.zero, out errorAudioSource);
             tempGameObject.name = "Hand Inside Collider AudioSource";
             if (tempGameObject.TryGetComponent<MetaXRAudioSource>(out var metaXRAudioSource))
-                    Destroy(metaXRAudioSource); // This is added by default but we don't need it.
+                Destroy(metaXRAudioSource); // This is added by default but we don't need it.
 
             errorAudioSource.spatialize = false;
-            errorAudioSource.spatialBlend = 0; 
+            errorAudioSource.spatialBlend = 0;
             errorAudioSource.minDistance = 1f; // Do not hardcode these
             errorAudioSource.maxDistance = 3f; // Do not hardcode these
             errorAudioSource.volume = 1f;
@@ -150,6 +176,7 @@ public class AudioPlayer : MonoBehaviour
         return pitch += Random.Range(-variation, variation);
     }
 
+    #region Helpers etc.
     /// <summary>
     /// Get a looping audiosource to do something with.
     /// source will begin playing at creation by default.
@@ -165,7 +192,7 @@ public class AudioPlayer : MonoBehaviour
         audioSource.spatialBlend = soundToLoop.SpacialBlend; // TODO Make this also SPATIALIZED AUDIO
         audioSource.clip = soundToLoop.Clip;
 
-        if (soundToLoop.Mixergroup == null && Instance == null) 
+        if (soundToLoop.Mixergroup == null && Instance == null)
         {
             // We are being called as a static function
             var mixer = Resources.Load<AudioMixer>("MainMixer");
@@ -205,7 +232,7 @@ public class AudioPlayer : MonoBehaviour
         audioSource.volume = soundToPlay.Volume;
         audioSource.pitch = soundToPlay.Pitch;
 
-        if(audioSource.pitch == 0)
+        if (audioSource.pitch == 0)
         {
             Debugger.Log(soundToPlay + " has pitch of 0, reverting to 1");
             audioSource.pitch = 1;
@@ -235,16 +262,6 @@ public class AudioPlayer : MonoBehaviour
 
         return tempGameObject;
     }
-    public static void PlayClipAtPoint(object sender, AudioClip clipToPlay, Vector3 point, float volume = 1f, bool usePitchVariation = false, bool spatialize = false)
-    {
-        Sound soundToPlay = new Sound();
-        soundToPlay.Pitch = 1;
-        soundToPlay.Volume = volume;
-        soundToPlay.Clip = clipToPlay;
-        soundToPlay.SpacialBlend = spatialize ? 1 : 0;
-
-        PlaySoundAtPoint(sender, soundToPlay, point, usePitchVariation, spatialize);
-    }
 
     /// <summary>
     /// Get a mixergroup with subpath string "a.k.a." even part of a name
@@ -261,6 +278,26 @@ public class AudioPlayer : MonoBehaviour
         var mixer = Resources.Load<AudioMixer>("MainMixer");
         return mixer.FindMatchingGroups(subpath)[0];
     }
+
+    public static float GetDecibelsWithNormalizedFloat(float normalizedVolume)
+    {
+        float dbVolume = Mathf.Log10(normalizedVolume) * 20;
+        if (normalizedVolume == 0.0f)
+        {
+            dbVolume = -80.0f;
+        }
+        return dbVolume;
+    }
+
+    public static void SetMusicVolumeTo(float decibels)
+    {
+        if (Instance == null) return;
+        if (Instance._musicMixerGroup == null)
+            Instance._musicMixerGroup = GetMixerGroupWithSubPathString(PlayerSettings.MUSIC_MIXERGROUP_STRING);
+        Instance.MainMixer.SetFloat(PlayerSettings.MUSIC_VOLUME_STRING, decibels);
+    }
+
+    #endregion
 }
 
 /// <summary>

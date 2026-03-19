@@ -102,6 +102,7 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
         {
             // This object has a body collision  handler component.
             EventManager.OnPlayerBumpIDVOShouldPlay.Raise(this, holder.GetIdVoiceLine());
+
             if (holder.GetSoundArrayHolder() == null ||
                                         holder.GetSoundArrayHolder().SoundArray == null ||
                                         holder.GetSoundArrayHolder().SoundArray.Length == 0)
@@ -112,14 +113,7 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
             }
             else
             {
-                // Found sound holder and it has sounds to play for collision. Play and return.
-                AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
-                                                holder.GetSoundArrayHolder().SoundArray,
-                                                soundPosition,
-                                                holder.GetSoundArrayHolder().LastPlayedSound,
-                                                true,
-                                                true);
-                return;
+                PlayBodyCollisionFromHolder(soundPosition, holder.GetSoundArrayHolder());
             }
         }
     }
@@ -177,16 +171,23 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
         /// If no holder present, play default
         if (_defaultPlayerCollisionSoundHolder != null && _defaultPlayerCollisionSoundHolder.SoundArray != null && _defaultPlayerCollisionSoundHolder.SoundArray.Length > 0)
         {
-            EventManager.OnPlayerBumpIDVOShouldPlay.Raise(this, null);
+            EventManager.OnPlayerBumpIDVOShouldPlay.Raise(this, null); // This gets called twice now right?
             Debugger.Log("No body collision sounds assigned. Playing default body collision SFX for: " + holderObject.name);
-            AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
-                                                        _defaultPlayerCollisionSoundHolder.SoundArray,
-                                                        soundPosition,
-                                                        _defaultPlayerCollisionSoundHolder.LastPlayedSound,
-                                                        true,
-                                                        true);
+            PlayBodyCollisionFromHolder(soundPosition, _defaultPlayerCollisionSoundHolder);
+
         }
     }
+
+    private void PlayBodyCollisionFromHolder(Vector3 soundPosition, SoundArrayHolder soundHolder)
+    {
+        var soundGO = AudioPlayer.PlayRandomSoundFromSoundHolderAtPoint(this,
+                                    soundHolder,
+                                    soundPosition,
+                                    true,
+                                    true);
+        soundGO.AddComponent<BeaconLPFController>();
+    }
+
     private Vector3 CalculateSoundPlayPosition(Vector3 currentTouchingPoint)
     {
         var playerXZwithTouchZ = new Vector3(transform.position.x, currentTouchingPoint.y, transform.position.z);

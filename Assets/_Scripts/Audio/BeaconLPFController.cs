@@ -7,22 +7,25 @@ public class BeaconLPFController : MonoBehaviour
 
     private float _lpfMaxValue = 220000f;
     private AudioSource _source;
-
     private bool _hasFilter = false;
     private void Awake()
     {
         _source = GetComponent<AudioSource>();
         _hasFilter = InitLowPassFilter();
-
-        if (_hasFilter == true)
-        {
-            
-        }
+    }
+    private void Start()
+    {
+        if (_hasFilter == true)  UpdateLowPassFilterValues();
     }
     private void Update()
     {
         if (_source.isVirtual) return;
 
+        UpdateLowPassFilterValues();
+
+    }
+    private void UpdateLowPassFilterValues()
+    {
         Vector3 directionToPlayerHead =
             (Player.Instance.GetPlayerHeadTransform().position - transform.position);
         directionToPlayerHead.y = 0f;
@@ -36,8 +39,7 @@ public class BeaconLPFController : MonoBehaviour
                                         playerLookDirection);
 
         var lerpValue = Mathf.InverseLerp(1f, -1f, dotProduct);
-         _lowPassFilter.cutoffFrequency = Mathf.Lerp(_lowPassHighestValue, _lpfMaxValue, lerpValue);
-        
+        _lowPassFilter.cutoffFrequency = Mathf.Lerp(_lowPassHighestValue, _lpfMaxValue, lerpValue);
     }
     private bool InitLowPassFilter()
     {

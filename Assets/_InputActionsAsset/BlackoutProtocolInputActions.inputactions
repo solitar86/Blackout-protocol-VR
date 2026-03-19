@@ -1003,6 +1003,15 @@
                     "processors": "",
                     "interactions": "Hold(duration=2)",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "StickPressed",
+                    "type": "Button",
+                    "id": "d32718d8-f925-453d-8c45-6a63f8a04ed9",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1014,6 +1023,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f3da5bf1-c15e-47a8-8591-7db9da99bee8",
+                    "path": "<XRController>{LeftHand}/{Primary2DAxisClick}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StickPressed",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -2156,6 +2176,15 @@
                     "processors": "",
                     "interactions": "Hold(duration=2)",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "StickPressed",
+                    "type": "Button",
+                    "id": "669f8bdc-8984-4152-bd4b-eadee410891e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -2497,6 +2526,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "SkipTutorial",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2830afb6-b3b7-4dfa-90a9-a65ea62b0310",
+                    "path": "<XRController>{RightHand}/{Primary2DAxisClick}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StickPressed",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

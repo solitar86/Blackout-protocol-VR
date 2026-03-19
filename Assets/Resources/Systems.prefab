@@ -346,6 +346,15 @@ MonoBehaviour:
     OverrideDefaultDistances: 0
     MinDistance: 0.5
     MaxDistance: 2
+  _backButtonSound:
+    Clip: {fileID: 0}
+    Mixergroup: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
 --- !u!114 &5510488175708949055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1069,6 +1078,7 @@ GameObject:
   - component: {fileID: 3078431766101784336}
   - component: {fileID: 4824801576813153457}
   - component: {fileID: 5597528106721667701}
+  - component: {fileID: 2443320679444377638}
   m_Layer: 0
   m_Name: RadialMenuAnchor
   m_TagString: Untagged
@@ -1149,6 +1159,18 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2443320679444377638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8631086768674142295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19f3d512841e4e49838f7ab17e4f326, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &8984574580907404108
 GameObject:
   m_ObjectHideFlags: 0

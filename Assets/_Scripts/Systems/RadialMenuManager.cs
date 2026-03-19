@@ -200,7 +200,9 @@ public class RadialMenuManager : MonoBehaviour
         _currentMenuItems.Clear();
         _currentMenu = null;
         _previousMenus.Clear();
-        _menuAnchor?.gameObject.SetActive(false); //BUG NOTE: This caused a null reference for some reason??
+
+        if (_menuAnchor == null) _menuAnchor = FindFirstObjectByType<RadialMenuMarker>().transform;
+        _menuAnchor.gameObject.SetActive(false); //BUG NOTE: This caused a null reference for some reason??
         _playerMenuHand = null;
 
         if (wasSceneLoad == false)
@@ -614,6 +616,7 @@ public static class RadialMenuHolder
     );
     #endregion
 
+
     #region Tutorial Specific MainMenu
 
     /////////////////////////
@@ -626,6 +629,14 @@ public static class RadialMenuHolder
     "Mainmenu", MENUTTSFILEFOLDERPATH + "TTS_Menu_MainMenu",
         new RadialMenuItem[]
         {
+          new RadialMenuItem(
+                "Replay Tutorial",
+                () =>
+                {
+                    GameObject.FindFirstObjectByType<MainMenuManager>().RestartTutorial();
+                },
+                MENUTTSFILEFOLDERPATH + "TTS_Menu_Options"
+            ),
             new RadialMenuItem(
                 "Options Menu",
                 () => { RadialMenuManager.Instance.SetAsCurrentRadialMenu(OptionsMenu); },

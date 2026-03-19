@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class TutorialHandler : MonoBehaviour
@@ -8,7 +9,6 @@ public class TutorialHandler : MonoBehaviour
     [SerializeField] private Sound _VOIntroDialogue;
     [SerializeField] private Sound _errorSound;
 
-    private bool _skipTutorial = false;
     private bool _hasDroppedWalkieTalkie = false;
     private bool _hasActivatedFaucet = false;
     private const string TTSTUTORIALPATH = "TTS/Tutorial/";
@@ -27,7 +27,6 @@ public class TutorialHandler : MonoBehaviour
     }
     public void StopTutorial()
     {
-        _skipTutorial = true;
         _interactionTutorialItems.SetActive(true);
         TTSPlayer.ForceStopAllTTS();
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_SkippingTutorial");
@@ -42,6 +41,8 @@ public class TutorialHandler : MonoBehaviour
         yield return StartCoroutine(CharacterVoiceIntroduction());
 
         yield return StartCoroutine(MovementTutorial());
+
+        yield return StartCoroutine(HandInsideColliderTutorial());
 
         yield return StartCoroutine(NorthBeaconTutorial());
 
@@ -103,9 +104,7 @@ public class TutorialHandler : MonoBehaviour
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Movement_part1", out clipDuration, true);
         yield return new WaitForSeconds(clipDuration + 0.1f);
 
-
         Player.Instance.EnableTurnAndMove();
-        Player.Instance.EnableFingerSnapping(); // This needs to be tutorialized.
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Movement_part2", out clipDuration, true);
         yield return new WaitForSeconds(clipDuration + 0.1f);
 
@@ -113,6 +112,11 @@ public class TutorialHandler : MonoBehaviour
         bool playerWantProgress = false;
         Action<int> playerWantProgressDelegate = (_) => playerWantProgress = true;
         EventManager.OnPlayerWantSkip.AddListener(this, playerWantProgressDelegate);
+
+        // Allow user to try to move before telling about Recenter-input.
+        yield return new WaitForSeconds(3f);
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Movement_part3", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 0.1f);
 
         // Player wants to progress tutorial.
         yield return new WaitUntil(() => playerWantProgress == true);
@@ -122,9 +126,20 @@ public class TutorialHandler : MonoBehaviour
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Continue", out clipDuration, true);
         yield return new WaitForSeconds(clipDuration + 1f);
     }
+    private IEnumerator HandInsideColliderTutorial()
+    {
+        float clipDuration = 0f;
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_ErrorSound_part1", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration);
+        AudioPlayer.PlaySoundAtPoint(this, _errorSound, Vector3.zero, false, false);
+        yield return new WaitForSeconds(0.5f);
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_ErrorSound_part2", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration);
+    }
     private IEnumerator NorthBeaconTutorial()
     {
         float clipDuration = 0f;
+        Player.Instance.EnableNorthBeacon();
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_NorthBeacon", out clipDuration, true);
         yield return new WaitForSeconds(clipDuration + 0.1f);
 
@@ -144,6 +159,7 @@ public class TutorialHandler : MonoBehaviour
     private IEnumerator FingerSnapTutorial()
     {
         float clipDuration = 0f;
+        Player.Instance.EnableFingerSnapping();
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_FingerSnap", out clipDuration, true);
         yield return new WaitForSeconds(clipDuration + 0.1f);
 
@@ -180,14 +196,6 @@ public class TutorialHandler : MonoBehaviour
         FindFirstObjectByType<WaterFaucet>().Deactivate();
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Welldone", out clipDuration,true);
         yield return new WaitForSeconds(clipDuration + 0.1f);
-
-        // Introduce hand inside collider sound.
-        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_ErrorSound_part1", out clipDuration, true);
-        yield return new WaitForSeconds(clipDuration);
-        AudioPlayer.PlaySoundAtPoint(this, _errorSound, Vector3.zero, false, false);
-        yield return new WaitForSeconds(0.5f);
-        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_ErrorSound_part2", out clipDuration, true);
-        yield return new WaitForSeconds(clipDuration);
 
         // Continue with tutorial
         yield return new WaitForSeconds(1.5f); // A short delay.
