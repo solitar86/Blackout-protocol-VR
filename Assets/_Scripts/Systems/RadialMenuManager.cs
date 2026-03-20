@@ -61,19 +61,6 @@ public class RadialMenuManager : MonoBehaviour
         if (_menuIsVisible == false) return;
 
         HandleRadialMenuItemSelection();
-
-        //This is debugging code
-        /* 
-        for (int i = 0; i < _currentMenu.Count; i++)
-        {
-            Vector3 direction = _testObject.up;
-            float rotationAmount = (360f / _currentMenu.Count) * i;
-            Vector3 rotationAxis = _testObject.forward;
-            Quaternion rotation = Quaternion.AngleAxis(rotationAmount, rotationAxis);
-            Vector3 rotatedVector = rotation * direction;
-            Debug.DrawLine(_testObject.position, _testObject.position + rotatedVector * 0.5f, Color.red, 1f);
-        }
-        */
     }
     private void OnDrawGizmos()
     {

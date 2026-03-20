@@ -1,38 +1,41 @@
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class SafeDial : StaticInteractable
 {
     private Quaternion _playerHandStarRotation = Quaternion.identity;
-
-    [SerializeField] private float _degreesPerNumber = 180f / 12f;
+    private int lastNumber = 0;
 
     private float lastDifference = 0;
     public void Update()
     {
-        if(IsActivated && TouchingHand != null)
+        if (IsActivated && TouchingHand != null)
         {
-            var difference = Quaternion.Angle(_playerHandStarRotation, TouchingHand.transform.rotation);
+            var angleDifference = Quaternion.Angle(_playerHandStarRotation, TouchingHand.transform.rotation);
+            var normalized = angleDifference / 180f;
+            int dialNumber = Mathf.FloorToInt(normalized * 11f);
 
-            if(difference > _degreesPerNumber)
+            if (dialNumber != lastNumber)
             {
-                lastDifference = difference;
+                lastNumber = dialNumber;
+                TTSPlayer.PlayNumber(dialNumber);
             }
+
+            Debugger.Log($"Number: {dialNumber} /" + " Difference: " + angleDifference.ToString("F2"));
         }
         else if (TouchingHand == null && IsActivated == true)
         {
             Activate();
         }
-
-        
     }
 
     public override void Activate()
     {
-        if(IsActivated == false)
+        if (IsActivated == false)
         {
-            if(TouchingHand != null)
+            if (TouchingHand != null)
             {
-                 _playerHandStarRotation = TouchingHand.transform.rotation;
+                _playerHandStarRotation = TouchingHand.transform.rotation;
             }
         }
 
