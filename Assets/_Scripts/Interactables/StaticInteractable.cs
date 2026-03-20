@@ -15,9 +15,9 @@ public abstract class StaticInteractable : MonoBehaviour, Iinteractable
     [SerializeField] private SoundArrayHolder _activateSoundHolder;
     [Space(5), Header("Touch and interact sound holders")]
     [SerializeField] private VibrationSettingsSO _touchHapticSettings;
-    //[SerializeField] private int _repeatPickUpHapticNumTimes = 3;
 
     private PlayerHand _touchingHand;
+    protected PlayerHand TouchingHand => _touchingHand;
     private Collider _collider;
     private float _nextTimeAllowTouchVO;
     private bool _isActivated = false;
@@ -36,11 +36,15 @@ public abstract class StaticInteractable : MonoBehaviour, Iinteractable
     public virtual void Touch(PlayerHand hand)
     {
         _touchingHand = hand;
-        AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
-                                                    _touchStartHolder.SoundArray,
-                                                    transform.position,
-                                                    _touchStartHolder.LastPlayedSound,
-                                                    true);
+
+        if(_touchStartHolder != null && _touchStartHolder.SoundArray != null && _touchStartHolder.SoundArray.Length != 0)
+        {
+            AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
+                                                        _touchStartHolder.SoundArray,
+                                                        transform.position,
+                                                        _touchStartHolder.LastPlayedSound,
+                                                        true);
+        }
 
         _touchingHand.HandleTouchBegin(_touchHapticSettings, _touchingHand.transform.position);
 
@@ -62,24 +66,31 @@ public abstract class StaticInteractable : MonoBehaviour, Iinteractable
     }
     public virtual void Activate()
     {
-        AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
+        if (_activateSoundHolder != null && _activateSoundHolder.SoundArray != null && _activateSoundHolder.SoundArray.Length != 0)
+        {
+            AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
                                      _activateSoundHolder.SoundArray,
                                      transform.position,
                                      _activateSoundHolder.LastPlayedSound,
                                      true);
+        }
         _isActivated = !_isActivated;
         EventManager.OnAnyInteractableActivated.Raise(this, this);
     }
     public virtual void EndTouch()
     {
         if (_touchingHand == null) return; // This guards against double calls if 
-                                            // the object has multiple trigger
-                                            // colliders so we get 2x Enter & Exit calls
-        AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
-                                            _touchEndHolder.SoundArray,
-                                            _touchingHand.transform.position,
-                                            _touchEndHolder.LastPlayedSound,
-                                            true);
+                                           // the object has multiple trigger
+                                           // colliders so we get 2x Enter & Exit calls
+
+        if (_touchEndHolder != null && _touchEndHolder.SoundArray != null && _touchEndHolder.SoundArray.Length != 0)
+        {
+                AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
+                                                _touchEndHolder.SoundArray,
+                                                _touchingHand.transform.position,
+                                                _touchEndHolder.LastPlayedSound,
+                                                true);
+        }
         _touchingHand.HandleTouchEnd(_touchHapticSettings);
         _touchingHand = null;
     }
@@ -92,7 +103,6 @@ public abstract class StaticInteractable : MonoBehaviour, Iinteractable
         _collider = GetComponent<Collider>();
         _collider.isTrigger = true;
     }
-
     private void OnCollisionStay(Collision collision)
     {
         TouchStay(_touchingHand);

@@ -15,7 +15,7 @@ MonoBehaviour:
   FirstTouchSound:
     Clip: {fileID: 8300000, guid: f7f9d9b67577c6b45a275d675443f4cb, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0.3
+    Volume: 0.6
     Pitch: 1
     SpacialBlend: 1
     OverrideDefaultDistances: 0
@@ -24,7 +24,7 @@ MonoBehaviour:
   SlideTouchSound:
     Clip: {fileID: 8300000, guid: 4a30f89e2acbb4dbba611e11c7fccbf4, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0.15
+    Volume: 0.3
     Pitch: 1
     SpacialBlend: 1
     OverrideDefaultDistances: 0
@@ -33,7 +33,7 @@ MonoBehaviour:
   EndTouchSound:
     Clip: {fileID: 8300000, guid: 68c6787b506aae64793381e1928eea19, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0.1
+    Volume: 0.3
     Pitch: 1
     SpacialBlend: 1
     OverrideDefaultDistances: 0
