@@ -34,6 +34,10 @@ public static class EventManager
     public static GameEvent<float> OnMenuItemSelect = new("UI Button select changed");
     public static GameEvent<int> OnMenuItemActivate = new("UI Button activated");
     public static GameEvent<int> OnPreviousMenuOpened = new("Previous Menu opened");
+    /// <summary>
+    /// Int -1 = Blocked by Scene number /
+    /// Int 0 = Blocked by being disabled
+    /// </summary>
     public static GameEvent<int> OnMenuBlocked = new("Menu blocked");
 
     // Player Interaction and Reaction Events
@@ -74,6 +78,10 @@ public static class EventManager
     public static GameEvent<int> OnMovementSettingsChange = new("Movement Settings Changed");
 
     //Tutorial specific events or other extremely special case events
+    /// <summary>
+    /// True = Menu On / 
+    /// False = Menu Off
+    /// </summary>
     public static GameEvent<bool> OnToggleRadialMenuOnOff = new("Radial menu system toggled");
 
     public static void DisableEventLogs()

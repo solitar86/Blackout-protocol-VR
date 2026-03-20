@@ -13,6 +13,8 @@ public class PlayerHand : MonoBehaviour
     public bool IsHoldingObject => _pickUpObject != null;
     public bool IsRightHand => _isRightHand;
 
+    private float nextTimeAllowHandInsideInteractorHapticToPlay = 0f;
+
     #region UnityCallbacks
     private void Awake()
     {
@@ -21,6 +23,8 @@ public class PlayerHand : MonoBehaviour
         _isRightHand = GetHandXRNode() == XRNode.RightHand ? true : false;
     }
     #endregion
+
+    #region Touch And Interactions Functionality
     public void HandleTouchBegin(VibrationSettingsSO hapticSettings, Vector3 touchRipplePos)
     {
         PlayHapticFeedback(hapticSettings);
@@ -34,11 +38,25 @@ public class PlayerHand : MonoBehaviour
     {
         PlayHapticFeedback(hapticSettings);
     }
+    public void HandleHandInsideInteractable(VibrationSettingsSO hapticSettings)
+    {
+        if(nextTimeAllowHandInsideInteractorHapticToPlay < Time.time)
+        {
+            PlayHapticFeedback(hapticSettings);
+            nextTimeAllowHandInsideInteractorHapticToPlay = 
+                    Time.time + ((hapticSettings.TimeInterval + hapticSettings.Duration)
+                    * hapticSettings.RepeatTimes);
+        }
+    }
     public void HandlePickUpOrDropObject(VibrationSettingsSO hapticSettings, PickUpObject @object)
     {
         _pickUpObject = @object;
         PlayHapticFeedback(hapticSettings);
     }
+
+    #endregion
+
+    #region Haptic feedback functions
     /// <summary>
     /// This overload plays a default haptic feedback set in 
     /// Vibration Player without picking up anything.
@@ -89,10 +107,14 @@ public class PlayerHand : MonoBehaviour
     {
         _hapticPlayer?.PlayDefaultHaptic();
     }
+
+    #endregion
     private void SpawnTouchVisual(Vector3 position)
     {
         _touchRippleSpawner?.SpawnTouchVisual(position);
     }
+
+    #region Helpers, organization etc.
     public XRNode GetHandXRNode() => _hapticPlayer.GetXRNode();
     private void OnDrawGizmosSelected()
     {
@@ -119,6 +141,9 @@ public class PlayerHand : MonoBehaviour
             Debugger.WorldSpaceText(velocity.magnitude.ToString("F2"), transform.position);
             return velocity.magnitude;
         }
+        Debugger.LogWarning("Could not get hand velocity. Returning 0");
         return 0f;
     }
+
+    #endregion
 }

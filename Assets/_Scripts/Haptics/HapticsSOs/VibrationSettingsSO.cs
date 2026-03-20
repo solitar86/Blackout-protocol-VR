@@ -32,5 +32,7 @@ public class VibrationSettingsSO : ScriptableObject
         {
             DistanceInterval = 0;
         }
+
+        if (RepeatTimes == 0) RepeatTimes = 1;
     }
 }

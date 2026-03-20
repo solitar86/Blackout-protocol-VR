@@ -60,14 +60,19 @@ public class UIAudioHandler : MonoBehaviour
     {
         float delay = 0.1f;
 
-        for (int i = 0; i < 2; i++)
+        if(value == 0)
         {
-            this.CallWithDelay(() =>
+            // Menu is blocked by being disabled.
+            for (int i = 0; i < 2; i++)
             {
-                AudioPlayer.PlaySoundAtPoint(this, _backButtonSound, Vector3.zero, false, false);
+                this.CallWithDelay(() =>
+                {
+                    AudioPlayer.PlaySoundAtPoint(this, _backButtonSound, Vector3.zero, false, false);
 
-            },delay *= 2); 
+                },delay *= 2); 
+            }
         }
+
     }
 
 

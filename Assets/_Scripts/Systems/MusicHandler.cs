@@ -7,8 +7,10 @@ public class MusicHandler : MonoBehaviour
     [SerializeField] private float _fadeUpDur = 1f;
     [SerializeField] private float _crossfadeDur = 3f;
     [SerializeField] private AudioClip _titleMusic;
+    [SerializeField] private float _musicLowVolumeInDecibels = -20f;
 
     private AudioSource _musicSource;
+    [Tooltip("This is read from the Main Mixer Music mixergroup setting on startup.")]
     private float _musicDefaultVolumeInDecibels = 0f;
 
     #region Unity Callbacks
@@ -35,14 +37,11 @@ public class MusicHandler : MonoBehaviour
     private void PlayMusicTrack(AudioClip trackToPlay)
     {
         InitMusicSource();
-
-        Debugger.Log("Playing track: " + trackToPlay.name, Debugger.TextColor.LightGreen);
-        if (_musicSource.isPlaying)
+        if (_musicSource.isPlaying && _musicSource.clip != trackToPlay)
         {
             // Handle crossfade between track that is currently playing.
             // MAYBE MOVE THIS TO IT'S OWN COROUTINE
         }
-
         StartCoroutine(FadeUpMusicPlayer(trackToPlay));
     }
 
@@ -66,32 +65,30 @@ public class MusicHandler : MonoBehaviour
             yield return null;
         }
 
-        AudioPlayer.SetMusicVolumeTo(lerpedDecibelVolume);
+        AudioPlayer.SetMusicVolumeTo(targetVolume);
     }
-    private IEnumerator FadeDownMusic()
+    private IEnumerator FadeMusicToVolume(float decibels)
     {
-
         float timer = 0f;
         AudioPlayer.Instance.MainMixer.GetFloat(PlayerSettings.MUSIC_VOLUME_STRING, out float startVolume);
-        float targetVolume = AudioPlayer.GetDecibelsWithNormalizedFloat(0f);
-        float lerpvalue = 0f;
-
+        float targetVolume = decibels;
+        float lerpedVolumeInDecibels = 0f;
         while (timer < _fadeUpDur)
         {
             timer += Time.deltaTime;
-            lerpvalue = Mathf.Lerp(startVolume, targetVolume, timer / _fadeUpDur);
-            AudioPlayer.SetMusicVolumeTo(AudioPlayer.GetDecibelsWithNormalizedFloat(lerpvalue));
+            lerpedVolumeInDecibels = Mathf.Lerp(startVolume, targetVolume, timer / _fadeUpDur);
+            AudioPlayer.SetMusicVolumeTo(lerpedVolumeInDecibels);
             yield return null;
         }
 
-        _musicSource.volume = targetVolume;
+        AudioPlayer.SetMusicVolumeTo(targetVolume);
     }
     private void HandleSceneLoadEvent(Scene arg0, LoadSceneMode arg1)
     {
         if (arg0.buildIndex != 0)
         {
             StopAllCoroutines();
-            StartCoroutine(FadeDownMusic());
+            StartCoroutine(FadeMusicToVolume(_musicLowVolumeInDecibels));
         }
     }
     

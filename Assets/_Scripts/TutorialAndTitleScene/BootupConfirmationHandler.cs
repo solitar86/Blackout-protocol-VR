@@ -35,6 +35,7 @@ public class BootupConfirmationHandler : MonoBehaviour
         Player.Instance.DisableFingerSnapping();
         Player.Instance.DisableTurnAndMove();
         Player.Instance.DisableNorthBeacon();
+        Player.Instance.DisableRadialMenu();
 
         SubscribeToEvents();
     }
@@ -87,7 +88,6 @@ public class BootupConfirmationHandler : MonoBehaviour
         }, 2f);
 
     }
-
     private void StickTTS(bool isRightHand)
     {
         string handednessString = isRightHand ? rightHandTTSFileString : leftHandTTSFileString;

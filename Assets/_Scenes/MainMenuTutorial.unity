@@ -1001,6 +1001,7 @@ MonoBehaviour:
     OverrideDefaultDistances: 0
     MinDistance: 0.5
     MaxDistance: 2
+  _insectPrefab: {fileID: 6830543051974111510, guid: 860a6335e669b6d4c912b0f8c3450bac, type: 3}
 --- !u!1001 &2106701253
 PrefabInstance:
   m_ObjectHideFlags: 0

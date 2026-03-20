@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using TMPro;
+using Unity.Tutorials.Core.Editor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
@@ -271,7 +272,7 @@ public class RadialMenuManager : MonoBehaviour
         if (_menuSystemDisabled == true)
         {
             Debugger.Log("Radial menu blocked by being disabled");
-            EventManager.OnMenuBlocked.Raise(this, -1);
+            EventManager.OnMenuBlocked.Raise(this, 0);
             return true;
         }
 
@@ -635,7 +636,7 @@ public static class RadialMenuHolder
                 {
                     GameObject.FindFirstObjectByType<MainMenuManager>().RestartTutorial();
                 },
-                MENUTTSFILEFOLDERPATH + "TTS_Menu_Options"
+                "TTS/Tutorial/TTS_RestartTutorial"
             ),
             new RadialMenuItem(
                 "Options Menu",

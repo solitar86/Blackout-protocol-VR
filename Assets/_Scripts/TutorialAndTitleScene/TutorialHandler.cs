@@ -8,6 +8,7 @@ public class TutorialHandler : MonoBehaviour
     [SerializeField] private GameObject _interactionTutorialItems;
     [SerializeField] private Sound _VOIntroDialogue;
     [SerializeField] private Sound _errorSound;
+    [SerializeField] private Transform _insectPrefab;
 
     private bool _hasDroppedWalkieTalkie = false;
     private bool _hasActivatedFaucet = false;
@@ -23,18 +24,19 @@ public class TutorialHandler : MonoBehaviour
     {
         _onTutorialCompleteAction = onTutorialCompleteAction;
         StopAllCoroutines();
-        StartCoroutine(TutorialCoroutine());
+        StartCoroutine(TutorialMasterCoroutine());
     }
-    public void StopTutorial()
+    private IEnumerator TutorialMasterCoroutine()
     {
-        _interactionTutorialItems.SetActive(true);
-        TTSPlayer.ForceStopAllTTS();
-        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_SkippingTutorial");
-        StopAllCoroutines();
-    }
-    private IEnumerator TutorialCoroutine()
-    {
+        Player.Instance.RecenterPlayerToStartPositionWithNoTTS();
+        Player.Instance.DisableTurnAndMove();
+        Player.Instance.EnableFingerSnapping();
+        Player.Instance.DisableNorthBeacon();
+        EventManager.OnToggleRadialMenuOnOff.Raise(this, false);
+
         yield return StartCoroutine(TTSIntroduction());
+        
+        yield return StartCoroutine(BasicsOfVRTutorial());
 
         yield return StartCoroutine(RadialMenuTutorial());
 
@@ -62,6 +64,52 @@ public class TutorialHandler : MonoBehaviour
         // Introduce TTS voice,
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_TTSIntroduction", out clipDuration, true);
         yield return new WaitForSeconds(clipDuration + 1f);
+    }
+    private IEnumerator BasicsOfVRTutorial()
+    {
+        float clipDuration = 0f;
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_VRBasics_part1", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 0.1f);
+
+        // Spawn insect and wait till player kills it.
+        var insect = Instantiate(_insectPrefab, Player.Instance.GetPlayerEarPosition(true), Quaternion.identity);
+        insect.SetParent(Player.Instance.GetPlayerHeadTransform());
+        yield return new WaitUntil(()=> insect == null);
+        yield return new WaitForSeconds(1f);
+
+        // Say well done
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Welldone", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 0.1f);
+
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_VRBasics_part2", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 0.1f);
+
+        // Spawn insect and wait till player kills it.
+        insect = Instantiate(_insectPrefab, Player.Instance.GetPlayerEarPosition(false), Quaternion.identity);
+        insect.SetParent(Player.Instance.GetPlayerHeadTransform());
+        yield return new WaitUntil(() => insect == null);
+        yield return new WaitForSeconds(1f);
+
+        // Say well done
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Welldone", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 0.1f);
+
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_VRBasics_part3", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 0.1f);
+
+        // Spawn insect and wait till player kills it.
+        insect = Instantiate(_insectPrefab, Player.Instance.GetPosInFrontOfPlayerFace(), Quaternion.identity);
+        insect.SetParent(Player.Instance.GetPlayerHeadTransform());
+        yield return new WaitUntil(() => insect == null);
+        yield return new WaitForSeconds(1f);
+
+        // Say well done and continue tutorial
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Welldone", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 0.1f);
+        yield return new WaitForSeconds(0.5f);
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Continue", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 1f);
+
     }
     private IEnumerator RadialMenuTutorial()
     {
@@ -205,6 +253,13 @@ public class TutorialHandler : MonoBehaviour
     private void HandleTutorialEnd()
     {
         _onTutorialCompleteAction?.Invoke();
+    }
+    public void SkipTutorial()
+    {
+        _interactionTutorialItems.SetActive(true);
+        TTSPlayer.ForceStopAllTTS();
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_SkippingTutorial");
+        StopAllCoroutines();
     }
     #region Helpers
     public void SetHasDroppedWalkieTalkie(bool value)

@@ -11,6 +11,7 @@ public class PlayerHandInteractor : MonoBehaviour
     private List<Iinteractable> _interactablesInRange = new();
     private Iinteractable _heldInteractable;
     public GameEvent<bool> OnGrabFailed = new("Nothing to grab in range");
+    private VibrationSettingsSO _touchindInteractableVibrationSettings;
 
     #region Unity Callbacks -> Trigger Callbacks
     private void Awake()
@@ -33,7 +34,6 @@ public class PlayerHandInteractor : MonoBehaviour
         EventManager.OnTriggerPressed.RemoveListener(this, HandleTriggerPressed);
         EventManager.OnForceRemovePickUpObject.RemoveListener(this, HandleForceRemoveObject);
     }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent<Iinteractable>(out var interactable))
@@ -44,6 +44,16 @@ public class PlayerHandInteractor : MonoBehaviour
             }
             _interactablesInRange.Add(interactable);
             interactable.Touch(_thisHand);
+        }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.TryGetComponent<Iinteractable>(out var interactable))
+        {
+            if(_interactablesInRange.Contains(interactable) == true)
+            {
+                HandleTriggerStayInteractable();
+            }
         }
     }
     private void OnTriggerExit(Collider other)
@@ -161,22 +171,6 @@ public class PlayerHandInteractor : MonoBehaviour
         PickUpObject(closest);
         Debugger.Log("Picked Up Item With Closest Distance, Rare case", Debugger.TextColor.Red);
     }
-
-    //private void CheckForLargeObjectsAndReactWithVO()
-    //{
-    //    var radius = _collider.radius;
-    //    var objects = Physics.OverlapSphere(transform.position, radius);
-
-    //    for (int i = 0; i < objects.Length; i++)
-    //    {
-    //        if(objects[i].TryGetComponent<TouchableSurface>( out var surface))
-    //        {
-    //            surface.HandlePlayerCantGrabThis(transform.position);
-    //            break;
-    //        }
-    //    }
-    //}
-
     private void HandleGripReleased(bool isRightHand)
     {
         if (isRightHand != _thisHand.IsRightHand) return;
@@ -191,6 +185,12 @@ public class PlayerHandInteractor : MonoBehaviour
 
     #endregion
 
+    private void HandleTriggerStayInteractable()
+    {
+        if (_touchindInteractableVibrationSettings == null)
+            _touchindInteractableVibrationSettings = Resources.Load<VibrationSettingsSO>("Haptics/InteractableTouchStayHapticSettings");
+        _thisHand.HandleHandInsideInteractable(_touchindInteractableVibrationSettings);
+    }
     private void HandleForceRemoveObject(bool isRightHand)
     {
         if (isRightHand != _thisHand.IsRightHand) return;

@@ -10,10 +10,6 @@ public class MainMenuManager : MonoBehaviour
     private bool _skipTutorial = false;
 
     #region Unity Callbacks
-    private void OnEnable()
-    {
-        
-    }
     private void OnDisable()
     {
         EventManager.OnPlayerWantSkip.RemoveListener(this, SkipTutorial);
@@ -48,7 +44,7 @@ public class MainMenuManager : MonoBehaviour
     private void SkipTutorial(int value)
     {
         _skipTutorial = true;
-        GetComponent<TutorialHandler>().StopTutorial();
+        GetComponent<TutorialHandler>().SkipTutorial();
         StopAllCoroutines();
         EventManager.OnPlayerWantSkip.RemoveListener(this, SkipTutorial);
         Player.Instance.EnableFingerSnapping();

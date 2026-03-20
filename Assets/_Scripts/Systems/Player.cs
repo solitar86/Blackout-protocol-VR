@@ -43,6 +43,30 @@ public class Player : MonoBehaviour
 
     #region Getters, public functions, helpers.
 
+    public void RecenterPlayerToStartPositionWithNoTTS()
+    {
+        if (_xrOrigin == null) _xrOrigin = FindFirstObjectByType<XROrigin>();
+        if ((_startTransform == null))
+        {
+            var marker = FindFirstObjectByType<PlayerStartMarker>();
+            if (marker != null)
+            {
+                _startTransform = marker.transform;
+            }
+            else
+            {
+                Debugger.LogWarning("Recenter failed due to null _startTransform");
+                return;
+            }
+        }
+
+        var worldPos = _startTransform.position;
+        var facingDirection = _startTransform.forward;
+        float cameraYHeight = _xrOrigin.Camera.transform.position.y;
+        worldPos.y = cameraYHeight;
+        _xrOrigin.MoveCameraToWorldLocation(worldPos);
+        _xrOrigin.MatchOriginUpCameraForward(Vector3.up, facingDirection);
+    }
     private void RecenterPlayer(bool isRightHand)
     {
         if (_xrOrigin == null) _xrOrigin = FindFirstObjectByType<XROrigin>();
@@ -119,6 +143,15 @@ public class Player : MonoBehaviour
         if (_turnProvider == null) _turnProvider = FindFirstObjectByType<SnapTurnProvider>();
         _turnProvider.enabled = true;
     }
+
+    public void DisableRadialMenu()
+    {
+        EventManager.OnToggleRadialMenuOnOff.Raise(this, false);
+    }
+    public void EnableRadialMenu()
+    {
+        EventManager.OnToggleRadialMenuOnOff.Raise(this, true);
+    }
     public void RecenterPlayerWithNoHeightChange(Vector3 worldPos, Vector3 facingDirection)
     {
         if (_xrOrigin == null) _xrOrigin = FindFirstObjectByType<XROrigin>();
@@ -169,7 +202,11 @@ public class Player : MonoBehaviour
     {
         return _playerHead.position + _playerHead.right * (rightEar ? 0.2f : -0.2f);
     }
-
+    public Vector3 GetPosInFrontOfPlayerFace()
+    {
+        return _playerHead.position + _playerHead.transform.forward * 0.25f;
+    }
     public bool IsRightHand(PlayerHand hand) => hand == _rightHand;
+
     #endregion
 }
