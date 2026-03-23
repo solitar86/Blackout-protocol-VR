@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 112311583}
   - component: {fileID: 112311582}
   - component: {fileID: 112311581}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SafeDial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -164,6 +164,15 @@ MonoBehaviour:
   _touchEndHolder: {fileID: 0}
   _activateSoundHolder: {fileID: 0}
   _touchHapticSettings: {fileID: 11400000, guid: 80f70cf1419046d46b137270443e0ccc, type: 2}
+  _singleClick:
+    Clip: {fileID: 8300000, guid: 2e8528d55524b4143befd36c1bd1e7b7, type: 3}
+    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
 --- !u!136 &112311582
 CapsuleCollider:
   m_ObjectHideFlags: 0
