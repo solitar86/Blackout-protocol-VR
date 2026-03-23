@@ -13,7 +13,7 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
     [SerializeField] private float[] _raycastHeightIntervals = { 0.3f, 0.5f };
     [SerializeField] private int _numberOfRaycasts = 5;
     [Tooltip("How far away from the player is the collision sound played. Artifically increase directionality.")]
-    [SerializeField] private float _touchSoundDistanceMultiplier = 3f;
+    [SerializeField] private float _touchSoundDistanceMultiplier = 1f;
     [Space(15), Header("Sounds")]
     [SerializeField] private SoundArrayHolder _defaultPlayerCollisionSoundHolder;
     [SerializeField] private Sound _playerScrapeObstacleSound;
@@ -174,18 +174,44 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
             EventManager.OnPlayerBumpIDVOShouldPlay.Raise(this, null); // This gets called twice now right?
             Debugger.Log("No body collision sounds assigned. Playing default body collision SFX for: " + holderObject.name);
             PlayBodyCollisionFromHolder(soundPosition, _defaultPlayerCollisionSoundHolder);
-
         }
     }
-
     private void PlayBodyCollisionFromHolder(Vector3 soundPosition, SoundArrayHolder soundHolder)
     {
-        var soundGO = AudioPlayer.PlayRandomSoundFromSoundHolderAtPoint(this,
-                                    soundHolder,
-                                    soundPosition,
-                                    true,
-                                    true);
+        // Select a sound from the holder
+        Sound selectedSound = AudioPlayer.GetRandomSoundFromArray(soundHolder.SoundArray);
+
+        // Assign it's "last used" sound to the one we selected
+        soundHolder.LastPlayedSound = selectedSound;
+
+        // Duplicate it so we don't modify the original.
+        Sound stereoPannedSound = new Sound(selectedSound);
+        stereoPannedSound.SpacialBlend = 0;
+
+        // Create an object with a low pass filter and stereopan values based on what direction the collision
+        // happened based on players looking direction.
+        var soundGO = AudioPlayer.PlaySoundAtPoint(this, stereoPannedSound, soundPosition, true, false);
+        soundGO.GetComponent<AudioSource>().panStereo = GetStereoPanValue(soundPosition);
         soundGO.AddComponent<BeaconLPFController>();
+    }
+
+    private static float GetStereoPanValue(Vector3 soundPosition)
+    {
+        Vector3 directionFromHeadToSound =
+                            (soundPosition - Player.Instance.GetPlayerHeadTransform().position);
+        directionFromHeadToSound.y = 0f;
+        directionFromHeadToSound.Normalize();
+
+        var playerRight = Player.Instance.GetPlayerHeadTransformRight();
+        playerRight.y = 0;
+        playerRight.Normalize();
+
+        float dotProduct = Vector3.Dot(directionFromHeadToSound,
+                                        playerRight);
+
+        dotProduct.Logthis(Debugger.TextColor.LightGreen);
+        float stereoPanValue = dotProduct;
+        return stereoPanValue;
     }
 
     private Vector3 CalculateSoundPlayPosition(Vector3 currentTouchingPoint)
@@ -193,7 +219,6 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
         var playerXZwithTouchZ = new Vector3(transform.position.x, currentTouchingPoint.y, transform.position.z);
         var directionToTouchPointNormalized = (currentTouchingPoint - playerXZwithTouchZ).normalized;
         return transform.position + directionToTouchPointNormalized * _touchSoundDistanceMultiplier;
-
     }
     private void OnDrawGizmosSelected()
     {

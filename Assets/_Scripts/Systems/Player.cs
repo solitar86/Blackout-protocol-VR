@@ -166,6 +166,7 @@ public class Player : MonoBehaviour
     public SnapTurnProvider GetSnapTurnProvider() => _turnProvider;
     public Transform GetPlayerHeadTransform() => _playerHead;
     public Vector3 GetPlayerLookingDirection() => _playerHead.forward;
+    public Vector3 GetPlayerHeadTransformRight() => _playerHead.right;
     public PlayerHand GetRightHand()
     {
         if (_rightHand != null) return _rightHand;

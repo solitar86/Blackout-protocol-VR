@@ -18,7 +18,6 @@ public class PlayerNorthBeaconHandler : MonoBehaviour
         EventManager.OnSecondaryButtonHeld.AddListener(this, UpdateNorthBeaconPosition);
         EventManager.OnSecondaryButtonReleased.AddListener(this, StopNorthBeaconSoundLoop);
     }
-
     private void OnDisable()
     {
         EventManager.OnSecondaryButtonPressed.RemoveListener(this, StartNorthBeaconSoundLoop);
@@ -52,7 +51,7 @@ public class PlayerNorthBeaconHandler : MonoBehaviour
                             Player.Instance.GetPlayerHeadTransform().position.y,
                             _beaconPosition.y);
 
-        Vector3 directionToPlayerHead =
+        Vector3 directionToPlayerHead = // This Vector is backwards but it works, see what happens if you fix it.
                             (Player.Instance.GetPlayerHeadTransform().position - transform.position);
                             directionToPlayerHead.y = 0f;
                             directionToPlayerHead.Normalize();
@@ -89,6 +88,8 @@ public class PlayerNorthBeaconHandler : MonoBehaviour
         _northBeaconSource.volume = targetVolume;
         if (targetVolume == 0 && _northBeaconSource.isPlaying == true) _northBeaconSource.Stop();
     }
+    public void Enable() => _enabled = true;
+    public void Disable() => _enabled = false;
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
@@ -100,7 +101,5 @@ public class PlayerNorthBeaconHandler : MonoBehaviour
         Vector3 position = transform.position + new Vector3(_beaconPosition.x, playerHeadPos.y, _beaconPosition.y);
         Gizmos.DrawCube(position, Vector3.one * 0.1f);
     }
-    public void Enable() => _enabled = true;
-    public void Disable() => _enabled = false;
     
 }
