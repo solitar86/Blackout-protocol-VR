@@ -84,10 +84,10 @@ public class SoundArrayHolder : ScriptableObject
 
         if (fileNamePart.Contains("bump") && fileNamePart.Contains("vo") == false)
         {
-            if (soundToCheck.SpacialBlend != 1)
+            if (soundToCheck.SpacialBlend != 0)
             {
-                soundToCheck.SpacialBlend = 1f;
-                Debugger.Log("Forcing spatialblend to 1 for file: " + soundToCheck.Clip.name);
+                soundToCheck.SpacialBlend = 0f;
+                Debugger.Log("Forcing spatialblend to 0 for file: " + soundToCheck.Clip.name +". Body collisions are not spatilized.");
             }
             Debugger.Log("Changing mixergroup to 'BodyCollision' for file: " + soundToCheck.Clip.name + " based on filename.");
             soundToCheck.Mixergroup = bodyCollisionBus;

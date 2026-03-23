@@ -194,7 +194,6 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
         soundGO.GetComponent<AudioSource>().panStereo = GetStereoPanValue(soundPosition);
         soundGO.AddComponent<BeaconLPFController>();
     }
-
     private static float GetStereoPanValue(Vector3 soundPosition)
     {
         Vector3 directionFromHeadToSound =
@@ -213,7 +212,6 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
         float stereoPanValue = dotProduct;
         return stereoPanValue;
     }
-
     private Vector3 CalculateSoundPlayPosition(Vector3 currentTouchingPoint)
     {
         var playerXZwithTouchZ = new Vector3(transform.position.x, currentTouchingPoint.y, transform.position.z);
