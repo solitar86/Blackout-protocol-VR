@@ -160,6 +160,13 @@ public class WaterFaucet : StaticInteractable
             _waterDrippingSource.Play();
         }
 
+        if (_cupOverFlowAudioSource != null && _cupOverFlowAudioSource.isPlaying == true)
+        {
+            // Incase we turn tap off while cup is under it
+            _cupOverFlowAudioSource.Stop();
+        }
+
+        if (fillingSoundGO != null) Destroy(fillingSoundGO);
 
         if (_waterRunningLoopSource != null && _waterRunningLoopSource.isPlaying == true)
         {
