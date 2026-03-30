@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -21,6 +22,7 @@ public class TouchableSurface : MonoBehaviour
     private Collider _collider;
 
     #region Unity Callbacks -> Trigger Enter/Exit/Stay Callbacks
+
     private void OnTriggerEnter(Collider other)
     {
         if (this.enabled == false) return;
@@ -50,14 +52,14 @@ public class TouchableSurface : MonoBehaviour
         {
             if (ThisHandHasDataInList(playerHand) == true)
             {
-                playerHand.HandleTouchEnd(_touchEndHapticSettings);
-                RemoveThisHandsDataFromList(playerHand);
-                OnHandTouchEnd.Raise(this, other.transform.position);
+                StopTouchInteractionWithThisobject(other, playerHand);
             }
         }
     }
 
     #endregion
+
+    #region Core Functions
     private void HandPlayerInitialTouch(Collider other, PlayerHand playerHand)
     {
         playerHandsDataList.Add(new HandCollidingData(playerHand, other, playerHand.transform.position));
@@ -116,12 +118,25 @@ public class TouchableSurface : MonoBehaviour
     {
         OnTouchedWithObject.Raise(this, pickUpObject);
     }
+
     //public void HandlePlayerCantGrabThis(Vector3 position)
     //{
     //    EventManager.OnCantCarryObject.Raise(this, -1);
     //}
 
+    #endregion
+
+    #region Event Responses
+
+    #endregion 
+
     #region Helper functions and HandData Struct
+    private void StopTouchInteractionWithThisobject(Collider other, PlayerHand playerHand)
+    {
+        playerHand.HandleTouchEnd(_touchEndHapticSettings);
+        RemoveThisHandsDataFromList(playerHand);
+        OnHandTouchEnd.Raise(this, other.transform.position);
+    }
     private void RemoveThisHandsDataFromList(PlayerHand playerHand)
     {
         HandCollidingData dataToremove = new();
