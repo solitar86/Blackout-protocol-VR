@@ -32,24 +32,19 @@ public class TouchableSurfaceItemDetector : MonoBehaviour
                         bounds.center,
                         bounds.extents * (1 + _addedDetectionBuffer),
                         _surface.transform.rotation,
-                        _detectableLayers);
-
-        /*
-        // OLD CODE, DOES THIS NOW MOVE MORE RELIABLY?
-        var colliders = Physics.OverlapBox(_surface.transform.position,
-                                        surfaceCollider.bounds.extents * (1 + _addedDetectionBuffer),
-                                        _surface.transform.rotation,
-                                        _detectableLayers
-        );
-        */
-        
+                        _detectableLayers); 
 
         // Find all interactables among colliders found.
         var interactables = new List<Iinteractable>();
         foreach (var item in colliders)
         {
             if (item.TryGetComponent<Iinteractable>(out var interactable))
-                interactables.Add(interactable);
+
+                if(interactable is not StaticInteractable)
+                {
+                    // Only ping movable objects, not static objects.
+                    interactables.Add(interactable);
+                }
         }
 
         if (interactables.Count == 0) return;
