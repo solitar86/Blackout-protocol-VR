@@ -3,7 +3,7 @@ using UnityEngine;
 public class BeaconLPFController : MonoBehaviour
 {
     [SerializeField] private AudioLowPassFilter _lowPassFilter;
-    [SerializeField] private float _lowPassHighestValue = 80f;
+    [SerializeField] private float _lowPassHighestValue = 200f;
 
     private float _lpfMaxValue = 220000f;
     private AudioSource _source;
@@ -40,6 +40,7 @@ public class BeaconLPFController : MonoBehaviour
 
         var lerpValue = Mathf.InverseLerp(1f, -1f, dotProduct);
         _lowPassFilter.cutoffFrequency = Mathf.Lerp(_lowPassHighestValue, _lpfMaxValue, lerpValue);
+        _lowPassFilter.lowpassResonanceQ = 1.2f;
     }
     private bool InitLowPassFilter()
     {

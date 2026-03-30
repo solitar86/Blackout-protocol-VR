@@ -32,7 +32,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     [SerializeField] private Sound _pingSound;
 
     [Tooltip("An array of sound to play when we hit this object againts a surface while it's beind held.")]
-    [SerializeField] internal Sound _impactSound; // This should be a sound holder, TODO
+    [SerializeField] internal SoundArrayHolder _impactSoundHolder; // This should be a sound holder, TODO
 
     [SerializeField] private bool _velocityEffectsVolume = true;
     [Tooltip("What velocity == volume 1f")]
@@ -150,8 +150,8 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     }
     public virtual void Release()
     {
-        if(_isHeld == false || _holdingHand == null)
-                return; // This can happen if object is force removed from player.
+        if (_isHeld == false || _holdingHand == null)
+            return; // This can happen if object is force removed from player.
 
         transform.SetParent(null);
         parentTransformReference = null;
@@ -226,7 +226,6 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         }, delay);
         Destroy(mono.gameObject, delay + buffer);
 
-        Debugger.Log("PING: " + gameObject.name);
     }
     public virtual void EndTouch()
     {
@@ -255,7 +254,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
             Quaternion rotation = Quaternion.FromToRotation(normalDirectionInWorld, Vector3.up);
             transform.rotation = rotation * transform.rotation;
 
-            PlayObjectPlacedOnSurfaceSound(_impactSound, hitInfo.point, dropSoundDelay);
+            PlayObjectPlacedOnSurfaceSound(_impactSoundHolder, hitInfo.point, dropSoundDelay);
             EventManager.OnAnyPickUpObjectPlacedOnSurface.Raise(this, this);
         }
         else
@@ -282,9 +281,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         }, curseWordDelay);
 
         float dropSoundDelay = 1f; // Hard coded duration for dropping on floor.
-        Sound impactWithModVolume = new Sound(_impactSound);
-        impactWithModVolume.Volume = 0.3f;
-        PlayObjectPlacedOnSurfaceSound(_impactSound, dropHitPosition, dropSoundDelay);
+        PlayObjectPlacedOnSurfaceSound(_impactSoundHolder, dropHitPosition, dropSoundDelay);
         HandleSpecialCasesForHittingFloor(dropHitPosition, dropSoundDelay);
         EventManager.OnAnyPickUpObjectHitFloor.Raise(this, this);
     }
@@ -296,18 +293,28 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
 
         if (_nextTimeAllowImpactSound > Time.time) return;
 
+        if (_impactSoundHolder == null || _impactSoundHolder.SoundArray == null || _impactSoundHolder.SoundArray.Length == 0)
+        {
+            Debugger.LogWarning(gameObject.name + " does not have valid impact sounds");
+            return;
+        }
+
+        Sound impactSound = AudioPlayer.GetRandomSoundFromArray(_impactSoundHolder.SoundArray, _impactSoundHolder.LastPlayedSound);
+        _impactSoundHolder.LastPlayedSound = impactSound;
+
         if (_velocityEffectsVolume == true)
         {
-            Sound impactWithModVolume = new Sound(_impactSound);
+
+            Sound impactWithModVolume = new Sound(impactSound);
             impactWithModVolume.Volume = _velocityToVolumeCurve.Evaluate(Velocity);
             AudioPlayer.PlaySoundAtPoint(this, impactWithModVolume, transform.position, true);
         }
         else
         {
-            AudioPlayer.PlaySoundAtPoint(this, _impactSound, transform.position, true);
+            AudioPlayer.PlaySoundAtPoint(this, impactSound, transform.position, true);
         }
-        
-        if(environmentObject.TryGetComponent<TouchableSurface>(out var surface))
+
+        if (environmentObject.TryGetComponent<TouchableSurface>(out var surface))
         {
             surface.HandleTouchedWithPickUpObject(this);
         }
@@ -323,7 +330,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         transform.SetParent(null);
         parentTransformReference = null;
 
-        if(holdingHand != null)
+        if (holdingHand != null)
         {
             // I do not understand why sometimes holdingHand is null if you hit
             // a coffee cup againts a wall but it isn't if you hit a table etc.
@@ -404,19 +411,22 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
                                                         true);
         }
     }
-    public virtual void PlayObjectPlacedOnSurfaceSound(Sound impactSound, Vector3 point, float delay)
+    public virtual void PlayObjectPlacedOnSurfaceSound(SoundArrayHolder impactSoundHolder, Vector3 point, float delay)
     {
+        Sound impactSound = AudioPlayer.GetRandomSoundFromArray(_impactSoundHolder.SoundArray, _impactSoundHolder.LastPlayedSound);
+        _impactSoundHolder.LastPlayedSound = impactSound;
         Sound impactWithModVolume = new Sound(impactSound);
-        impactWithModVolume.Volume = 0.3f;
+        impactWithModVolume.Volume = 0.5f;
+        // Playes drop sound twice to simulate hitting and falling on to a side.
         AudioPlayer.PlaySoundAtPointWithDelay(this, impactWithModVolume, point, delay, true);
-        AudioPlayer.PlaySoundAtPointWithDelay(this, impactWithModVolume, point, delay + Random.Range(0.01f, 0.5f), true);
+        AudioPlayer.PlaySoundAtPointWithDelay(this, impactWithModVolume, point, delay + Random.Range(0.01f, 0.25f), true);
     }
     public virtual void PlayPickUpSound()
     {
         if (_pickUpSounds != null && _pickUpSounds.SoundArray != null && _pickUpSounds.SoundArray.Length > 0)
         {
             var position = transform.position;
-            if(_holdingHand != null) position = _holdingHand.transform.position;
+            if (_holdingHand != null) position = _holdingHand.transform.position;
 
             _pickUpSounds.LastPlayedSound = AudioPlayer.PlayRandomSoundFromArrayAtPoint(this,
                                                                                     _pickUpSounds.SoundArray,
