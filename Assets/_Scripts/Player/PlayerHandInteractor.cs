@@ -190,7 +190,7 @@ public class PlayerHandInteractor : MonoBehaviour
         if (_touchindInteractableVibrationSettings == null)
             _touchindInteractableVibrationSettings = Resources.Load<VibrationSettingsSO>("Haptics/InteractableTouchStayHapticSettings");
 
-        if(_heldInteractable != null)
+        if(_heldInteractable == null)
             _thisHand.HandleHandInsideInteractable(_touchindInteractableVibrationSettings);
     }
     private void HandleForceRemoveObject(bool isRightHand)
