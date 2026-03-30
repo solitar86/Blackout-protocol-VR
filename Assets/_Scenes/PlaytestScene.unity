@@ -2444,6 +2444,14 @@ PrefabInstance:
       propertyPath: _hitMarker
       value: 
       objectReference: {fileID: 663231769}
+    - target: {fileID: 9192435655589177954, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}
+      propertyPath: _numberOfRaycasts
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9192435655589177954, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}
+      propertyPath: _touchSoundDistanceMultiplier
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

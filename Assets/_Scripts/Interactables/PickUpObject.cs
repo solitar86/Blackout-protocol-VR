@@ -413,6 +413,11 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     }
     public virtual void PlayObjectPlacedOnSurfaceSound(SoundArrayHolder impactSoundHolder, Vector3 point, float delay)
     {
+        if (_impactSoundHolder == null || _impactSoundHolder.SoundArray == null || _impactSoundHolder.SoundArray.Length == 0)
+        {
+            Debugger.LogWarning(gameObject.name + " does not have valid impact sounds");
+            return;
+        }
         Sound impactSound = AudioPlayer.GetRandomSoundFromArray(_impactSoundHolder.SoundArray, _impactSoundHolder.LastPlayedSound);
         _impactSoundHolder.LastPlayedSound = impactSound;
         Sound impactWithModVolume = new Sound(impactSound);
