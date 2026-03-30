@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// This is the baseclass for all interactables which can't be picked up by the player.
@@ -13,8 +14,10 @@ public abstract class StaticInteractable : MonoBehaviour, Iinteractable
     [SerializeField] private SoundArrayHolder _touchStartHolder;
     [SerializeField] private SoundArrayHolder _touchEndHolder;
     [SerializeField] private SoundArrayHolder _activateSoundHolder;
-    [Space(5), Header("Touch and interact sound holders")]
+    [Space(5), Header("Touch haptic settings")]
     [SerializeField] private VibrationSettingsSO _touchHapticSettings;
+    [Space(5), Header("Unity Events")]
+    [SerializeField] private UnityEvent OnActivated;
 
     private PlayerHand _touchingHand;
     protected PlayerHand TouchingHand => _touchingHand;
@@ -76,6 +79,7 @@ public abstract class StaticInteractable : MonoBehaviour, Iinteractable
         }
         _isActivated = !_isActivated;
         EventManager.OnAnyInteractableActivated.Raise(this, this);
+        OnActivated?.Invoke();
     }
     public virtual void EndTouch()
     {

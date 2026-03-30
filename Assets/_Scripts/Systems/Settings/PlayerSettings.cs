@@ -44,6 +44,8 @@ public class PlayerSettings
     public static string DEVELOPER_DEFAULTS_FILEPATH = "Settings/DeveloperDefaultSettings";
     public static string ACCESSIBILITY_DEFAULTS_FILEPATH = "Settings/AccessibilityDefaultSettings";
 
+    public static string OBSTACLE_LAYER_NAME = "Obstacles";
+
 
     #region Save / Load
     public static void LoadSettings()

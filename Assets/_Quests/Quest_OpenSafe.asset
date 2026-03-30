@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8390e8859b7fc2f45866d820472da0d9, type: 3}
+  m_Name: Quest_OpenSafe
+  m_EditorClassIdentifier: Assembly-CSharp::QuestSO
+  Name: Unlock Safe
+  _state: 0
+  _discoveredStateHintConvo: {fileID: 11400000, guid: 9a0aa7c61c13f3b4d86903a1f9b11f79, type: 2}
+  _startedStateHintConvo: {fileID: 0}

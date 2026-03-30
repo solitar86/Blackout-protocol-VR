@@ -23,6 +23,10 @@ public class TouchableSurface : MonoBehaviour
 
     #region Unity Callbacks -> Trigger Enter/Exit/Stay Callbacks
 
+    private void Awake()
+    {
+        gameObject.layer = LayerMask.NameToLayer(PlayerSettings.OBSTACLE_LAYER_NAME);
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (this.enabled == false) return;

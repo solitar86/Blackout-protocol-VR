@@ -802,6 +802,7 @@ MonoBehaviour:
   _fadeUpDur: 1
   _crossfadeDur: 3
   _titleMusic: {fileID: 8300000, guid: 66b280c5898d44ac89ea1090f43893f2, type: 3}
+  _musicLowVolumeInDecibels: -20
 --- !u!1 &5014591390927606185
 GameObject:
   m_ObjectHideFlags: 0
@@ -1218,6 +1219,7 @@ MonoBehaviour:
   questList:
   - {fileID: 11400000, guid: 706ad42d7eb33f244805d0e69eef6671, type: 2}
   - {fileID: 11400000, guid: 57586e5f71c3dd14ea4d66ca5bdce731, type: 2}
+  - {fileID: 11400000, guid: 0eeb96c7629cfd64582839738bd1e8e1, type: 2}
   _genericStartConversations:
   - {fileID: 11400000, guid: a43ecb227ad5f1548b7959710a25d95f, type: 2}
   - {fileID: 11400000, guid: 449cf4723414bfd4c95d29498f56d4d1, type: 2}
