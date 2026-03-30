@@ -14,6 +14,16 @@ public class AudioPlayer : MonoBehaviour
     private AudioMixerGroup _musicMixerGroup = null;
 
     #region Unity Callbacks
+
+    private void OnEnable()
+    {
+        EventManager.OnPlayerStartMove.AddListener(this, HandlePlayerStartMoveCleanUp);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.OnPlayerStartMove.RemoveListener(this, HandlePlayerStartMoveCleanUp);
+    }
     private void Awake()
     {
         if (Instance == null)
@@ -297,6 +307,16 @@ public class AudioPlayer : MonoBehaviour
         Instance.MainMixer.SetFloat(PlayerSettings.MUSIC_VOLUME_STRING, decibels);
     }
 
+    private void HandlePlayerStartMoveCleanUp(int obj)
+    {
+        // This needs to be called with a delay
+        // to avoid physics glitches when hand
+        // is inside a collider when recentering.
+        this.CallWithDelay(() =>
+        {
+            PauseHandInsideColliderError();
+        }, 0.1f);
+    }
     #endregion
 }
 
