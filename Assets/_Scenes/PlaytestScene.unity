@@ -614,10 +614,6 @@ PrefabInstance:
       value: BreakableMachine_AirVent
       objectReference: {fileID: 0}
     - target: {fileID: 925620636847973787, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.2277734
-      objectReference: {fileID: 0}
-    - target: {fileID: 925620636847973787, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.05
       objectReference: {fileID: 0}
@@ -657,69 +653,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
-      propertyPath: _onBreak.m_PersistentCalls.m_Calls.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
-      propertyPath: _onDamaged.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
-      propertyPath: _onBreak.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
-      propertyPath: _onBreak.m_PersistentCalls.m_Calls.Array.data[3].m_Target
-      value: 
-      objectReference: {fileID: 1285781691}
-    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
-      propertyPath: _onDamaged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
-      propertyPath: _onDamaged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1285781691}
-    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
-      propertyPath: _onBreak.m_PersistentCalls.m_Calls.Array.data[3].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
-      propertyPath: _onBreak.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
-      value: PlaySound
-      objectReference: {fileID: 0}
-    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
-      propertyPath: _onDamaged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
-      propertyPath: _onDamaged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlaySound
-      objectReference: {fileID: 0}
-    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
-      propertyPath: _onBreak.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
-      value: SoundHolderForUnityEvent, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
-      propertyPath: _onDamaged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: SoundHolderForUnityEvent, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
-      propertyPath: _onBreak.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 1980022610459730866, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
-      propertyPath: _onDamaged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 802038966387455069, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1285781691}
     - targetCorrespondingSourceObject: {fileID: 810035546937523392, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
@@ -1388,38 +1325,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1285781677 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 802038966387455069, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
-  m_PrefabInstance: {fileID: 579755108}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1285781691
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1285781677}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adce140b42922bb49aaf3767059b444a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SoundHolderForUnityEvent
-  _soundToPlay:
-    Clip: {fileID: 8300000, guid: 5f0865797f2bb47d4b01a784d9fd21a1, type: 3}
-    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 1
-    Pitch: 1
-    SpacialBlend: 0
-    OverrideDefaultDistances: 0
-    MinDistance: 0.5
-    MaxDistance: 2
-  _spatialize: 1
-  _pitchVariation: 1
-  _delay: 0
-  _optionalPositionToPlayAt: {fileID: 0}
-  _preventOverlappingPlayes: 0
-  _postDelay: 0
 --- !u!4 &1511600783 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2417033642183055198, guid: 5a5955cbbbce9bc45834fbe411579a25, type: 3}
@@ -2458,10 +2363,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 998304445}
     m_Modifications:
     - target: {fileID: 322132826343524579, guid: 11252ce50df05ff4380b6bc6ae28d74e, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2.0606
-      objectReference: {fileID: 0}
-    - target: {fileID: 322132826343524579, guid: 11252ce50df05ff4380b6bc6ae28d74e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.743
       objectReference: {fileID: 0}
@@ -2505,22 +2406,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hammer
       objectReference: {fileID: 0}
-    - target: {fileID: 4394234128240405969, guid: 11252ce50df05ff4380b6bc6ae28d74e, type: 3}
-      propertyPath: _pickUpSounds
-      value: 
-      objectReference: {fileID: 11400000, guid: 02cce859ecd0d734f957a62fc6b23fd7, type: 2}
-    - target: {fileID: 4394234128240405969, guid: 11252ce50df05ff4380b6bc6ae28d74e, type: 3}
-      propertyPath: _pingSound.Clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 85e0bc6de632c4f8e9dbf7d01acc339c, type: 3}
-    - target: {fileID: 4394234128240405969, guid: 11252ce50df05ff4380b6bc6ae28d74e, type: 3}
-      propertyPath: _dropOnSurfaceSounds
-      value: 
-      objectReference: {fileID: 11400000, guid: f2c300a5d2b19cb40a97a92fbc9a0aff, type: 2}
-    - target: {fileID: 4394234128240405969, guid: 11252ce50df05ff4380b6bc6ae28d74e, type: 3}
-      propertyPath: _pingSound.Mixergroup
-      value: 
-      objectReference: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
