@@ -92,6 +92,7 @@ public class Player : MonoBehaviour
         _xrOrigin.MatchOriginUpCameraForward(Vector3.up, facingDirection);
 
         TTSPlayer.PlayTTSWithFilePath("TTS/TTS_Recentered");
+        EventManager.OnPlayerStartMove.Raise(this, -1);
     }
     public void DisableFingerSnapping()
     {
@@ -143,7 +144,6 @@ public class Player : MonoBehaviour
         if (_turnProvider == null) _turnProvider = FindFirstObjectByType<SnapTurnProvider>();
         _turnProvider.enabled = true;
     }
-
     public void DisableRadialMenu()
     {
         EventManager.OnToggleRadialMenuOnOff.Raise(this, false);
@@ -160,6 +160,7 @@ public class Player : MonoBehaviour
         worldPos.y = cameraYHeight;
         _xrOrigin.MoveCameraToWorldLocation(worldPos);
         _xrOrigin.MatchOriginUpCameraForward(Vector3.up, facingDirection);
+        EventManager.OnPlayerStartMove.Raise(this, -1);
     }
     public XROrigin GetXROrigin() => _xrOrigin;
     public DynamicMoveProvider GetDynamicMoveProvider() => _moveProvider;

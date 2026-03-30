@@ -24,9 +24,6 @@ public class TouchableSurfaceAudioHandler : MonoBehaviour
         _surface.OnHandTouchEnd.AddListener(this, PlayTouchEndSound);
         _surface.OnTouchedWithObject.AddListener(this, HandleTouchedWithObjectSound);
     }
-
-
-
     private void Update()
     {
         if (_audioWasIncreasedThisFrame == false)
