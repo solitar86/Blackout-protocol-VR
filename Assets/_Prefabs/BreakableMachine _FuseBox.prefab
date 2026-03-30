@@ -395,7 +395,7 @@ MonoBehaviour:
     OverrideDefaultDistances: 0
     MinDistance: 0.5
     MaxDistance: 2
-  _touchSoundHolder: {fileID: 11400000, guid: 6369ca3e1e5bd284d9873c9a0c9478a6, type: 2}
+  _touchSoundHolder: {fileID: 11400000, guid: fe2c63683896742bd877f326d0d6459c, type: 2}
 --- !u!114 &3736397328724890685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -566,7 +566,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cf2de450a213a942a40942c08e23302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BodyCollisionSoundHolder
-  _playerBodyCollisionSoundHolder: {fileID: 0}
+  _playerBodyCollisionSoundHolder: {fileID: 11400000, guid: b1b39d03379c3492097fe07c4917737d, type: 2}
   _ID_voiceline:
     Clip: {fileID: 8300000, guid: 60564798e02c5144d999d35b911e16b5, type: 3}
     Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
