@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 3937725805804409759}
   - component: {fileID: 2131692491793359104}
   - component: {fileID: 7691539573164801101}
+  - component: {fileID: 4821427948386623947}
   m_Layer: 10
   m_Name: BreakableMachine_AirConditioner
   m_TagString: Untagged
@@ -39,7 +40,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.44, y: 0.69, z: 2.34}
-  m_LocalScale: {x: 0.90365, y: 1.2907627, z: 0.90365}
+  m_LocalScale: {x: 0.90365, y: 1.2277734, z: 0.90365}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5930949515443299371}
@@ -251,6 +252,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4821427948386623947}
+        m_TargetAssemblyTypeName: SoundHolderForUnityEvent, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _onHitWithHammerAfterBreak:
     m_PersistentCalls:
       m_Calls: []
@@ -305,7 +318,7 @@ MonoBehaviour:
     OverrideDefaultDistances: 0
     MinDistance: 0.5
     MaxDistance: 2
-  _touchSoundHolder: {fileID: 11400000, guid: 6369ca3e1e5bd284d9873c9a0c9478a6, type: 2}
+  _touchSoundHolder: {fileID: 11400000, guid: 107fb29dd9671448ea3d4d9e0649fd10, type: 2}
 --- !u!114 &3847940972307062427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,7 +347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cf2de450a213a942a40942c08e23302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BodyCollisionSoundHolder
-  _playerBodyCollisionSoundHolder: {fileID: 0}
+  _playerBodyCollisionSoundHolder: {fileID: 11400000, guid: 137ba5931e0714d64a0d2d545b16b7d4, type: 2}
   _ID_voiceline:
     Clip: {fileID: 8300000, guid: ce4e25eac726d004aa9cd04d26808dde, type: 3}
     Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
@@ -416,10 +429,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63b5bb5a5e5f9d44babbbf034b2aba0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  Name: Player touched Airvent
   _questProgressionStep:
     Quest: {fileID: 11400000, guid: 706ad42d7eb33f244805d0e69eef6671, type: 2}
     ProgressionState: 1
+--- !u!114 &4821427948386623947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802038966387455069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adce140b42922bb49aaf3767059b444a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundHolderForUnityEvent
+  _soundToPlay:
+    Clip: {fileID: 8300000, guid: 5f0865797f2bb47d4b01a784d9fd21a1, type: 3}
+    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  _spatialize: 1
+  _pitchVariation: 1
+  _delay: 0
+  _optionalPositionToPlayAt: {fileID: 0}
+  _preventOverlappingPlayes: 0
+  _postDelay: 0
 --- !u!1 &810035546937523392
 GameObject:
   m_ObjectHideFlags: 0

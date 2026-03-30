@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
   m_LocalPosition: {x: -2.463, y: 1.149, z: 1.072}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 2.0606}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1893886433156250386}
@@ -50,6 +50,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Hammer
   _touchSoundsHolder: {fileID: 11400000, guid: afa4c281056ec7649a5b0ca6f2232760, type: 2}
+  _pickUpSounds: {fileID: 11400000, guid: 02cce859ecd0d734f957a62fc6b23fd7, type: 2}
+  _dropOnSurfaceSounds: {fileID: 11400000, guid: f2c300a5d2b19cb40a97a92fbc9a0aff, type: 2}
   _touchIdentifyVO:
     Clip: {fileID: 8300000, guid: d0c8ee331a1b190418af8fc136043438, type: 3}
     Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
@@ -60,32 +62,16 @@ MonoBehaviour:
     MinDistance: 0.5
     MaxDistance: 2
   _pingSound:
-    Clip: {fileID: 0}
-    Mixergroup: {fileID: 0}
+    Clip: {fileID: 8300000, guid: 85e0bc6de632c4f8e9dbf7d01acc339c, type: 3}
+    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
     SpacialBlend: 0
     OverrideDefaultDistances: 0
     MinDistance: 0.5
     MaxDistance: 2
-  _offsetSettings: {fileID: 11400000, guid: 6804090cf8007ad4eab09de8027d8a63, type: 2}
-  _placeableSurfaceLayerMask:
-    serializedVersion: 2
-    m_Bits: 1088
-  _floorLayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  _pickUpSounds: {fileID: 11400000, guid: 02d6cafe43869bb4e8cf97139c9c90c8, type: 2}
-  _dropOnSurfaceSounds: {fileID: 0}
-  _impactSound:
-    Clip: {fileID: 8300000, guid: 6c29321f6951ccb41a4efa625203fa7e, type: 3}
-    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0
-    Pitch: 1
-    SpacialBlend: 1
-    OverrideDefaultDistances: 0
-    MinDistance: 0.5
-    MaxDistance: 2
+  _impactSoundHolder: {fileID: 11400000, guid: ef74971e5d2e7419999ed53203e08836, type: 2}
+  _velocityEffectsVolume: 1
   _velocityToVolumeCap: 10
   _velocityToVolumeCurve:
     serializedVersion: 2
@@ -95,6 +81,13 @@ MonoBehaviour:
     m_RotationOrder: 4
   _touchHapticSettings: {fileID: 11400000, guid: 80f70cf1419046d46b137270443e0ccc, type: 2}
   _pickUpAndDropHapticSettings: {fileID: 11400000, guid: 3eac07092410d594093a49b5e0c40dde, type: 2}
+  _offsetSettings: {fileID: 11400000, guid: 6804090cf8007ad4eab09de8027d8a63, type: 2}
+  _placeableSurfaceLayerMask:
+    serializedVersion: 2
+    m_Bits: 1088
+  _floorLayer:
+    serializedVersion: 2
+    m_Bits: 2048
 --- !u!65 &3892712375394669236
 BoxCollider:
   m_ObjectHideFlags: 0
