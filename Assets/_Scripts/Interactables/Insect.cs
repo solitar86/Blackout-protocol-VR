@@ -4,6 +4,8 @@ public class Insect : PickUpObject
 {
     [Space(15)]
     [Header("Insect specific settings")]
+    [SerializeField] private bool _respawnAfterDeath = false;
+    [SerializeField] private Vector2 _respawnMindAndMaxDelay = Vector2.one;
     [SerializeField] private Sound _insectLoopSound;
     AudioSource _insectLoopSource;
     [SerializeField] private bool _rightEar = true;
@@ -37,7 +39,21 @@ public class Insect : PickUpObject
         ForceRemoveObjectFromHandAndReturnToStartPosition(hand);
         GetComponent<Collider>().enabled = false;
         gameObject.SetActive(false);
-        Destroy(gameObject);
+
+        if(_respawnAfterDeath == true)
+        {
+            float delay = Random.Range(_respawnMindAndMaxDelay.x, _respawnMindAndMaxDelay.y);
+            Invoke(nameof(Respawn),delay);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void Respawn()
+    {
+        gameObject.SetActive(true);
     }
     private void OnDrawGizmos()
     {

@@ -89,15 +89,7 @@ MonoBehaviour:
     OverrideDefaultDistances: 0
     MinDistance: 0.5
     MaxDistance: 2
-  _impactSound:
-    Clip: {fileID: 0}
-    Mixergroup: {fileID: 0}
-    Volume: 1
-    Pitch: 1
-    SpacialBlend: 0
-    OverrideDefaultDistances: 0
-    MinDistance: 0.5
-    MaxDistance: 2
+  _impactSoundHolder: {fileID: 0}
   _velocityEffectsVolume: 0
   _velocityToVolumeCap: 10
   _velocityToVolumeCurve:
@@ -115,6 +107,8 @@ MonoBehaviour:
   _floorLayer:
     serializedVersion: 2
     m_Bits: 0
+  _respawnAfterDeath: 1
+  _respawnMindAndMaxDelay: {x: 15, y: 40}
   _insectLoopSound:
     Clip: {fileID: 8300000, guid: 9c4396fd141c8c54ea560fafe0a88d4a, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
@@ -170,7 +164,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2800011435905249821
 Transform:
   m_ObjectHideFlags: 0
