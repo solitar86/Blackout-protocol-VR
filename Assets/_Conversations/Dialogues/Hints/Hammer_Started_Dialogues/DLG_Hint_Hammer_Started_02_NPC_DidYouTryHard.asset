@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b6e58aa312f75b499635c6d00d84b9d, type: 3}
   m_Name: DLG_Hint_Hammer_Started_02_NPC_DidYouTryHard
   m_EditorClassIdentifier: Assembly-CSharp::DialogueSO
-  _speaker: 0
+  _speaker: 1
   _dialogueAudio:
-    Clip: {fileID: 8300000, guid: 24354076f1c2d6c4fa4251ab94a8a78a, type: 3}
-    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Clip: {fileID: 8300000, guid: 0d90fe3d493d8054c977e950ed9bb0a9, type: 3}
+    Mixergroup: {fileID: 2977965170243988990, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
     SpacialBlend: 1

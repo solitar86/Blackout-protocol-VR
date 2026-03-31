@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DialogueSO
   _speaker: 0
   _dialogueAudio:
-    Clip: {fileID: 8300000, guid: 24354076f1c2d6c4fa4251ab94a8a78a, type: 3}
+    Clip: {fileID: 8300000, guid: f6dd0aea60b46c7488eb300d3bf673aa, type: 3}
     Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
-    SpacialBlend: 1
+    SpacialBlend: 0
     OverrideDefaultDistances: 1
     MinDistance: 0.2
     MaxDistance: 3

@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ConversationSO
   _name: Hammer discovered
   _conversation:
-  - {fileID: 11400000, guid: c02781e776d7e934c843243246d4d218, type: 2}
+  - {fileID: 11400000, guid: 6c90d3a3f707d2040a0868c190abef01, type: 2}
+  - {fileID: 11400000, guid: 659defd6746071744a9b2cab2f7ecdf3, type: 2}
+  - {fileID: 11400000, guid: b074bf5f81d77fb4ba672f7a41b3a71c, type: 2}

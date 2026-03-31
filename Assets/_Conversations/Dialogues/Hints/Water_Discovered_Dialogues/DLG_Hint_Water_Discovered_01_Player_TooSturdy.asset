@@ -18,7 +18,7 @@ MonoBehaviour:
     Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
-    SpacialBlend: 1
+    SpacialBlend: 0
     OverrideDefaultDistances: 1
     MinDistance: 0.2
     MaxDistance: 3

@@ -1,5 +1,6 @@
 using System.IO;
 using UnityEngine;
+using UnityEngine.XR;
 
 /// <summary>
 /// All object which the player can hold and interact with
@@ -206,6 +207,11 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         HandTouchIDVoiceline();
         HandleItemTouchSound(hand);
         HandleTouchHaptics(hand);
+        if(IsHeld == true)
+        {
+            // We touched an item with our other hand which we are holding.
+            HandleHoldingHandHapticsOnObjectTouched();
+        }
     }
     public virtual void Ping(float delay)
     {
@@ -411,6 +417,16 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
                                                         true);
         }
     }
+    private void HandleHoldingHandHapticsOnObjectTouched()
+    {
+        if (_touchHapticSettings != null && HoldingHand != null)
+        {
+            HoldingHand.HandleTouchBegin(_touchHapticSettings, this.transform.position);
+            return;
+        }
+        Debugger.LogWarning(gameObject.name + " has null touch haptic settings.", gameObject);
+    }
+
     public virtual void PlayObjectPlacedOnSurfaceSound(SoundArrayHolder impactSoundHolder, Vector3 point, float delay)
     {
         if (_impactSoundHolder == null || _impactSoundHolder.SoundArray == null || _impactSoundHolder.SoundArray.Length == 0)
