@@ -27,6 +27,7 @@ public class DialogueSO : ScriptableObject
         if(_speaker == Speaker.Player || DialogueAudioHasPlayerStringInIt(_dialogueAudio))
         {
             mixergroup = mixer.FindMatchingGroups("InnerMonologue")[0];
+            _dialogueAudio.SpacialBlend = 0f;
         }
         else
         {
