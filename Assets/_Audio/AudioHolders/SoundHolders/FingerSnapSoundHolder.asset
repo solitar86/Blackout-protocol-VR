@@ -20,8 +20,8 @@ MonoBehaviour:
     Pitch: 1
     SpacialBlend: 1
     OverrideDefaultDistances: 1
-    MinDistance: 1
-    MaxDistance: 6
+    MinDistance: 0.3
+    MaxDistance: 12
   LastPlayedSound:
     Clip: {fileID: 8300000, guid: f2f10d3856c25c74c837779ad62435fc, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}

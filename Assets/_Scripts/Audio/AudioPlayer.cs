@@ -212,6 +212,9 @@ public class AudioPlayer : MonoBehaviour
         {
             audioSource.outputAudioMixerGroup = soundToLoop.Mixergroup;
         }
+
+        if (sender is MonoBehaviour) tempGameObject.transform.position = (sender as MonoBehaviour).transform.position;
+
         audioSource.loop = true;
         audioSource.Play();
         return audioSource;

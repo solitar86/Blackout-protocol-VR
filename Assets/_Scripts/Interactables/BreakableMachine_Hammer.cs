@@ -100,4 +100,13 @@ public class BreakableMachine_Hammer : MonoBehaviour
         _airConditionerHummLoopSource.Stop();
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        if (_airConHummLoop != null)
+        {
+            Gizmos.color = Color.lightBlue;
+            Gizmos.DrawWireSphere(transform.position, _airConHummLoop.MinDistance);
+            Gizmos.DrawWireSphere(transform.position, _airConHummLoop.MaxDistance);
+        }
+    }
 }

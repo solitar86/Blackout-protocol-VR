@@ -56,7 +56,7 @@ public class WalkieTalkie : PickUpObject
     }
     private void PlayRadioStaticBeaconLoop()
     {
-        if(_staticLoopSource == null)
+        if (_staticLoopSource == null)
         {
             InitStaticLoopAudioSource();
             return;
@@ -72,7 +72,7 @@ public class WalkieTalkie : PickUpObject
         _staticLoopSource.transform.SetParent(transform);
         _staticLoopSource.gameObject.AddComponent<BeaconLPFController>();
     }
-    private void DuckRadioStaticVolumeTo(float ratio) =>_staticLoopSource.volume *= ratio;
+    private void DuckRadioStaticVolumeTo(float ratio) => _staticLoopSource.volume *= ratio;
     private void ResetRadioStaticVolume() => _staticLoopSource.volume = _radioStaticDefaultVolume;
 
     #region EventCallbacks for SFX handling during conversations
@@ -99,4 +99,15 @@ public class WalkieTalkie : PickUpObject
         ResetRadioStaticVolume();
     }
     #endregion
+
+    private void OnDrawGizmosSelected()
+    {
+        if (_radioStaticLoop != null)
+        {
+            Gizmos.color = Color.lightBlue;
+            Gizmos.DrawWireSphere(transform.position, _radioStaticLoop.MinDistance);
+            Gizmos.DrawWireSphere(transform.position, _radioStaticLoop.MaxDistance);
+
+        }
+    }
 }

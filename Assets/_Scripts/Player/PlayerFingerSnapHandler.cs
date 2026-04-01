@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerFingerSnapHandler : MonoBehaviour
 {
+    [SerializeField] private bool _spatializeFingerSnaps = false;
     [SerializeField, Range(0f,1f)] float _echoDelayMultiplier = 0.1f;
     [SerializeField] SoundArrayHolder _fingerSnapSounds;
     [SerializeField] LayerMask _layersToPlayEchoFrom;
@@ -65,8 +66,8 @@ public class PlayerFingerSnapHandler : MonoBehaviour
                                                 soundToPlay,
                                                 hit.point,
                                                 distance * _echoDelayMultiplier,
-                                                false,
-                                                true);
+                                                usePitchVariation: false,
+                                                spatialize: _spatializeFingerSnaps);
         }
     }
     #endregion'

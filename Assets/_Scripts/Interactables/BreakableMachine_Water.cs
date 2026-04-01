@@ -85,4 +85,14 @@ public class BreakableMachine_Water : MonoBehaviour
         _fuseBoxHummSource.transform.SetParent(transform);
         _fuseBoxHummSource.gameObject.AddComponent<BeaconLPFController>();
     }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (_fuseBoxHummLoop != null)
+        {
+            Gizmos.color = Color.lightBlue;
+            Gizmos.DrawWireSphere(transform.position, _fuseBoxHummLoop.MinDistance);
+            Gizmos.DrawWireSphere(transform.position, _fuseBoxHummLoop.MaxDistance);
+        }
+    }
 }

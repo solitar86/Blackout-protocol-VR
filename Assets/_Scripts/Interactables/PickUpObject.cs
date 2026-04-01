@@ -128,7 +128,6 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     {
         // We make the assumption that this object is
         // being held or it won't make a sound.
-        Debugger.Log("Collision", Debugger.TextColor.Orange);
         HandleCollisiondWithEnvironment(collision.gameObject);
     }
     private void Reset()

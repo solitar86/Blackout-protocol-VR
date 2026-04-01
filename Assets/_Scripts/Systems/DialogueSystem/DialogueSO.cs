@@ -33,8 +33,8 @@ public class DialogueSO : ScriptableObject
         {
             mixergroup = mixer.FindMatchingGroups("Radio")[0];
             _dialogueAudio.OverrideDefaultDistances = true;
-            _dialogueAudio.MinDistance = .2f;
-            _dialogueAudio.MaxDistance = 3f;
+            _dialogueAudio.MinDistance = .1f;
+            _dialogueAudio.MaxDistance = 6f;
             _dialogueAudio.SpacialBlend = 1f;
         }
 

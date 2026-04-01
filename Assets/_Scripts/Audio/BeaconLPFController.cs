@@ -70,4 +70,13 @@ public class BeaconLPFController : MonoBehaviour
             return false;
         }
     }
+
+    private void OnDrawGizmozSelected()
+    {
+        if(TryGetComponent<AudioSource>(out var source))
+        {
+            Gizmos.color = Color.lightBlue;
+            Gizmos.DrawWireSphere(transform.position, source.minDistance);
+        }
+    }
 }

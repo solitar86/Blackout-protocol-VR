@@ -48,7 +48,7 @@ public class TouchableSurfaceAudioHandler : MonoBehaviour
     {
         AudioPlayer.PlaySoundAtPoint(this, _touchSoundHolder.FirstTouchSound, position, true);
 
-        if(_nextTimeAllowTouchVO < Time.time)
+        if(_nextTimeAllowTouchVO < Time.time && _surface.IsTouchedCurrently == false)
         {
             EventManager.OnPlayerObjectIDVOShouldPlay.Raise(this, _touchIdentifyVO);
             Debugger.Log(this.ToString() + "CALLED ID VO", Debugger.TextColor.Purple);

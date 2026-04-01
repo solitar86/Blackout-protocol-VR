@@ -173,7 +173,7 @@ public class SafeDial : StaticInteractable
     }
     private void DebugWorlSpaceText(int toPrint)
     {
-        Debugger.WorldSpaceText(toPrint.ToString("F1"), transform.position);
+       // Debugger.WorldSpaceText(toPrint.ToString("F1"), transform.position);
     }
     private void AngleDifferenceWithQuaternionsMethod()
     {

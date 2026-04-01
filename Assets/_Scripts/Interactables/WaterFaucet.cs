@@ -5,7 +5,7 @@ public class WaterFaucet : StaticInteractable
 {
     [Space(15), Header("Water Faucet specific settings")]
     [Space(5)]
-    [SerializeField] private Sound _waterRunningLoop;
+    [SerializeField] private Sound _waterRunningLoopSound;
     [SerializeField] private Sound _waterDrippingLoopSound;
     [SerializeField] private Sound _waterRunningStartSound;
     [SerializeField] private Sound _waterRunningStopSound;
@@ -124,7 +124,7 @@ public class WaterFaucet : StaticInteractable
         {
             // Handle audio when faucet starts running for first time in game.
             // Play start sound and start water running loop.
-            _waterRunningLoopSource = AudioPlayer.CreateLoopingAudioSource(this, _waterRunningLoop);
+            _waterRunningLoopSource = AudioPlayer.CreateLoopingAudioSource(this, _waterRunningLoopSound);
             _waterRunningLoopSource.transform.position = transform.position;
             AudioPlayer.PlaySoundAtPoint(this, _waterRunningStartSound, transform.position, true);
         }
@@ -235,4 +235,14 @@ public class WaterFaucet : StaticInteractable
         }
     }
     #endregion
+
+    private void OnDrawGizmosSelected()
+    {
+        if(_waterDrippingLoopSound != null)
+        {
+            Gizmos.color = Color.lightBlue;
+            Gizmos.DrawWireSphere(transform.position, _waterDrippingLoopSound.MinDistance);
+            Gizmos.DrawWireSphere(transform.position, _waterDrippingLoopSound.MaxDistance);
+        }
+    }
 }

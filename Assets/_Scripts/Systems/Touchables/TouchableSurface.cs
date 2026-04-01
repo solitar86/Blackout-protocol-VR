@@ -11,6 +11,17 @@ public class TouchableSurface : MonoBehaviour
     [Space(15)]
     [SerializeField] private UnityEvent _onSurfaceTouched;
 
+    public bool IsTouchedCurrently => _isTouchedCurrently;
+    private bool _isTouchedCurrently
+    {
+        get
+        {
+            Debugger.WorldSpaceText(playerHandsDataList.Count.ToString(), Player.Instance.GetLeftHand().transform.position);
+            return playerHandsDataList.Count > 1;
+        }
+    }
+
+
     // This keeps track of hand while collision is happening eg. slide or stay.
     private List<HandCollidingData> playerHandsDataList = new();
 
