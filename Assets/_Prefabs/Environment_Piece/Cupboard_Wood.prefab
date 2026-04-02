@@ -155,7 +155,7 @@ MonoBehaviour:
     OverrideDefaultDistances: 0
     MinDistance: 0.5
     MaxDistance: 2
-  _touchSoundHolder: {fileID: 0}
+  _touchSoundHolder: {fileID: 11400000, guid: c61242ee7acac43c780e02421a875f65, type: 2}
 --- !u!114 &3282350907107284348
 MonoBehaviour:
   m_ObjectHideFlags: 0
