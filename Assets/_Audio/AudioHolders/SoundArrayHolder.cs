@@ -71,7 +71,7 @@ public class SoundArrayHolder : ScriptableObject
 
         var fileNamePart = soundToCheck.Clip.name.ToLower();
 
-        if (fileNamePart.Contains(PlayerSettings.FOOTSTEP_MIXERGROUP_STRING))
+        if (fileNamePart.Contains("foot"))
         {
             if(soundToCheck.SpacialBlend != 1)
             {

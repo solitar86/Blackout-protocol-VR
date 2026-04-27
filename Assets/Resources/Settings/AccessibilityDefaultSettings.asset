@@ -17,3 +17,4 @@ MonoBehaviour:
     Particles: 1
     TouchRipple: 1
     DebugLight: 0
+    LocationVOEnabled: 1

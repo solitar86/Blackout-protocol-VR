@@ -470,6 +470,16 @@ public static class RadialMenuHolder
                         },
                 MENUTTSFILEFOLDERPATH + "TTS_Menu_TouchRipple",
                 MENUTTSFILEFOLDERPATH + "TTS_Menu_TouchRipple_description"
+            ),
+                        new RadialMenuItem(
+                "Spoken locations",
+                () => {
+                        bool enabled = PlayerSettings.Accessibility.ToggleLocationVO();
+                        string ttsPath = enabled ? "TTS_Menu_Enabled" : "TTS_Menu_Disabled";
+                        TTSPlayer.PlayTTSWithFilePath(MENUTTSFILEFOLDERPATH + ttsPath, true);
+                        },
+                MENUTTSFILEFOLDERPATH + "TTS_Menu_LocationVO",
+                MENUTTSFILEFOLDERPATH + "TTS_Menu_LocationVO_description"
             )
 
         }

@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.LightTransport;
 /// <summary>
 /// Many VO's are held by objects themselves, this class deals with non-specific
 /// VO reactioons such as "Ouch!" and curse words etc.
@@ -9,8 +11,6 @@ public class PlayerVOReactionHandler : MonoBehaviour
     [Tooltip("How many reactions can be queued before more can be added")]
     [SerializeField] private int _maxQueudVoicelines = 2;
     [SerializeField] private float _innerMonologueBuffer = 0.75f;
-    //[Tooltip("Multiplies clip duration by this number when allowing for overlapping dialogue")]
-    //[SerializeField] private float _allowOverlapDurMultiplier = 0.8f;
     [Space(5), Header("Voiceline Sound Holders")]
     [SerializeField] private SoundArrayHolder _leftTurnVO, _rightTurnVO;
     [SerializeField] private SoundArrayHolder _curseWordsVO;
@@ -26,8 +26,11 @@ public class PlayerVOReactionHandler : MonoBehaviour
     private float _pickUpSuccessDelay = 0.1f;
 
     private float _nextTimeAllowInnerMonologue = 0f;
+    private float _nextTimeAllowLocationIDVO = 0f;
 
     private Queue<Sound> _queuedVoiceLines = new();
+
+    private Sound _previousLocationVO;
 
     #region Unity Callbacks
     private void OnEnable()
@@ -36,16 +39,19 @@ public class PlayerVOReactionHandler : MonoBehaviour
         EventManager.OnCantCarryObject.AddListener(this, PlayerSayCantCarry);
         EventManager.OnPlayerObjectIDVOShouldPlay.AddListener(this, PlayTouchIDVoiceLine);
         EventManager.OnPlayerBumpIDVOShouldPlay.AddListener(this, PlayBumpIDVoiceLine);
+        EventManager.OnPlayerLocationIDShouldPlay.AddListener(this, PlayerLocationIDVoiceLine);
         EventManager.OnInteractableDetectedOnSurface.AddListener(this, PlayItemDetectedVoiceLine);
         EventManager.OnAnyObjectPickUpObjectPickedUp.AddListener(this, PlayPickUpSuccesfulVoiceLine);
         CustomSnapTurnProviderWrapper.OnPlayerSnapTurn += HandlePlayerTurn;
     }
+
     private void OnDisable()
     {
         EventManager.OnPlayerCurse.RemoveListener(this, PlayerSayCurseWord);
         EventManager.OnCantCarryObject.RemoveListener(this, PlayerSayCantCarry);
         EventManager.OnPlayerObjectIDVOShouldPlay.RemoveListener(this, PlayTouchIDVoiceLine);
         EventManager.OnPlayerBumpIDVOShouldPlay.RemoveListener(this, PlayBumpIDVoiceLine);
+        EventManager.OnPlayerLocationIDShouldPlay.RemoveListener(this, PlayerLocationIDVoiceLine);
         EventManager.OnInteractableDetectedOnSurface.RemoveListener(this, PlayItemDetectedVoiceLine);
         EventManager.OnAnyObjectPickUpObjectPickedUp.RemoveListener(this, PlayPickUpSuccesfulVoiceLine);
         CustomSnapTurnProviderWrapper.OnPlayerSnapTurn -= HandlePlayerTurn;
@@ -107,6 +113,21 @@ public class PlayerVOReactionHandler : MonoBehaviour
 
         Debugger.LogWarning("Bump ID VO was called with null sound", Debugger.TextColor.Orange);
         PlayPlayerInnerMonologueWithDelay(_bumpIDUnknownObstacleVO, PlayerSettings.Developer.IdentifyVODelay);
+    }
+    
+    /// <summary>
+    /// Plays the inputted voiceline with no delay. Will not play
+    /// the voiceline if it the same as the previous one.
+    /// </summary>
+    /// <param name="sound">Voiceline to play</param>
+    private void PlayerLocationIDVoiceLine(Sound sound)
+    {
+        if (sound == _previousLocationVO) return;
+        if (_nextTimeAllowLocationIDVO > Time.time) return;
+
+        _previousLocationVO = sound;
+        float buffer = 0.1f;
+        PlayPlayerInnerMonologueWithDelay(sound, 0f);
     }
     /// <summary>
     /// Playes a generic "something here" voiceline when player

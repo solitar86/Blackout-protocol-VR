@@ -305,6 +305,7 @@ public class PlayerSettings
         public bool Particles = false;
         public bool TouchRipple = false;
         public bool DebugLight = false;
+        public bool LocationVOEnabled = false;
 
 
         public void ToggleAll()
@@ -315,6 +316,7 @@ public class PlayerSettings
                 Particles = true;
                 TouchRipple = true;
                 DebugLight = true;
+                LocationVOEnabled = true;
             }
             else
             {
@@ -322,6 +324,7 @@ public class PlayerSettings
                 Particles = false;
                 TouchRipple = false;
                 DebugLight = false;
+                LocationVOEnabled = false;
             }
 
             EventManager.OnAccessibilitySettingsChanged.Raise(this, -1);
@@ -351,6 +354,13 @@ public class PlayerSettings
             DebugLight = !DebugLight;
             EventManager.OnAccessibilitySettingsChanged.Raise(this, -1);
             return DebugLight;
+        }
+
+        public bool ToggleLocationVO()
+        {
+            LocationVOEnabled = !LocationVOEnabled;
+            EventManager.OnAccessibilitySettingsChanged.Raise(this, -1);
+            return LocationVOEnabled;
         }
     }
 

@@ -49,6 +49,7 @@ public static class EventManager
     public static GameEvent<int> OnInteractableDetectedOnSurface = new("Item on surface");
     public static GameEvent<Sound> OnPlayerObjectIDVOShouldPlay = new("ID VO");
     public static GameEvent<Sound> OnPlayerBumpIDVOShouldPlay = new("Bump ID VO");
+    public static GameEvent<Sound> OnPlayerLocationIDShouldPlay = new("Location ID VO");
 
     // Interactable object events
     public static GameEvent<PickUpObject> OnAnyPickUpObjectHitFloor = new("Object dropped on ground");
@@ -128,7 +129,6 @@ public class GameEvent<T>
 
         _listenerList.Add(listener);
     }
-
     public void RemoveListener(object unsubscriber, Action<T> listener)
     {
         if (_listenerList.Contains(listener))
@@ -136,7 +136,6 @@ public class GameEvent<T>
             _listenerList.Remove(listener);
         }
     }
-
     public void Raise(object eventCaller, T param)
     {
         if (EventManager.LogsEnabled) Debugger.Log(_eventName + " - event was called by " + eventCaller.ToString(), Debugger.TextColor.Yellow);

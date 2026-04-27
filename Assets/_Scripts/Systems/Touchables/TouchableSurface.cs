@@ -38,6 +38,10 @@ public class TouchableSurface : MonoBehaviour
     {
         gameObject.layer = LayerMask.NameToLayer(PlayerSettings.OBSTACLE_LAYER_NAME);
     }
+    private void OnDisable()
+    {
+        
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (this.enabled == false) return;
