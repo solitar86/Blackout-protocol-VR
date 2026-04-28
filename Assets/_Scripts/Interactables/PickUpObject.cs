@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.IO;
 using UnityEngine;
 using UnityEngine.XR;
@@ -93,16 +94,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         _startingPosition = transform.position;
         _startingRotation = transform.rotation;
 
-        _collider = GetComponent<Collider>();
-        _ridibody = GetComponent<Rigidbody>();
-        _ridibody.isKinematic = false;
-        _ridibody.useGravity = false;
-        _ridibody.mass = 0.1f;
-        _ridibody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-
-        _velocityToVolumeCurve = new AnimationCurve(
-        new Keyframe(0f, 0.01f),
-        new Keyframe(_velocityToVolumeCap, 1f));
+        InitRigidBody();
     }
     public virtual void Update()
     {
@@ -112,6 +104,8 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     }
     public virtual void FixedUpdate()
     {
+
+        if (_ridibody == null) InitRigidBody();
         if (parentTransformReference != null)
         {
             transform.localPosition = _offsetSettings != null ? _offsetSettings.PositionOffset : Vector3.zero;
@@ -124,6 +118,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         _ridibody.linearVelocity = Vector3.zero;
         _ridibody.angularVelocity = Vector3.zero;
     }
+
     private void OnCollisionEnter(Collision collision)
     {
         // We make the assumption that this object is
@@ -324,12 +319,30 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
             surface.HandleTouchedWithPickUpObject(this);
         }
 
+        HandleCollisiondWithSpecificObjects(environmentObject);
+
         _nextTimeAllowImpactSound = Time.time + _impactSoundBuffer;
     }
+
+    /// <summary>
+    /// Override this method to add behavior for specific collisions with objects
+    /// </summary>
+    /// <param name="environmentObject">What we collided with</param>
+    public virtual void HandleCollisiondWithSpecificObjects(GameObject environmentObject)
+    {
+        //Add custom logic.
+    }
+
     public virtual void HandleSpecialCasesForHittingFloor(Vector3 dropPosition, float delay)
     {
         // Do something if necessary.
     }
+    /// <summary>
+    /// Force remove something from player hand.
+    /// Add "HoldingHand" as input parameter, it is a derived
+    /// field from the abstract Pick-up object class.
+    /// </summary>
+    /// <param name="holdingHand"></param>
     public virtual void ForceRemoveObjectFromHandAndReturnToStartPosition(PlayerHand holdingHand)
     {
         transform.SetParent(null);
@@ -379,6 +392,19 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     #endregion
 
     #region Private functions / helpers for organization purposes
+    private void InitRigidBody()
+    {
+        _collider = GetComponent<Collider>();
+        _ridibody = GetComponent<Rigidbody>();
+        _ridibody.isKinematic = false;
+        _ridibody.useGravity = false;
+        _ridibody.mass = 0.1f;
+        _ridibody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+
+        _velocityToVolumeCurve = new AnimationCurve(
+        new Keyframe(0f, 0.01f),
+        new Keyframe(_velocityToVolumeCap, 1f));
+    }
     private void ResetPositionAndRotationToStartPosAndRot()
     {
         transform.position = _startingPosition;
