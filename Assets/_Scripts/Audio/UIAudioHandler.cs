@@ -19,7 +19,9 @@ public class UIAudioHandler : MonoBehaviour
         EventManager.OnMenuItemActivate.AddListener(this, PlayMenuItemActivatedSound);
         EventManager.OnPreviousMenuOpened.AddListener(this, PlayBackButtonSound);
         EventManager.OnMenuBlocked.AddListener(this, HandleMenuBlockedSound);
+        EventManager.OnRepeatTTSFailed.AddListener(this, HandleGeneralErrorSound);
     }
+
     private void OnDisable()
     {
         EventManager.OnRadialMenuOpen.RemoveListener(this, PlayMenuOpenSound);
@@ -28,6 +30,7 @@ public class UIAudioHandler : MonoBehaviour
         EventManager.OnMenuItemActivate.RemoveListener(this, PlayMenuItemActivatedSound);
         EventManager.OnPreviousMenuOpened.RemoveListener(this, PlayBackButtonSound);
         EventManager.OnMenuBlocked.RemoveListener(this, HandleMenuBlockedSound);
+        EventManager.OnRepeatTTSFailed.RemoveListener(this, HandleGeneralErrorSound);
     }
 
 
@@ -73,6 +76,11 @@ public class UIAudioHandler : MonoBehaviour
             }
         }
 
+    }
+
+    private void HandleGeneralErrorSound(int obj)
+    {
+        AudioPlayer.PlaySoundAtPoint(this, _backButtonSound, Vector3.zero, false, false);
     }
 
 

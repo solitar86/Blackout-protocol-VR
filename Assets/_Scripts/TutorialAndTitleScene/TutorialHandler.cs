@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using System.Runtime.CompilerServices;
+using Unity.Tutorials.Core.Editor;
 using UnityEngine;
 
 public class TutorialHandler : MonoBehaviour
@@ -13,6 +13,7 @@ public class TutorialHandler : MonoBehaviour
     private bool _hasDroppedWalkieTalkie = false;
     private bool _hasActivatedFaucet = false;
     private const string TTSTUTORIALPATH = "TTS/Tutorial/";
+
 
     private Action _onTutorialCompleteAction;
 
@@ -64,17 +65,37 @@ public class TutorialHandler : MonoBehaviour
         // Introduce TTS voice,
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_TTSIntroduction", out clipDuration, true);
         yield return new WaitForSeconds(clipDuration + 1f);
+
+        // Introduce REPEAT function
+        TTSPlayer.AddRepeatableTTS(TTSTUTORIALPATH + "TTS_RepeatTTSTutorialDone");
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_RepeatTTSTutorial", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 1f);
+
+        // Add progression block until player has tried to repeat
+        bool hasRepeatedTTS = false;
+        Action<int> playerProgressionDelegate = (_) => hasRepeatedTTS = true;
+        EventManager.OnRepeatTTSCalled.AddListener(this, playerProgressionDelegate);
+        yield return new WaitUntil(() => hasRepeatedTTS == true);
+        EventManager.OnRepeatTTSCalled.RemoveListener(this, playerProgressionDelegate);
+
+        //Player succesfully repeated TTS.
+        yield return new WaitForSeconds(TTSPlayer.GetDurationOfTTSClipWithPath(TTSTUTORIALPATH + "TTS_RepeatTTSTutorialDone") + 1);
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Continue", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 1f);
+
     }
     private IEnumerator BasicsOfVRTutorial()
     {
         float clipDuration = 0f;
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_VRBasics_part1", out clipDuration, true);
+        TTSPlayer.AddRepeatableTTS(TTSTUTORIALPATH + "TTS_VRBasics_part1");
         yield return new WaitForSeconds(clipDuration + 0.1f);
 
         // Spawn insect and wait till player kills it.
         var insect = Instantiate(_insectPrefab, Player.Instance.GetPlayerEarPosition(true), Quaternion.identity);
         insect.SetParent(Player.Instance.GetPlayerHeadTransform());
-        yield return new WaitUntil(()=> insect == null);
+        yield return new WaitUntil(()=> insect.gameObject.activeInHierarchy == false);
+        Destroy(insect.gameObject);
         yield return new WaitForSeconds(1f);
 
         // Say well done
@@ -82,12 +103,14 @@ public class TutorialHandler : MonoBehaviour
         yield return new WaitForSeconds(clipDuration + 0.1f);
 
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_VRBasics_part2", out clipDuration, true);
+        TTSPlayer.AddRepeatableTTS(TTSTUTORIALPATH + "TTS_VRBasics_part2");
         yield return new WaitForSeconds(clipDuration + 0.1f);
 
         // Spawn insect and wait till player kills it.
         insect = Instantiate(_insectPrefab, Player.Instance.GetPlayerEarPosition(false), Quaternion.identity);
         insect.SetParent(Player.Instance.GetPlayerHeadTransform());
-        yield return new WaitUntil(() => insect == null);
+        yield return new WaitUntil(() => insect.gameObject.activeInHierarchy == false);
+        Destroy(insect.gameObject);
         yield return new WaitForSeconds(1f);
 
         // Say well done
@@ -95,12 +118,14 @@ public class TutorialHandler : MonoBehaviour
         yield return new WaitForSeconds(clipDuration + 0.1f);
 
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_VRBasics_part3", out clipDuration, true);
+        TTSPlayer.AddRepeatableTTS(TTSTUTORIALPATH + "TTS_VRBasics_part3");
         yield return new WaitForSeconds(clipDuration + 0.1f);
 
         // Spawn insect and wait till player kills it.
         insect = Instantiate(_insectPrefab, Player.Instance.GetPosInFrontOfPlayerFace(), Quaternion.identity);
         insect.SetParent(Player.Instance.GetPlayerHeadTransform());
-        yield return new WaitUntil(() => insect == null);
+        yield return new WaitUntil(() => insect.gameObject.activeInHierarchy == false);
+        Destroy(insect.gameObject);
         yield return new WaitForSeconds(1f);
 
         // Say well done and continue tutorial
@@ -116,6 +141,7 @@ public class TutorialHandler : MonoBehaviour
         float clipDuration = 0f;
         // How to use Radial menu info.
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_MenuInfo", out clipDuration, true);
+        TTSPlayer.AddRepeatableTTS(TTSTUTORIALPATH + "TTS_MenuInfo");
         yield return new WaitForSeconds(clipDuration);
         EventManager.OnToggleRadialMenuOnOff.Raise(this, true);
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_MenuInfo2", out clipDuration, true);
@@ -148,8 +174,10 @@ public class TutorialHandler : MonoBehaviour
     }
     private IEnumerator MovementTutorial()
     {
+
         float clipDuration = 0f;
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Movement_part1", out clipDuration, true);
+        TTSPlayer.AddRepeatableTTS(TTSTUTORIALPATH + "TTS_Movement_part1");
         yield return new WaitForSeconds(clipDuration + 0.1f);
 
         Player.Instance.EnableTurnAndMove();
@@ -189,6 +217,7 @@ public class TutorialHandler : MonoBehaviour
         float clipDuration = 0f;
         Player.Instance.EnableNorthBeacon();
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_NorthBeacon", out clipDuration, true);
+        TTSPlayer.AddRepeatableTTS(TTSTUTORIALPATH + "TTS_NorthBeacon");
         yield return new WaitForSeconds(clipDuration + 0.1f);
 
         // Wait for player to hold trigger to progress
@@ -209,6 +238,7 @@ public class TutorialHandler : MonoBehaviour
         float clipDuration = 0f;
         Player.Instance.EnableFingerSnapping();
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_FingerSnap", out clipDuration, true);
+        TTSPlayer.AddRepeatableTTS(TTSTUTORIALPATH + "TTS_FingerSnap");
         yield return new WaitForSeconds(clipDuration + 0.1f);
 
         // Wait for player to hold trigger to progress
@@ -233,6 +263,7 @@ public class TutorialHandler : MonoBehaviour
         _interactionTutorialItems.SetActive(true);
 
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Interaction_part2", out clipDuration, true);
+        TTSPlayer.AddRepeatableTTS(TTSTUTORIALPATH + "TTS_Interaction_part2");
         yield return new WaitForSeconds(clipDuration + 0.1f);
 
         // Wait until player has
@@ -253,6 +284,7 @@ public class TutorialHandler : MonoBehaviour
     private void HandleTutorialEnd()
     {
         _onTutorialCompleteAction?.Invoke();
+        TTSPlayer.AddRepeatableTTS(TTSTUTORIALPATH + "TTS_ControlsListed");
     }
     public void SkipTutorial()
     {
@@ -261,6 +293,7 @@ public class TutorialHandler : MonoBehaviour
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_SkippingTutorial");
         StopAllCoroutines();
     }
+    
     #region Helpers
     public void SetHasDroppedWalkieTalkie(bool value)
     {
@@ -270,6 +303,6 @@ public class TutorialHandler : MonoBehaviour
     {
         _hasActivatedFaucet = value;
     }
-    
+
     #endregion
 }

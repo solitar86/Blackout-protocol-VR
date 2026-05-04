@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 4161250646614555834}
   - component: {fileID: 3777674870196297913}
   m_Layer: 0
-  m_Name: PlayerAndMainCamera
+  m_Name: PlayerHeadAndCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -412,7 +412,7 @@ MonoBehaviour:
     m_Bits: 3073
   _feetSeparationDistance: 1
   _defaultFootSteps: {fileID: 11400000, guid: bf4818b62b1b414458290a185d758b1d, type: 2}
-  _footStepSoundDistanceInterval: 0.5
+  _footStepSoundDistanceInterval: 0.4
   _minDelayBetweenShuffle: 0.05
   _maxDelayBetweenShuffle: 0.3
 --- !u!114 &4161250646614555834
@@ -441,6 +441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89c3970f815316044a8cb8921c02c750, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  _spatializeFingerSnaps: 1
   _echoDelayMultiplier: 0.25
   _fingerSnapSounds: {fileID: 11400000, guid: 585b20a22100ff24e955ba55c5f40918, type: 2}
   _layersToPlayEchoFrom:
@@ -688,7 +689,7 @@ MonoBehaviour:
   _onGrabFailSound:
     Clip: {fileID: 8300000, guid: 31413d77cec511b409ce7e7d1265476e, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0.3
+    Volume: 0.5
     Pitch: 1
     SpacialBlend: 1
     OverrideDefaultDistances: 0
@@ -704,7 +705,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6999042435616901005}
   m_Layer: 0
-  m_Name: Camera Offset
+  m_Name: PlayerHeadAndHands
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6406,7 +6407,7 @@ MonoBehaviour:
   _onGrabFailSound:
     Clip: {fileID: 8300000, guid: 31413d77cec511b409ce7e7d1265476e, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0.3
+    Volume: 0.5
     Pitch: 1
     SpacialBlend: 1
     OverrideDefaultDistances: 0

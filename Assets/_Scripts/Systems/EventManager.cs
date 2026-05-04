@@ -13,6 +13,8 @@ public static class EventManager
     public static GameEvent<float> OnTTSVolumeChange = new("TTS Volume Change");
     public static GameEvent<float> OnTTSSPeedChange = new("TTS Speed Change");
     public static GameEvent<string> OnTTSPlay = new("TTS Play");
+    public static GameEvent<int> OnRepeatTTSCalled = new("Repeat TTS Called");
+    public static GameEvent<int> OnRepeatTTSFailed = new("Repeat TTS Failed");
 
     // Input Events
     public static GameEvent<int> OnPlayerWantSkip = new("Skip performed");

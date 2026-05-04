@@ -14,19 +14,31 @@ public class Key : PickUpObject
     [SerializeField] GameObject[] _validObjects;
 
 
+    [SerializeField] KeyQuestProgressionStep[] _questProgressionWhenTouchedWithKey;
+
+
     private float _nextTimeAllowKeyDoesntFitVO = 0;
     private float _KeyDoesntFitVOMinInterval = 0f;
 
     #region Unity Callbacks
     private void Awake()
     {
+        base.Awake();
         _KeyDoesntFitVOMinInterval = _keyDoesntFitVO.Clip.length + 1f;
     }
-
     #endregion
 
     public override void HandleCollisiondWithSpecificObjects(GameObject environmentObject)
     {
+
+        foreach (var questStep in _questProgressionWhenTouchedWithKey)
+        {
+            if(questStep.requiredCollisionGameObject == environmentObject)
+            {
+                questStep.ProgressThisQuest();
+            }
+        }
+
         foreach (var item in _invalidObjects)
         {
             if (item.Equals(environmentObject))
@@ -46,12 +58,11 @@ public class Key : PickUpObject
             if(item.Equals(environmentObject))
             {
                 // This key works on this object
-                HandleKeyInteractionWithValidObject(environmentObject);
+                HandleInteractionWithOpenableObject(environmentObject);
             }
         }
     }
-
-    private void HandleKeyInteractionWithValidObject(GameObject environmentObject)
+    private void HandleInteractionWithOpenableObject(GameObject environmentObject)
     {
         environmentObject.SetActive(false);
         ForceRemoveObjectFromHandAndReturnToStartPosition(HoldingHand);
@@ -61,9 +72,20 @@ public class Key : PickUpObject
         }
 
     }
-
     private void PlayKeyDoesntFitVoiceline()
     {
         AudioPlayer.PlaySoundAtPoint(this, _keyDoesntFitVO, Player.Instance.transform.position, usePitchVariation: false, spatialize: false);
+    }
+}
+
+[System.Serializable]
+public class KeyQuestProgressionStep
+{
+    [SerializeField] public GameObject requiredCollisionGameObject;
+    [SerializeField] private QuestProgressionStep questProgression;
+
+    public void ProgressThisQuest()
+    {
+        EventManager.OnProgressQuest.Raise(this, questProgression);
     }
 }

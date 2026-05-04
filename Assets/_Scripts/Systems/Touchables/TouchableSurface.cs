@@ -16,7 +16,6 @@ public class TouchableSurface : MonoBehaviour
     {
         get
         {
-            Debugger.WorldSpaceText(playerHandsDataList.Count.ToString(), Player.Instance.GetLeftHand().transform.position);
             return playerHandsDataList.Count > 1;
         }
     }

@@ -138,7 +138,7 @@ public class PlayerHand : MonoBehaviour
         var controller = InputDevices.GetDeviceAtXRNode(GetHandXRNode());
         if(controller.TryGetFeatureValue(CommonUsages.deviceVelocity, out var velocity))
         {
-            Debugger.WorldSpaceText(velocity.magnitude.ToString("F2"), transform.position);
+            //Debugger.WorldSpaceText(velocity.magnitude.ToString("F2"), transform.position);
             return velocity.magnitude;
         }
         Debugger.LogWarning("Could not get hand velocity. Returning 0");

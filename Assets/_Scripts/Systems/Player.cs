@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
 {
     public static Player Instance;
     [SerializeField] private XROrigin _xrOrigin;
+    [SerializeField] private float _originMaxYBeforeForceReCenter = 0.5f;
     [SerializeField] private Transform _playerHead;
     [SerializeField] private PlayerHand _rightHand;
     [SerializeField] private PlayerHand _leftHand;
@@ -27,14 +28,21 @@ public class Player : MonoBehaviour
     {
         EventManager.OnStickPressed.AddListener(this, RecenterPlayer);
     }
-
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(Instance.gameObject);
 
     }
-
+    private void FixedUpdate()
+    {
+        if ((_xrOrigin.transform.position.y > _originMaxYBeforeForceReCenter))
+        {
+            // Player has climbed on top of geometry. This assumes no walking up slopes.
+            RecenterPlayerToStartPositionWithNoTTS();
+            TTSPlayer.PlayTTSWithFilePath("TTS/TTS_Error_OutOfBounds");
+        }
+    }
     private void OnDisable()
     {
         EventManager.OnStickPressed.RemoveListener(this, RecenterPlayer);
@@ -209,6 +217,11 @@ public class Player : MonoBehaviour
         return _playerHead.position + _playerHead.transform.forward * 0.25f;
     }
     public bool IsRightHand(PlayerHand hand) => hand == _rightHand;
+
+    public static void ResetStaticVariablesAndEnableAll()
+    {
+        
+    }
 
     #endregion
 }

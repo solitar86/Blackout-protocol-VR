@@ -15,5 +15,6 @@ public static class Bootstrapper
     {
         TTSPlayer.ResetStaticVariables();
         ConversationManager.ResetStaticVariables();
+        Player.ResetStaticVariablesAndEnableAll();
     }
 }

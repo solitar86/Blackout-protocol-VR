@@ -134,7 +134,7 @@ public class WaterFaucet : StaticInteractable
             // Play startsound and start water running loop.
             _waterRunningLoopSource.UnPause();
             AudioPlayer.PlaySoundAtPoint(this, _waterRunningStartSound, transform.position, true);
-            Debugger.WorldSpaceText("Turning running source on.", transform.position);
+            //TODO: This If statement keep sgetting constantly called when faucet is on.
         }
 
         if (_waterDrippingSource != null && _waterDrippingSource.isPlaying == true)

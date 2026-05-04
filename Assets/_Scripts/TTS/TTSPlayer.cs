@@ -15,25 +15,38 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class TTSPlayer : MonoBehaviour
 {
-
-    private static string TTS_ERROR_FILEPATH = "TTS/TTS_Error_TTSFileNotFound";
-#region Unity Callbacks
-    private void OnEnable()
+    #region Fields
+    private static string TTS_ERROR_NOFILE_FILEPATH = "TTS/TTS_Error_TTSFileNotFound";
+    private static string TTS_ERROR_NOREPEAT_FILEPATH = "TTS/TTS_Error_NothingToRepeat";
+    public static bool TTSIsPlaying
     {
-        EventManager.OnRadialMenuClose.AddListener("TTSPlayer", UnloadUsedTTSClips);
+        get
+        {
+            return Time.time < _nextTimeAllowTTS;
+        }
     }
-    private void OnDisable()
-    {
-        EventManager.OnRadialMenuClose.RemoveListener("TTSPlayer", UnloadUsedTTSClips);
-    }
-#endregion
+    private static AudioClip _TTSToRepeat;
 
-    // TODO: Use this list to unload TTS files at appropriate times
     private static List<AudioClip> _currentlyLoadedClips = new List<AudioClip>();
     private static List<GameObject> _queuedTTSSequenceGameObjects = new List<GameObject>();
     private static AudioSource _ttsSource;
     private const string TTSNUMBERSPATH = "TTS/Numbers/TTS_Numbers_";
-    private static float _nextTimeAllowTTS = 0f; // THIS VALUE NEEDS TO BE RESET on ENTER PLAYMODE! TODO!
+    private static float _nextTimeAllowTTS = 0f;
+    #endregion
+
+    #region Unity Callbacks
+    private void OnEnable()
+    {
+        EventManager.OnRadialMenuClose.AddListener("TTSPlayer", UnloadUsedTTSClips);
+        EventManager.OnRepeatTTSCalled.AddListener("TTSPlayer", RepeatTTS);
+    }
+    private void OnDisable()
+    {
+        EventManager.OnRadialMenuClose.RemoveListener("TTSPlayer", UnloadUsedTTSClips);
+        EventManager.OnRepeatTTSCalled.RemoveListener("TTSPlayer", RepeatTTS);
+    }
+    #endregion
+
     private static void PlayTTS(AudioClip clipToPlay, string debugInfo, bool preventInterrupt = false)
     {
         if (Time.time < _nextTimeAllowTTS)
@@ -48,7 +61,7 @@ public class TTSPlayer : MonoBehaviour
             return;
         }
         // TODO: Make this with a permanent reference.
-        if(_ttsSource == null) _ttsSource = FindFirstObjectByType<TTS_SpeedControl>().TTSSource;
+        if (_ttsSource == null) _ttsSource = FindFirstObjectByType<TTS_SpeedControl>().TTSSource;
         _ttsSource.clip = clipToPlay;
         _ttsSource.loop = false; // This resets us if we are playing a TTS file on loop before.
         _ttsSource.Play();
@@ -71,7 +84,7 @@ public class TTSPlayer : MonoBehaviour
             AudioClip clip = Resources.Load<AudioClip>(path);
             if (clip == null)
             {
-                clip = Resources.Load<AudioClip>(TTS_ERROR_FILEPATH);
+                clip = Resources.Load<AudioClip>(TTS_ERROR_NOFILE_FILEPATH);
             }
             else clips.Add(clip);
         }
@@ -118,7 +131,7 @@ public class TTSPlayer : MonoBehaviour
     /// <param name="path">Where in Resources is this file (without file-extention)</param>
     /// <param name="clipDuration">Out how long is the audio file</param>
     /// <param name="preventInterrupt">Can another TTS line interrupt this TTS line</param>
-    public static void PlayTTSWithFilePath(string path, out float clipDuration , bool preventInterrupt = false)
+    public static void PlayTTSWithFilePath(string path, out float clipDuration, bool preventInterrupt = false)
     {
         var clip = Resources.Load<AudioClip>(path);
         if (clip == null)
@@ -128,7 +141,7 @@ public class TTSPlayer : MonoBehaviour
             clipDuration = 0f;
             return;
         }
-        clipDuration = clip.length *(1 / _ttsSource.pitch);
+        clipDuration = clip.length * (1 / _ttsSource.pitch);
         PlayTTS(clip, path, preventInterrupt);
     }
     public static void PlayNumber(int number)
@@ -137,12 +150,23 @@ public class TTSPlayer : MonoBehaviour
         var clip = Resources.Load<AudioClip>(TTSNUMBERSPATH + numberString);
         PlayTTS(clip, "Number: " + number);
     }
-    private static void PlayTTSFileNotFoundError()
+    private static string GetTTSErrorFilePath() => TTS_ERROR_NOFILE_FILEPATH;
+    public static void RepeatTTS(int value)
     {
-        var clip = Resources.Load<AudioClip>(TTS_ERROR_FILEPATH);
-        PlayTTS(clip, "Error Clip");
+        if(TTSIsPlaying == true)
+        {
+            EventManager.OnRepeatTTSFailed.Raise("TTS is Playing", -1);
+        }
+        if(_TTSToRepeat == null)
+        {
+            PlayTTSNothingToRepeatError();
+            return;
+        }
+        if(TTSIsPlaying == false)
+        {
+            PlayTTS(_TTSToRepeat, _TTSToRepeat.name, preventInterrupt: false);
+        }
     }
-    private static string GetTTSErrorFilePath() => TTS_ERROR_FILEPATH;
     private static void TryAddClipToLoadedAssetsList(AudioClip clipToPlay)
     {
         if (_currentlyLoadedClips.Contains(clipToPlay)) return;
@@ -164,6 +188,36 @@ public class TTSPlayer : MonoBehaviour
     }
 
     #region Helpers etc.
+    private static void PlayTTSFileNotFoundError()
+    {
+        var clip = Resources.Load<AudioClip>(TTS_ERROR_NOFILE_FILEPATH);
+        PlayTTS(clip, "No FIle Found Error Clip");
+    }
+    private static void PlayTTSNothingToRepeatError()
+    {
+        var clip = Resources.Load<AudioClip>(TTS_ERROR_NOREPEAT_FILEPATH);
+        PlayTTS(clip, "Nothing to Repeat Error Clip");
+    }
+    public static void AddRepeatableTTS(string path)
+    {
+        var clip = Resources.Load<AudioClip>(path);
+        if (clip == null)
+        {
+            _TTSToRepeat = null;
+            return;
+        }
+
+        _TTSToRepeat = clip;
+    }
+    public static float GetDurationOfTTSClipWithPath(string path)
+    {
+        var clip = Resources.Load<AudioClip>(path);
+        if (clip == null)
+        {
+            return 0f;
+        }
+        return clip.length * (1 / _ttsSource.pitch);
+    }
     private static void DestroyAndClearQueuedTTSCalls()
     {
         foreach (var item in _queuedTTSSequenceGameObjects)
@@ -177,7 +231,7 @@ public class TTSPlayer : MonoBehaviour
     }
     public static void RemoveFromQueuedList(GameObject go)
     {
-        if(_queuedTTSSequenceGameObjects.Contains(go))
+        if (_queuedTTSSequenceGameObjects.Contains(go))
         {
             _queuedTTSSequenceGameObjects.Remove(go);
         }

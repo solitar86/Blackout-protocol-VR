@@ -20,7 +20,7 @@ public class QuestStateHandler : MonoBehaviour
     [SerializeField] ConversationSO _noQuestStartedHint;
 
     //Used to avoid reptition in hint conversations
-    private ConversationSO _lastPlaydConversation;
+    private ConversationSO _lastPlayedHintConversation;
 
     private bool _hasNotSpokenOnRadioYet = true;
 
@@ -47,7 +47,7 @@ public class QuestStateHandler : MonoBehaviour
         if (_hasNotSpokenOnRadioYet == true)
         {
             StartFirstRadioConversation();
-            _lastPlaydConversation = _firstRadioConversation;
+            _lastPlayedHintConversation = _firstRadioConversation;
             return;
         }
 
@@ -58,6 +58,7 @@ public class QuestStateHandler : MonoBehaviour
         if (ConversationManager.IsPlayingConversation == true) return;
 
         // Simple player call NPC conversation to start off with.
+        // This is played and then Hint conversation is queued after
         PlayThisConversation(_genericStartConversations[Random.Range(0, _genericStartConversations.Length)], false);
 
         ConversationSO hintConversation = TryGetQuestStateConversationOrDefault();
@@ -85,12 +86,12 @@ public class QuestStateHandler : MonoBehaviour
         }
         else if (startedQuests.Count > 1)
         {
-            // Player has several started quests. Pick on and play hint conversation
+            // Player has several started quests. Pick one and play hint conversation
             QuestSO selectedQuest;
             do
             {
                 selectedQuest = startedQuests[Random.Range(0, startedQuests.Count)];
-            } while (selectedQuest.GetStartedHintConversation() == _lastPlaydConversation);
+            } while (selectedQuest.GetStartedHintConversation() == _lastPlayedHintConversation);
             return selectedQuest.GetStartedHintConversation();
         }
 
@@ -110,13 +111,13 @@ public class QuestStateHandler : MonoBehaviour
             do
             {
                 selectedQuest = discoveredQuests[Random.Range(0, discoveredQuests.Count)];
-            } while (selectedQuest.GetDiscoveredHintConversation() == _lastPlaydConversation);
+            } while (selectedQuest.GetDiscoveredHintConversation() == _lastPlayedHintConversation);
             return selectedQuest.GetDiscoveredHintConversation();
         }
 
         // Player has no started or discovered quests but is requesting a hint
         // or maybe just wants to talk to the NPC. Handle that situation
-        if(_lastPlaydConversation != _noQuestStartedHint)
+        if(_lastPlayedHintConversation != _noQuestStartedHint)
         {
             return _noQuestStartedHint;
         }
@@ -131,7 +132,7 @@ public class QuestStateHandler : MonoBehaviour
     private void PlayThisConversation(ConversationSO conversation, bool overWriteLastPlayedConversation = true)
     {
         ConversationManager.PlayConversation(conversation);
-        if(overWriteLastPlayedConversation) _lastPlaydConversation = conversation;
+        if(overWriteLastPlayedConversation) _lastPlayedHintConversation = conversation;
     }
 
 

@@ -1,7 +1,4 @@
-using JetBrains.Annotations;
-using System.IO;
 using UnityEngine;
-using UnityEngine.XR;
 
 /// <summary>
 /// All object which the player can hold and interact with
@@ -93,6 +90,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     {
         _startingPosition = transform.position;
         _startingRotation = transform.rotation;
+        Debugger.Log("Awake was called on: " + gameObject.name, Debugger.TextColor.Orange);
 
         InitRigidBody();
     }
@@ -118,7 +116,6 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         _ridibody.linearVelocity = Vector3.zero;
         _ridibody.angularVelocity = Vector3.zero;
     }
-
     private void OnCollisionEnter(Collision collision)
     {
         // We make the assumption that this object is
