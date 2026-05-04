@@ -15,4 +15,4 @@ MonoBehaviour:
   Name: Glass Door
   _state: 0
   _discoveredStateHintConvo: {fileID: 11400000, guid: a549cf4dc13c5104b861daee485c73c7, type: 2}
-  _startedStateHintConvo: {fileID: 0}
+  _startedStateHintConvo: {fileID: 11400000, guid: 0aab30e184fc21b40911fbd8dcfeb156, type: 2}

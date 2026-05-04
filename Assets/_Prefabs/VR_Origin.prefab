@@ -412,7 +412,7 @@ MonoBehaviour:
     m_Bits: 3073
   _feetSeparationDistance: 1
   _defaultFootSteps: {fileID: 11400000, guid: bf4818b62b1b414458290a185d758b1d, type: 2}
-  _footStepSoundDistanceInterval: 0.4
+  _footStepSoundDistanceInterval: 0.6
   _minDelayBetweenShuffle: 0.05
   _maxDelayBetweenShuffle: 0.3
 --- !u!114 &4161250646614555834
@@ -958,6 +958,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   _xrOrigin: {fileID: 6970487752906095010}
+  _originMaxYBeforeForceReCenter: 0.5
   _playerHead: {fileID: 8572928370164838739}
   _rightHand: {fileID: 3664093064706276170}
   _leftHand: {fileID: 6285823810573603495}
@@ -1057,7 +1058,7 @@ MonoBehaviour:
   - 0.2
   - 0.4
   _numberOfRaycasts: 5
-  _touchSoundDistanceMultiplier: 0.3
+  _touchSoundDistanceMultiplier: 1
   _defaultPlayerCollisionSoundHolder: {fileID: 11400000, guid: 0f3aeb9cf4ac00441b8f5da7016cc971, type: 2}
   _playerScrapeObstacleSound:
     Clip: {fileID: 8300000, guid: 87bd53f2369882e4c9a4a995048e8da5, type: 3}

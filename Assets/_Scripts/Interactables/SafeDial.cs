@@ -81,11 +81,9 @@ public class SafeDial : StaticInteractable
             }
 
             _lastDigitsZAngle = handZrotation;
-#if UNITY_EDITOR
-            DebugWorlSpaceText(_currentDialNumber);
-#endif
-
-
+//#if UNITY_EDITOR
+//            DebugWorlSpaceText(_currentDialNumber);
+//#endif
         }
         else if (TouchingHand == null && IsActivated == true)
         {
@@ -123,7 +121,7 @@ public class SafeDial : StaticInteractable
         Sound correctSound = new Sound(_singleClick);
         correctSound.Pitch -= 0.4f;
         correctSound.Volume += 0.3f;
-        Debugger.PlayBlipSound();
+        //Debugger.PlayBlipSound();
         AudioPlayer.PlaySoundAtPoint(this, correctSound, transform.position, false, true);
     }
     #endregion
