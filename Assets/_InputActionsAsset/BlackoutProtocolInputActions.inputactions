@@ -879,6 +879,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "HoldGrip",
+                    "type": "Button",
+                    "id": "179c25a8-6204-42c3-890b-1d5f5fcba0ec",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Select Value",
                     "type": "Value",
                     "id": "e6005f29-e4c1-4f3b-8bf7-3a28bab5ca9c",
@@ -1089,6 +1098,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1acb1809-375a-44bc-9291-e8f723ba47e2",
+                    "path": "<XRController>{LeftHand}/gripPressed",
+                    "interactions": "Hold(duration=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HoldGrip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -2185,6 +2205,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "HoldGrip",
+                    "type": "Button",
+                    "id": "8343ba8e-ed42-46d5-bb4d-3a0c5172243c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -2537,6 +2566,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "StickPressed",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "89db1b9d-9e2c-42e8-b6f1-8b9ce1e8c0dd",
+                    "path": "<XRController>{RightHand}/gripPressed",
+                    "interactions": "Hold(duration=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HoldGrip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

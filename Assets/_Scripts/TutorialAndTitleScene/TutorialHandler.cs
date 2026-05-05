@@ -13,8 +13,6 @@ public class TutorialHandler : MonoBehaviour
     private bool _hasDroppedWalkieTalkie = false;
     private bool _hasActivatedFaucet = false;
     private const string TTSTUTORIALPATH = "TTS/Tutorial/";
-
-
     private Action _onTutorialCompleteAction;
 
     private void Start()
@@ -266,6 +264,8 @@ public class TutorialHandler : MonoBehaviour
         TTSPlayer.AddRepeatableTTS(TTSTUTORIALPATH + "TTS_Interaction_part2");
         yield return new WaitForSeconds(clipDuration + 0.1f);
 
+        yield return new WaitForSeconds(7);
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_LocatorInfo");
         // Wait until player has
         // Activated both objects and
         // dropped walkie talkie on floor

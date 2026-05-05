@@ -90,8 +90,6 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     {
         _startingPosition = transform.position;
         _startingRotation = transform.rotation;
-        Debugger.Log("Awake was called on: " + gameObject.name, Debugger.TextColor.Orange);
-
         InitRigidBody();
     }
     public virtual void Update()

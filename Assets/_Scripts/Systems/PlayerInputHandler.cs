@@ -10,6 +10,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     private InputAction _rightTrigger;
     private InputAction _rightSelect;
+    private InputAction _rightGripHeld;
     private InputAction _rightPrimaryButton;
     private InputAction _rightSecondaryButton;
     private InputAction _rightMove;
@@ -18,6 +19,7 @@ public class PlayerInputHandler : MonoBehaviour
     private InputAction _rightStickPress;
     private InputAction _leftTrigger;
     private InputAction _leftSelect;
+    private InputAction _leftGripHeld;
     private InputAction _leftPrimaryButton;
     private InputAction _leftSecondaryButton;
     private InputAction _leftMove;
@@ -100,6 +102,12 @@ public class PlayerInputHandler : MonoBehaviour
             Debugger.Log("Right Stick was pressed", Debugger.TextColor.LightBlue);
             EventManager.OnStickPressed.Raise(this, _isRightHand);
         }
+        if(_rightGripHeld.WasPerformedThisFrame())
+        {
+            Debugger.Log("Right Grip was held", Debugger.TextColor.LightBlue);
+            EventManager.OnGripHeld.Raise(this, _isRightHand);
+        }
+
 
         ////////////////////////////////
         // LEFT HAND BUTTONS
@@ -146,6 +154,11 @@ public class PlayerInputHandler : MonoBehaviour
             Debugger.Log("Left Stick was pressed", Debugger.TextColor.LightBlue);
             EventManager.OnStickPressed.Raise(this, !_isRightHand);
         }
+        if (_leftGripHeld.WasPerformedThisFrame())
+        {
+            Debugger.Log("Left Grip was held", Debugger.TextColor.LightBlue);
+            EventManager.OnGripHeld.Raise(this, !_isRightHand);
+        }
 
 
         ////////////////////////////////
@@ -185,6 +198,7 @@ public class PlayerInputHandler : MonoBehaviour
 
         _rightSkip = _actionAsset.FindActionMap("XRI Right Interaction").FindAction("SkipTutorial");
         _rightStickPress = _actionAsset.FindActionMap("XRI Right Interaction").FindAction("StickPressed");
+        _rightGripHeld = _actionAsset.FindActionMap("XRI Right Interaction").FindAction("HoldGrip");
 
         _leftTrigger = _actionAsset.FindActionMap("XRI Left Interaction").FindAction("Activate");
         _leftSelect = _actionAsset.FindActionMap("XRI Left Interaction").FindAction("Select");
@@ -195,6 +209,7 @@ public class PlayerInputHandler : MonoBehaviour
 
         _leftSkip = _actionAsset.FindActionMap("XRI Left Interaction").FindAction("SkipTutorial");
         _leftStickPress = _actionAsset.FindActionMap("XRI Left Interaction").FindAction("StickPressed");
+        _leftGripHeld = _actionAsset.FindActionMap("XRI Left Interaction").FindAction("HoldGrip");
     }
     private void OnRightMove(InputAction.CallbackContext context)
     {

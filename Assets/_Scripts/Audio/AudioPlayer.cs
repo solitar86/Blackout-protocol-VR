@@ -193,7 +193,7 @@ public class AudioPlayer : MonoBehaviour
     /// </summary>
     /// <param name="sender">Used for error checking and naming gameobject</param>
     /// <param name="soundToLoop">The sound to start looping</param>
-    /// <returns>Audiosource with loop and Sound settings applied</returns>
+    /// <returns>Audiosource with loop and Sound settings applied that is playing</returns>
     public static AudioSource CreateLoopingAudioSource(object sender, Sound soundToLoop, bool spatialize = true)
     {
         GameObject tempGameObject =

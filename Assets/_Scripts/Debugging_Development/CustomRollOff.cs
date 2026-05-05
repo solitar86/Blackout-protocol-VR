@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem.Processors;
 
 [ExecuteAlways]
 public class CustomRollOff : MonoBehaviour
@@ -34,30 +35,38 @@ public class CustomRollOff : MonoBehaviour
     }
     #endregion
 
-    public AnimationCurve GetLogCurve(float minDistance, float maxDistance)
+    public AnimationCurve GetLogCurve(float minDistance, float maxDistance, bool invert = false)
     {
-        return GenerateLogCurve(minDistance, maxDistance);
+        return GenerateLogCurve(minDistance, maxDistance, invert);
     }
-    private AnimationCurve GenerateLogCurve(float minDistance, float maxDistance)
+    private AnimationCurve GenerateLogCurve(float minDistance, float maxDistance, bool invert = false)
     {
         AnimationCurve curve = new AnimationCurve();
 
-        // Sample up to second-to-last point
         for (int i = 0; i < resolution; i++)
         {
             float t = i / (float)resolution;
+
+            // If invert is true, flip how the curve behaves
+            float curveT = invert ? 1f - t : t;
+
             float distance = Mathf.Lerp(minDistance, maxDistance, t);
 
-            float volume = 1f - Mathf.Log10(1f + steepness * t)
+            float volume = 1f - Mathf.Log10(1f + steepness * curveT)
                                / Mathf.Log10(1f + steepness);
 
             curve.AddKey(distance, Mathf.Clamp01(volume));
         }
 
-        Keyframe endKey = new Keyframe(maxDistance, 0f);
+        // End key (match the curve behavior)
+        float endValue = invert ? 1f : 0f;
+
+        Keyframe endKey = new Keyframe(maxDistance, endValue);
         endKey.inTangent = 0f;
         endKey.outTangent = 0f;
+
         curve.AddKey(endKey);
+
         return curve;
     }
 

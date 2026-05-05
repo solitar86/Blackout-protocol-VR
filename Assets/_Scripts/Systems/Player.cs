@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     [SerializeField] private SnapTurnProvider _turnProvider;
     [SerializeField] private PlayerFingerSnapHandler _fingerSnapper;
     [SerializeField] private PlayerNorthBeaconHandler _northBeacon;
+    [SerializeField] private PlayerObjectLocator[] _objectLocators;
 
     private Transform _startTransform = null;
 
@@ -160,6 +161,22 @@ public class Player : MonoBehaviour
     {
         EventManager.OnToggleRadialMenuOnOff.Raise(this, true);
     }
+    public void DisableObjectLocators()
+    {
+        if (_objectLocators == null || _objectLocators.Length < 2) _objectLocators = FindObjectsByType<PlayerObjectLocator>(FindObjectsSortMode.None);
+        foreach (var locator in _objectLocators)
+        {
+            locator.enabled = true;
+        }
+    }
+    public void EnableObjectLocators()
+    {
+        if (_objectLocators == null || _objectLocators.Length < 2) _objectLocators = FindObjectsByType<PlayerObjectLocator>(FindObjectsSortMode.None);
+        foreach (var locator in _objectLocators)
+        {
+            locator.enabled = false;
+        }
+    }
     public void RecenterPlayerWithNoHeightChange(Vector3 worldPos, Vector3 facingDirection)
     {
         if (_xrOrigin == null) _xrOrigin = FindFirstObjectByType<XROrigin>();
@@ -217,10 +234,9 @@ public class Player : MonoBehaviour
         return _playerHead.position + _playerHead.transform.forward * 0.25f;
     }
     public bool IsRightHand(PlayerHand hand) => hand == _rightHand;
-
     public static void ResetStaticVariablesAndEnableAll()
     {
-        
+        // Not yet needed
     }
 
     #endregion

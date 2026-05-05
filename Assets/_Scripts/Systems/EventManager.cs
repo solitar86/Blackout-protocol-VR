@@ -29,6 +29,7 @@ public static class EventManager
     public static GameEvent<bool> OnPlayerPushJoystick = new("Player push stick");
     public static GameEvent<bool> OnPlayerSnapTurn = new("Player snap turn");
     public static GameEvent<bool> OnStickPressed = new("Stick pressed");
+    public static GameEvent<bool> OnGripHeld = new("Grip Held");
 
     // UI Events
     public static GameEvent<int> OnRadialMenuOpen = new("Radial menu open");

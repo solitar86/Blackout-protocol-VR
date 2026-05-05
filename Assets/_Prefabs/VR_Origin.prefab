@@ -551,6 +551,7 @@ GameObject:
   - component: {fileID: 4334222668845179710}
   - component: {fileID: 392438343443139370}
   - component: {fileID: 7515528390673897028}
+  - component: {fileID: 6665920423295083541}
   m_Layer: 0
   m_Name: PlayerHand_Right
   m_TagString: Untagged
@@ -695,6 +696,22 @@ MonoBehaviour:
     OverrideDefaultDistances: 0
     MinDistance: 0.5
     MaxDistance: 2
+--- !u!114 &6665920423295083541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2901036346779040672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1edd7fd3e03d8bd409e091079679c8de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerObjectLocator
+  _overlapSphereRadius: 1
+  _layerMasksToSearch:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &2987007727484220465
 GameObject:
   m_ObjectHideFlags: 0
@@ -6270,6 +6287,7 @@ GameObject:
   - component: {fileID: 4969587528289420370}
   - component: {fileID: 2645737783088783910}
   - component: {fileID: 2922592447405649362}
+  - component: {fileID: 8459382037459991192}
   m_Layer: 0
   m_Name: PlayerHand_Left
   m_TagString: Untagged
@@ -6414,6 +6432,22 @@ MonoBehaviour:
     OverrideDefaultDistances: 0
     MinDistance: 0.5
     MaxDistance: 2
+--- !u!114 &8459382037459991192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6826209950832086208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1edd7fd3e03d8bd409e091079679c8de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _overlapSphereRadius: 1
+  _layerMasksToSearch:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &8306662206277014089
 GameObject:
   m_ObjectHideFlags: 0

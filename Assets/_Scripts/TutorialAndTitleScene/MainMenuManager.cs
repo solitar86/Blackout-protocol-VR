@@ -23,6 +23,7 @@ public class MainMenuManager : MonoBehaviour
         Player.Instance.DisableTurnAndMove();
         Player.Instance.DisableFingerSnapping();
         Player.Instance.DisableNorthBeacon();
+        Player.Instance.DisableObjectLocators();
         EventManager.OnPlayerWantSkip.AddListener(this, SkipTutorial);
 
         yield return new WaitForSeconds(5f);
@@ -60,6 +61,7 @@ public class MainMenuManager : MonoBehaviour
         Player.Instance.EnableTurnAndMove();
         Player.Instance.EnableFingerSnapping();
         Player.Instance.EnableNorthBeacon();
+        Player.Instance.EnableObjectLocators();
     }
     private void StartTutorial()
     {
