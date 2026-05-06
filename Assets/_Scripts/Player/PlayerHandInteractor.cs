@@ -114,7 +114,7 @@ public class PlayerHandInteractor : MonoBehaviour
         if (isRightHand != _thisHand.IsRightHand) return;
         if (_interactablesInRange.Count <= 0)
         {
-            //CheckForLargeObjectsAndReactWithVO();
+            CheckForLargeObjectsAndReactWithVO();
             OnGrabFailed.Raise(this, isRightHand);
             return;
         }
@@ -180,6 +180,19 @@ public class PlayerHandInteractor : MonoBehaviour
             // TODO: Consider swapping items on drop if one is in range?
             DropThisObjectAndEmptyHand(_heldInteractable);
             return;
+        }
+    }
+    private void CheckForLargeObjectsAndReactWithVO()
+    {
+        // Player tried to pickup something with nothing in range.
+        // Check if they tried to pickup an Touchable Surface or other large object.
+        var colliders = Physics.OverlapSphere(transform.position, _collider.radius * 1.2f);
+        foreach (var collider in colliders)
+        {
+            if(collider.TryGetComponent<TouchableSurface>(out _))
+            {
+                EventManager.OnCantCarryObject.Raise(this, -1);
+            }
         }
     }
 
