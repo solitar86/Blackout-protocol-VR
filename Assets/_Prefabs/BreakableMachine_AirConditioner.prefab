@@ -79,7 +79,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
+  - {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   _hitsRequiredToBreak: 1
-  _minVelocityToBreak: 7
+  _minVelocityToBreak: 5
   _airConHummLoop:
     Clip: {fileID: 8300000, guid: 97644c1a517a14475bb05ccf3842f6e4, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
@@ -172,8 +172,8 @@ MonoBehaviour:
     Pitch: 1
     SpacialBlend: 1
     OverrideDefaultDistances: 1
-    MinDistance: 0.2
-    MaxDistance: 4
+    MinDistance: 1.2
+    MaxDistance: 5
   _breakSoundEffect:
     Clip: {fileID: 8300000, guid: a4d41555e3bc14659be256b3eea2e222, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
@@ -397,7 +397,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86f7e644917da1b498d9c6d192751b42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  Name: Hammer quest complete
   _questProgressionStep:
     Quest: {fileID: 11400000, guid: 706ad42d7eb33f244805d0e69eef6671, type: 2}
     ProgressionState: 3
@@ -413,7 +412,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86f7e644917da1b498d9c6d192751b42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuestProgressor_CallWithUnityEvent
-  Name: Has tried  hammer on Air vent
   _questProgressionStep:
     Quest: {fileID: 11400000, guid: 706ad42d7eb33f244805d0e69eef6671, type: 2}
     ProgressionState: 2
@@ -477,7 +475,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5930949515443299371
 RectTransform:
   m_ObjectHideFlags: 0
@@ -522,7 +520,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  - {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

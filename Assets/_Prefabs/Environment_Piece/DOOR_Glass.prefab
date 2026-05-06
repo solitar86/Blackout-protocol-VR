@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -1094397171081522493}
   - component: {fileID: 4241500452329313642}
   - component: {fileID: 2674038380395848994}
+  - component: {fileID: 9191099035253521270}
   m_Layer: 10
   m_Name: DOOR_Glass
   m_TagString: Untagged
@@ -36,7 +37,8 @@ Transform:
   m_LocalPosition: {x: -4.1957, y: 1.47, z: -1.11}
   m_LocalScale: {x: 0.4727796, y: 3, z: 2.9423764}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4975781267810874991}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!33 &5857068217986747173
@@ -134,7 +136,31 @@ MonoBehaviour:
   _touchEndHapticSettings: {fileID: 11400000, guid: e76ac0bd148cf384eb645ed5c07d5bbb, type: 2}
   _onSurfaceTouched:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2687222912677099081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,7 +182,7 @@ MonoBehaviour:
     OverrideDefaultDistances: 0
     MinDistance: 0.5
     MaxDistance: 2
-  _touchSoundHolder: {fileID: 11400000, guid: 82a05feb02aa7e74c85307ade4b5b4e0, type: 2}
+  _touchSoundHolder: {fileID: 11400000, guid: 01f45be144a864ef483cb5c63eddcb62, type: 2}
 --- !u!114 &-1094397171081522493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,10 +222,10 @@ MonoBehaviour:
   _onHitHardEnoughToTriggerBreak:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4260419469645620769}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 2674038380395848994}
+        m_TargetAssemblyTypeName: SoundHolderForUnityEvent, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -219,6 +245,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
   _onHitTooSoftly:
     m_PersistentCalls:
@@ -245,8 +283,217 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundHolderForUnityEvent
   _soundToPlay:
-    Clip: {fileID: 0}
-    Mixergroup: {fileID: 0}
+    Clip: {fileID: 8300000, guid: 9040d34b4852e45478222aa120cc208f, type: 3}
+    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 1
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  _spatialize: 1
+  _pitchVariation: 0
+  _delay: 0
+  _optionalPositionToPlayAt: {fileID: 0}
+  _preventOverlappingPlayes: 0
+  _postDelay: 0
+--- !u!114 &9191099035253521270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4260419469645620769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b5bb5a5e5f9d44babbbf034b2aba0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestProgressor_OnTouchTouchableSurface
+  _questProgressionStep:
+    Quest: {fileID: 11400000, guid: 34b9dc73e5ee1f04eaefbf6a6062622b, type: 2}
+    ProgressionState: 1
+--- !u!1 &5783391879528380673
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4975781267810874991}
+  - component: {fileID: 436227679963372018}
+  - component: {fileID: 2952654304372473740}
+  - component: {fileID: 4942053019558958368}
+  - component: {fileID: 7246494469105103122}
+  - component: {fileID: 1167356832667554729}
+  - component: {fileID: 6410090060266226655}
+  m_Layer: 0
+  m_Name: DOOR_Glass_Handle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4975781267810874991
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5783391879528380673}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.70710677, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0.46, y: -0.14, z: -0.444}
+  m_LocalScale: {x: 0.099999994, y: 0.098079205, z: 0.62235683}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 239844053765866078}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &436227679963372018
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5783391879528380673}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &2952654304372473740
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5783391879528380673}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4942053019558958368
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5783391879528380673}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7246494469105103122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5783391879528380673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 666421417dcc57d49b1d977762af46d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _touchIdentifyVO:
+    Clip: {fileID: 8300000, guid: 421547bf37f2e7f42b59e39a71c3176a, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  _touchStartHolder: {fileID: 0}
+  _touchEndHolder: {fileID: 0}
+  _activateSoundHolder: {fileID: 0}
+  _touchHapticSettings: {fileID: 11400000, guid: cbab00ff2d842964fa80b2074c71c7c1, type: 2}
+  OnActivated:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1167356832667554729}
+        m_TargetAssemblyTypeName: SoundHolderForUnityEvent, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6410090060266226655}
+        m_TargetAssemblyTypeName: SoundHolderForUnityEvent, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1167356832667554729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5783391879528380673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adce140b42922bb49aaf3767059b444a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundHolderForUnityEvent
+  _soundToPlay:
+    Clip: {fileID: 8300000, guid: 4171b7dc6d880432a98003eaf69eef3c, type: 3}
+    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
     SpacialBlend: 0
@@ -255,6 +502,33 @@ MonoBehaviour:
     MaxDistance: 2
   _spatialize: 1
   _pitchVariation: 1
+  _delay: 0
+  _optionalPositionToPlayAt: {fileID: 0}
+  _preventOverlappingPlayes: 1
+  _postDelay: 0
+--- !u!114 &6410090060266226655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5783391879528380673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adce140b42922bb49aaf3767059b444a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundHolderForUnityEvent
+  _soundToPlay:
+    Clip: {fileID: 8300000, guid: d020267a9e4e06844acb50a1bc0e210a, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  _spatialize: 0
+  _pitchVariation: 0
   _delay: 0
   _optionalPositionToPlayAt: {fileID: 0}
   _preventOverlappingPlayes: 0

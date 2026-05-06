@@ -15,6 +15,7 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
     [Tooltip("How far away from the player is the collision sound played. Artifically increase directionality.")]
     [SerializeField] private float _touchSoundDistanceMultiplier = 1f;
     [Space(15), Header("Sounds")]
+    [SerializeField] private float _voBuffer = 5f;
     [SerializeField] private SoundArrayHolder _defaultPlayerCollisionSoundHolder;
     [SerializeField] private Sound _playerScrapeObstacleSound;
 
@@ -25,6 +26,8 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
     private bool _wasTouchingLastFrame = false;
     private bool _audioWasIncreasedThisFrame = false;
     private float _audioSmoothDampVelocity = 0f;
+
+    private float _nextTimeAllowVO = 0f;
 
     #region Unity Callbacks
     private void Awake()
@@ -69,7 +72,6 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
                     _isTouchingObstacle = true;
                     _currentTouchingPoint = hit.point;
                     if (_wasTouchingLastFrame == false) HandlePlayerObstacleCollisionStart(hit);
-
                     break;
                 }
             }
@@ -101,7 +103,11 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
         if (hitInfo.collider.TryGetComponent<BodyCollisionSoundHolder>(out var holder))
         {
             // This object has a body collision  handler component.
-            EventManager.OnPlayerBumpIDVOShouldPlay.Raise(this, holder.GetIdVoiceLine());
+            if (_nextTimeAllowVO < Time.time)
+            {
+                EventManager.OnPlayerBumpIDVOShouldPlay.Raise(this, holder.GetIdVoiceLine());
+                _nextTimeAllowVO = Time.time + _voBuffer;
+            }
 
             if (holder.GetSoundArrayHolder() == null ||
                                         holder.GetSoundArrayHolder().SoundArray == null ||

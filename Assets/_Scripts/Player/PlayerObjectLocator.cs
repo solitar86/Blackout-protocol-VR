@@ -10,6 +10,7 @@ public class PlayerObjectLocator : MonoBehaviour
     [SerializeField] private float _overlapSphereRadius = 1f;
     [SerializeField] private LayerMask _layerMasksToSearch;
     [SerializeField] private AnimationCurve _volumeCurve;
+    [SerializeField] private Sound _nothingCloseVO;
     [SerializeField] private Sound _locatorSound;
 
     private float _minPitch = 0.9f;
@@ -30,7 +31,6 @@ public class PlayerObjectLocator : MonoBehaviour
         EventManager.OnPlayerTouchPickUp.AddListener(this, OnPlayerTouchPickUp);
         EventManager.OnPlayerTouchStaticInteractable.AddListener(this, OnPlayerTouchStaticInteractable);
     }
-
     private void Awake()
     {
         _thisHand = GetComponent<PlayerHand>();
@@ -59,7 +59,11 @@ public class PlayerObjectLocator : MonoBehaviour
         
         // Select all interactables from those colliders.
         var interactables = objects.Where(o => o.gameObject.TryGetComponent<Iinteractable>(out var iinteractable)).ToList();
-        if (interactables.Count == 0) return;
+        if (interactables.Count == 0)
+        {
+            HandleNothingCloseBy(_nothingCloseVO);
+            return;
+        }
 
         //Find the closest interactables transform
         float closestDistance = float.MaxValue;
@@ -110,6 +114,12 @@ public class PlayerObjectLocator : MonoBehaviour
         if(_locatorSource != null && _locatorSource.isPlaying) _locatorSource.Stop();
         StopAllCoroutines();
     }
+    private void HandleNothingCloseBy(Sound nothingCloseVO)
+    {
+        if(nothingCloseVO == null || nothingCloseVO.Clip == null) return;
+        EventManager.OnPlayerObjectIDVOShouldPlay.Raise(this, nothingCloseVO);
+    }
+
     private void OnPlayerTouchPickUp(PickUpObject pickupObject)
     {
         if(pickupObject.transform == _trackedObjectTransform)
