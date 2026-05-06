@@ -24,13 +24,16 @@ public class PlayerVOReactionHandler : MonoBehaviour
     private float _itemDetectedDelay = 1f;
     private float _cantCarryDelay = 0.25f;
     private float _pickUpSuccessDelay = 0.1f;
+    private float _IDVoicelineRepeatBufferDuration = 5f;
 
     private float _nextTimeAllowInnerMonologue = 0f;
     private float _nextTimeAllowLocationIDVO = 0f;
+    private float _nextTimeAllowIDVoiceLine = 0f;
 
     private Queue<Sound> _queuedVoiceLines = new();
 
     private Sound _previousLocationVO;
+    private Sound _previousObjectIDVO;
 
     #region Unity Callbacks
     private void OnEnable()
@@ -90,13 +93,27 @@ public class PlayerVOReactionHandler : MonoBehaviour
     {
         PlayPlayerInnerMonologueWithDelay(_cantCarryVO, _cantCarryDelay);
     }
+
     /// <summary>
-    /// Playes a corresponsind voiceline from an event to inform player what they are touching.
+    /// Handles voiceline from an event to inform player what they are touching.
+    /// Adds buffers and other logic if necessary.
     /// </summary>
     /// <param name="IDVOSound"> The corresponding voiceline to play</param>
     private void PlayTouchIDVoiceLine(Sound IDVOSound)
     {
-        PlayPlayerInnerMonologueWithDelay(IDVOSound, PlayerSettings.Developer.IdentifyVODelay);
+        if (_previousObjectIDVO != IDVOSound)
+        {
+            // This is not the same as the last VO. Play/queue right away. 
+            PlayPlayerInnerMonologueWithDelay(IDVOSound, PlayerSettings.Developer.IdentifyVODelay);
+            _previousObjectIDVO = IDVOSound;
+        }
+        else if (_nextTimeAllowIDVoiceLine < Time.time)
+        {
+            // We played this VO previously.Only play if buffer has elapsed.
+            PlayPlayerInnerMonologueWithDelay(IDVOSound, PlayerSettings.Developer.IdentifyVODelay);
+            _nextTimeAllowIDVoiceLine = Time.time + _IDVoicelineRepeatBufferDuration;
+            // DO I need to REASSIGN the previous VO? I shouldn't right?
+        }
     }
     /// <summary>
     /// Playes a corresponsind voiceline from an event to inform player what they bumped into.
@@ -114,7 +131,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
         Debugger.LogWarning("Bump ID VO was called with null sound", Debugger.TextColor.Orange);
         PlayPlayerInnerMonologueWithDelay(_bumpIDUnknownObstacleVO, PlayerSettings.Developer.IdentifyVODelay);
     }
-    
+
     /// <summary>
     /// Plays the inputted voiceline with no delay. Will not play
     /// the voiceline if it the same as the previous one.
@@ -207,7 +224,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
     }
     private void TryPlayedQueudVOReaction()
     {
-        if(_queuedVoiceLines.Count > 0)
+        if (_queuedVoiceLines.Count > 0)
         {
             PlayPlayerInnerMonologueWithDelay(_queuedVoiceLines.Dequeue(), delay: 0f);
         }
