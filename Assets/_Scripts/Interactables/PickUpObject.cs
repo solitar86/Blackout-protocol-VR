@@ -193,7 +193,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
     }
     public virtual void Touch(PlayerHand hand)
     {
-        HandTouchIDVoiceline();
+        HandleTouchIDVoiceline();
         HandleItemTouchSound(hand);
         HandleTouchHaptics(hand);
         if(IsHeld == true)
@@ -405,13 +405,11 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         transform.position = _startingPosition;
         transform.rotation = _startingRotation;
     }
-    private void HandTouchIDVoiceline()
+    private void HandleTouchIDVoiceline()
     {
         EventManager.OnPlayerTouchPickUp.Raise(this, this);
-        // TODO: Consider should we be able to "touch" something if we are holding it?
         // Play Touch Dialogue for this object
         //_nextTimeAllowTouchVO = Time.time + PlayerSettings.Developer.TouchDialogueInterval;
-        //AudioPlayer.PlaySoundAtPoint(this, _touchIdentifyVO, transform.position, true);
         EventManager.OnPlayerObjectIDVOShouldPlay.Raise(this, _touchIdentifyVO);
 
     }
