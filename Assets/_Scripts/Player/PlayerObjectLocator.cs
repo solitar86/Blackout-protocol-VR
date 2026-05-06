@@ -55,7 +55,11 @@ public class PlayerObjectLocator : MonoBehaviour
 
         // Find all colliders near hand.
         var objects = Physics.OverlapSphere(transform.position, _overlapSphereRadius, _layerMasksToSearch, QueryTriggerInteraction.Collide);
-        if (objects.Length == 0) return;
+        if (objects.Length == 0)
+        {
+            HandleNothingCloseBy(_nothingCloseVO);
+            return;
+        }
         
         // Select all interactables from those colliders.
         var interactables = objects.Where(o => o.gameObject.TryGetComponent<Iinteractable>(out var iinteractable)).ToList();
