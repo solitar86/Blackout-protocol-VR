@@ -28,7 +28,6 @@ public class BootupConfirmationHandler : MonoBehaviour
         //Player.Instance.EnableFingerSnapping();
         //Player.Instance.EnableTurnAndMove();
     }
-
     private void Start()
     {
         PlayBootUpConfirmationTTS(_loopingTTSDelay);
@@ -39,7 +38,6 @@ public class BootupConfirmationHandler : MonoBehaviour
 
         SubscribeToEvents();
     }
-
     private void SubscribeToEvents()
     {
         EventManager.OnPlayerWantSkip.AddListener(this, OpenTutorialScene);
@@ -50,7 +48,6 @@ public class BootupConfirmationHandler : MonoBehaviour
         EventManager.OnTriggerPressed.AddListener(this, TriggerButtonTTS);
         EventManager.OnGripPressed.AddListener(this, GripButtonTTS);
     }
-
     private void UnsubcribeFromEvents()
     {
         EventManager.OnPlayerWantSkip.RemoveListener(this, OpenTutorialScene);
@@ -61,8 +58,6 @@ public class BootupConfirmationHandler : MonoBehaviour
         EventManager.OnTriggerPressed.RemoveListener(this, TriggerButtonTTS);
         EventManager.OnGripPressed.RemoveListener(this, GripButtonTTS);
     }
-
-
 
     #endregion
 
@@ -129,12 +124,12 @@ public class BootupConfirmationHandler : MonoBehaviour
     {
         this.CallWithDelay(() =>
         {
-            TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_GameIsRunning");
+            TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_GameIsRunning_v2");
         }, delay);
 
         this.CallWithDelay(() =>
         {
-            TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_GameIsRunning");
+            TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_GameIsRunning_v2");
         }, delay * 2);
     }
 
