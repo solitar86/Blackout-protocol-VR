@@ -10,6 +10,9 @@ public class SafeDial : StaticInteractable
     [SerializeField] private string combinationString = "5,2,7";
     [Header("Safe Specific Settings")]
     [SerializeField] private Sound _singleClick;
+    [SerializeField] private Sound _turnDialIDVO;
+    [SerializeField] private Sound _releaseDialIDVO;
+    [SerializeField] private Sound _safeOpenVO;
     [Tooltip("This gameobject will disable when the safe is opened")]
     [SerializeField] private GameObject _closedSafe;
     [Tooltip("This gameobject will enable when the safe is opened")]
@@ -103,7 +106,7 @@ public class SafeDial : StaticInteractable
     }
     private void OpenSafe()
     {
-        Debugger.WorldSpaceText("OPENED", transform.position);
+        EventManager.OnGeneralVOShouldPlay.Raise(this, _safeOpenVO);
         Activate();
         _isOpen = true;
 
@@ -137,10 +140,15 @@ public class SafeDial : StaticInteractable
                 _startingZangle = TouchingHand.transform.eulerAngles.z;
                 if (_startingZangle > 180f) _startingZangle -= 360;
                 _lastDigitsZAngle = _startingZangle;
+                EventManager.OnGeneralVOShouldPlay.Raise(this, _turnDialIDVO);
             }
         }
 
         base.Activate();
+    }
+    public override void PickUp(Transform parent, PlayerHand hand)
+    {
+        Activate();
     }
     public override void TouchStay(PlayerHand hand)
     {
@@ -150,7 +158,11 @@ public class SafeDial : StaticInteractable
     public override void EndTouch()
     {
         base.EndTouch();
-        if (IsActivated == true) Activate();
+        if (IsActivated == true)
+        {
+            EventManager.OnGeneralVOShouldPlay.Raise(this, _releaseDialIDVO);
+            Activate();
+        }
     }
     
     #endregion

@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Tutorials.Core.Editor;
 using UnityEngine;
 
 public class GameStartSequence : MonoBehaviour
@@ -21,6 +22,7 @@ public class GameStartSequence : MonoBehaviour
     }
     private IEnumerator Start()
     {
+        TTSPlayer.AddRepeatableTTS(PlayerSettings.CONTROLS_LIST_TTS_PATH);
         yield return new WaitForSeconds(_startDelay);
         AudioPlayer.PlaySoundAtPoint(this, _gameStartSFXSequence, _startSoundPosition.position, false, true);
 

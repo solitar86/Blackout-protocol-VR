@@ -8,7 +8,7 @@ public class RepeatTTSTriggerVolume : MonoBehaviour
     private void Start()
     {
 #if UNITY_EDITOR
-        EventManager.OnGripPressed.AddListener(this, ToggleAccessibilityFeatures);
+        EventManager.OnGripHeld.AddListener(this, ToggleAccessibilityFeatures);
 #endif
         EventManager.OnTriggerPressed.AddListener(this, TryRepeatTTS);
     }

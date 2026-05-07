@@ -65,7 +65,7 @@ public class ConversationManager : MonoBehaviour
         }
         if(conversation.DialogueArray == null || conversation.DialogueArray.Length == 0)
         {
-            Debugger.Log("Conversation sent to conversation manager has no dialogues", Debugger.TextColor.LightRed);
+            Debugger.Log("Conversation sent to conversation manager has no dialogues: " + conversation.Name, Debugger.TextColor.LightRed);
             return;
         }
 

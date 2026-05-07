@@ -12,15 +12,25 @@ public class QuestSO : ScriptableObject
     [Tooltip("TIP conversation for when player has attempted the quest but not completed")]
     [SerializeField] private ConversationSO _startedStateHintConvo;
 
-    public ConversationSO GetStartedHintConversation() => _startedStateHintConvo;
-    public ConversationSO GetDiscoveredHintConversation() => _discoveredStateHintConvo;
+    public ConversationSO GetDiscoveredHintConversation()
+    {
+        if (_startedStateHintConvo != null) return _startedStateHintConvo;
+        Debugger.LogWarning("Discovered state convo was null for quest: " + Name);
+        return null;
+    }
+    public ConversationSO GetStartedHintConversation()
+    {
+        if(_startedStateHintConvo != null) return _startedStateHintConvo;
+        Debugger.LogWarning("Started state convo was null for quest: " + Name);
+        return null;
+    }
 
     #region Helpers
     public void ChangeStateTo(QuestState newState)
     {
         if (_state >= newState)
         {
-            Debugger.Log($"Can't progress quest '{Name}' state to previous or same state of {newState}", Debugger.TextColor.Orange);
+            Debugger.Log($"Can't progress quest '{Name}' state to previous or same state of {newState}");
             return;
         }
         _state = newState;

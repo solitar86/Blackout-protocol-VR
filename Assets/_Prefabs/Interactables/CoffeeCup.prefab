@@ -116,7 +116,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.722, y: 1.053, z: 2.389}
-  m_LocalScale: {x: 0.099999994, y: 0.1, z: 0.099999994}
+  m_LocalScale: {x: 0.09999999, y: 0.1, z: 0.09999999}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1558500741671430641}
@@ -178,6 +178,15 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 3136
   _breakOnImpactVelocityThreshold: 6
+  _cupFullIDVO:
+    Clip: {fileID: 8300000, guid: 8a7d7c3efaea4564ca030113a324ce0b, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
   _glassBreakSound:
     Clip: {fileID: 8300000, guid: 99a7a7b394b7e4bb5bb9a43f85d3ce61, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
@@ -524,7 +533,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  - {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -10,7 +10,10 @@ public class PlayerVOReactionHandler : MonoBehaviour
 {
     [Tooltip("How many reactions can be queued before more can be added")]
     [SerializeField] private int _maxQueudVoicelines = 2;
+    [Tooltip("How much time between queued voice lines")]
     [SerializeField] private float _innerMonologueBuffer = 0.75f;
+    [Tooltip("How much time before repeating voicelines if touching the same object")]
+    [SerializeField] private float _IDVoicelineRepeatBufferDuration = 5f;
     [Space(5), Header("Voiceline Sound Holders")]
     [SerializeField] private SoundArrayHolder _leftTurnVO, _rightTurnVO;
     [SerializeField] private SoundArrayHolder _curseWordsVO;
@@ -24,7 +27,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
     private float _itemDetectedDelay = 1f;
     private float _cantCarryDelay = 0.25f;
     private float _pickUpSuccessDelay = 0.1f;
-    private float _IDVoicelineRepeatBufferDuration = 5f;
+
 
     private float _nextTimeAllowInnerMonologue = 0f;
     private float _nextTimeAllowLocationIDVO = 0f;
@@ -38,6 +41,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
     #region Unity Callbacks
     private void OnEnable()
     {
+        EventManager.OnGeneralVOShouldPlay.AddListener(this, PlayGeneralVOLine);
         EventManager.OnPlayerCurse.AddListener(this, PlayerSayCurseWord);
         EventManager.OnCantCarryObject.AddListener(this, PlayerSayCantCarry);
         EventManager.OnPlayerObjectIDVOShouldPlay.AddListener(this, PlayTouchIDVoiceLine);
@@ -50,6 +54,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
 
     private void OnDisable()
     {
+        EventManager.OnGeneralVOShouldPlay.RemoveListener(this, PlayGeneralVOLine);
         EventManager.OnPlayerCurse.RemoveListener(this, PlayerSayCurseWord);
         EventManager.OnCantCarryObject.RemoveListener(this, PlayerSayCantCarry);
         EventManager.OnPlayerObjectIDVOShouldPlay.RemoveListener(this, PlayTouchIDVoiceLine);
@@ -169,6 +174,11 @@ public class PlayerVOReactionHandler : MonoBehaviour
     /// </summary>
     /// <param name="soundHolder">Soundholder with variations of sound to play.</param>
     /// <param name="delay">If set to 0 will play immediately</param>
+    
+    private void PlayGeneralVOLine(Sound IDVOSound)
+    {
+        PlayPlayerInnerMonologueWithDelay(IDVOSound, PlayerSettings.Developer.IdentifyVODelay);
+    }
     private void PlayPlayerInnerMonologueWithDelay(SoundArrayHolder soundHolder, float delay)
     {
         if (soundHolder != null && soundHolder.SoundArray != null && soundHolder.SoundArray.Length > 0)

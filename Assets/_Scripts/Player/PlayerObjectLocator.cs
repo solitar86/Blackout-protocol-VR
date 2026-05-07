@@ -99,7 +99,12 @@ public class PlayerObjectLocator : MonoBehaviour
         if (_locatorSource == null) _locatorSource = AudioPlayer.CreateLoopingAudioSource(this, _locatorSound, spatialize:false);
         if(_locatorSource.isPlaying == false) _locatorSource.Play();
 
-        while(_isTracking)
+        VibrationSettingsSO settings = (VibrationSettingsSO)ScriptableObject.CreateInstance(nameof(VibrationSettingsSO));
+        settings.Duration = 0.01f;
+        settings.RepeatTimes = 1;
+        float hapticTimer = 0f;
+
+        while (_isTracking)
         {
             _locatorSource.transform.position = transform.position;
             //_locatorSource.transform.position = Player.Instance.GetPlayerHeadTransform().position;
@@ -109,8 +114,17 @@ public class PlayerObjectLocator : MonoBehaviour
             _locatorSource.volume = Mathf.Lerp(0.01f, _maxVolume, logValue);
             _locatorSource.pitch = Mathf.Lerp(_minPitch, _maxPitch, logValue);
 
+            hapticTimer += Time.deltaTime;
+            if(hapticTimer > logValue / 2)
+            {
+                hapticTimer = 0;
+                _thisHand.HandleSingleVibration(settings);
+            }
+
+
             yield return null;
         }
+
     }
     private void StopObjectLocation(bool isRightHand)
     {

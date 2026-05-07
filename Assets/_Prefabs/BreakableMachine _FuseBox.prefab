@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &268328561781897950
 RectTransform:
   m_ObjectHideFlags: 0
@@ -518,7 +518,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86f7e644917da1b498d9c6d192751b42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuestProgressor_CallWithUnityEvent
-  Name: When has been damaged
   _questProgressionStep:
     Quest: {fileID: 11400000, guid: 57586e5f71c3dd14ea4d66ca5bdce731, type: 2}
     ProgressionState: 2
@@ -534,7 +533,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86f7e644917da1b498d9c6d192751b42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuestProgressor_CallWithUnityEvent
-  Name: Machine is fully broken.
   _questProgressionStep:
     Quest: {fileID: 11400000, guid: 57586e5f71c3dd14ea4d66ca5bdce731, type: 2}
     ProgressionState: 3
@@ -550,7 +548,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86f7e644917da1b498d9c6d192751b42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuestProgressor_CallWithUnityEvent
-  Name: Get hint about water
   _questProgressionStep:
     Quest: {fileID: 11400000, guid: 57586e5f71c3dd14ea4d66ca5bdce731, type: 2}
     ProgressionState: 1

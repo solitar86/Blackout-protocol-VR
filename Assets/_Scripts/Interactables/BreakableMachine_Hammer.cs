@@ -73,10 +73,10 @@ public class BreakableMachine_Hammer : MonoBehaviour
         StopPlayingHummLoop();
         EventManager.OnBreakableMachineBreak.Raise(this, -1);
 
-#if UNITY_EDITOR
-        // This is for debugging and playtesting purposes.
-        GetComponent<MeshRenderer>().material.color = Color.red;
-#endif
+//#if UNITY_EDITOR
+//        // This is for debugging and playtesting purposes.
+//        GetComponent<MeshRenderer>().material.color = Color.red;
+//#endif
     }
     private void PlayRadioStaticBeaconLoop()
     {

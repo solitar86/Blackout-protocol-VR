@@ -6,6 +6,7 @@ public class CoffeeCup : PickUpObject
     [Space(15), Header("Coffee cup specific settings")]
     [SerializeField] private LayerMask _layersToLookForWaterInteractables;
     [SerializeField] private float _breakOnImpactVelocityThreshold = 6;
+    [SerializeField] private Sound _cupFullIDVO;
     [SerializeField] private Sound _glassBreakSound;
     [SerializeField] private SoundArrayHolder _waterSpillSounds;
     [SerializeField] private float _spillVelocityThreshold = 10;
@@ -17,6 +18,10 @@ public class CoffeeCup : PickUpObject
 
     public void FillCupWithWater()
     {
+        if(_waterAmount != 3)
+        {
+            EventManager.OnGeneralVOShouldPlay.Raise(this, _cupFullIDVO);
+        }
         _waterAmount = 3;
     }
     private void SpillAllWater(bool wasAccident)

@@ -236,6 +236,30 @@ PrefabInstance:
       propertyPath: _closedSafe
       value: 
       objectReference: {fileID: 9089139133405708790}
+    - target: {fileID: 12021811709293226, guid: 0ce3e9eb6e5aec94186700f3ad0c4f89, type: 3}
+      propertyPath: _touchEndHolder
+      value: 
+      objectReference: {fileID: 11400000, guid: 39e77d84fc9a63b4da0673d5636c1ee1, type: 2}
+    - target: {fileID: 12021811709293226, guid: 0ce3e9eb6e5aec94186700f3ad0c4f89, type: 3}
+      propertyPath: _touchStartHolder
+      value: 
+      objectReference: {fileID: 11400000, guid: fb046c7f807743b468b32a4d734eaeb5, type: 2}
+    - target: {fileID: 12021811709293226, guid: 0ce3e9eb6e5aec94186700f3ad0c4f89, type: 3}
+      propertyPath: _turnDialIDVO.Clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 80e42fc8041e1434f8243bcc1bccbcbc, type: 3}
+    - target: {fileID: 12021811709293226, guid: 0ce3e9eb6e5aec94186700f3ad0c4f89, type: 3}
+      propertyPath: _releaseDialIDVO.Clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4da27b3328137a84888fd69383886a2f, type: 3}
+    - target: {fileID: 12021811709293226, guid: 0ce3e9eb6e5aec94186700f3ad0c4f89, type: 3}
+      propertyPath: _turnDialIDVO.Mixergroup
+      value: 
+      objectReference: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    - target: {fileID: 12021811709293226, guid: 0ce3e9eb6e5aec94186700f3ad0c4f89, type: 3}
+      propertyPath: _releaseDialIDVO.Mixergroup
+      value: 
+      objectReference: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     - target: {fileID: 6215304298609435666, guid: 0ce3e9eb6e5aec94186700f3ad0c4f89, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.5989322

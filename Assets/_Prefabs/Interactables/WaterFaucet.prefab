@@ -142,24 +142,36 @@ MonoBehaviour:
   _touchEndHolder: {fileID: 11400000, guid: 992d0181e1a826c4a86ffacd3e6c11a9, type: 2}
   _activateSoundHolder: {fileID: 11400000, guid: 807a9bf8242f9f345bcdc592d07c8c50, type: 2}
   _touchHapticSettings: {fileID: 11400000, guid: 3eac07092410d594093a49b5e0c40dde, type: 2}
-  _waterRunningLoop:
-    Clip: {fileID: 8300000, guid: 3b5caf2d81493a2418e305dbbbb24d1a, type: 3}
-    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0.5
+  OnActivated:
+    m_PersistentCalls:
+      m_Calls: []
+  _runningWaterIDVO:
+    Clip: {fileID: 8300000, guid: 6489c51dba34e8f4b9e5004b47dfb4d0, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
     Pitch: 1
-    SpacialBlend: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  _waterRunningLoopSound:
+    Clip: {fileID: 0}
+    Mixergroup: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
     OverrideDefaultDistances: 0
     MinDistance: 0.5
     MaxDistance: 2
   _waterDrippingLoopSound:
-    Clip: {fileID: 8300000, guid: 27c95c9ac3d0f4432aba7185d12a8929, type: 3}
+    Clip: {fileID: 8300000, guid: 7ce36fdc1060ab44ab878c6f95c6f470, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
     SpacialBlend: 1
     OverrideDefaultDistances: 1
-    MinDistance: 0.1
-    MaxDistance: 4
+    MinDistance: 0.5
+    MaxDistance: 7
   _waterRunningStartSound:
     Clip: {fileID: 8300000, guid: 76deb085c0054a44fb849b58bb8383ea, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
@@ -261,7 +273,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86f7e644917da1b498d9c6d192751b42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuestProgressor_CallWithUnityEvent
-  Name: Player touched water
   _questProgressionStep:
     Quest: {fileID: 11400000, guid: 57586e5f71c3dd14ea4d66ca5bdce731, type: 2}
     ProgressionState: 2

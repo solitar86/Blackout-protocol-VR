@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -68,7 +67,7 @@ public class QuestStateHandler : MonoBehaviour
             return;
         }
 
-        Debugger.Log("Player Try Start Conversation was null", Debugger.TextColor.Orange);
+        Debugger.Log("Player Try Start Conversation was null ", Debugger.TextColor.Orange);
        
     }
 

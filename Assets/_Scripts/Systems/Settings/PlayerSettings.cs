@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using System;
 using System.Drawing;
+using Unity.Tutorials.Core.Editor;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Turning;
 using static Debugger;
@@ -45,6 +46,8 @@ public class PlayerSettings
     public static string ACCESSIBILITY_DEFAULTS_FILEPATH = "Settings/AccessibilityDefaultSettings";
 
     public static string OBSTACLE_LAYER_NAME = "Obstacles";
+
+    public static string CONTROLS_LIST_TTS_PATH = "TTS/Tutorial/TTS_ControlsListed";
 
 
     #region Save / Load

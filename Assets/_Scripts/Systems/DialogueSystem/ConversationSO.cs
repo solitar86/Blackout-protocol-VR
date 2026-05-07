@@ -8,6 +8,7 @@ public class ConversationSO : ScriptableObject
     [SerializeField] private string _name = "Unnamed";
     [SerializeField] private DialogueSO[] _conversation;
 
+    public string Name => _name;
     public DialogueSO[] DialogueArray => _conversation;
 
     /// <summary>

@@ -4,6 +4,7 @@ using UnityEngine.Events;
 public class WaterFaucet : StaticInteractable
 {
     [Space(15), Header("Water Faucet specific settings")]
+    [SerializeField] private Sound _runningWaterIDVO;
     [Space(5)]
     [SerializeField] private Sound _waterRunningLoopSound;
     [SerializeField] private Sound _waterDrippingLoopSound;
@@ -26,6 +27,8 @@ public class WaterFaucet : StaticInteractable
     private float _cupFillTimer = 0f;
 
     private GameObject fillingSoundGO;
+
+    private bool _playerHasHandInWater = false;
 
     #region Unity Callbacks
 
@@ -82,7 +85,7 @@ public class WaterFaucet : StaticInteractable
                     HandleCupPlacedUnderRunningWaterSounds(interactable as CoffeeCup);
 
                     _cupFillTimer += Time.deltaTime;
-                    if(_cupFillTimer > _cupFillRequiredDuration)
+                    if (_cupFillTimer > _cupFillRequiredDuration)
                     {
                         (interactable as CoffeeCup).FillCupWithWater();
                     }
@@ -99,23 +102,33 @@ public class WaterFaucet : StaticInteractable
             }
 
             // CHECK IF PLAYER HAND IS IN RUNNING WATER
-            if(hitInfo.collider.TryGetComponent<PlayerHand>(out var playerHand))
+            if (hitInfo.collider.TryGetComponent<PlayerHand>(out var playerHand))
             {
                 // Players hand is in the raycast of the running water.
                 HandlPlayerHandUnderRunningWater(playerHand);
+                _playerHasHandInWater = true;
                 _onPlayerTouchRunningWater?.Invoke();
+            }
+            else
+            {
+                _playerHasHandInWater = false;
             }
         }
     }
     private void HandlPlayerHandUnderRunningWater(PlayerHand hand)
     {
+        if (_playerHasHandInWater == false)
+        {
+            // We touched water for the first time since touching something else, play VO ID
+            EventManager.OnGeneralVOShouldPlay.Raise(this, _runningWaterIDVO);
+        }
         hand.HandleTouchSlide(_playerHandTouchWaterHapticSettings);
     }
     public void Deactivate()
     {
         if (IsActivated) Activate();
     }
-    
+
     #endregion
 
     private void HandleRunningWaterSoundWhenActivated()
@@ -182,12 +195,12 @@ public class WaterFaucet : StaticInteractable
         // TODO: ADD FILLING SOUND LATER
         IfOverFlowSourceNullAssignIt();
 
-        if(_waterRunningLoopSource.isPlaying == true)
+        if (_waterRunningLoopSource.isPlaying == true)
         {
             _waterRunningLoopSource.Pause();
         }
 
-        if(cup.IsFull == true)
+        if (cup.IsFull == true)
         {
             if (_cupOverFlowAudioSource.isPlaying == false)
             {
@@ -196,7 +209,7 @@ public class WaterFaucet : StaticInteractable
         }
         else
         {
-            if(Mathf.Approximately(_cupFillTimer, 0f) == true)
+            if (Mathf.Approximately(_cupFillTimer, 0f) == true)
             {
                 fillingSoundGO = AudioPlayer.PlaySoundAtPoint(this, _cupIsFillingSound, transform.position);
             }
@@ -207,7 +220,7 @@ public class WaterFaucet : StaticInteractable
         // CURRENTLY THIS ONLY HANDLES THE OVERFLOW SOUNDS
         IfOverFlowSourceNullAssignIt();
 
-        if(fillingSoundGO != null)
+        if (fillingSoundGO != null)
         {
             Destroy(fillingSoundGO);
             fillingSoundGO = null;
@@ -238,7 +251,7 @@ public class WaterFaucet : StaticInteractable
 
     private void OnDrawGizmosSelected()
     {
-        if(_waterDrippingLoopSound != null)
+        if (_waterDrippingLoopSound != null)
         {
             Gizmos.color = Color.lightBlue;
             Gizmos.DrawWireSphere(transform.position, _waterDrippingLoopSound.MinDistance);

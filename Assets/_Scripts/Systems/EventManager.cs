@@ -44,6 +44,7 @@ public static class EventManager
     public static GameEvent<int> OnMenuBlocked = new("Menu blocked");
 
     // Player Interaction and Reaction Events
+    public static GameEvent<Sound> OnGeneralVOShouldPlay = new("Generic VO Play");
     public static GameEvent<int> OnPlayerCurse = new("Player curse");
     public static GameEvent<PickUpObject> OnPlayerTouchPickUp = new("Player touch pickup");
     public static GameEvent<StaticInteractable> OnPlayerTouchStaticInteractable = new("StaticInteractable touched");
