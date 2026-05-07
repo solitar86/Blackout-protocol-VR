@@ -178,7 +178,7 @@ PrefabInstance:
     - target: {fileID: 7015902174833320260, guid: 0f501f279df8471489d996933ad888aa, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 8993115359335207810, guid: 0f501f279df8471489d996933ad888aa, type: 3}
       propertyPath: MaxDistance
       value: 4
@@ -255,7 +255,7 @@ PrefabInstance:
     - target: {fileID: 7320300744872002293, guid: 5a5955cbbbce9bc45834fbe411579a25, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 8801040907280533362, guid: 5a5955cbbbce9bc45834fbe411579a25, type: 3}
       propertyPath: m_Name
       value: WALL (2)
@@ -363,7 +363,7 @@ PrefabInstance:
     - target: {fileID: 7320300744872002293, guid: 4675496017abf5544a85fc8642c4205d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 8801040907280533362, guid: 4675496017abf5544a85fc8642c4205d, type: 3}
       propertyPath: m_Name
       value: WALL_Concrete (3)
@@ -587,10 +587,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 160742323}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcedb5dc7fd569d45952182c9a4f8587, type: 3}
+  m_Script: {fileID: 11500000, guid: e3ed619ba30165a478a105fd128d3158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationVOPlayer
-  _voLocationSound: {Clip: {fileID: 8300000, guid: 18c429994d8699444add3e538f32f384, type: 3}, Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}, Volume: 0.7, Pitch: 1, SpacialBlend: 0, OverrideDefaultDistances: 0, MinDistance: 0.5, MaxDistance: 2}
+  _voLocationSound:
+    Clip: {fileID: 8300000, guid: 18c429994d8699444add3e538f32f384, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
 --- !u!1001 &166163307
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -666,7 +674,7 @@ PrefabInstance:
     - target: {fileID: 8528537338334098706, guid: 232a330a6d478fe438af5c46bf63286b, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -730,7 +738,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+  - {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -829,11 +837,11 @@ PrefabInstance:
     - target: {fileID: 8862534817222487889, guid: 3b0a9e171874c6c4dbd670f605bfbd3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 8894453354700531498, guid: 3b0a9e171874c6c4dbd670f605bfbd3a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -896,10 +904,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 306791924}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcedb5dc7fd569d45952182c9a4f8587, type: 3}
+  m_Script: {fileID: 11500000, guid: e3ed619ba30165a478a105fd128d3158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationVOPlayer
-  _voLocationSound: {Clip: {fileID: 8300000, guid: d3898d6866c94de4eac88042c17d1dae, type: 3}, Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}, Volume: 0.7, Pitch: 1, SpacialBlend: 0, OverrideDefaultDistances: 0, MinDistance: 0.5, MaxDistance: 2}
+  _voLocationSound:
+    Clip: {fileID: 8300000, guid: d3898d6866c94de4eac88042c17d1dae, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
 --- !u!65 &306791927
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -989,7 +1005,7 @@ PrefabInstance:
     - target: {fileID: 7320300744872002293, guid: 4675496017abf5544a85fc8642c4205d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 8801040907280533362, guid: 4675496017abf5544a85fc8642c4205d, type: 3}
       propertyPath: m_Name
       value: WALL_Concrete (2)
@@ -1024,7 +1040,7 @@ PrefabInstance:
     - target: {fileID: 604774019366012472, guid: fc7b3b84605c7b94882069c79e929ab1, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 2756290031422489035, guid: fc7b3b84605c7b94882069c79e929ab1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1092,7 +1108,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &410087040
 Light:
   m_ObjectHideFlags: 0
@@ -1225,7 +1241,7 @@ PrefabInstance:
     - target: {fileID: 604774019366012472, guid: fc7b3b84605c7b94882069c79e929ab1, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 2756290031422489035, guid: fc7b3b84605c7b94882069c79e929ab1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1292,7 +1308,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &436114594
 Transform:
   m_ObjectHideFlags: 0
@@ -1455,7 +1471,7 @@ PrefabInstance:
     - target: {fileID: 7151481197929594776, guid: cd9b1eeff5a587748925f5c9e6596964, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1529,7 +1545,7 @@ PrefabInstance:
     - target: {fileID: 7320300744872002293, guid: 5a5955cbbbce9bc45834fbe411579a25, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 8801040907280533362, guid: 5a5955cbbbce9bc45834fbe411579a25, type: 3}
       propertyPath: m_Name
       value: WALL (1)
@@ -1606,7 +1622,7 @@ PrefabInstance:
     - target: {fileID: 7320300744872002293, guid: 5a5955cbbbce9bc45834fbe411579a25, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 8801040907280533362, guid: 5a5955cbbbce9bc45834fbe411579a25, type: 3}
       propertyPath: m_Name
       value: WALL_Tiled (1)
@@ -1716,11 +1732,11 @@ PrefabInstance:
     - target: {fileID: 5550088001485335229, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 9039951449465392442, guid: 3fcfea6ceb6d6a948b4bd774870deac2, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1902,7 +1918,7 @@ PrefabInstance:
     - target: {fileID: 8528537338334098706, guid: 232a330a6d478fe438af5c46bf63286b, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1988,7 +2004,7 @@ PrefabInstance:
     - target: {fileID: 7151481197929594776, guid: cd9b1eeff5a587748925f5c9e6596964, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2074,7 +2090,7 @@ PrefabInstance:
     - target: {fileID: 7151481197929594776, guid: cd9b1eeff5a587748925f5c9e6596964, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2149,7 +2165,7 @@ PrefabInstance:
     - target: {fileID: 5126304057273286274, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 5833667702195101368, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
       propertyPath: m_Name
       value: CoffeeCup (1)
@@ -2165,7 +2181,7 @@ PrefabInstance:
     - target: {fileID: 9168646221379535648, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2235,7 +2251,7 @@ PrefabInstance:
     - target: {fileID: 7320300744872002293, guid: 5a5955cbbbce9bc45834fbe411579a25, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 8801040907280533362, guid: 5a5955cbbbce9bc45834fbe411579a25, type: 3}
       propertyPath: m_Name
       value: WALL (3)
@@ -2317,10 +2333,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 776403585}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcedb5dc7fd569d45952182c9a4f8587, type: 3}
+  m_Script: {fileID: 11500000, guid: e3ed619ba30165a478a105fd128d3158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationVOPlayer
-  _voLocationSound: {Clip: {fileID: 8300000, guid: bae801396ddd57749a87601db1cce3f5, type: 3}, Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}, Volume: 0.7, Pitch: 1, SpacialBlend: 0, OverrideDefaultDistances: 0, MinDistance: 0.5, MaxDistance: 2}
+  _voLocationSound:
+    Clip: {fileID: 8300000, guid: bae801396ddd57749a87601db1cce3f5, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
 --- !u!1 &820456673
 GameObject:
   m_ObjectHideFlags: 0
@@ -2499,7 +2523,7 @@ PrefabInstance:
     - target: {fileID: 7320300744872002293, guid: 5a5955cbbbce9bc45834fbe411579a25, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 8801040907280533362, guid: 5a5955cbbbce9bc45834fbe411579a25, type: 3}
       propertyPath: m_Name
       value: WALL
@@ -2576,7 +2600,7 @@ PrefabInstance:
     - target: {fileID: 7320300744872002293, guid: 4675496017abf5544a85fc8642c4205d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 8801040907280533362, guid: 4675496017abf5544a85fc8642c4205d, type: 3}
       propertyPath: m_Name
       value: WALL_Concrete (4)
@@ -2658,7 +2682,7 @@ PrefabInstance:
     - target: {fileID: 7320300744872002293, guid: 4675496017abf5544a85fc8642c4205d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 8801040907280533362, guid: 4675496017abf5544a85fc8642c4205d, type: 3}
       propertyPath: m_Name
       value: WALL_Concrete (1)
@@ -2813,7 +2837,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+  - {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3049,10 +3073,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1216146694}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcedb5dc7fd569d45952182c9a4f8587, type: 3}
+  m_Script: {fileID: 11500000, guid: e3ed619ba30165a478a105fd128d3158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationVOPlayer
-  _voLocationSound: {Clip: {fileID: 8300000, guid: c99e08f022fd8d448a68dd15a9fd6496, type: 3}, Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}, Volume: 0.7, Pitch: 1, SpacialBlend: 0, OverrideDefaultDistances: 0, MinDistance: 0.5, MaxDistance: 2}
+  _voLocationSound:
+    Clip: {fileID: 8300000, guid: c99e08f022fd8d448a68dd15a9fd6496, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
 --- !u!65 &1216146697
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3170,10 +3202,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1271583854}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcedb5dc7fd569d45952182c9a4f8587, type: 3}
+  m_Script: {fileID: 11500000, guid: e3ed619ba30165a478a105fd128d3158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _voLocationSound: {Clip: {fileID: 8300000, guid: 5eae5077dd9204e43baeb8ef018bde50, type: 3}, Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}, Volume: 0.7, Pitch: 1, SpacialBlend: 0, OverrideDefaultDistances: 0, MinDistance: 0.5, MaxDistance: 2}
+  _voLocationSound:
+    Clip: {fileID: 8300000, guid: 5eae5077dd9204e43baeb8ef018bde50, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
 --- !u!65 &1271583857
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3263,10 +3303,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1346750399}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcedb5dc7fd569d45952182c9a4f8587, type: 3}
+  m_Script: {fileID: 11500000, guid: e3ed619ba30165a478a105fd128d3158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationVOPlayer
-  _voLocationSound: {Clip: {fileID: 8300000, guid: f6fb9440f861ae6469bb1b9d1d2e53b5, type: 3}, Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}, Volume: 0.7, Pitch: 1, SpacialBlend: 0, OverrideDefaultDistances: 0, MinDistance: 0.5, MaxDistance: 2}
+  _voLocationSound:
+    Clip: {fileID: 8300000, guid: f6fb9440f861ae6469bb1b9d1d2e53b5, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
 --- !u!1 &1373445501
 GameObject:
   m_ObjectHideFlags: 0
@@ -3309,10 +3357,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1373445501}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcedb5dc7fd569d45952182c9a4f8587, type: 3}
+  m_Script: {fileID: 11500000, guid: e3ed619ba30165a478a105fd128d3158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _voLocationSound: {Clip: {fileID: 8300000, guid: a6e232a9fe27ff647988c2cbfdf9a5b5, type: 3}, Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}, Volume: 0.7, Pitch: 1, SpacialBlend: 0, OverrideDefaultDistances: 0, MinDistance: 0.5, MaxDistance: 2}
+  _voLocationSound:
+    Clip: {fileID: 8300000, guid: a6e232a9fe27ff647988c2cbfdf9a5b5, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
 --- !u!65 &1373445504
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3581,7 +3637,7 @@ PrefabInstance:
     - target: {fileID: 7151481197929594776, guid: cd9b1eeff5a587748925f5c9e6596964, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3661,7 +3717,7 @@ PrefabInstance:
     - target: {fileID: 7015902174833320260, guid: 0f501f279df8471489d996933ad888aa, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 8993115359335207810, guid: 0f501f279df8471489d996933ad888aa, type: 3}
       propertyPath: MaxDistance
       value: 5.5
@@ -3765,7 +3821,7 @@ PrefabInstance:
     - target: {fileID: 5126304057273286274, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 5833667702195101368, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
       propertyPath: m_Name
       value: CoffeeCup (2)
@@ -3777,7 +3833,7 @@ PrefabInstance:
     - target: {fileID: 9168646221379535648, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3861,7 +3917,7 @@ PrefabInstance:
     - target: {fileID: 7320300744872002293, guid: 4675496017abf5544a85fc8642c4205d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 8801040907280533362, guid: 4675496017abf5544a85fc8642c4205d, type: 3}
       propertyPath: m_Name
       value: WALL_Concrete
@@ -3898,7 +3954,7 @@ PrefabInstance:
     - target: {fileID: 3013656416790952300, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 3610909882896857516, guid: 3b7b0bbf9113756439582b74c27cdcbd, type: 3}
       propertyPath: _radioStaticLoop.MaxDistance
       value: 6.81
@@ -4039,10 +4095,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1934722722}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcedb5dc7fd569d45952182c9a4f8587, type: 3}
+  m_Script: {fileID: 11500000, guid: e3ed619ba30165a478a105fd128d3158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationVOPlayer
-  _voLocationSound: {Clip: {fileID: 8300000, guid: 59f37b6ed69f28d4f893fae7eb44bf6c, type: 3}, Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}, Volume: 0.7, Pitch: 1, SpacialBlend: 0, OverrideDefaultDistances: 0, MinDistance: 0.5, MaxDistance: 2}
+  _voLocationSound:
+    Clip: {fileID: 8300000, guid: 59f37b6ed69f28d4f893fae7eb44bf6c, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
 --- !u!1001 &1939066566
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4106,7 +4170,7 @@ PrefabInstance:
     - target: {fileID: 8528537338334098706, guid: 232a330a6d478fe438af5c46bf63286b, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4139,10 +4203,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1945786208}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcedb5dc7fd569d45952182c9a4f8587, type: 3}
+  m_Script: {fileID: 11500000, guid: e3ed619ba30165a478a105fd128d3158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationVOPlayer
-  _voLocationSound: {Clip: {fileID: 8300000, guid: b9af162907fecc44bb84fcf087340ba4, type: 3}, Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}, Volume: 0.7, Pitch: 1, SpacialBlend: 0, OverrideDefaultDistances: 0, MinDistance: 0.5, MaxDistance: 2}
+  _voLocationSound:
+    Clip: {fileID: 8300000, guid: b9af162907fecc44bb84fcf087340ba4, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
 --- !u!65 &1945786210
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4296,7 +4368,7 @@ PrefabInstance:
     - target: {fileID: 6241002018842904890, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -4347,10 +4419,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 2065948781}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcedb5dc7fd569d45952182c9a4f8587, type: 3}
+  m_Script: {fileID: 11500000, guid: e3ed619ba30165a478a105fd128d3158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationVOPlayer
-  _voLocationSound: {Clip: {fileID: 8300000, guid: f35fdea98d8429340a4112fb9f3f1ac5, type: 3}, Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}, Volume: 0.7, Pitch: 1, SpacialBlend: 0, OverrideDefaultDistances: 0, MinDistance: 0.5, MaxDistance: 2}
+  _voLocationSound:
+    Clip: {fileID: 8300000, guid: f35fdea98d8429340a4112fb9f3f1ac5, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
 --- !u!65 &2065948784
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4370,8 +4450,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4.1216083, y: 3.4858115, z: 4.8}
-  m_Center: {x: 0.121433735, y: 1.242906, z: 0.6049131}
+  m_Size: {x: 5.46, y: 3.4858115, z: 4.8}
+  m_Center: {x: 0.28, y: 1.242906, z: 0.6049131}
 --- !u!1 &2109242838
 GameObject:
   m_ObjectHideFlags: 0
@@ -4442,7 +4522,7 @@ PrefabInstance:
     - target: {fileID: 604774019366012472, guid: fc7b3b84605c7b94882069c79e929ab1, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 2756290031422489035, guid: fc7b3b84605c7b94882069c79e929ab1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4555,7 +4635,7 @@ PrefabInstance:
     - target: {fileID: 8528537338334098706, guid: 232a330a6d478fe438af5c46bf63286b, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4628,7 +4708,7 @@ PrefabInstance:
     - target: {fileID: 4303250728074601061, guid: 3df18977d26bab24093a6ed3b5c3c8b8, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 5783868554631953880, guid: 3df18977d26bab24093a6ed3b5c3c8b8, type: 3}
       propertyPath: _touchSoundHolder
       value: 
@@ -4636,7 +4716,7 @@ PrefabInstance:
     - target: {fileID: 9185581756733940065, guid: 3df18977d26bab24093a6ed3b5c3c8b8, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4705,19 +4785,19 @@ PrefabInstance:
     - target: {fileID: 1627433249068204315, guid: 3871c9b4a68310e48add11105de4d4ce, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 1710757359737227482, guid: 3871c9b4a68310e48add11105de4d4ce, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 2814205810180479498, guid: 3871c9b4a68310e48add11105de4d4ce, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 3348151286666014331, guid: 3871c9b4a68310e48add11105de4d4ce, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 4085068330708223720, guid: 3871c9b4a68310e48add11105de4d4ce, type: 3}
       propertyPath: m_LocalScale.y
       value: 1.7917
@@ -4884,7 +4964,7 @@ PrefabInstance:
     - target: {fileID: 2952654304372473740, guid: 6dcf11fd389395e428e49abc47785718, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 4241500452329313642, guid: 6dcf11fd389395e428e49abc47785718, type: 3}
       propertyPath: _onHitHardEnoughToTriggerBreak.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -4896,7 +4976,7 @@ PrefabInstance:
     - target: {fileID: 4423708264064788602, guid: 6dcf11fd389395e428e49abc47785718, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 4693332717004892187, guid: 6dcf11fd389395e428e49abc47785718, type: 3}
       propertyPath: _onSurfaceTouched.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -4929,7 +5009,7 @@ PrefabInstance:
     - target: {fileID: 4571707670773700540, guid: f873964427069be46b7645f73be09811, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 6981055092257794428, guid: f873964427069be46b7645f73be09811, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.456503
@@ -4977,7 +5057,7 @@ PrefabInstance:
     - target: {fileID: 8208682410025035731, guid: f873964427069be46b7645f73be09811, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 8377769058188198268, guid: f873964427069be46b7645f73be09811, type: 3}
       propertyPath: m_Name
       value: BreakableMachine _FuseBox
@@ -5070,7 +5150,7 @@ PrefabInstance:
     - target: {fileID: 3589647011306679295, guid: 6a04aadb307575544b018fdb19ae849e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 6345069076848843742, guid: 6a04aadb307575544b018fdb19ae849e, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -5078,7 +5158,7 @@ PrefabInstance:
     - target: {fileID: 7976713244168080932, guid: 6a04aadb307575544b018fdb19ae849e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5151,7 +5231,7 @@ PrefabInstance:
     - target: {fileID: 8930349405150554538, guid: 0fbd0478fdd11ef4593c393c0e685ac3, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5309,7 +5389,7 @@ PrefabInstance:
     - target: {fileID: 7151481197929594776, guid: cd9b1eeff5a587748925f5c9e6596964, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5393,7 +5473,7 @@ PrefabInstance:
     - target: {fileID: 5126304057273286274, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 5833667702195101368, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
       propertyPath: m_Name
       value: CoffeeCup
@@ -5401,7 +5481,7 @@ PrefabInstance:
     - target: {fileID: 9168646221379535648, guid: 82f8ac01f26b89a468e4f4e4b4c46c5c, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5430,7 +5510,7 @@ PrefabInstance:
     - target: {fileID: 741968586832056837, guid: 9748ea454d9212c458594d3e6c2f1e63, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 4402391733295903247, guid: 9748ea454d9212c458594d3e6c2f1e63, type: 3}
       propertyPath: m_Name
       value: DOOR_Metal_START
@@ -5556,7 +5636,7 @@ PrefabInstance:
     - target: {fileID: 7320300744872002293, guid: 5a5955cbbbce9bc45834fbe411579a25, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 8801040907280533362, guid: 5a5955cbbbce9bc45834fbe411579a25, type: 3}
       propertyPath: m_Name
       value: WALL_Tiled
@@ -5866,7 +5946,7 @@ PrefabInstance:
     - target: {fileID: 8078202631543611359, guid: b9cdc9f59d2e13c49b0e89378c83ba4e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5931,11 +6011,11 @@ PrefabInstance:
     - target: {fileID: 5796218231168869278, guid: 11252ce50df05ff4380b6bc6ae28d74e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 6917700059421032884, guid: 11252ce50df05ff4380b6bc6ae28d74e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5957,7 +6037,7 @@ PrefabInstance:
     - target: {fileID: 1154307423557038021, guid: b070f8b722e6bc8419dcf036e41a2d29, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 3531549233438876988, guid: b070f8b722e6bc8419dcf036e41a2d29, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.3611
@@ -6001,7 +6081,7 @@ PrefabInstance:
     - target: {fileID: 4831498978821818983, guid: b070f8b722e6bc8419dcf036e41a2d29, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 9089139133405708790, guid: b070f8b722e6bc8419dcf036e41a2d29, type: 3}
       propertyPath: m_Name
       value: Safe_Closed
@@ -6034,7 +6114,7 @@ PrefabInstance:
     - target: {fileID: 3003071403127188405, guid: 860a6335e669b6d4c912b0f8c3450bac, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 6375041576107351505, guid: 860a6335e669b6d4c912b0f8c3450bac, type: 3}
       propertyPath: _insectLoopSound.Volume
       value: 0.12
@@ -6155,7 +6235,7 @@ PrefabInstance:
     - target: {fileID: 4149760518601135735, guid: 2ce57950316b8ac47996ff3387087750, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 6906221024706521705, guid: 2ce57950316b8ac47996ff3387087750, type: 3}
       propertyPath: m_Name
       value: FootStepMaterial_Vinyl
