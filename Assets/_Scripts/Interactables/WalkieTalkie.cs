@@ -19,7 +19,6 @@ public class WalkieTalkie : PickUpObject
 
     public UnityEvent OnRadioActivated_UnityEvent;
 
-
     #region Unity Callbacks
     private void OnEnable()
     {
@@ -41,7 +40,7 @@ public class WalkieTalkie : PickUpObject
     }
     #endregion
 
-    [ContextMenu("Activate")]
+    #region Core Functions
     public override void Activate()
     {
         // THis is only for the tutorial
@@ -72,8 +71,18 @@ public class WalkieTalkie : PickUpObject
         _staticLoopSource.transform.SetParent(transform);
         _staticLoopSource.gameObject.AddComponent<BeaconLPFController>();
     }
-    private void DuckRadioStaticVolumeTo(float ratio) => _staticLoopSource.volume *= ratio;
-    private void ResetRadioStaticVolume() => _staticLoopSource.volume = _radioStaticDefaultVolume;
+    public override void PickUp(Transform parent, PlayerHand hand)
+    {
+        base.PickUp(parent, hand);
+        // Reduce beacon sound when radio is being held.
+        DuckRadioStaticVolumeTo(0.99f);
+    }
+    public override void Release()
+    {
+        base.Release();
+        ResetRadioStaticVolume();
+    }
+    #endregion
 
     #region EventCallbacks for SFX handling during conversations
     private void OnRadioVOStart(DialogueSO dialogueSO)
@@ -98,6 +107,8 @@ public class WalkieTalkie : PickUpObject
         AudioPlayer.PlaySoundAtPoint(this, _releaseCallButtonSound, transform.position, false, true);
         ResetRadioStaticVolume();
     }
+    private void DuckRadioStaticVolumeTo(float ratio) => _staticLoopSource.volume *= ratio;
+    private void ResetRadioStaticVolume() => _staticLoopSource.volume = _radioStaticDefaultVolume;
     #endregion
 
     private void OnDrawGizmosSelected()
