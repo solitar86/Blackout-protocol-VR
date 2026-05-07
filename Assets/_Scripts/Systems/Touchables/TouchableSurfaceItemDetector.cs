@@ -32,7 +32,7 @@ public class TouchableSurfaceItemDetector : MonoBehaviour
                         bounds.center,
                         bounds.extents * (1 + _addedDetectionBuffer),
                         _surface.transform.rotation,
-                        _detectableLayers); 
+                        _detectableLayers);
 
         // Find all interactables among colliders found.
         var interactables = new List<Iinteractable>();
@@ -40,18 +40,24 @@ public class TouchableSurfaceItemDetector : MonoBehaviour
         {
             if (item.TryGetComponent<Iinteractable>(out var interactable))
 
-                if(interactable is not StaticInteractable)
+                if (interactable is PickUpObject)
                 {
-                    // Only ping movable objects, not static objects.
-                    interactables.Add(interactable);
+                    // Don't ping of an object is in the players hand.
+                    if ((interactable as PickUpObject).IsHeld) continue;
                 }
+
+            if (interactable is not StaticInteractable)
+            {
+                // Only ping movable objects, not static objects.
+                interactables.Add(interactable);
+            }
         }
 
         if (interactables.Count == 0) return;
 
         HandleInteractablePing(interactables);
 
-        if(ShouldCallInteractableDetectedEvent())
+        if (ShouldCallInteractableDetectedEvent())
         {
             // Currently this is only used by the VO handler.
             EventManager.OnInteractableDetectedOnSurface.Raise(this, -1);

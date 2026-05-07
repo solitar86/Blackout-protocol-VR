@@ -25,7 +25,7 @@ public class PlayerHandInteractor : MonoBehaviour
         EventManager.OnGripReleased.AddListener(this, HandleGripReleased);
         EventManager.OnTriggerPressed.AddListener(this, HandleTriggerPressed);
         EventManager.OnForceRemovePickUpObject.AddListener(this, HandleForceRemoveObject);
-//
+        //
     }
     private void OnDisable()
     {
@@ -50,7 +50,7 @@ public class PlayerHandInteractor : MonoBehaviour
     {
         if (other.TryGetComponent<Iinteractable>(out var interactable))
         {
-            if(_interactablesInRange.Contains(interactable) == true)
+            if (_interactablesInRange.Contains(interactable) == true)
             {
                 HandleTriggerStayInteractable();
             }
@@ -128,7 +128,7 @@ public class PlayerHandInteractor : MonoBehaviour
                 PickUpObject(_interactablesInRange[0]);
                 return;
             }
-            else if(_interactablesInRange[0] is StaticInteractable)
+            else if (_interactablesInRange[0] is StaticInteractable)
             {
                 // This will not pickup the object but play
                 // a voiceline statinc the object can't be picked up.
@@ -177,7 +177,6 @@ public class PlayerHandInteractor : MonoBehaviour
 
         if (_heldInteractable != null)
         {
-            // TODO: Consider swapping items on drop if one is in range?
             DropThisObjectAndEmptyHand(_heldInteractable);
             return;
         }
@@ -189,7 +188,7 @@ public class PlayerHandInteractor : MonoBehaviour
         var colliders = Physics.OverlapSphere(transform.position, _collider.radius * 1.2f);
         foreach (var collider in colliders)
         {
-            if(collider.TryGetComponent<TouchableSurface>(out _))
+            if (collider.TryGetComponent<TouchableSurface>(out _))
             {
                 EventManager.OnCantCarryObject.Raise(this, -1);
             }
@@ -198,12 +197,13 @@ public class PlayerHandInteractor : MonoBehaviour
 
     #endregion
 
+    #region Core Functions
     private void HandleTriggerStayInteractable()
     {
         if (_touchindInteractableVibrationSettings == null)
             _touchindInteractableVibrationSettings = Resources.Load<VibrationSettingsSO>("Haptics/InteractableTouchStayHapticSettings");
 
-        if(_heldInteractable == null)
+        if (_heldInteractable == null)
             _thisHand.HandleHandInsideInteractable(_touchindInteractableVibrationSettings);
     }
     private void HandleForceRemoveObject(bool isRightHand)
@@ -224,7 +224,26 @@ public class PlayerHandInteractor : MonoBehaviour
     }
     private void PickUpObject(Iinteractable objectToPickUp)
     {
+        if (objectToPickUp is PickUpObject pickupObject &&
+                            pickupObject.IsHeld == true &&
+                            pickupObject.HoldingHand != _thisHand)
+        {
+            // Handle special case when we grabbed an object from our other hand
+            // Switch to other hand.
+            pickupObject.SwapHands(transform, _thisHand);
+            _heldInteractable = pickupObject;
+            return;
+        }
         objectToPickUp.PickUp(transform, _thisHand);
         _heldInteractable = objectToPickUp;
     }
+
+    #endregion
+
+    #region Helpers etc.
+    public void ClearHeldinteractable()
+    {
+        _heldInteractable = null;
+    }
+    #endregion
 }

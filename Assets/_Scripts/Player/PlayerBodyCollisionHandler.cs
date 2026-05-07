@@ -29,7 +29,14 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
 
     private float _nextTimeAllowVO = 0f;
 
+    private bool _hasCollidedAndNotMoved = false;
+
     #region Unity Callbacks
+
+    private void OnEnable()
+    {
+        EventManager.OnPlayerStartMove.AddListener(this, OnPlayerStartMove);
+    }
     private void Awake()
     {
         if (_playerHead == null)
@@ -41,6 +48,12 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
 #endif
 
     }
+
+    private void OnDisable()
+    {
+        EventManager.OnPlayerStartMove.RemoveListener(this, OnPlayerStartMove);
+    }
+
     void Update()
     {
         HandleScrapingAudioSourceVolumeDecrease();
@@ -90,9 +103,12 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
 
     }
     #endregion
+
+    #region Core Functions
     private void HandlePlayerObstacleCollisionStart(RaycastHit hitInfo)
     {
         _wasTouchingLastFrame = true;
+        if (_hasCollidedAndNotMoved == true) return;
 
         var soundPosition = CalculateSoundPlayPosition(_currentTouchingPoint);
         if ((_hitMarker))
@@ -122,6 +138,9 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
                 PlayBodyCollisionFromHolder(soundPosition, holder.GetSoundArrayHolder());
             }
         }
+
+        // This is reset when the OnPlayerStartMove-event is called.
+        _hasCollidedAndNotMoved = true;
     }
     private void HandlePlayerObstacleCollisionStay()
     {
@@ -172,6 +191,13 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
         _wasTouchingLastFrame = false;
 
     }
+    private void OnPlayerStartMove(int value)
+    {
+        _hasCollidedAndNotMoved = false;
+    }
+    #endregion
+
+    #region Helpers, etc.
     private void PlayDefaultBodyCollisionSound(Vector3 soundPosition, GameObject holderObject)
     {
         /// If no holder present, play default
@@ -224,6 +250,8 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
         var directionToTouchPointNormalized = (currentTouchingPoint - playerXZwithTouchZ).normalized;
         return transform.position + directionToTouchPointNormalized * _touchSoundDistanceMultiplier;
     }
+
+    #endregion
     private void OnDrawGizmosSelected()
     {
         if (_playerHead == null || _raycastHeightIntervals == null)
@@ -255,4 +283,6 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
             }
         }
     }
+
+
 }

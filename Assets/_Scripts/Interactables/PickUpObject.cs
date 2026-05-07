@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.XR;
 
 /// <summary>
 /// All object which the player can hold and interact with
@@ -317,6 +318,26 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         HandleCollisiondWithSpecificObjects(environmentObject);
 
         _nextTimeAllowImpactSound = Time.time + _impactSoundBuffer;
+    }
+    public virtual void SwapHands(Transform parent, PlayerHand newHand)
+    {
+
+        transform.SetParent(parent);
+        parentTransformReference = parent;
+        _holdingHand.GetComponent<PlayerHandInteractor>().ClearHeldinteractable();
+        EventManager.OnForceRemovePickUpObject.Raise(this, _holdingHand.IsRightHand);
+        _holdingHand = newHand;
+        _isHeld = true;
+
+        if (_pickUpAndDropHapticSettings == null)
+        {
+            Debugger.LogWarning(gameObject.name + "has null pickup/drop haptic settings.", gameObject);
+            return;
+        }
+
+        _holdingHand.HandlePickUpOrDropObject(_pickUpAndDropHapticSettings, this);
+        PlayPickUpSound();
+        EventManager.OnAnyObjectPickUpObjectPickedUp.Raise(this, -1);
     }
 
     /// <summary>

@@ -31,6 +31,7 @@ public class TutorialHandler : MonoBehaviour
         Player.Instance.DisableTurnAndMove();
         Player.Instance.EnableFingerSnapping();
         Player.Instance.DisableNorthBeacon();
+        Player.Instance.DisableObjectLocators();
         EventManager.OnToggleRadialMenuOnOff.Raise(this, false);
 
         yield return StartCoroutine(TTSIntroduction());
@@ -85,6 +86,11 @@ public class TutorialHandler : MonoBehaviour
     private IEnumerator BasicsOfVRTutorial()
     {
         float clipDuration = 0f;
+
+        //Section title:
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Section_Basics", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 2f);
+
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_VRBasics_part1", out clipDuration, true);
         TTSPlayer.AddRepeatableTTS(TTSTUTORIALPATH + "TTS_VRBasics_part1");
         yield return new WaitForSeconds(clipDuration + 0.1f);
@@ -137,6 +143,11 @@ public class TutorialHandler : MonoBehaviour
     private IEnumerator RadialMenuTutorial()
     {
         float clipDuration = 0f;
+
+        //Section title:
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Section_RadialMenu", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 2f);
+
         // How to use Radial menu info.
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_MenuInfo", out clipDuration, true);
         TTSPlayer.AddRepeatableTTS(TTSTUTORIALPATH + "TTS_MenuInfo");
@@ -165,6 +176,12 @@ public class TutorialHandler : MonoBehaviour
     }
     private IEnumerator CharacterVoiceIntroduction()
     {
+
+        //Section title:
+        float clipDuration = 0f;
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Section_CharacterVoice", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 2f);
+
         //Introduce character voice.
         yield return new WaitForSeconds(2);
         AudioPlayer.PlaySoundAtPoint(this, _VOIntroDialogue, transform.position, false, false);
@@ -174,6 +191,11 @@ public class TutorialHandler : MonoBehaviour
     {
 
         float clipDuration = 0f;
+
+        //Section title:
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Section_Moving", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 2f);
+
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Movement_part1", out clipDuration, true);
         TTSPlayer.AddRepeatableTTS(TTSTUTORIALPATH + "TTS_Movement_part1");
         yield return new WaitForSeconds(clipDuration + 0.1f);
@@ -203,6 +225,11 @@ public class TutorialHandler : MonoBehaviour
     private IEnumerator HandInsideColliderTutorial()
     {
         float clipDuration = 0f;
+
+        //Section title:
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Section_HandInside", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 2f);
+
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_ErrorSound_part1", out clipDuration, true);
         yield return new WaitForSeconds(clipDuration);
         AudioPlayer.PlaySoundAtPoint(this, _errorSound, Vector3.zero, false, false);
@@ -213,6 +240,11 @@ public class TutorialHandler : MonoBehaviour
     private IEnumerator NorthBeaconTutorial()
     {
         float clipDuration = 0f;
+
+        //Section title:
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Section_NorthBeacon", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 2f);
+
         Player.Instance.EnableNorthBeacon();
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_NorthBeacon", out clipDuration, true);
         TTSPlayer.AddRepeatableTTS(TTSTUTORIALPATH + "TTS_NorthBeacon");
@@ -234,6 +266,11 @@ public class TutorialHandler : MonoBehaviour
     private IEnumerator FingerSnapTutorial()
     {
         float clipDuration = 0f;
+
+        //Section title:
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Section_FingerSnapping", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 2f);
+
         Player.Instance.EnableFingerSnapping();
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_FingerSnap", out clipDuration, true);
         TTSPlayer.AddRepeatableTTS(TTSTUTORIALPATH + "TTS_FingerSnap");
@@ -255,6 +292,11 @@ public class TutorialHandler : MonoBehaviour
     private IEnumerator InteractionTutorial()
     {
         float clipDuration = 0f;
+
+        //Section title:
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Section_Interaction", out clipDuration, true);
+        yield return new WaitForSeconds(clipDuration + 2f);
+
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_Interaction_part1", out clipDuration, true);
         yield return new WaitForSeconds(clipDuration + 0.1f);
 
@@ -285,6 +327,8 @@ public class TutorialHandler : MonoBehaviour
     {
         _onTutorialCompleteAction?.Invoke();
         TTSPlayer.AddRepeatableTTS(TTSTUTORIALPATH + "TTS_ControlsListed");
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_TutorialComplete", true);
+
     }
     public void SkipTutorial()
     {

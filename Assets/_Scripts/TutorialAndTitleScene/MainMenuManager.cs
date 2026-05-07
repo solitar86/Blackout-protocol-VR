@@ -48,7 +48,6 @@ public class MainMenuManager : MonoBehaviour
         GetComponent<TutorialHandler>().SkipTutorial();
         StopAllCoroutines();
         EventManager.OnPlayerWantSkip.RemoveListener(this, SkipTutorial);
-        Player.Instance.EnableFingerSnapping();
         InitMainMenuSetup();
     }
     private void InitMainMenuSetup()

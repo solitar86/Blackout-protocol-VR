@@ -171,9 +171,10 @@ public class Player : MonoBehaviour
     }
     public void EnableObjectLocators()
     {
-        if (_objectLocators == null || _objectLocators.Length < 2) _objectLocators = FindObjectsByType<PlayerObjectLocator>(FindObjectsSortMode.None);
+        if (_objectLocators == null || _objectLocators.Length != 2) _objectLocators = FindObjectsByType<PlayerObjectLocator>(FindObjectsSortMode.None);
         foreach (var locator in _objectLocators)
         {
+            Debugger.Log("Enabled locator: " + locator.gameObject.name);
             locator.enabled = false;
         }
     }

@@ -15,4 +15,4 @@ MonoBehaviour:
   Name: Unlock Safe
   _state: 0
   _discoveredStateHintConvo: {fileID: 11400000, guid: 9a0aa7c61c13f3b4d86903a1f9b11f79, type: 2}
-  _startedStateHintConvo: {fileID: 0}
+  _startedStateHintConvo: {fileID: 11400000, guid: e6e0fb98792a3fd4990c8f53dc55cf68, type: 2}

@@ -174,7 +174,7 @@ MonoBehaviour:
   _addedDetectionBuffer: 0.01
   _detectableLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
 --- !u!114 &5705279317000625199
 MonoBehaviour:
   m_ObjectHideFlags: 0

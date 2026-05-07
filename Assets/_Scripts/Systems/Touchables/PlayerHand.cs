@@ -10,12 +10,24 @@ public class PlayerHand : MonoBehaviour
     private Vector3 _handVelocity;
     private bool _isRightHand;
     private PickUpObject _pickUpObject;
+
     public bool IsHoldingObject => _pickUpObject != null;
     public bool IsRightHand => _isRightHand;
 
     private float nextTimeAllowHandInsideInteractorHapticToPlay = 0f;
 
     #region UnityCallbacks
+
+    private void OnEnable()
+    {
+        EventManager.OnForceRemovePickUpObject.AddListener(this, OnForceRemoveObjectFromHand);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.OnForceRemovePickUpObject.RemoveListener(this, OnForceRemoveObjectFromHand);
+    }
+
     private void Awake()
     {
         _hapticPlayer = GetComponent<VibrationPlayerDirect>();
@@ -48,12 +60,16 @@ public class PlayerHand : MonoBehaviour
                     * hapticSettings.RepeatTimes);
         }
     }
-    public void HandlePickUpOrDropObject(VibrationSettingsSO hapticSettings, PickUpObject @object)
+    public void HandlePickUpOrDropObject(VibrationSettingsSO hapticSettings, PickUpObject pickupObject)
     {
-        _pickUpObject = @object;
+        _pickUpObject = pickupObject;
         PlayHapticFeedback(hapticSettings);
     }
-
+    private void OnForceRemoveObjectFromHand(bool isRightHand)
+    {
+        if (isRightHand == _isRightHand)
+        _pickUpObject = null;
+    }
     #endregion
 
     #region Haptic feedback functions
@@ -71,12 +87,14 @@ public class PlayerHand : MonoBehaviour
     }
     public void HandleSingleVibration(VibrationSettingsSO hapticSettings)
     {
+        Debugger.Log("Single Haptic");
         PlayHapticFeedback(hapticSettings);
     }
     private void PlayHapticFeedback(VibrationSettingsSO hapticSettings)
     {
         if (hapticSettings.RepeatTimes == 1)
         {
+            Debugger.Log("Playing haptic");
             _hapticPlayer?.PlayHaptic(hapticSettings);
             return;
         }

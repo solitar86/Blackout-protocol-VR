@@ -56,7 +56,9 @@ public class SafeDial : StaticInteractable
             {
                 //Dialing up
                 _currentDialNumber = (_currentDialNumber + 1 + _numbersOnDial) % _numbersOnDial;
-                if (_currentDialNumber == _combination[_combinationIndex] && (_combinationIndex % 2 == 0))
+
+                // ODD numbers in sequence have to dialed DOWN to.
+                if (_currentDialNumber == _combination[_combinationIndex] && (_combinationIndex % 2 != 0))
                 {
                     PlayCorrectNumberClickSound();
                     _combinationIndex++;
@@ -71,7 +73,9 @@ public class SafeDial : StaticInteractable
             {
                 // Dialing down
                 _currentDialNumber = (_currentDialNumber - 1 + _numbersOnDial) % _numbersOnDial;
-                if (_currentDialNumber == _combination[_combinationIndex] && _combinationIndex % 2 != 0)
+
+                // EVEN numbers in sequence have to dialed UP to.
+                if (_currentDialNumber == _combination[_combinationIndex] && _combinationIndex % 2 == 0)
                 {
                     PlayCorrectNumberClickSound();
                     _combinationIndex++;
@@ -84,9 +88,10 @@ public class SafeDial : StaticInteractable
             }
 
             _lastDigitsZAngle = handZrotation;
-//#if UNITY_EDITOR
-//            DebugWorlSpaceText(_currentDialNumber);
-//#endif
+            //#if UNITY_EDITOR
+            //            DebugWorlSpaceText(_currentDialNumber);
+            //#endif
+            TTSPlayer.PlayNumber(_currentDialNumber);
         }
         else if (TouchingHand == null && IsActivated == true)
         {

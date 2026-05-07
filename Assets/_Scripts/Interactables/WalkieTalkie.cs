@@ -75,7 +75,7 @@ public class WalkieTalkie : PickUpObject
     {
         base.PickUp(parent, hand);
         // Reduce beacon sound when radio is being held.
-        DuckRadioStaticVolumeTo(0.99f);
+        DuckRadioStaticVolumeTo(0.3f);
     }
     public override void Release()
     {
