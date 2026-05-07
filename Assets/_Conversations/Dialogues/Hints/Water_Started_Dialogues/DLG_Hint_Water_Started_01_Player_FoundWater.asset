@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b6e58aa312f75b499635c6d00d84b9d, type: 3}
-  m_Name: DLG_Hint_Water_Discovered_02_NPC_ShortCircuit
+  m_Name: DLG_Hint_Water_Started_01_Player_FoundWater
   m_EditorClassIdentifier: Assembly-CSharp::DialogueSO
-  _speaker: 1
+  _speaker: 0
   _dialogueAudio:
-    Clip: {fileID: 8300000, guid: 068217d6a07580e4e9c9f6daa634bc65, type: 3}
-    Mixergroup: {fileID: 2977965170243988990, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Clip: {fileID: 8300000, guid: 57950d782bc85bb47906ce8b41a1f37c, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
-    SpacialBlend: 1
+    SpacialBlend: 0
     OverrideDefaultDistances: 1
-    MinDistance: 0.1
-    MaxDistance: 6
+    MinDistance: 0.2
+    MaxDistance: 3
   _delayAfterDialogue: 0
   _isMonologue: 0

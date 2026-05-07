@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  - {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -211,7 +211,6 @@ GameObject:
   - component: {fileID: 7567479316387592368}
   - component: {fileID: 3736397328724890685}
   - component: {fileID: 379437169304089116}
-  - component: {fileID: 2954144552857420833}
   - component: {fileID: 1131534540517204726}
   - component: {fileID: 7086296050635378096}
   - component: {fileID: 3225423651286714103}
@@ -233,7 +232,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.431, y: 0.69, z: 2.34}
-  m_LocalScale: {x: 0.90365, y: 1.2907627, z: 0.90365}
+  m_LocalScale: {x: 1.456503, y: 1.2907627, z: 0.90365}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 268328561781897950}
@@ -432,8 +431,8 @@ MonoBehaviour:
     Pitch: 1
     SpacialBlend: 1
     OverrideDefaultDistances: 1
-    MinDistance: 0.2
-    MaxDistance: 4
+    MinDistance: 1.2
+    MaxDistance: 4.18
   _takeDamageSound:
     Clip: {fileID: 8300000, guid: 3afa7d160343ffb4e829c0c8939c7a26, type: 3}
     Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
@@ -464,7 +463,7 @@ MonoBehaviour:
   _onDamaged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2954144552857420833}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: QuestProgressor_CallWithUnityEvent, Assembly-CSharp
         m_MethodName: ProgressQuest
         m_Mode: 1
@@ -506,21 +505,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &2954144552857420833
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8377769058188198268}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86f7e644917da1b498d9c6d192751b42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::QuestProgressor_CallWithUnityEvent
-  _questProgressionStep:
-    Quest: {fileID: 11400000, guid: 57586e5f71c3dd14ea4d66ca5bdce731, type: 2}
-    ProgressionState: 2
 --- !u!114 &1131534540517204726
 MonoBehaviour:
   m_ObjectHideFlags: 0

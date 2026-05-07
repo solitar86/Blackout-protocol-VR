@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 234f3728f6364dd4da7e804ddf2aa6e0, type: 3}
   m_Name: Hint_Water_Started_Conversation
   m_EditorClassIdentifier: Assembly-CSharp::ConversationSO
-  _name: Hammer started
+  _name: Water Started
   _conversation:
-  - {fileID: 11400000, guid: aaf68c8949466af4cbc7018d29214362, type: 2}
+  - {fileID: 11400000, guid: 7d4566c819ad0de49986f10c76bacab8, type: 2}
+  - {fileID: 11400000, guid: 87cc2d2f1e330d14c89db1ca8eaee1ed, type: 2}
+  - {fileID: 11400000, guid: a1d666951c218b447896e18e6811c73b, type: 2}

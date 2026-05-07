@@ -4369,6 +4369,34 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
+    - target: {fileID: 7908761564180327782, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
+      propertyPath: OnActivated.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7908761564180327782, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
+      propertyPath: OnActivated.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7908761564180327782, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
+      propertyPath: OnActivated.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2059633424}
+    - target: {fileID: 7908761564180327782, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
+      propertyPath: OnActivated.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7908761564180327782, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
+      propertyPath: OnActivated.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ProgressQuest
+      objectReference: {fileID: 0}
+    - target: {fileID: 7908761564180327782, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
+      propertyPath: OnActivated.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: QuestProgressor_CallWithUnityEvent, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7908761564180327782, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
+      propertyPath: OnActivated.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -4377,6 +4405,17 @@ PrefabInstance:
       addedObject: {fileID: 170787631}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
+--- !u!114 &2059633424 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9017409647624432599, guid: 877361732b7cdfa47a45cd50ae05a548, type: 3}
+  m_PrefabInstance: {fileID: 2059633423}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86f7e644917da1b498d9c6d192751b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestProgressor_CallWithUnityEvent
 --- !u!1 &2065948781
 GameObject:
   m_ObjectHideFlags: 0
@@ -4999,20 +5038,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 998304445}
     m_Modifications:
     - target: {fileID: 379437169304089116, guid: f873964427069be46b7645f73be09811, type: 3}
-      propertyPath: _fuseBoxHummLoop.MaxDistance
-      value: 4.18
-      objectReference: {fileID: 0}
-    - target: {fileID: 379437169304089116, guid: f873964427069be46b7645f73be09811, type: 3}
-      propertyPath: _fuseBoxHummLoop.MinDistance
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4571707670773700540, guid: f873964427069be46b7645f73be09811, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
+      propertyPath: _onDamaged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
-    - target: {fileID: 6981055092257794428, guid: f873964427069be46b7645f73be09811, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.456503
       objectReference: {fileID: 0}
     - target: {fileID: 6981055092257794428, guid: f873964427069be46b7645f73be09811, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5054,17 +5081,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8208682410025035731, guid: f873964427069be46b7645f73be09811, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
     - target: {fileID: 8377769058188198268, guid: f873964427069be46b7645f73be09811, type: 3}
       propertyPath: m_Name
       value: BreakableMachine _FuseBox
-      objectReference: {fileID: 0}
-    - target: {fileID: 8377769058188198268, guid: f873964427069be46b7645f73be09811, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

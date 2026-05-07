@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 234f3728f6364dd4da7e804ddf2aa6e0, type: 3}
   m_Name: Hint_Water_Discovered_Conversation
   m_EditorClassIdentifier: Assembly-CSharp::ConversationSO
-  _name: Hammer discovered
+  _name: Water Discovered
   _conversation:
-  - {fileID: 11400000, guid: 6c90d3a3f707d2040a0868c190abef01, type: 2}
-  - {fileID: 11400000, guid: 659defd6746071744a9b2cab2f7ecdf3, type: 2}
-  - {fileID: 11400000, guid: b074bf5f81d77fb4ba672f7a41b3a71c, type: 2}
+  - {fileID: 11400000, guid: 74721a4a2fe7e014386a930509ca5791, type: 2}
+  - {fileID: 11400000, guid: be7364e104746ad49905cdac94870189, type: 2}
+  - {fileID: 11400000, guid: e0d9a176b0a980b4d8bba4a5efb5e55b, type: 2}
