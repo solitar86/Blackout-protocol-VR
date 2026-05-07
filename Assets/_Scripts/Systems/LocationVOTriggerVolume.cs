@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.Audio;
-public class LocationVOPlayer : MonoBehaviour
+public class LocationVOTriggerVolume : MonoBehaviour
 {
     [SerializeField] private Sound _voLocationSound;
 
