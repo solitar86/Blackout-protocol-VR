@@ -55,6 +55,7 @@ public static class EventManager
     public static GameEvent<Sound> OnPlayerObjectIDVOShouldPlay = new("ID VO");
     public static GameEvent<Sound> OnPlayerBumpIDVOShouldPlay = new("Bump ID VO");
     public static GameEvent<Sound> OnPlayerLocationIDShouldPlay = new("Location ID VO");
+    public static GameEvent<int> OnPlayerShouldSayNumber = new("VO Number");
 
     // Interactable object events
     public static GameEvent<PickUpObject> OnAnyPickUpObjectHitFloor = new("Object dropped on ground");

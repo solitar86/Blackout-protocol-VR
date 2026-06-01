@@ -39,6 +39,8 @@ public class PlayerVOReactionHandler : MonoBehaviour
     private Sound _previousLocationVO;
     private Sound _previousObjectIDVO;
 
+    private const string VO_NUMBERSPATH = "VO_Numbers/VO_Numbers_";
+
     #region Unity Callbacks
     private void OnEnable()
     {
@@ -156,7 +158,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
         PlayPlayerInnerMonologueWithDelay(sound, 0f);
     }
     /// <summary>
-    /// Playes a generic "something here" voiceline when player
+    /// Playes a generic "something on it" voiceline when player
     /// touches a TouchableSurface that has a PickUp object on it.
     /// </summary>
     /// <param name="obj"></param>
@@ -164,7 +166,6 @@ public class PlayerVOReactionHandler : MonoBehaviour
     {
         PlayPlayerInnerMonologueWithDelay(_somethingHereVO, _itemDetectedDelay);
     }
-
 
     /// <summary>
     /// Play when player touches surface with no objects
@@ -192,6 +193,21 @@ public class PlayerVOReactionHandler : MonoBehaviour
     private void PlayGeneralVOLine(Sound IDVOSound)
     {
         PlayPlayerInnerMonologueWithDelay(IDVOSound, PlayerSettings.Developer.IdentifyVODelay);
+    }
+
+    public void PlayNumberVO(int number)
+    {
+        string numberString = GetStringFromNumber(number);
+        var clip = Resources.Load<AudioClip>(VO_NUMBERSPATH + numberString);
+        if(clip == null)
+        {
+            Debugger.LogWarning($"VO Number was not found with value {number} with path '{VO_NUMBERSPATH + numberString}'");
+            return;
+        }
+        Sound numberLine = new Sound(clip);
+        numberLine.Mixergroup = AudioPlayer.GetMixerGroupWithSubPathString("inner"); // DIRTY, I Know...
+        PlayGeneralVOLine(numberLine);
+
     }
     private void PlayPlayerInnerMonologueWithDelay(SoundArrayHolder soundHolder, float delay)
     {
@@ -259,5 +275,32 @@ public class PlayerVOReactionHandler : MonoBehaviour
         if (ConversationManager.PlayerIsSpeaking == true) return true;
         if (RadialMenuManager.Instance.MenuIsOpen == true) return true;
         return false;
+    }
+
+    private string GetStringFromNumber(int number)
+    {
+        if (number > 12)
+        {
+            return null;
+        }
+
+        switch (number)
+        {
+            case 0: return "Zero";
+            case 1: return "One";
+            case 2: return "Two";
+            case 3: return "Three";
+            case 4: return "Four";
+            case 5: return "Five";
+            case 6: return "Six";
+            case 7: return "Seven";
+            case 8: return "Eight";
+            case 9: return "Nine";
+            case 10: return "Ten";
+            case 11: return "Eleven";
+            case 12: return "Twelve";
+            default:
+                return string.Empty;
+        }
     }
 }

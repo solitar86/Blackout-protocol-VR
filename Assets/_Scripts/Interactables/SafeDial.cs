@@ -29,6 +29,10 @@ public class SafeDial : StaticInteractable
     float _degreesPerAngle;
     private bool _isOpen = false;
 
+    private float _VONumberTimer = 0;
+    private float _VONumberDelay = 0.5f;
+    private bool _hasSaidNumber = false;
+
     #endregion
 
     #region Unity Callbacks
@@ -52,6 +56,7 @@ public class SafeDial : StaticInteractable
         if (Mathf.Abs(handZrotation - _lastDigitsZAngle) > _degreesPerAngle)
         {
             // We have turned enough to change the digit.
+            _VONumberTimer = 0f; // Reset timer to have player say dial number.
             if (_lastDigitsZAngle > handZrotation)
             {
                 //Dialing up
@@ -88,15 +93,22 @@ public class SafeDial : StaticInteractable
             }
 
             _lastDigitsZAngle = handZrotation;
-            //#if UNITY_EDITOR
-            //            DebugWorlSpaceText(_currentDialNumber);
-            //#endif
-            //TTSPlayer.PlayNumber(_currentDialNumber);
         }
         else if (TouchingHand == null && IsActivated == true)
         {
             Activate();
         }
+
+        if (_hasSaidNumber == false)
+        {
+            _VONumberTimer += Time.deltaTime;
+            if(_VONumberTimer >= _VONumberDelay)
+            {
+                EventManager.OnPlayerShouldSayNumber.Raise(this, _currentDialNumber);
+                _hasSaidNumber = true;
+            }
+        }
+
     }
 
     #endregion
