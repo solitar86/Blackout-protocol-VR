@@ -12,6 +12,7 @@ public class WaterFaucet : StaticInteractable
     [SerializeField] private Sound _waterRunningStopSound;
     [SerializeField] private Sound _cupIsFillingSound;
     [SerializeField] private Sound _cupOverFlowLoop;
+    [SerializeField] private Sound _cupIsFillingVO;
     [Space(15)]
     [SerializeField] private Transform _waterOutputPoint;
     [SerializeField] private UnityEvent _onPlayerTouchRunningWater;
@@ -30,8 +31,6 @@ public class WaterFaucet : StaticInteractable
 
     private bool _playerHasHandInWater = false;
 
-    //CHANGE
-    private bool _waterAudioStarted;
 
     #region Unity Callbacks
 
@@ -204,7 +203,6 @@ public class WaterFaucet : StaticInteractable
         if (_waterRunningLoopSource.isPlaying == true)
         {
             _waterRunningLoopSource.Pause();
-            Debugger.Log("This is repeating");
         }
 
         if (cup.IsFull == true)
@@ -219,7 +217,9 @@ public class WaterFaucet : StaticInteractable
             if (Mathf.Approximately(_cupFillTimer, 0f) == true)
             {
                 fillingSoundGO = AudioPlayer.PlaySoundAtPoint(this, _cupIsFillingSound, transform.position);
+                EventManager.OnGeneralVOShouldPlay.Raise(this, _cupIsFillingVO);
             }
+
         }
     }
     private void HandleNoCupUnderRunningWaterSounds()

@@ -221,6 +221,15 @@ MonoBehaviour:
     OverrideDefaultDistances: 0
     MinDistance: 0.5
     MaxDistance: 2
+  _cupIsFillingVO:
+    Clip: {fileID: 8300000, guid: 48cefe5e50a0a724a94cb889ab541c2f, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
   _waterOutputPoint: {fileID: 5494741714073442392}
   _onPlayerTouchRunningWater:
     m_PersistentCalls:
