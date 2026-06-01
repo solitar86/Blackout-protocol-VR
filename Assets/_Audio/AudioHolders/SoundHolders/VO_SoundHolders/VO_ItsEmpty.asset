@@ -13,7 +13,39 @@ MonoBehaviour:
   m_Name: VO_ItsEmpty
   m_EditorClassIdentifier: Assembly-CSharp::SoundArrayHolder
   _importerArrayList: []
-  SoundArray: []
+  SoundArray:
+  - Clip: {fileID: 8300000, guid: bf47b834e2fe4224b974b921817f1802, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  - Clip: {fileID: 8300000, guid: 632149dcb9364264085f44c18d434fdf, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  - Clip: {fileID: 8300000, guid: f1a1e14941933964eb5f698fac918c51, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  - Clip: {fileID: 8300000, guid: b195daaedcc8b794893e8fb60c8c53a9, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
   LastPlayedSound:
     Clip: {fileID: 0}
     Mixergroup: {fileID: 0}

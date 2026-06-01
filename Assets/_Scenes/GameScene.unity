@@ -3191,8 +3191,8 @@ Transform:
   m_GameObject: {fileID: 1271583854}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.47, y: 0, z: 1.44}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -5.47, y: 0, z: 1.7374}
+  m_LocalScale: {x: 1, y: 1, z: 0.52285}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2109242839}
@@ -3680,7 +3680,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5878436453932700352, guid: 0f501f279df8471489d996933ad888aa, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.43
+      value: -3.941
       objectReference: {fileID: 0}
     - target: {fileID: 5878436453932700352, guid: 0f501f279df8471489d996933ad888aa, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5024,6 +5024,10 @@ PrefabInstance:
       propertyPath: _onSurfaceTouched.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 160742323}
+    - target: {fileID: 4975781267810874991, guid: 6dcf11fd389395e428e49abc47785718, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.596
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5364,7 +5368,7 @@ PrefabInstance:
     - target: {fileID: 952585711512111476, guid: cd9b1eeff5a587748925f5c9e6596964, type: 3}
       propertyPath: _touchIdentifyVO.Clip
       value: 
-      objectReference: {fileID: 8300000, guid: b5b3d9589ec071b4caa63c800d039485, type: 3}
+      objectReference: {fileID: 8300000, guid: e638d50c6e27a174fb9846f5d421d818, type: 3}
     - target: {fileID: 4020469611904569119, guid: cd9b1eeff5a587748925f5c9e6596964, type: 3}
       propertyPath: m_Name
       value: Cupboard_Wooden_Closed
