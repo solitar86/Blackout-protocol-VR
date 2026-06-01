@@ -44,6 +44,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
     #region Unity Callbacks
     private void OnEnable()
     {
+        EventManager.OnPlayerShouldSayNumber.AddListener(this, PlayNumberVO);
         EventManager.OnGeneralVOShouldPlay.AddListener(this, PlayGeneralVOLine);
         EventManager.OnPlayerCurse.AddListener(this, PlayerSayCurseWord);
         EventManager.OnCantCarryObject.AddListener(this, PlayerSayCantCarry);
@@ -58,6 +59,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
 
     private void OnDisable()
     {
+        EventManager.OnPlayerShouldSayNumber.RemoveListener(this, PlayNumberVO);
         EventManager.OnGeneralVOShouldPlay.RemoveListener(this, PlayGeneralVOLine);
         EventManager.OnPlayerCurse.RemoveListener(this, PlayerSayCurseWord);
         EventManager.OnCantCarryObject.RemoveListener(this, PlayerSayCantCarry);
@@ -65,7 +67,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
         EventManager.OnPlayerBumpIDVOShouldPlay.RemoveListener(this, PlayBumpIDVoiceLine);
         EventManager.OnPlayerLocationIDShouldPlay.RemoveListener(this, PlayerLocationIDVoiceLine);
         EventManager.OnInteractableDetectedOnSurface.RemoveListener(this, PlayItemDetectedVoiceLine);
-        EventManager.OnSurfaceIsEmpthy.AddListener(this, PlayEmptySurfaceVoiceLine);
+        EventManager.OnSurfaceIsEmpthy.RemoveListener(this, PlayEmptySurfaceVoiceLine);
         EventManager.OnAnyObjectPickUpObjectPickedUp.RemoveListener(this, PlayPickUpSuccesfulVoiceLine);
         CustomSnapTurnProviderWrapper.OnPlayerSnapTurn -= HandlePlayerTurn;
     }
@@ -205,7 +207,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
             return;
         }
         Sound numberLine = new Sound(clip);
-        numberLine.Mixergroup = AudioPlayer.GetMixerGroupWithSubPathString("inner"); // DIRTY, I Know...
+        numberLine.Mixergroup = AudioPlayer.GetMixerGroupWithSubPathString(PlayerSettings.INNER_MONOLOGUE_MIXERGROUP_STRING); // DIRTY, I Know...
         PlayGeneralVOLine(numberLine);
 
     }

@@ -30,7 +30,7 @@ public class SafeDial : StaticInteractable
     private bool _isOpen = false;
 
     private float _VONumberTimer = 0;
-    private float _VONumberDelay = 0.5f;
+    private float _VONumberDelay = 0.2f;
     private bool _hasSaidNumber = false;
 
     #endregion
@@ -56,7 +56,7 @@ public class SafeDial : StaticInteractable
         if (Mathf.Abs(handZrotation - _lastDigitsZAngle) > _degreesPerAngle)
         {
             // We have turned enough to change the digit.
-            _VONumberTimer = 0f; // Reset timer to have player say dial number.
+            ResetHasSaidNumberBoolAndTimer();
             if (_lastDigitsZAngle > handZrotation)
             {
                 //Dialing up
@@ -109,6 +109,12 @@ public class SafeDial : StaticInteractable
             }
         }
 
+    }
+
+    private void ResetHasSaidNumberBoolAndTimer()
+    {
+        _VONumberTimer = 0f; // Reset timer to have player say dial number.
+        _hasSaidNumber = false;
     }
 
     #endregion
