@@ -51,6 +51,7 @@ public static class EventManager
     public static GameEvent<int> OnAnyObjectPickUpObjectPickedUp = new("Object picked up");
     public static GameEvent<int> OnCantCarryObject = new("Player Can't carry that");
     public static GameEvent<int> OnInteractableDetectedOnSurface = new("Item on surface");
+    public static GameEvent<int> OnSurfaceIsEmpthy = new("No items on surface");
     public static GameEvent<Sound> OnPlayerObjectIDVOShouldPlay = new("ID VO");
     public static GameEvent<Sound> OnPlayerBumpIDVOShouldPlay = new("Bump ID VO");
     public static GameEvent<Sound> OnPlayerLocationIDShouldPlay = new("Location ID VO");

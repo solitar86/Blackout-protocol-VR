@@ -62,6 +62,10 @@ public class TouchableSurfaceItemDetector : MonoBehaviour
             // Currently this is only used by the VO handler.
             EventManager.OnInteractableDetectedOnSurface.Raise(this, -1);
         }
+        else
+        {
+            EventManager.OnSurfaceIsEmpthy.Raise(this, -1);
+        }
 
     }
     private bool ShouldCallInteractableDetectedEvent()

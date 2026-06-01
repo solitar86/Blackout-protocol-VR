@@ -21,6 +21,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
     [SerializeField] private SoundArrayHolder _bumpIDUnknownObstacleVO;
     [SerializeField] private SoundArrayHolder _cantCarryVO;
     [SerializeField] private SoundArrayHolder _pickupSuccesfulVO;
+    [SerializeField] private SoundArrayHolder _surfaceEmptyVO;
 
     private float _turnVODelay = 0.25f;
     private float _curseDelay = 1.5f;
@@ -48,6 +49,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
         EventManager.OnPlayerBumpIDVOShouldPlay.AddListener(this, PlayBumpIDVoiceLine);
         EventManager.OnPlayerLocationIDShouldPlay.AddListener(this, PlayerLocationIDVoiceLine);
         EventManager.OnInteractableDetectedOnSurface.AddListener(this, PlayItemDetectedVoiceLine);
+        EventManager.OnSurfaceIsEmpthy.AddListener(this, PlayEmptySurfaceVoiceLine);
         EventManager.OnAnyObjectPickUpObjectPickedUp.AddListener(this, PlayPickUpSuccesfulVoiceLine);
         CustomSnapTurnProviderWrapper.OnPlayerSnapTurn += HandlePlayerTurn;
     }
@@ -61,9 +63,11 @@ public class PlayerVOReactionHandler : MonoBehaviour
         EventManager.OnPlayerBumpIDVOShouldPlay.RemoveListener(this, PlayBumpIDVoiceLine);
         EventManager.OnPlayerLocationIDShouldPlay.RemoveListener(this, PlayerLocationIDVoiceLine);
         EventManager.OnInteractableDetectedOnSurface.RemoveListener(this, PlayItemDetectedVoiceLine);
+        EventManager.OnSurfaceIsEmpthy.AddListener(this, PlayEmptySurfaceVoiceLine);
         EventManager.OnAnyObjectPickUpObjectPickedUp.RemoveListener(this, PlayPickUpSuccesfulVoiceLine);
         CustomSnapTurnProviderWrapper.OnPlayerSnapTurn -= HandlePlayerTurn;
     }
+
     #endregion
 
     /// <summary>
@@ -159,6 +163,16 @@ public class PlayerVOReactionHandler : MonoBehaviour
     private void PlayItemDetectedVoiceLine(int value)
     {
         PlayPlayerInnerMonologueWithDelay(_somethingHereVO, _itemDetectedDelay);
+    }
+
+
+    /// <summary>
+    /// Play when player touches surface with no objects
+    /// </summary>
+    /// <param name="value"></param>
+    private void PlayEmptySurfaceVoiceLine(int value)
+    {
+        PlayPlayerInnerMonologueWithDelay(_surfaceEmptyVO, _itemDetectedDelay);
     }
     /// <summary>
     /// Played when a pickup action is succesful.
