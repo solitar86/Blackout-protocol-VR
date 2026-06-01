@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TouchableSurfaceAudioHandler
   _touchIdentifyVO:
-    Clip: {fileID: 8300000, guid: a536e219d0de80d4ba7a011d1582218d, type: 3}
+    Clip: {fileID: 8300000, guid: e638d50c6e27a174fb9846f5d421d818, type: 3}
     Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
@@ -166,7 +166,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4020469611904569119}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4326c5cf7ad07fa4698c0454b2ac2123, type: 3}
   m_Name: 
@@ -213,7 +213,7 @@ MonoBehaviour:
   _OnOpenedWithKey:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2310285409639085292}
+      - m_Target: {fileID: 424998513059843747}
         m_TargetAssemblyTypeName: SoundHolderForUnityEvent, Assembly-CSharp
         m_MethodName: PlaySound
         m_Mode: 1
@@ -225,7 +225,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 424998513059843747}
+      - m_Target: {fileID: 2310285409639085292}
         m_TargetAssemblyTypeName: SoundHolderForUnityEvent, Assembly-CSharp
         m_MethodName: PlaySound
         m_Mode: 1
