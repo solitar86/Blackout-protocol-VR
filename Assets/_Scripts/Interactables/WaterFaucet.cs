@@ -30,6 +30,9 @@ public class WaterFaucet : StaticInteractable
 
     private bool _playerHasHandInWater = false;
 
+    //CHANGE
+    private bool _waterAudioStarted;
+
     #region Unity Callbacks
 
     private void Awake()
@@ -144,10 +147,13 @@ public class WaterFaucet : StaticInteractable
 
         if (_waterRunningLoopSource.isPlaying == false && _hasCupUnderFaucet == false)
         {
+            //TODO: This If statement keep sgetting constantly called when faucet is on. FIX.
+
+            // Running loop not running nad we have no cup under us.
             // Play startsound and start water running loop.
-            _waterRunningLoopSource.UnPause();
+            _waterRunningLoopSource.Play();
             AudioPlayer.PlaySoundAtPoint(this, _waterRunningStartSound, transform.position, true);
-            //TODO: This If statement keep sgetting constantly called when faucet is on.
+
         }
 
         if (_waterDrippingSource != null && _waterDrippingSource.isPlaying == true)
@@ -198,6 +204,7 @@ public class WaterFaucet : StaticInteractable
         if (_waterRunningLoopSource.isPlaying == true)
         {
             _waterRunningLoopSource.Pause();
+            Debugger.Log("This is repeating");
         }
 
         if (cup.IsFull == true)
