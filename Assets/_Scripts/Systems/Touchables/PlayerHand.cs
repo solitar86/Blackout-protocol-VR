@@ -87,14 +87,12 @@ public class PlayerHand : MonoBehaviour
     }
     public void HandleSingleVibration(VibrationSettingsSO hapticSettings)
     {
-        Debugger.Log("Single Haptic");
         PlayHapticFeedback(hapticSettings);
     }
     private void PlayHapticFeedback(VibrationSettingsSO hapticSettings)
     {
         if (hapticSettings.RepeatTimes == 1)
         {
-            Debugger.Log("Playing haptic");
             _hapticPlayer?.PlayHaptic(hapticSettings);
             return;
         }

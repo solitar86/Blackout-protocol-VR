@@ -53,7 +53,11 @@ public class TouchableSurfaceItemDetector : MonoBehaviour
             }
         }
 
-        if (interactables.Count == 0) return;
+        if (interactables.Count == 0)
+        {
+            EventManager.OnSurfaceIsEmpthy.Raise(this, -1);
+            return;
+        }
 
         HandleInteractablePing(interactables);
 
@@ -61,10 +65,6 @@ public class TouchableSurfaceItemDetector : MonoBehaviour
         {
             // Currently this is only used by the VO handler.
             EventManager.OnInteractableDetectedOnSurface.Raise(this, -1);
-        }
-        else
-        {
-            EventManager.OnSurfaceIsEmpthy.Raise(this, -1);
         }
 
     }

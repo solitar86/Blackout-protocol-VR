@@ -200,7 +200,7 @@ MonoBehaviour:
   _playerBodyCollisionSoundHolder: {fileID: 0}
   _ID_voiceline:
     Clip: {fileID: 8300000, guid: f7c39a954af1cc34cbfa2ea4cbb98f64, type: 3}
-    Mixergroup: {fileID: 0}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
     SpacialBlend: 0
@@ -275,7 +275,7 @@ MonoBehaviour:
   _onHitTooSoftly:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2674038380395848994}
+      - m_Target: {fileID: 2157219558422120497}
         m_TargetAssemblyTypeName: SoundHolderForUnityEvent, Assembly-CSharp
         m_MethodName: PlaySound
         m_Mode: 1
@@ -411,7 +411,7 @@ Transform:
   m_GameObject: {fileID: 5783391879528380673}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.70710677, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.46, y: -0.14, z: -0.444}
+  m_LocalPosition: {x: 0.596, y: -0.14, z: -0.444}
   m_LocalScale: {x: 0.099999994, y: 0.098079205, z: 0.62235683}
   m_ConstrainProportionsScale: 1
   m_Children: []
