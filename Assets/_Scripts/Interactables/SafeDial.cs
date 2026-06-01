@@ -91,7 +91,7 @@ public class SafeDial : StaticInteractable
             //#if UNITY_EDITOR
             //            DebugWorlSpaceText(_currentDialNumber);
             //#endif
-            TTSPlayer.PlayNumber(_currentDialNumber);
+            //TTSPlayer.PlayNumber(_currentDialNumber);
         }
         else if (TouchingHand == null && IsActivated == true)
         {

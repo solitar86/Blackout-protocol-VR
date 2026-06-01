@@ -225,13 +225,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 51594337}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcedb5dc7fd569d45952182c9a4f8587, type: 3}
+  m_Script: {fileID: 11500000, guid: e3ed619ba30165a478a105fd128d3158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationVOPlayer
   _voLocationSound:
     Clip: {fileID: 8300000, guid: 59f37b6ed69f28d4f893fae7eb44bf6c, type: 3}
     Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0.7
+    Volume: 1
     Pitch: 1
     SpacialBlend: 0
     OverrideDefaultDistances: 0
@@ -765,13 +765,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 756781965}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcedb5dc7fd569d45952182c9a4f8587, type: 3}
+  m_Script: {fileID: 11500000, guid: e3ed619ba30165a478a105fd128d3158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationVOPlayer
   _voLocationSound:
     Clip: {fileID: 8300000, guid: f6fb9440f861ae6469bb1b9d1d2e53b5, type: 3}
     Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0.7
+    Volume: 1
     Pitch: 1
     SpacialBlend: 0
     OverrideDefaultDistances: 0
@@ -840,13 +840,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 791347421}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcedb5dc7fd569d45952182c9a4f8587, type: 3}
+  m_Script: {fileID: 11500000, guid: e3ed619ba30165a478a105fd128d3158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationVOPlayer
   _voLocationSound:
     Clip: {fileID: 8300000, guid: 019eecc296b6a994f9c211a9da5671d0, type: 3}
     Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0.7
+    Volume: 1
     Pitch: 1
     SpacialBlend: 0
     OverrideDefaultDistances: 0
@@ -1091,13 +1091,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 884140547}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcedb5dc7fd569d45952182c9a4f8587, type: 3}
+  m_Script: {fileID: 11500000, guid: e3ed619ba30165a478a105fd128d3158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationVOPlayer
   _voLocationSound:
     Clip: {fileID: 8300000, guid: bae801396ddd57749a87601db1cce3f5, type: 3}
     Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0.7
+    Volume: 1
     Pitch: 1
     SpacialBlend: 0
     OverrideDefaultDistances: 0
@@ -1279,13 +1279,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1130903968}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcedb5dc7fd569d45952182c9a4f8587, type: 3}
+  m_Script: {fileID: 11500000, guid: e3ed619ba30165a478a105fd128d3158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
   _voLocationSound:
     Clip: {fileID: 8300000, guid: a6e232a9fe27ff647988c2cbfdf9a5b5, type: 3}
     Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0.7
+    Volume: 1
     Pitch: 1
     SpacialBlend: 0
     OverrideDefaultDistances: 0
@@ -1416,13 +1416,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1399275044}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcedb5dc7fd569d45952182c9a4f8587, type: 3}
+  m_Script: {fileID: 11500000, guid: e3ed619ba30165a478a105fd128d3158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationVOPlayer
   _voLocationSound:
     Clip: {fileID: 8300000, guid: 18c429994d8699444add3e538f32f384, type: 3}
     Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
-    Volume: 0.7
+    Volume: 1
     Pitch: 1
     SpacialBlend: 0
     OverrideDefaultDistances: 0
