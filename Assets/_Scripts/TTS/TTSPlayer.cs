@@ -183,8 +183,12 @@ public class TTSPlayer : MonoBehaviour
         _nextTimeAllowTTS = 0f;
         DestroyAndClearQueuedTTSCalls();
         UnloadUsedTTSClips(-1);
-        _ttsSource.Stop();
-        _ttsSource.loop = false;
+
+        if(_ttsSource != null) // When reloading scenes this can be null
+        {
+            _ttsSource.Stop();
+            _ttsSource.loop = false;
+        }
     }
 
     #region Helpers etc.

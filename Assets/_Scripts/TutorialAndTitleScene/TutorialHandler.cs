@@ -327,7 +327,14 @@ public class TutorialHandler : MonoBehaviour
     {
         _onTutorialCompleteAction?.Invoke();
         TTSPlayer.AddRepeatableTTS(TTSTUTORIALPATH + "TTS_ControlsListed");
-        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_TutorialComplete", true);
+
+        // Disabled for Demo Day
+        //TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_TutorialComplete", true);
+        
+        
+        //Remove After Demoday
+        Invoke(nameof(PlayGameStartReminderTTS), 1f);
+
 
     }
     public void SkipTutorial()
@@ -336,7 +343,10 @@ public class TutorialHandler : MonoBehaviour
         TTSPlayer.ForceStopAllTTS();
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_SkippingTutorial");
         StopAllCoroutines();
+        Invoke(nameof(PlayGameStartReminderTTS), 1f);
     }
+
+
     
     #region Helpers
     public void SetHasDroppedWalkieTalkie(bool value)
@@ -346,6 +356,12 @@ public class TutorialHandler : MonoBehaviour
     public void SetHasActivatedFaucet(bool value)
     {
         _hasActivatedFaucet = value;
+    }
+
+    //Remove After Demoday
+    private void PlayGameStartReminderTTS()
+    {
+        TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_StartGameFromMenu", out float clipDuration, true);
     }
 
     #endregion

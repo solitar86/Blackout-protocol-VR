@@ -30,7 +30,7 @@ public class SafeDial : StaticInteractable
     private bool _isOpen = false;
 
     private float _VONumberTimer = 0;
-    private float _VONumberDelay = 0.2f;
+    private float _VONumberDelay = 0.1f;
     private bool _hasSaidNumber = false;
 
     #endregion
@@ -146,7 +146,7 @@ public class SafeDial : StaticInteractable
     {
         Sound correctSound = new Sound(_singleClick);
         correctSound.Pitch -= 0.4f;
-        correctSound.Volume += 0.3f;
+        correctSound.Volume += 0.5f;
         //Debugger.PlayBlipSound();
         AudioPlayer.PlaySoundAtPoint(this, correctSound, transform.position, false, true);
     }

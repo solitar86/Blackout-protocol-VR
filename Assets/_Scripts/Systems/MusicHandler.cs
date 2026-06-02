@@ -44,7 +44,6 @@ public class MusicHandler : MonoBehaviour
         }
         StartCoroutine(FadeUpMusicPlayer(trackToPlay));
     }
-
     private IEnumerator FadeUpMusicPlayer(AudioClip trackToPlay)
     {
         _musicSource.clip = trackToPlay;
@@ -67,7 +66,7 @@ public class MusicHandler : MonoBehaviour
 
         AudioPlayer.SetMusicVolumeTo(targetVolume);
     }
-    private IEnumerator FadeMusicToVolume(float decibels)
+    private IEnumerator FadeMusicToVolumeInDecibels(float decibels)
     {
         float timer = 0f;
         AudioPlayer.Instance.MainMixer.GetFloat(PlayerSettings.MUSIC_VOLUME_STRING, out float startVolume);
@@ -83,12 +82,24 @@ public class MusicHandler : MonoBehaviour
 
         AudioPlayer.SetMusicVolumeTo(targetVolume);
     }
-    private void HandleSceneLoadEvent(Scene arg0, LoadSceneMode arg1)
+    private void HandleSceneLoadEvent(Scene sceneFile, LoadSceneMode loadSceneMode)
     {
-        if (arg0.buildIndex != 0)
+        if (sceneFile.buildIndex == 1)
         {
             StopAllCoroutines();
-            StartCoroutine(FadeMusicToVolume(_musicLowVolumeInDecibels));
+            StartCoroutine(FadeMusicToVolumeInDecibels(_musicLowVolumeInDecibels));
+        }
+
+        if (sceneFile.buildIndex == 2)
+        {
+            StopAllCoroutines();
+            StartCoroutine(FadeMusicToVolumeInDecibels(-80f));
+        }
+
+        if(sceneFile.buildIndex == 0)
+        {
+            // we reloaded the bootupscene
+            PlayMusicTrack(_titleMusic);
         }
     }
     

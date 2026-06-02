@@ -6,6 +6,7 @@ public class GameStartSequence : MonoBehaviour
 {
     [SerializeField] private float _startDelay = 1.5f;
     [SerializeField] private Sound _gameStartSFXSequence;
+    [SerializeField] private Sound _doorLockAnnouncement;
     [SerializeField] private Transform _startSoundPosition;
     [Tooltip("This can be negative as well.")]
     [SerializeField] private float _delayBeforeFirstConversationStart = 0;
@@ -25,6 +26,7 @@ public class GameStartSequence : MonoBehaviour
         TTSPlayer.AddRepeatableTTS(PlayerSettings.CONTROLS_LIST_TTS_PATH);
         yield return new WaitForSeconds(_startDelay);
         AudioPlayer.PlaySoundAtPoint(this, _gameStartSFXSequence, _startSoundPosition.position, false, true);
+        AudioPlayer.PlaySoundAtPointWithDelay(this, _doorLockAnnouncement, _startSoundPosition.position, delay: 0.4f, false, true);
 
         if (_playerHasActivatedRadio == false)
         {

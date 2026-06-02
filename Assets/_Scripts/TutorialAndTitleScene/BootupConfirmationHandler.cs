@@ -62,6 +62,11 @@ public class BootupConfirmationHandler : MonoBehaviour
     #endregion
 
 
+    [ContextMenu("Go to Tutorial Scene")]
+    public void OpenTutorial()
+    {
+        OpenTutorialScene(-1);
+    }
     private void OpenTutorialScene(int value)
     {
         if (_hasSkipped == true) return;
@@ -81,7 +86,6 @@ public class BootupConfirmationHandler : MonoBehaviour
             //
             SceneManager.LoadScene(1);
         }, 2f);
-
     }
     private void StickTTS(bool isRightHand)
     {
