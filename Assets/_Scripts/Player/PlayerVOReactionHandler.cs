@@ -16,7 +16,8 @@ public class PlayerVOReactionHandler : MonoBehaviour
     [SerializeField] private float _IDVoicelineRepeatBufferDuration = 5f;
     [Space(5), Header("Voiceline Sound Holders")]
     [SerializeField] private SoundArrayHolder _leftTurnVO, _rightTurnVO;
-    [SerializeField] private SoundArrayHolder _curseWordsVO;
+    [SerializeField] private SoundArrayHolder _droppedObjectOnSurface;
+    [SerializeField] private SoundArrayHolder _droppedObjectOnFloorVO;
     [SerializeField] private SoundArrayHolder _somethingHereVO;
     [SerializeField] private SoundArrayHolder _bumpIDUnknownObstacleVO;
     [SerializeField] private SoundArrayHolder _cantCarryVO;
@@ -24,7 +25,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
     [SerializeField] private SoundArrayHolder _surfaceEmptyVO;
 
     private float _turnVODelay = 0.25f;
-    private float _curseDelay = 1.5f;
+    private float _itemDroppedDelay = 0.5f;
     private float _itemDetectedDelay = 1f;
     private float _cantCarryDelay = 0.25f;
     private float _pickUpSuccessDelay = 0.1f;
@@ -46,7 +47,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
     {
         EventManager.OnPlayerShouldSayNumber.AddListener(this, PlayNumberVO);
         EventManager.OnGeneralVOShouldPlay.AddListener(this, PlayGeneralVOLine);
-        EventManager.OnPlayerCurse.AddListener(this, PlayerSayCurseWord);
+        EventManager.PlayerVO_ObjectDropOnFloorReaction.AddListener(this, PlayDroppedOnFloorReaction);
         EventManager.OnCantCarryObject.AddListener(this, PlayerSayCantCarry);
         EventManager.OnPlayerObjectIDVOShouldPlay.AddListener(this, PlayTouchIDVoiceLine);
         EventManager.OnPlayerBumpIDVOShouldPlay.AddListener(this, PlayBumpIDVoiceLine);
@@ -54,6 +55,8 @@ public class PlayerVOReactionHandler : MonoBehaviour
         EventManager.OnInteractableDetectedOnSurface.AddListener(this, PlayItemDetectedVoiceLine);
         EventManager.OnSurfaceIsEmpthy.AddListener(this, PlayEmptySurfaceVoiceLine);
         EventManager.OnAnyObjectPickUpObjectPickedUp.AddListener(this, PlayPickUpSuccesfulVoiceLine);
+        EventManager.OnAnyPickUpObjectPlacedOnSurface.AddListener(this, PlayDroppedObjectVoiceline);
+        EventManager.OnPlayerSpillAllWater.AddListener(this, PlayGeneralVOLine);
         CustomSnapTurnProviderWrapper.OnPlayerSnapTurn += HandlePlayerTurn;
     }
 
@@ -61,7 +64,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
     {
         EventManager.OnPlayerShouldSayNumber.RemoveListener(this, PlayNumberVO);
         EventManager.OnGeneralVOShouldPlay.RemoveListener(this, PlayGeneralVOLine);
-        EventManager.OnPlayerCurse.RemoveListener(this, PlayerSayCurseWord);
+        EventManager.PlayerVO_ObjectDropOnFloorReaction.RemoveListener(this, PlayDroppedOnFloorReaction);
         EventManager.OnCantCarryObject.RemoveListener(this, PlayerSayCantCarry);
         EventManager.OnPlayerObjectIDVOShouldPlay.RemoveListener(this, PlayTouchIDVoiceLine);
         EventManager.OnPlayerBumpIDVOShouldPlay.RemoveListener(this, PlayBumpIDVoiceLine);
@@ -69,6 +72,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
         EventManager.OnInteractableDetectedOnSurface.RemoveListener(this, PlayItemDetectedVoiceLine);
         EventManager.OnSurfaceIsEmpthy.RemoveListener(this, PlayEmptySurfaceVoiceLine);
         EventManager.OnAnyObjectPickUpObjectPickedUp.RemoveListener(this, PlayPickUpSuccesfulVoiceLine);
+        EventManager.OnPlayerSpillAllWater.RemoveListener(this, PlayGeneralVOLine);
         CustomSnapTurnProviderWrapper.OnPlayerSnapTurn -= HandlePlayerTurn;
     }
 
@@ -95,11 +99,29 @@ public class PlayerVOReactionHandler : MonoBehaviour
         }
 
     }
-    private void PlayerSayCurseWord(int severity)
+    
+    /// <summary>
+    /// Called when the player drops an item on the floor.
+    /// This is different from droppin an item on a valid surface
+    /// </summary>
+    /// <param name="value"></param>
+    private void PlayDroppedOnFloorReaction(int value)
     {
-        if (_curseWordsVO != null && _curseWordsVO.SoundArray != null && _curseWordsVO.SoundArray.Length > 0)
+        if (_droppedObjectOnFloorVO != null && _droppedObjectOnFloorVO.SoundArray != null && _droppedObjectOnFloorVO.SoundArray.Length > 0)
         {
-            PlayPlayerInnerMonologueWithDelay(_curseWordsVO, _curseDelay);
+            PlayPlayerInnerMonologueWithDelay(_droppedObjectOnFloorVO, _itemDroppedDelay);
+        }
+    }
+    /// <summary>
+    /// Called when the player drops an item on valid surface to 
+    /// confirm that the object has left their hand.
+    /// </summary>
+    /// <param name="object"></param>
+    private void PlayDroppedObjectVoiceline(PickUpObject @object)
+    {
+        if (_droppedObjectOnSurface != null && _droppedObjectOnSurface.SoundArray != null && _droppedObjectOnSurface.SoundArray.Length > 0)
+        {
+            PlayPlayerInnerMonologueWithDelay(_droppedObjectOnSurface, _itemDroppedDelay);
         }
     }
     private void PlayerSayCantCarry(int value)
@@ -144,7 +166,6 @@ public class PlayerVOReactionHandler : MonoBehaviour
         Debugger.LogWarning("Bump ID VO was called with null sound", Debugger.TextColor.Orange);
         PlayPlayerInnerMonologueWithDelay(_bumpIDUnknownObstacleVO, PlayerSettings.Developer.IdentifyVODelay);
     }
-
     /// <summary>
     /// Plays the inputted voiceline with no delay. Will not play
     /// the voiceline if it the same as the previous one.
@@ -168,7 +189,6 @@ public class PlayerVOReactionHandler : MonoBehaviour
     {
         PlayPlayerInnerMonologueWithDelay(_somethingHereVO, _itemDetectedDelay);
     }
-
     /// <summary>
     /// Play when player touches surface with no objects
     /// </summary>
@@ -186,17 +206,17 @@ public class PlayerVOReactionHandler : MonoBehaviour
         PlayPlayerInnerMonologueWithDelay(_pickupSuccesfulVO, _pickUpSuccessDelay);
     }
     /// <summary>
-    /// Playes one sound from an array with no spatialization as if they are players thoughts.
-    /// All InnerMonologue goes through "with delay" and 0 delay = immediately.
+    /// A general VO function for anything non specific or one-shot voicelines.
     /// </summary>
-    /// <param name="soundHolder">Soundholder with variations of sound to play.</param>
-    /// <param name="delay">If set to 0 will play immediately</param>
-    
+    /// <param name="IDVOSound"></param>
     private void PlayGeneralVOLine(Sound IDVOSound)
     {
         PlayPlayerInnerMonologueWithDelay(IDVOSound, PlayerSettings.Developer.IdentifyVODelay);
     }
-
+    /// <summary>
+    /// Playes "innermonologue" numbers from 1-12. Used only for the safe dial currently
+    /// </summary>
+    /// <param name="number">Int from 1-12 to speak</param>
     public void PlayNumberVO(int number)
     {
         string numberString = GetStringFromNumber(number);
@@ -211,6 +231,12 @@ public class PlayerVOReactionHandler : MonoBehaviour
         PlayGeneralVOLine(numberLine);
 
     }
+    /// <summary>
+    /// Playes one sound from an array with no spatialization as if they are players thoughts.
+    /// All InnerMonologue goes through "with delay" and 0 delay = immediately.
+    /// </summary>
+    /// <param name="soundHolder">Soundholder with variations of sound to play.</param>
+    /// <param name="delay">If set to 0 will play immediately</param>
     private void PlayPlayerInnerMonologueWithDelay(SoundArrayHolder soundHolder, float delay)
     {
         if (soundHolder != null && soundHolder.SoundArray != null && soundHolder.SoundArray.Length > 0)
@@ -264,6 +290,8 @@ public class PlayerVOReactionHandler : MonoBehaviour
             Debugger.Log("Inner monologue was called with null or empty sound");
         }
     }
+
+    #region Helpers etc.
     private void TryPlayedQueudVOReaction()
     {
         if (_queuedVoiceLines.Count > 0)
@@ -278,7 +306,6 @@ public class PlayerVOReactionHandler : MonoBehaviour
         if (RadialMenuManager.Instance.MenuIsOpen == true) return true;
         return false;
     }
-
     private string GetStringFromNumber(int number)
     {
         if (number > 12)
@@ -305,4 +332,6 @@ public class PlayerVOReactionHandler : MonoBehaviour
                 return string.Empty;
         }
     }
+
+    #endregion region
 }

@@ -374,12 +374,17 @@ public static class RadialMenuHolder
         var delayObject = new GameObject("path");
         var mono = delayObject.AddComponent<Delay>();
 
+        //        mono.CallWithDelay(() =>
+        //        {
+        //            Application.Quit();
+        //#if UNITY_EDITOR
+        //            UnityEditor.EditorApplication.isPlaying = false;
+        //#endif
+        //        }, 2f);
+
         mono.CallWithDelay(() =>
         {
-            Application.Quit();
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#endif
+            SceneManager.LoadScene(0);
         }, 2f);
 
     }, MENUTTSFILEFOLDERPATH + "TTS_Menu_Quit");

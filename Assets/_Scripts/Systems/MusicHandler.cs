@@ -10,7 +10,7 @@ public class MusicHandler : MonoBehaviour
     [SerializeField] private float _musicLowVolumeInDecibels = -20f;
 
     private AudioSource _musicSource;
-    [Tooltip("This is read from the Main Mixer Music mixergroup setting on startup.")]
+    //This is read from the Main Mixer Music mixergroup setting on startup.
     private float _musicDefaultVolumeInDecibels = 0f;
 
     #region Unity Callbacks
@@ -88,18 +88,24 @@ public class MusicHandler : MonoBehaviour
         {
             StopAllCoroutines();
             StartCoroutine(FadeMusicToVolumeInDecibels(_musicLowVolumeInDecibels));
+            //DEMO DAY SPECIFIC
+            _musicSource.loop = false;
         }
 
         if (sceneFile.buildIndex == 2)
         {
             StopAllCoroutines();
             StartCoroutine(FadeMusicToVolumeInDecibels(-80f));
+            //DEMO DAY SPECIFIC
+            _musicSource.loop = false;
         }
 
         if(sceneFile.buildIndex == 0)
         {
             // we reloaded the bootupscene
             PlayMusicTrack(_titleMusic);
+            //DEMO DAY SPECIFIC
+            _musicSource.loop = true;
         }
     }
     

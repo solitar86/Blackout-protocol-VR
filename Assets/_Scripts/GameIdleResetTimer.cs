@@ -102,6 +102,9 @@ public class GameIdleResetTimer : MonoBehaviour
         Debugger.Log("Loading bootup scene", Debugger.TextColor.LightBlue);
         Debugger.Log(_resetTimer, Debugger.TextColor.LightBlue);
         ResetTimer();
+        PlayerPrefs.DeleteAll();
+        PlayerSettings.SetAllDefaults();
+        Debugger.Log("Player Prefs have been cleared", Debugger.TextColor.LightGreen);
         SceneManager.LoadScene(0);
     }
 }

@@ -56,7 +56,7 @@ public class MainMenuManager : MonoBehaviour
         EventManager.OnToggleRadialMenuOnOff.Raise(this, true);
         // Remove tutorial skip listener if it is still there.
         EventManager.OnPlayerWantSkip.RemoveListener(this, SkipTutorial);
-        // Make sure player movement is enabled
+        // Make sure player movement and actions are enabled
         Player.Instance.EnableTurnAndMove();
         Player.Instance.EnableFingerSnapping();
         Player.Instance.EnableNorthBeacon();

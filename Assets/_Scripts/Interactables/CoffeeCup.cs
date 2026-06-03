@@ -7,6 +7,7 @@ public class CoffeeCup : PickUpObject
     [SerializeField] private LayerMask _layersToLookForWaterInteractables;
     [SerializeField] private float _breakOnImpactVelocityThreshold = 6;
     [SerializeField] private Sound _cupFullIDVO;
+    [SerializeField] private Sound _spillWaterVO;
     [SerializeField] private Sound _glassBreakSound;
     [SerializeField] private SoundArrayHolder _waterSpillSounds;
     [SerializeField] private float _spillVelocityThreshold = 10;
@@ -28,7 +29,7 @@ public class CoffeeCup : PickUpObject
     {
         if (wasAccident == true && _waterAmount > 0)
         {
-            EventManager.OnPlayerCurse.Raise(this, 1);
+            EventManager.OnPlayerSpillAllWater.Raise(this, _spillWaterVO);
         }
 
         for (int i = 0; i < _waterAmount; i++)
@@ -50,11 +51,6 @@ public class CoffeeCup : PickUpObject
         float height = Vector3.Distance(transform.position, hitInfo.point);
         float delay = Mathf.Sqrt((height * 2) / Mathf.Abs(Physics.gravity.y));
 
-        if (hitInfo.collider != null)
-        {
-            Debugger.Log(hitInfo.collider.gameObject.name, Debugger.TextColor.Orange);
-        }
-
         if (hitInfo.collider.TryGetComponent<BreakableMachine_Water>(out var machine))
         {
             machine.ReactToWater();
@@ -63,7 +59,7 @@ public class CoffeeCup : PickUpObject
         var sound = AudioPlayer.GetRandomSoundFromArray(_waterSpillSounds.SoundArray);
         AudioPlayer.PlaySoundAtPointWithDelay(this, sound, hitInfo.point, delay, true);
 
-        // Spawn ripple sphere maybe?
+        TouchRippleSpawner.SpawnTouchVisualStatic(hitInfo.point);
     }
     public override void HandleObjectPlacementAfterDrop()
     {
@@ -82,7 +78,6 @@ public class CoffeeCup : PickUpObject
         if(Velocity > _breakOnImpactVelocityThreshold)
         {
             AudioPlayer.PlaySoundAtPoint(this, _glassBreakSound, transform.position, usePitchVariation: false);
-            Debugger.Log("CoffeeCup Break", Debugger.TextColor.Orange);
             ForceRemoveObjectFromHandAndReturnToStartPosition(HoldingHand);
         }
     }

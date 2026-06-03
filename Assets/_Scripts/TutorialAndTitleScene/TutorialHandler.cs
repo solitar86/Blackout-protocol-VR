@@ -306,8 +306,17 @@ public class TutorialHandler : MonoBehaviour
         TTSPlayer.AddRepeatableTTS(TTSTUTORIALPATH + "TTS_Interaction_part2");
         yield return new WaitForSeconds(clipDuration + 0.1f);
 
+
+
+        //////////////////////////////////////////////////////////////////////
+        //  TODO: 
+        //  This is the humming tutorial part. It needs it's own tutorial section.
+        //////////////////////////////////////////////////////////////////////
         yield return new WaitForSeconds(7);
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_LocatorInfo");
+
+
+
         // Wait until player has
         // Activated both objects and
         // dropped walkie talkie on floor
@@ -325,17 +334,13 @@ public class TutorialHandler : MonoBehaviour
     }
     private void HandleTutorialEnd()
     {
-        _onTutorialCompleteAction?.Invoke();
+        _onTutorialCompleteAction?.Invoke(); // This is where 
         TTSPlayer.AddRepeatableTTS(TTSTUTORIALPATH + "TTS_ControlsListed");
 
         // Disabled for Demo Day
         //TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_TutorialComplete", true);
-        
-        
         //Remove After Demoday
         Invoke(nameof(PlayGameStartReminderTTS), 1f);
-
-
     }
     public void SkipTutorial()
     {
@@ -345,7 +350,6 @@ public class TutorialHandler : MonoBehaviour
         StopAllCoroutines();
         Invoke(nameof(PlayGameStartReminderTTS), 1f);
     }
-
 
     
     #region Helpers
@@ -358,7 +362,7 @@ public class TutorialHandler : MonoBehaviour
         _hasActivatedFaucet = value;
     }
 
-    //Remove After Demoday
+    //Remove After Demoday when proper game start is implemented I.e. Elevator.
     private void PlayGameStartReminderTTS()
     {
         TTSPlayer.PlayTTSWithFilePath(TTSTUTORIALPATH + "TTS_StartGameFromMenu", out float clipDuration, true);

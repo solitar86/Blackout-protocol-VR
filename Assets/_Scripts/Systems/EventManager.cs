@@ -45,7 +45,8 @@ public static class EventManager
 
     // Player Interaction and Reaction Events
     public static GameEvent<Sound> OnGeneralVOShouldPlay = new("Generic VO Play");
-    public static GameEvent<int> OnPlayerCurse = new("Player curse");
+    public static GameEvent<int> PlayerVO_ObjectDropOnFloorReaction = new("Player drop object on floor");
+    public static GameEvent<Sound> OnPlayerSpillAllWater = new("Players spilled water");
     public static GameEvent<PickUpObject> OnPlayerTouchPickUp = new("Player touch pickup");
     public static GameEvent<StaticInteractable> OnPlayerTouchStaticInteractable = new("StaticInteractable touched");
     public static GameEvent<int> OnAnyObjectPickUpObjectPickedUp = new("Object picked up");

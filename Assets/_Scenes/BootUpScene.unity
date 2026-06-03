@@ -333,6 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d98fbb4eba4a3c43a53a212e4ea08e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  _loopingTTSDelay: 3
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -12,8 +12,6 @@ public class PlayerObjectLocator : MonoBehaviour
     [SerializeField] private AnimationCurve _volumeCurve;
     [SerializeField] private Sound _nothingCloseVO;
     [SerializeField] private Sound _locatorSound;
-
-
     [SerializeField] private float _hapticDur = 0.2f;
 
     private float _minPitch = 0.9f;
@@ -24,6 +22,9 @@ public class PlayerObjectLocator : MonoBehaviour
     private float _maxVolume;
     private bool _isTracking;
     private Coroutine _locatorCoroutine;
+
+    public static bool Enabled { get => _enabled; }
+    private static bool _enabled = true;
     public bool IsTracking { get { return _isTracking; } }
     #endregion
 
@@ -54,6 +55,7 @@ public class PlayerObjectLocator : MonoBehaviour
     #region Core Functions
     private void StartObjectLocation(bool isRightHand)
     {
+        if (_enabled == false) return;
         if (_thisHand == null) _thisHand = GetComponent<PlayerHand>();
         if (_thisHand.IsRightHand != isRightHand) return;
 
@@ -102,6 +104,8 @@ public class PlayerObjectLocator : MonoBehaviour
             return;
         }
         _isTracking = true;
+
+        //Start tracking closest interactable
         _locatorCoroutine = StartCoroutine(ObjectLocatorCoroutine());
 
     }
@@ -180,6 +184,10 @@ public class PlayerObjectLocator : MonoBehaviour
         }
     }
 
+    #endregion
 
+    #region Helpers, Organization, etc.
+    public static void EnableHumming() => _enabled = true;
+    public static void DisableHumming() => _enabled = true;
     #endregion
 }

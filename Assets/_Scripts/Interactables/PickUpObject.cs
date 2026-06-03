@@ -273,7 +273,7 @@ public abstract class PickUpObject : MonoBehaviour, Iinteractable
         float curseWordDelay = 0.25f;
         this.CallWithDelay(() =>
         {
-            EventManager.OnPlayerCurse.Raise(this, 0);
+            EventManager.PlayerVO_ObjectDropOnFloorReaction.Raise(this, 0);
         }, curseWordDelay);
 
         float dropSoundDelay = 1f; // Hard coded duration for dropping on floor.

@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -12,6 +13,7 @@ public class TouchRippleSpawner : MonoBehaviour
     [SerializeField] private int _numberToSpawn = 1;
     [SerializeField, Range(0.001f, 2f)] private float _spawnInterval = 0.1f;
 
+    public static TouchRippleSpawner spawner;
     private ObjectPool<GameObject> _rippleSphereGOPool;
     private Transform _rippleSphereParent;
 
@@ -20,7 +22,6 @@ public class TouchRippleSpawner : MonoBehaviour
     {
         _rippleSphereParent = new GameObject("RippleSphereParent").transform;
     }
-
     private void Start()
     {
         _rippleSphereGOPool = new ObjectPool<GameObject>(
@@ -34,6 +35,8 @@ public class TouchRippleSpawner : MonoBehaviour
             );
     }
     #endregion
+
+    #region Object pool Delegates
     private GameObject CreateSphere()
     {
         var go = Instantiate(_rippleSphere, _rippleSphereParent).gameObject;
@@ -52,6 +55,22 @@ public class TouchRippleSpawner : MonoBehaviour
     {
         Destroy(go);
     }
+    #endregion
+
+    /// <summary>
+    /// Used for external calls to touch ripple spawners in
+    /// rare cases such as spilling water.
+    /// </summary>
+    /// <param name="position"></param>
+    public static void SpawnTouchVisualStatic(Vector3 position)
+    {
+        if(spawner == null)
+        {
+            TouchRippleSpawner spawner = FindFirstObjectByType<TouchRippleSpawner>();
+        }
+        spawner.SpawnTouchVisual(position);
+    }
+
     public void SpawnTouchVisual(Vector3 position)
     {
         if (PlayerSettings.Accessibility.TouchRipple == false) return;
