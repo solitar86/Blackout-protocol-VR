@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SoundArrayHolder
   _importerArrayList: []
   SoundArray:
-  - Clip: {fileID: 8300000, guid: 9da5e054cee135e478f721363ccae799, type: 3}
+  - Clip: {fileID: 8300000, guid: 45133481c863bba40af7c75286c27b7e, type: 3}
     Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
@@ -22,7 +22,7 @@ MonoBehaviour:
     OverrideDefaultDistances: 0
     MinDistance: 0.5
     MaxDistance: 2
-  - Clip: {fileID: 8300000, guid: 9f8824357b029964588b1def672b0f38, type: 3}
+  - Clip: {fileID: 8300000, guid: d8b19cf94002b6b40875fb93d1b571c3, type: 3}
     Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
@@ -30,7 +30,7 @@ MonoBehaviour:
     OverrideDefaultDistances: 0
     MinDistance: 0.5
     MaxDistance: 2
-  - Clip: {fileID: 8300000, guid: 8e749f6642adb2346912e507ac582822, type: 3}
+  - Clip: {fileID: 8300000, guid: 7093cfbe9d091ca4b92324caae4e375c, type: 3}
     Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1

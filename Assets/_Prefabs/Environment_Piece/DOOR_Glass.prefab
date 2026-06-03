@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 9191099035253521270}
   - component: {fileID: 2157219558422120497}
   - component: {fileID: 5968839201573758375}
+  - component: {fileID: 3918360593574060006}
   m_Layer: 10
   m_Name: DOOR_Glass
   m_TagString: Untagged
@@ -287,6 +288,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  _onHitWithHand:
+    m_PersistentCalls:
+      m_Calls: []
+  _HintVoiceline:
+    Clip: {fileID: 0}
+    Mixergroup: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
   _onBreakSound:
     Clip: {fileID: 0}
     Mixergroup: {fileID: 0}
@@ -380,6 +393,33 @@ MonoBehaviour:
   _questProgressionStep:
     Quest: {fileID: 11400000, guid: 34b9dc73e5ee1f04eaefbf6a6062622b, type: 2}
     ProgressionState: 3
+--- !u!114 &3918360593574060006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4260419469645620769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adce140b42922bb49aaf3767059b444a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundHolderForUnityEvent
+  _soundToPlay:
+    Clip: {fileID: 8300000, guid: fa1861f398105b345a40821301bae6c0, type: 3}
+    Mixergroup: {fileID: 8273855911927060773, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  _spatialize: 0
+  _pitchVariation: 0
+  _delay: 0.5
+  _optionalPositionToPlayAt: {fileID: 0}
+  _preventOverlappingPlayes: 1
+  _postDelay: 7
 --- !u!1 &5783391879528380673
 GameObject:
   m_ObjectHideFlags: 0

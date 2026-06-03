@@ -34,7 +34,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.4141, y: 1.183, z: 2.56211}
-  m_LocalScale: {x: 0.5428, y: 2.0232, z: 1}
+  m_LocalScale: {x: 0.5428, y: 2.0232, z: 0.12247}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2939282286530518756}
@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TouchableSurfaceAudioHandler
   _touchIdentifyVO:
-    Clip: {fileID: 8300000, guid: 596c82aa1078bb64e8ec3fc63f5ae267, type: 3}
+    Clip: {fileID: 8300000, guid: 85278dac2c767124ca2f1947a74b234b, type: 3}
     Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1
@@ -177,7 +177,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9089139133405708790}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4326c5cf7ad07fa4698c0454b2ac2123, type: 3}
   m_Name: 

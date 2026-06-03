@@ -127,6 +127,8 @@ public class SafeDial : StaticInteractable
             OpenSafe();
         }
     }
+
+    [ContextMenu("Open safe")]
     private void OpenSafe()
     {
         EventManager.OnGeneralVOShouldPlay.Raise(this, _safeOpenVO);
@@ -134,6 +136,8 @@ public class SafeDial : StaticInteractable
         _isOpen = true;
 
         _closedSafe.gameObject.SetActive(false);
+
+        _openedSafe.transform.SetParent(null); // We unparent from the _closed Safe before enabling the object.
         _openedSafe.gameObject.SetActive(true);
         OnSafeOpened?.Invoke();
     }
