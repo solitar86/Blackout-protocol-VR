@@ -7,9 +7,16 @@ public class BreakableWithHammer : MonoBehaviour
     [SerializeField] private float _minVelocityToBreak;
     [SerializeField] private UnityEvent _onHitHardEnoughToTriggerBreak;
     [SerializeField] private UnityEvent _onHitTooSoftly;
+    [SerializeField] private UnityEvent _onHitWithHand;
     private bool _isBroken;
 
+    [SerializeField] private Sound _HintVoiceline;
     [SerializeField] private Sound _onBreakSound;
+
+    public void HandlePlayerTryHitWithHand()
+    {
+        _onHitWithHand?.Invoke();
+    }
 
     private void OnCollisionEnter(Collision collision)
     {

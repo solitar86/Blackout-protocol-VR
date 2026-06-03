@@ -84,6 +84,16 @@ public class TouchableSurface : MonoBehaviour
         playerHand.HandleTouchBegin(_firstTouchHapticSettings, other.transform.position);
         OnHandTouchStart.Raise(this, other.transform.position);
         _onSurfaceTouched?.Invoke();
+
+        if (playerHand.GetCurrentVelocity() > 3f)
+        {
+            // Player (probably) tried to break with hand.
+            if(TryGetComponent<BreakableWithHammer>(out var breakable))
+            {
+                breakable.HandlePlayerTryHitWithHand();
+            }
+        }
+
     }
     private void HandlePlaySlidingHaptic(Collider playerHandCollider, int i)
     {
