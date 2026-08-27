@@ -14,7 +14,7 @@ public class QuestSO : ScriptableObject
 
     public ConversationSO GetDiscoveredHintConversation()
     {
-        if (_startedStateHintConvo != null) return _startedStateHintConvo;
+        if (_discoveredStateHintConvo != null) return _discoveredStateHintConvo;
         Debugger.LogWarning("Discovered state convo was null for quest: " + Name);
         return null;
     }

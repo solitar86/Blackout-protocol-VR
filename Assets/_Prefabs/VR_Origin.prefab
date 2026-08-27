@@ -1148,7 +1148,8 @@ MonoBehaviour:
   _IDVoicelineRepeatBufferDuration: 5
   _leftTurnVO: {fileID: 11400000, guid: 75082ac6c73e39d4aabd1a501c6d915b, type: 2}
   _rightTurnVO: {fileID: 11400000, guid: 9aa14a58648eb694d9b6ed72c8fd7cc0, type: 2}
-  _curseWordsVO: {fileID: 11400000, guid: a918566031832f2418befa23be5c3844, type: 2}
+  _droppedObjectOnSurface: {fileID: 11400000, guid: 19e75dc9036e61d44841849ba148d9b5, type: 2}
+  _droppedObjectOnFloorVO: {fileID: 11400000, guid: c8b7073411e54aa46b7b8449595ac9e7, type: 2}
   _somethingHereVO: {fileID: 11400000, guid: 280da1e425a2fe84eb6e3bcf5ef23d9d, type: 2}
   _bumpIDUnknownObstacleVO: {fileID: 11400000, guid: dfd47d5f37867734eaa723a7d66e1d59, type: 2}
   _cantCarryVO: {fileID: 11400000, guid: 59362c78a026e9d4fb6add749d6639eb, type: 2}

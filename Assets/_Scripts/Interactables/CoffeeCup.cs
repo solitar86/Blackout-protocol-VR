@@ -118,7 +118,6 @@ public class CoffeeCup : PickUpObject
         }
         // THIS BLOCK OF CODE IS CAUSING CURSING TO HAPPEN TWICE I THINK!
 
-        GetComponentInChildren<TextMeshProUGUI>()?.SetText(_timer.ToString("F2") + "\nW:" + _waterAmount);
     }
     #endregion
 }

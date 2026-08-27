@@ -68,7 +68,7 @@ public class TouchRippleSpawner : MonoBehaviour
         {
             TouchRippleSpawner spawner = FindFirstObjectByType<TouchRippleSpawner>();
         }
-        spawner.SpawnTouchVisual(position);
+        spawner?.SpawnTouchVisual(position);
     }
 
     public void SpawnTouchVisual(Vector3 position)

@@ -180,13 +180,17 @@ public static class Debugger
     public static void DisableLogs()
     {
         isEnabled = false;
+#if UNITY_EDITOR
         PlayerPrefs.SetInt(PREFSKEY, 0);
+#endif
     }
     
     public static void EnableLogs()
     {
-        isEnabled = false;
+        isEnabled = true;
+#if UNITY_EDITOR
         PlayerPrefs.SetInt(PREFSKEY, 1);
+#endif
     }
 
     public static void WorldSpaceText(string text, Vector3 spawnPoint)

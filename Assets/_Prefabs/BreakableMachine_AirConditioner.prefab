@@ -19,10 +19,10 @@ GameObject:
   - component: {fileID: 3847940972307062427}
   - component: {fileID: 785026988930319055}
   - component: {fileID: 276926023458938028}
-  - component: {fileID: 3937725805804409759}
-  - component: {fileID: 2131692491793359104}
-  - component: {fileID: 7691539573164801101}
   - component: {fileID: 4821427948386623947}
+  - component: {fileID: 438342443945324689}
+  - component: {fileID: 3120093791046360412}
+  - component: {fileID: 1004420488728690891}
   m_Layer: 10
   m_Name: BreakableMachine_AirConditioner
   m_TagString: Untagged
@@ -79,7 +79,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+  - {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -198,7 +198,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2131692491793359104}
+      - m_Target: {fileID: 3120093791046360412}
         m_TargetAssemblyTypeName: QuestProgressor_CallWithUnityEvent, Assembly-CSharp
         m_MethodName: ProgressQuest
         m_Mode: 1
@@ -226,7 +226,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 541135448873169059}
         m_TargetAssemblyTypeName: TouchableSurfaceAudioHandler, Assembly-CSharp
@@ -238,11 +238,11 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 3937725805804409759}
-        m_TargetAssemblyTypeName: QuestProgressor_CallWithUnityEvent, Assembly-CSharp
-        m_MethodName: ProgressQuest
+      - m_Target: {fileID: 4821427948386623947}
+        m_TargetAssemblyTypeName: SoundHolderForUnityEvent, Assembly-CSharp
+        m_MethodName: PlaySound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -252,9 +252,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 4821427948386623947}
-        m_TargetAssemblyTypeName: SoundHolderForUnityEvent, Assembly-CSharp
-        m_MethodName: PlaySound
+      - m_Target: {fileID: 1004420488728690891}
+        m_TargetAssemblyTypeName: QuestProgressor_CallWithUnityEvent, Assembly-CSharp
+        m_MethodName: ProgressQuest
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -285,13 +285,13 @@ MonoBehaviour:
   _onSurfaceTouched:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
+      - m_Target: {fileID: 438342443945324689}
+        m_TargetAssemblyTypeName: QuestProgressor_CallWithUnityEvent, Assembly-CSharp
+        m_MethodName: ProgressQuest
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -385,51 +385,6 @@ MonoBehaviour:
   _optionalPositionToPlayAt: {fileID: 0}
   _preventOverlappingPlayes: 1
   _postDelay: 0
---- !u!114 &3937725805804409759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 802038966387455069}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86f7e644917da1b498d9c6d192751b42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  _questProgressionStep:
-    Quest: {fileID: 11400000, guid: 706ad42d7eb33f244805d0e69eef6671, type: 2}
-    ProgressionState: 3
---- !u!114 &2131692491793359104
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 802038966387455069}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86f7e644917da1b498d9c6d192751b42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::QuestProgressor_CallWithUnityEvent
-  _questProgressionStep:
-    Quest: {fileID: 11400000, guid: 706ad42d7eb33f244805d0e69eef6671, type: 2}
-    ProgressionState: 2
---- !u!114 &7691539573164801101
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 802038966387455069}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63b5bb5a5e5f9d44babbbf034b2aba0c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  _questProgressionStep:
-    Quest: {fileID: 11400000, guid: 706ad42d7eb33f244805d0e69eef6671, type: 2}
-    ProgressionState: 1
 --- !u!114 &4821427948386623947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -457,6 +412,51 @@ MonoBehaviour:
   _optionalPositionToPlayAt: {fileID: 0}
   _preventOverlappingPlayes: 0
   _postDelay: 0
+--- !u!114 &438342443945324689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802038966387455069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86f7e644917da1b498d9c6d192751b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestProgressor_CallWithUnityEvent
+  _questProgressionStep:
+    Quest: {fileID: 11400000, guid: 706ad42d7eb33f244805d0e69eef6671, type: 2}
+    ProgressionState: 1
+--- !u!114 &3120093791046360412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802038966387455069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86f7e644917da1b498d9c6d192751b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestProgressor_CallWithUnityEvent
+  _questProgressionStep:
+    Quest: {fileID: 11400000, guid: 706ad42d7eb33f244805d0e69eef6671, type: 2}
+    ProgressionState: 2
+--- !u!114 &1004420488728690891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802038966387455069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86f7e644917da1b498d9c6d192751b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestProgressor_CallWithUnityEvent
+  _questProgressionStep:
+    Quest: {fileID: 11400000, guid: 706ad42d7eb33f244805d0e69eef6671, type: 2}
+    ProgressionState: 3
 --- !u!1 &810035546937523392
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,7 +520,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f8505995af30b4345a64ae4a83ebf452, type: 2}
+  - {fileID: 2100000, guid: 83faf92ff3784704d9784f4409779cb1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

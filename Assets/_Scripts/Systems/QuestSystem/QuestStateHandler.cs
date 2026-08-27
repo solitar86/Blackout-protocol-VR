@@ -53,10 +53,11 @@ public class QuestStateHandler : MonoBehaviour
         //TODO Handle situatioon where during gameplay
         // NPC is calling player to pick-up radio.
         // That currently can't be interrupted with this event response.
+        // NOTE: This situation is currently not used in the game
 
         if (ConversationManager.IsPlayingConversation == true) return;
 
-        // Simple player call NPC conversation to start off with.
+        // Simple "player calls NPC" conversation to start off with.
         // This is played and then Hint conversation is queued after
         PlayThisConversation(_genericStartConversations[Random.Range(0, _genericStartConversations.Length)], false);
 
@@ -81,26 +82,31 @@ public class QuestStateHandler : MonoBehaviour
         {
             // Player has attempted a quest but hasn't finished it.
             // This is a priority hint to give
+            Debugger.Log($"Returning Started Hint conversation for {startedQuests[0].Name}");
             return startedQuests[0].GetStartedHintConversation();
         }
         else if (startedQuests.Count > 1)
         {
-            // Player has several started quests. Pick one and play hint conversation
+            // Player has several started quests. Pick one and play hint conversation.
+            // Do not repeat same conversation in a row.
             QuestSO selectedQuest;
             do
             {
                 selectedQuest = startedQuests[Random.Range(0, startedQuests.Count)];
             } while (selectedQuest.GetStartedHintConversation() == _lastPlayedHintConversation);
+
+            Debugger.Log($"Returning Started Hint conversation for {startedQuests[0].Name}");
             return selectedQuest.GetStartedHintConversation();
         }
 
-        // Discovered quests - handle here. These are less priority if 
-        // Player has started quests.
+        // Discovered quests - handle here. These are less of a priority
+        // if the Player has started quests.
         var discoveredQuests = questList.FindAll(q => q.State == QuestState.Discovered);
 
         if (discoveredQuests.Count == 1)
         {
             // Player has discovered a quest. 
+            Debugger.Log($"Returning Discovered Hint conversation for {discoveredQuests[0].Name}");
             return discoveredQuests[0].GetDiscoveredHintConversation();
         }
         else if (discoveredQuests.Count > 1)
@@ -111,6 +117,7 @@ public class QuestStateHandler : MonoBehaviour
             {
                 selectedQuest = discoveredQuests[Random.Range(0, discoveredQuests.Count)];
             } while (selectedQuest.GetDiscoveredHintConversation() == _lastPlayedHintConversation);
+            Debugger.Log($"Returning Discovered Hint conversation for {discoveredQuests[0].Name}");
             return selectedQuest.GetDiscoveredHintConversation();
         }
 

@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.Tutorials.Core.Editor;
 using UnityEngine;
 
 public class GameStartSequence : MonoBehaviour

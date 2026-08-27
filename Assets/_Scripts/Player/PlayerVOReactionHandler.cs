@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.LightTransport;
 /// <summary>
 /// Many VO's are held by objects themselves, this class deals with non-specific
 /// VO reactioons such as "Ouch!" and curse words etc.
@@ -72,6 +70,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
         EventManager.OnInteractableDetectedOnSurface.RemoveListener(this, PlayItemDetectedVoiceLine);
         EventManager.OnSurfaceIsEmpthy.RemoveListener(this, PlayEmptySurfaceVoiceLine);
         EventManager.OnAnyObjectPickUpObjectPickedUp.RemoveListener(this, PlayPickUpSuccesfulVoiceLine);
+        EventManager.OnAnyPickUpObjectPlacedOnSurface.RemoveListener(this, PlayDroppedObjectVoiceline);
         EventManager.OnPlayerSpillAllWater.RemoveListener(this, PlayGeneralVOLine);
         CustomSnapTurnProviderWrapper.OnPlayerSnapTurn -= HandlePlayerTurn;
     }
@@ -178,7 +177,7 @@ public class PlayerVOReactionHandler : MonoBehaviour
 
         _previousLocationVO = sound;
         float buffer = 0.1f;
-        PlayPlayerInnerMonologueWithDelay(sound, 0f);
+        PlayPlayerInnerMonologueWithDelay(sound, buffer);
     }
     /// <summary>
     /// Playes a generic "something on it" voiceline when player

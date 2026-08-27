@@ -86,7 +86,7 @@ public static class Developer
     [MenuItem("Developer/Skips etc./Skip Current Conversation")]
     public static void SkipCurrentConversation()
     {
-        ConversationManager.SkipCurrentDialogue();
+        ConversationManager.SkipCurrentConversation();
         Debug.Log("Developer skipped conversation");
     }
 

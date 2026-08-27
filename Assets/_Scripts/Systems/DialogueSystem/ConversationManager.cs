@@ -271,7 +271,11 @@ public class ConversationManager : MonoBehaviour
         _playerIsSpeaking = false;
         _NPCIsSpeaking= false;
     }
-    public static void SkipCurrentDialogue()
+    
+    /// <summary>
+    /// This is currently only used for developer functions to skip conversations.
+    /// </summary>
+    public static void SkipCurrentConversation()
     {
         if (Instance == null) return;
         //if(_currentPlayingDialogue != null)_currentPlayingConversation.OnCompleteAction?.Invoke();

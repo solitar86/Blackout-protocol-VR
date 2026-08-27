@@ -21,7 +21,7 @@ public class Key : PickUpObject
     private float _KeyDoesntFitVOMinInterval = 0f;
 
     #region Unity Callbacks
-    private void Awake()
+    public override void Awake()
     {
         base.Awake();
         _KeyDoesntFitVOMinInterval = _keyDoesntFitVO.Clip.length + 1f;

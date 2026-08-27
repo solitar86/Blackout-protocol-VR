@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerNorthBeaconHandler : MonoBehaviour
 {
     [Tooltip("The height is determined by player head height")]
-    [SerializeField] private float _volumeFadeDur = 0.5f;
+    [SerializeField] private float _volumeFadeDur = 0.25f;
     [SerializeField] private Vector2 _beaconPosition;
     [SerializeField] private Sound _northBeaconSound;
     private AudioSource _northBeaconSource;
@@ -81,6 +81,7 @@ public class PlayerNorthBeaconHandler : MonoBehaviour
 
         while(timer < _volumeFadeDur)
         {
+            timer += Time.deltaTime;
             var lerpAmount = _volumeFadeDur / timer;
             _northBeaconSource.volume = Mathf.Lerp(startVolume, targetVolume, lerpAmount);
             yield return null;

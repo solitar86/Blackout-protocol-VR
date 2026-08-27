@@ -44,7 +44,7 @@ public class PlayerBodyCollisionHandler : MonoBehaviour
             _playerHead = Camera.main.transform;
         }
 #if !UNITY_EDITOR
-        _hitMarker.gameObject.SetActive(false):
+        _hitMarker?.gameObject?.SetActive(false);
 #endif
 
     }
