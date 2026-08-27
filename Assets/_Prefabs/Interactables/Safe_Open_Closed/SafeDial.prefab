@@ -1,5 +1,53 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3370227600326778021
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2725875650004153703}
+  - component: {fileID: 1838399463583448563}
+  m_Layer: 6
+  m_Name: SafeDialToolTip
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &2725875650004153703
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3370227600326778021}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6215304298609435666}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1838399463583448563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3370227600326778021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b90d4ff0406727f4ba04e03294dc1a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _tooltipTTSPath: TTS/Tooltips/TTS_Tooltip_DialReset
+  delay: 2
+  _playOnObjectEnabled: 1
+  _destroyAfterUse: 1
 --- !u!1 &6747661357999245087
 GameObject:
   m_ObjectHideFlags: 0
@@ -36,7 +84,8 @@ Transform:
   m_LocalPosition: {x: -2.067, y: 1.278, z: 2.255}
   m_LocalScale: {x: 0.24111, y: 0.09533001, z: 0.24111}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2725875650004153703}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!33 &2332253189963513024
@@ -136,6 +185,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 3370227600326778021}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   combinationString: 7,5,1
   _singleClick:
     Clip: {fileID: 8300000, guid: 2e8528d55524b4143befd36c1bd1e7b7, type: 3}
@@ -155,8 +216,18 @@ MonoBehaviour:
     OverrideDefaultDistances: 0
     MinDistance: 0.5
     MaxDistance: 2
+  _wentOVerDigitVOSoundHolder: {fileID: 11400000, guid: 0b67d7f3f79a1454c94a0153e89758ee, type: 2}
   _releaseDialIDVO:
     Clip: {fileID: 8300000, guid: 4da27b3328137a84888fd69383886a2f, type: 3}
+    Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
+    Volume: 1
+    Pitch: 1
+    SpacialBlend: 0
+    OverrideDefaultDistances: 0
+    MinDistance: 0.5
+    MaxDistance: 2
+  _resetDialVO:
+    Clip: {fileID: 8300000, guid: c8dece796641f9047899ccfef5d9e5af, type: 3}
     Mixergroup: {fileID: 694591244426781022, guid: 13c3530c0457a784897128f1417055f0, type: 2}
     Volume: 1
     Pitch: 1

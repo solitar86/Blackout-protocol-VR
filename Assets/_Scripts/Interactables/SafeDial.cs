@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,9 +11,13 @@ public class SafeDial : StaticInteractable
     [SerializeField] private string combinationString = "5,2,7";
     [Header("Safe Specific Settings")]
     [SerializeField] private Sound _singleClick;
+    [SerializeField] private Sound _resetDial;
     [SerializeField] private Sound _turnDialIDVO;
+    [SerializeField] private SoundArrayHolder _wentOVerDigitVOSoundHolder;
     [SerializeField] private Sound _releaseDialIDVO;
+    [SerializeField] private Sound _resetDialVO;
     [SerializeField] private Sound _safeOpenVO;
+    [SerializeField] private VibrationSettingsSO _safeClickVibrationSettings;
     [Tooltip("This gameobject will disable when the safe is opened")]
     [SerializeField] private GameObject _closedSafe;
     [Tooltip("This gameobject will enable when the safe is opened")]
@@ -29,6 +34,10 @@ public class SafeDial : StaticInteractable
     float _degreesPerAngle;
     private bool _isOpen = false;
 
+    private bool _isAtCorrectDigit = false;
+    private bool _isDialingDown = false;
+    private bool _needsReset = false;
+
     private float _VONumberTimer = 0;
     private float _VONumberDelay = 0.1f;
     private bool _hasSaidNumber = false;
@@ -38,12 +47,11 @@ public class SafeDial : StaticInteractable
     #region Unity Callbacks
     private void Start()
     {
-        _degreesPerAngle = 360f / _numbersOnDial;
+        _degreesPerAngle = 180f / _numbersOnDial;
         InitSafeCombination();
 
         _openedSafe.SetActive(false);
         _closedSafe.SetActive(true);
-
     }
     public void Update()
     {
@@ -57,37 +65,60 @@ public class SafeDial : StaticInteractable
         {
             // We have turned enough to change the digit.
             ResetHasSaidNumberBoolAndTimer();
+
+
             if (_lastDigitsZAngle > handZrotation)
             {
+                // Player went over correct digit
+                if (!_isDialingDown && _isAtCorrectDigit && _needsReset == false)
+                {
+                    HandlePlayerTurnedOverCorrectDigit();
+                }
                 //Dialing up
+                _isDialingDown = false;
                 _currentDialNumber = (_currentDialNumber + 1 + _numbersOnDial) % _numbersOnDial;
 
-                // ODD numbers in sequence have to dialed DOWN to.
-                if (_currentDialNumber == _combination[_combinationIndex] && (_combinationIndex % 2 != 0))
+                // ODD numbers in sequence have to dialed DOWN to. Ignore progress if player has gone over correct Digit.
+                if (_currentDialNumber == _combination[_combinationIndex] 
+                                            && (_combinationIndex % 2 != 0
+                                            && _needsReset == false))
                 {
+                    _isAtCorrectDigit = true;
                     PlayCorrectNumberClickSound();
                     _combinationIndex++;
                     CheckIfSafeShouldOpen();
                 }
                 else
                 {
+                    _isAtCorrectDigit = false;
                     PlayNormalClickSound();
                 }
             }
             else
             {
+                // Player went over correct digit
+                if (_isDialingDown && _isAtCorrectDigit && _needsReset == false)
+                {
+                    HandlePlayerTurnedOverCorrectDigit();
+                }
                 // Dialing down
+                _isDialingDown = true;
                 _currentDialNumber = (_currentDialNumber - 1 + _numbersOnDial) % _numbersOnDial;
 
-                // EVEN numbers in sequence have to dialed UP to.
-                if (_currentDialNumber == _combination[_combinationIndex] && _combinationIndex % 2 == 0)
+                // EVEN numbers in sequence have to dialed UP to. Ignore progress if player has gone over correct Digit.
+                if (_currentDialNumber == _combination[_combinationIndex] 
+                                        && _combinationIndex % 2 == 0
+                                        && _needsReset == false)
                 {
+                    // We are at correct digit.
+                    _isAtCorrectDigit = true;
                     PlayCorrectNumberClickSound();
                     _combinationIndex++;
                     CheckIfSafeShouldOpen();
                 }
                 else
                 {
+                    _isAtCorrectDigit = false;
                     PlayNormalClickSound();
                 }
             }
@@ -99,22 +130,8 @@ public class SafeDial : StaticInteractable
             Activate();
         }
 
-        if (_hasSaidNumber == false)
-        {
-            _VONumberTimer += Time.deltaTime;
-            if(_VONumberTimer >= _VONumberDelay)
-            {
-                EventManager.OnPlayerShouldSayNumber.Raise(this, _currentDialNumber);
-                _hasSaidNumber = true;
-            }
-        }
+        HandlePlayerDigitVOTimer(Time.deltaTime);
 
-    }
-
-    private void ResetHasSaidNumberBoolAndTimer()
-    {
-        _VONumberTimer = 0f; // Reset timer to have player say dial number.
-        _hasSaidNumber = false;
     }
 
     #endregion
@@ -122,13 +139,11 @@ public class SafeDial : StaticInteractable
     #region Core Funtions
     private void CheckIfSafeShouldOpen()
     {
-        if(_combinationIndex == _combination.Length)
+        if (_combinationIndex == _combination.Length)
         {
             OpenSafe();
         }
     }
-
-    [ContextMenu("Open safe")]
     private void OpenSafe()
     {
         EventManager.OnGeneralVOShouldPlay.Raise(this, _safeOpenVO);
@@ -144,6 +159,7 @@ public class SafeDial : StaticInteractable
     private void PlayNormalClickSound()
     {
         AudioPlayer.PlaySoundAtPoint(this, _singleClick, transform.position, false, true);
+        TouchingHand.HandleSingleVibration(_safeClickVibrationSettings);
         OnPlayerTurnDial?.Invoke();
     }
     private void PlayCorrectNumberClickSound()
@@ -154,10 +170,61 @@ public class SafeDial : StaticInteractable
         //Debugger.PlayBlipSound();
         AudioPlayer.PlaySoundAtPoint(this, correctSound, transform.position, false, true);
     }
+    private void HandlePlayerDigitVOTimer(float deltaTime)
+    {
+        if (_hasSaidNumber == false)
+        {
+            _VONumberTimer += deltaTime;
+            if (_VONumberTimer >= _VONumberDelay)
+            {
+                PlaySafeDialCurrentDigitVO();
+            }
+        }
+    }
+    private void PlaySafeDialCurrentDigitVO()
+    {
+        if(_needsReset == false)
+        {
+            EventManager.OnPlayerShouldSayNumber.Raise(this, _currentDialNumber);
+        }
+        _hasSaidNumber = true;
+    }
+    private void ResetHasSaidNumberBoolAndTimer()
+    {
+        _VONumberTimer = 0f; // Reset timer to have player say dial number.
+        _hasSaidNumber = false;
+    }
+    private void ResetDial()
+    {
+        _currentDialNumber = 0;
+        _combinationIndex = 0;
+        _needsReset = false;
+        AudioPlayer.PlaySoundAtPoint(this, _resetDial, transform.position, false, true);
+
+        this.CallWithDelay(() =>
+        {
+            EventManager.OnGeneralVOShouldPlay.Raise(this, _resetDialVO);
+        }, _resetDial.Clip.length);
+    }
+    private void HandlePlayerTurnedOverCorrectDigit()
+    {
+        _needsReset = true;
+        var voiceOver = AudioPlayer.GetRandomSoundFromArray(_wentOVerDigitVOSoundHolder,
+                                                            _wentOVerDigitVOSoundHolder.LastPlayedSound);
+        _wentOVerDigitVOSoundHolder.LastPlayedSound = voiceOver;
+        EventManager.OnGeneralVOShouldPlay.Raise(this, voiceOver);
+
+    }
     #endregion
 
     #region Interaction Functions
     public override void Activate()
+    {
+        if (_isOpen) return;
+        ResetDial();
+
+    }
+    public override void PickUp(Transform parent, PlayerHand hand)
     {
         if (_isOpen) return;
         if (IsActivated == false)
@@ -168,14 +235,10 @@ public class SafeDial : StaticInteractable
                 if (_startingZangle > 180f) _startingZangle -= 360;
                 _lastDigitsZAngle = _startingZangle;
                 EventManager.OnGeneralVOShouldPlay.Raise(this, _turnDialIDVO);
+                PlaySafeDialCurrentDigitVO();
             }
         }
-
         base.Activate();
-    }
-    public override void PickUp(Transform parent, PlayerHand hand)
-    {
-        Activate();
     }
     public override void TouchStay(PlayerHand hand)
     {
@@ -188,10 +251,10 @@ public class SafeDial : StaticInteractable
         if (IsActivated == true)
         {
             EventManager.OnGeneralVOShouldPlay.Raise(this, _releaseDialIDVO);
-            Activate();
+            base.Activate();
         }
     }
-    
+
     #endregion
 
     #region Helpers etc.
@@ -210,7 +273,7 @@ public class SafeDial : StaticInteractable
     }
     private void DebugWorlSpaceText(int toPrint)
     {
-       // Debugger.WorldSpaceText(toPrint.ToString("F1"), transform.position);
+        // Debugger.WorldSpaceText(toPrint.ToString("F1"), transform.position);
     }
     private void AngleDifferenceWithQuaternionsMethod()
     {
@@ -232,6 +295,12 @@ public class SafeDial : StaticInteractable
         {
             Activate();
         }
+    }
+
+    [ContextMenu("Open safe")]
+    public void DebugOpenSafe()
+    {
+        OpenSafe();
     }
     #endregion
 }

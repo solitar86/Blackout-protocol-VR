@@ -1580,6 +1580,54 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5878436453932700352, guid: 0f501f279df8471489d996933ad888aa, type: 3}
   m_PrefabInstance: {fileID: 18975984}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &359644259
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 359644260}
+  - component: {fileID: 359644261}
+  m_Layer: 6
+  m_Name: SafeDialToolTip
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &359644260
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359644259}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 732762445}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &359644261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359644259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b90d4ff0406727f4ba04e03294dc1a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _tooltipTTSPath: TTS/Tooltips/TTS_Tooltip_DialReset
+  delay: 2
+  _playOnObjectEnabled: 1
+  _destroyAfterUse: 1
 --- !u!1001 &382847007
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3865,6 +3913,38 @@ PrefabInstance:
       propertyPath: _openedSafe
       value: 
       objectReference: {fileID: 618896027}
+    - target: {fileID: 12021811709293226, guid: 0ce3e9eb6e5aec94186700f3ad0c4f89, type: 3}
+      propertyPath: OnActivated.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 12021811709293226, guid: 0ce3e9eb6e5aec94186700f3ad0c4f89, type: 3}
+      propertyPath: OnActivated.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 12021811709293226, guid: 0ce3e9eb6e5aec94186700f3ad0c4f89, type: 3}
+      propertyPath: OnActivated.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 359644259}
+    - target: {fileID: 12021811709293226, guid: 0ce3e9eb6e5aec94186700f3ad0c4f89, type: 3}
+      propertyPath: OnActivated.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 12021811709293226, guid: 0ce3e9eb6e5aec94186700f3ad0c4f89, type: 3}
+      propertyPath: OnActivated.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 12021811709293226, guid: 0ce3e9eb6e5aec94186700f3ad0c4f89, type: 3}
+      propertyPath: OnActivated.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 12021811709293226, guid: 0ce3e9eb6e5aec94186700f3ad0c4f89, type: 3}
+      propertyPath: OnActivated.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 12021811709293226, guid: 0ce3e9eb6e5aec94186700f3ad0c4f89, type: 3}
+      propertyPath: OnActivated.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6215304298609435666, guid: 0ce3e9eb6e5aec94186700f3ad0c4f89, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.036
@@ -3911,7 +3991,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6215304298609435666, guid: 0ce3e9eb6e5aec94186700f3ad0c4f89, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 359644260}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ce3e9eb6e5aec94186700f3ad0c4f89, type: 3}
 --- !u!1 &1424229747

@@ -19,7 +19,13 @@ public abstract class StaticInteractable : MonoBehaviour, Iinteractable
     [Space(5), Header("Unity Events")]
     [SerializeField] private UnityEvent OnActivated;
 
+    /// <summary>
+    /// The players hand currently in contact with the interactable
+    /// </summary>
     private PlayerHand _touchingHand;
+    /// <summary>
+    /// <inheritdoc cref="_touchingHand"/>
+    /// </summary>
     protected PlayerHand TouchingHand => _touchingHand;
     private Collider _collider;
     private float _nextTimeAllowTouchVO;

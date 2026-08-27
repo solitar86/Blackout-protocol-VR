@@ -140,6 +140,10 @@ public class AudioPlayer : MonoBehaviour
 
         return randomClip;
     }
+    public static Sound GetRandomSoundFromArray(SoundArrayHolder holder, Sound previousSound = null)
+    {
+        return GetRandomSoundFromArray(holder.SoundArray, previousSound);
+    }
 
     #endregion
     public static void PlayHandInsideColliderError(object sender)
@@ -333,6 +337,7 @@ public class Sound
     [SerializeField] public AudioMixerGroup Mixergroup;
     [SerializeField][Range(0f, 1f)] public float Volume = 1f;
     [SerializeField][Range(-3, 3f)] public float Pitch = 1;
+    [Tooltip("1 = Spatial, 0 = Not-spatial")]
     [SerializeField] public float SpacialBlend;
     [Space(15)]
     [SerializeField] public bool OverrideDefaultDistances;
