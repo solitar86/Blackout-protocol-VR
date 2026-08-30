@@ -202,6 +202,12 @@ public class TTSPlayer : MonoBehaviour
         var clip = Resources.Load<AudioClip>(TTS_ERROR_NOREPEAT_FILEPATH);
         PlayTTS(clip, "Nothing to Repeat Error Clip");
     }
+    
+    /// <summary>
+    /// Store a TTS clip as the clip to repeat on player input by path.
+    /// </summary>
+    /// <remarks>This will not play the clip.</remarks>
+    /// <param name="path">Filepath to clip</param>
     public static void AddRepeatableTTS(string path)
     {
         var clip = Resources.Load<AudioClip>(path);
@@ -213,6 +219,11 @@ public class TTSPlayer : MonoBehaviour
 
         _TTSToRepeat = clip;
     }
+    /// <summary>
+    /// How long will it take with current speed settings to play TTS clip until the end.
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns>Time to finish or 0 if clip not found</returns>
     public static float GetDurationOfTTSClipWithPath(string path)
     {
         var clip = Resources.Load<AudioClip>(path);

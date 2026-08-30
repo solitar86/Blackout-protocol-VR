@@ -88,35 +88,34 @@ public static class Debugger
         Debug.Log(tc, go);
     }
 
-    public static void LogError(string t)
+    public static void LogError(string t, bool crash = false)
     {
         if (isEnabled == false) return;
 
         Debug.LogError(t);
+        if (crash) Debug.Break();
     }
-
-    public static void LogError(string t, GameObject g)
+    public static void LogError(string t, GameObject g, bool crash = false)
     {
         if (isEnabled == false) return;
 
         Debug.LogError(t,g);
+        if (crash) Debug.Break();
     }
-
-    private static void LogError(string t, TextColor color)
+    private static void LogError(string t, TextColor color, bool crash = false)
     {
         if (isEnabled == false) return;
         var c = GetColorStringFromEnum(color);
         var tc = "<color=#" + c + ">" + t + "</color>";
         Debug.LogError(tc);
+        if(crash) Debug.Break();
     }
-
     public static void LogWarning(string t)
     {
         if (isEnabled == false) return;
 
         Debug.LogWarning(t);
     }
-
     public static void LogWarning(string t, TextColor color)
     {
         if (isEnabled == false) return;
@@ -124,14 +123,12 @@ public static class Debugger
         var tc = "<color=#" + c + ">" + t + "</color>";
         Debug.LogWarning(tc);
     }
-
     public static void LogWarning(string t, GameObject go)
     {
         if (isEnabled == false) return;
 
         Debug.LogWarning(t, go);
     }
-
     public static void PlayBlipSound(string t = "")
     {
         AudioPlayer.PlayClipAtPoint("Debugger", Resources.Load<AudioClip>("Audio/SFX_Blip"), Vector3.zero, 0.3f, false, false);

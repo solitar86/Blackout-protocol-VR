@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 234f3728f6364dd4da7e804ddf2aa6e0, type: 3}
+  m_Name: Scene03_GameCompleteConversation
+  m_EditorClassIdentifier: Assembly-CSharp::ConversationSO
+  _name: Game End Conversation
+  _conversation:
+  - {fileID: 11400000, guid: 0b94d684f4b2e2d4eba0c0e04ef17de0, type: 2}
+  - {fileID: 11400000, guid: 542aeee954c35da4a87d4fb9100f13b1, type: 2}
+  - {fileID: 11400000, guid: 93658fd5067ceb24e8173fc0e17f13a5, type: 2}
+  - {fileID: 11400000, guid: 4f95151656f85cc43a5dfee7d09e95f5, type: 2}

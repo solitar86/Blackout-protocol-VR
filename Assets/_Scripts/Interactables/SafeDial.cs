@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 public class SafeDial : StaticInteractable
 {
@@ -8,7 +9,8 @@ public class SafeDial : StaticInteractable
     #region Fields
     private Quaternion _playerHandStarRotation = Quaternion.identity;
     private int lastNumber = 0;
-    [SerializeField] private string combinationString = "5,2,7";
+    [Tooltip("Leave blank for random, separate with ',' (comma)")]
+    [SerializeField] private string combinationString = "";
     [Header("Safe Specific Settings")]
     [SerializeField] private Sound _singleClick;
     [SerializeField] private Sound _resetDial;
@@ -79,7 +81,7 @@ public class SafeDial : StaticInteractable
                 _currentDialNumber = (_currentDialNumber + 1 + _numbersOnDial) % _numbersOnDial;
 
                 // ODD numbers in sequence have to dialed DOWN to. Ignore progress if player has gone over correct Digit.
-                if (_currentDialNumber == _combination[_combinationIndex] 
+                if (_currentDialNumber == _combination[_combinationIndex]
                                             && (_combinationIndex % 2 != 0
                                             && _needsReset == false))
                 {
@@ -106,7 +108,7 @@ public class SafeDial : StaticInteractable
                 _currentDialNumber = (_currentDialNumber - 1 + _numbersOnDial) % _numbersOnDial;
 
                 // EVEN numbers in sequence have to dialed UP to. Ignore progress if player has gone over correct Digit.
-                if (_currentDialNumber == _combination[_combinationIndex] 
+                if (_currentDialNumber == _combination[_combinationIndex]
                                         && _combinationIndex % 2 == 0
                                         && _needsReset == false)
                 {
@@ -146,15 +148,19 @@ public class SafeDial : StaticInteractable
     }
     private void OpenSafe()
     {
-        EventManager.OnGeneralVOShouldPlay.Raise(this, _safeOpenVO);
-        Activate();
-        _isOpen = true;
+        float safeOpenDelay = 1.5f;
 
-        _closedSafe.gameObject.SetActive(false);
+        this.CallWithDelay(() =>
+        {
+            EventManager.OnGeneralVOShouldPlay.Raise(this, _safeOpenVO);
+            base.Activate();
+            _isOpen = true;
 
-        _openedSafe.transform.SetParent(null); // We unparent from the _closed Safe before enabling the object.
-        _openedSafe.gameObject.SetActive(true);
-        OnSafeOpened?.Invoke();
+            _closedSafe.gameObject.SetActive(false);
+            _openedSafe.transform.SetParent(null); // We unparent from the _closed Safe before enabling the object.
+            _openedSafe.gameObject.SetActive(true);
+            OnSafeOpened?.Invoke();
+        }, safeOpenDelay);
     }
     private void PlayNormalClickSound()
     {
@@ -183,7 +189,7 @@ public class SafeDial : StaticInteractable
     }
     private void PlaySafeDialCurrentDigitVO()
     {
-        if(_needsReset == false)
+        if (_needsReset == false)
         {
             EventManager.OnPlayerShouldSayNumber.Raise(this, _currentDialNumber);
         }
@@ -238,7 +244,11 @@ public class SafeDial : StaticInteractable
                 PlaySafeDialCurrentDigitVO();
             }
         }
-        base.Activate();
+        else
+        {
+            EventManager.OnGeneralVOShouldPlay.Raise(this, _releaseDialIDVO);
+        }
+            base.Activate();
     }
     public override void TouchStay(PlayerHand hand)
     {
@@ -260,16 +270,52 @@ public class SafeDial : StaticInteractable
     #region Helpers etc.
     private void InitSafeCombination()
     {
+        Debugger.Log("Init safe", Debugger.TextColor.Orange);
+        string debugCombinationString = string.Empty;
+        bool parseFailed = false;
 
-        string[] combinationNumbers = combinationString.Split(',');
-        int[] combinationAsIntArray = new int[combinationNumbers.Length];
-
-        for (int i = 0; i < combinationNumbers.Length; i++)
+        if (string.IsNullOrEmpty(combinationString) == false)
         {
-            combinationAsIntArray[i] = int.Parse(combinationNumbers[i]);
-        }
+            // We have an assigned combination in the inspector
+            string[] combinationNumbersAsString = this.combinationString.Split(',');
+            int[] combinationAsIntArray = new int[combinationNumbersAsString.Length];
 
-        _combination = combinationAsIntArray;
+            for (int i = 0; i < combinationNumbersAsString.Length; i++)
+            {
+                if (int.TryParse(combinationNumbersAsString[i], out combinationAsIntArray[i]) == false)
+                {
+                    Debugger.LogError("Safe Combination couldn't be parsed. Defaulting to random");
+                    parseFailed = true;
+                    break;
+                }
+            }
+            if(parseFailed == false) Debugger.Log($"Safe Combination is now: {combinationString}");
+            _combination = combinationAsIntArray;
+        }
+        else parseFailed = true;
+
+        if (parseFailed == true)
+        {
+            // No supplied combination or parse failure, generating a random with parameters.
+            int[] randomCombinationIntArray = new int[3];
+
+            for (int i = 0; i < randomCombinationIntArray.Length; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    randomCombinationIntArray[i] = Random.Range(4, 8);
+                }
+                else
+                {
+                    randomCombinationIntArray[i] = Random.Range(1, 6);
+                }
+
+                debugCombinationString += randomCombinationIntArray[i].ToString() + ',';
+            }
+
+            _combination = randomCombinationIntArray;
+            Debugger.Log($"Generated random Safe Combination: {debugCombinationString}");
+        }
     }
     private void DebugWorlSpaceText(int toPrint)
     {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Tutorials.Core.Editor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
@@ -435,7 +436,10 @@ public static class RadialMenuHolder
             ),
             new RadialMenuItem(
                 "List Controls",
-                () => { TTSPlayer.PlayTTSWithFilePath("TTS/Tutorial/TTS_ControlsListed", true); },
+                () => {
+                    TTSPlayer.PlayTTSWithFilePath("TTS/Tutorial/TTS_ControlsListed", true);
+                    TTSPlayer.AddRepeatableTTS("TTS/Tutorial/TTS_ControlsListed");
+                },
                 "TTS/Tutorial/TTS_ListControls",
                 "TTS/Tutorial/TTS_ListControls_Info"
             ),

@@ -22,6 +22,7 @@ public class Tooltip : MonoBehaviour
 
             {
                 TTSPlayer.PlayTTSWithFilePath(_tooltipTTSPath, out _clipDuration, true);
+                TTSPlayer.AddRepeatableTTS(_tooltipTTSPath);
 
                 if (_destroyAfterUse == true)
                 {

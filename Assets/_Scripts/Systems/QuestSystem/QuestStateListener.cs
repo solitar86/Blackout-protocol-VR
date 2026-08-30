@@ -20,7 +20,6 @@ public class QuestStateListener : MonoBehaviour
     {
         EventManager.OnAnyQuestWasProgressed.RemoveListener(this, CheckRequirements);
     }
-
     private void Start()
     {
         foreach (var questStep in _requirements)
@@ -66,7 +65,10 @@ public class QuestStateListener : MonoBehaviour
     [ContextMenu("Call Complete Quests Events")]
     public void CallOnQuestCompletedEvents()
     {
-        OnRequirementsMet?.Invoke();
+        // We have met all requirements.
+        hasBeenCompleted = true;
+        Debugger.Log("Quest requirements were met for " + gameObject.name, Debugger.TextColor.LightGreen);
+        OnRequirementsMet.Invoke();
     }
     
 #endif

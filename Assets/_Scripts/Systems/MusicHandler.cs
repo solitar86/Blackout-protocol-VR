@@ -18,6 +18,7 @@ public class MusicHandler : MonoBehaviour
     private void OnEnable()
     {
         SceneManager.sceneLoaded += HandleSceneLoadEvent;
+
     }
     private void Awake()
     {
@@ -34,6 +35,9 @@ public class MusicHandler : MonoBehaviour
         SceneManager.sceneLoaded -= HandleSceneLoadEvent;
     }
     #endregion
+
+    //TODO Add music crossfade feature
+    #region Core Feature
     private void PlayMusicTrack(AudioClip trackToPlay)
     {
         InitMusicSource();
@@ -43,6 +47,12 @@ public class MusicHandler : MonoBehaviour
             // MAYBE MOVE THIS TO IT'S OWN COROUTINE
         }
         StartCoroutine(FadeUpMusicPlayer(trackToPlay));
+    }
+    public void RequestPlayMusicTrack(AudioClip trackToPlay)
+    {
+        Debugger.Log("Music triggered externally:" + trackToPlay.name);
+        PlayMusicTrack(trackToPlay);
+
     }
     private IEnumerator FadeUpMusicPlayer(AudioClip trackToPlay)
     {
@@ -108,6 +118,8 @@ public class MusicHandler : MonoBehaviour
             _musicSource.loop = true;
         }
     }
+
+    #endregion
     
     #region Helpers, organization etc.
     private void InitMusicSource()

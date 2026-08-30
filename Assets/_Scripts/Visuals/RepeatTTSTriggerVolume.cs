@@ -1,6 +1,9 @@
 
 using UnityEngine;
 
+/// <summary>
+/// This class is used in the trigger volume behind the players head to repeat a TTS instruction.
+/// </summary>
 public class RepeatTTSTriggerVolume : MonoBehaviour
 {
     private PlayerHand handInTrigger;
