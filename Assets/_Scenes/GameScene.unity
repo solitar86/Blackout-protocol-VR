@@ -125,7 +125,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 998304445}
+    m_TransformParent: {fileID: 95057401}
     m_Modifications:
     - target: {fileID: 5319103407514755740, guid: 0f501f279df8471489d996933ad888aa, type: 3}
       propertyPath: m_Name
@@ -297,7 +297,12 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1424229748}
+  - {fileID: 133933089}
+  - {fileID: 153575662}
+  - {fileID: 683514069}
+  - {fileID: 355782469}
   m_Father: {fileID: 998304445}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &119905008
@@ -413,7 +418,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 998304445}
+  m_Father: {fileID: 95057401}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &133933090
 AudioSource:
@@ -430,7 +435,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 0.7
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 1
   SpatializePostEffects: 0
@@ -555,7 +560,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 998304445}
+  m_Father: {fileID: 95057401}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &153575663
 AudioSource:
@@ -1992,12 +1997,12 @@ GameObject:
   - component: {fileID: 436114596}
   - component: {fileID: 436114595}
   m_Layer: 0
-  m_Name: StartGameTriggerVolume
+  m_Name: 'TRIGGERVOLUME: Start Game TriggerVolume'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &436114594
 Transform:
   m_ObjectHideFlags: 0
@@ -2048,6 +2053,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1374070084}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: EnableRecenter
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2374,7 +2391,7 @@ GameObject:
   - component: {fileID: 653102290}
   - component: {fileID: 653102289}
   m_Layer: 0
-  m_Name: EnableEntranceLocationIDTriggerVolume
+  m_Name: 'TRIGGERVOLUME: Enable Entrance LocationID TriggerVolume'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3141,11 +3158,6 @@ Transform:
   m_Children:
   - {fileID: 2109242839}
   - {fileID: 95057401}
-  - {fileID: 1424229748}
-  - {fileID: 133933089}
-  - {fileID: 153575662}
-  - {fileID: 683514069}
-  - {fileID: 355782469}
   - {fileID: 1714030380}
   - {fileID: 8466221305018667896}
   - {fileID: 729926864}
@@ -3368,7 +3380,7 @@ GameObject:
   - component: {fileID: 1175839412}
   - component: {fileID: 1175839411}
   m_Layer: 0
-  m_Name: 'OBSOLETE?: ElevatorArriveTriggerVolume'
+  m_Name: 'TRIGGERVOLUME: DisablePlayerRecenter'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3383,8 +3395,8 @@ Transform:
   m_GameObject: {fileID: 1175839409}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.444, y: 1.24435, z: 1.13}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 8.48, y: 1.24435, z: 1.13}
+  m_LocalScale: {x: 2.6205, y: 2.6205, z: 2.6205}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 857548423}
@@ -3401,24 +3413,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1d2d64e20d2dba4ba263666f597a671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _volumeName: Start Game TriggerVolume
+  _volumeName: DisablePlayerRecenter
   _volumeGizmoColor: {r: 0.047169685, g: 0.8587589, b: 1, a: 0.31764707}
   _deleteTriggerOnEnter: 1
   _deleteTriggerOnExit: 0
   _onEnterEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 306791924}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1374070084}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: DisableRecenter
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
   _onExitEvent:
     m_PersistentCalls:
@@ -3849,6 +3861,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8376925625639093468, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}
   m_PrefabInstance: {fileID: 7209676878777536597}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1374070084 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7814331776435025466, guid: 78ddb3370987f004cb899eacb1e7be75, type: 3}
+  m_PrefabInstance: {fileID: 7209676878777536597}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d69728327f26ac846b3423d50d128a1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1001 &1383562845
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3966,7 +3989,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 998304445}
+  m_Father: {fileID: 95057401}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1424229749
 AudioSource:
@@ -4349,7 +4372,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 998304445}
+    m_TransformParent: {fileID: 95057401}
     m_Modifications:
     - target: {fileID: 5319103407514755740, guid: 0f501f279df8471489d996933ad888aa, type: 3}
       propertyPath: m_Name

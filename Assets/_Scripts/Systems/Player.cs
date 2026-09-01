@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Turning;
 using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
 
+/// <summary>
+/// Player class handles enabling and disabling most player interactions and handles Recenter by itself.
+/// </summary>
 public class Player : MonoBehaviour
 {
     public static Player Instance;
@@ -17,14 +20,97 @@ public class Player : MonoBehaviour
     [SerializeField] private PlayerFingerSnapHandler _fingerSnapper;
     [SerializeField] private PlayerNorthBeaconHandler _northBeacon;
     [SerializeField] private PlayerObjectLocator[] _objectLocators;
+    [SerializeField] private RecenterPositionAndStartRecenterOnLoad _recenter;
+
+
 
     private Transform _startTransform = null;
 
     public bool PlayerCanMove => _moveProvider.enabled;
     public bool PlayerCanTurn => _turnProvider.enabled;
 
-    #region Unity Callbacks
+    private bool _canRecenter = true;
+    public bool CanRecenter => _canRecenter;
 
+
+    #region Recentering
+
+    [ContextMenu("Recenter")]
+    public void RecenterContextMenu()
+    {
+        RecenterPlayer(true);
+    }
+    private void RecenterPlayer(bool isRightHand)
+    {
+        if (_canRecenter == false)
+        {
+            TTSPlayer.PlayTTSWithFilePath("TTS/TTS_RecenterDisabled");
+            return;
+        }
+
+        if (_xrOrigin == null) _xrOrigin = FindFirstObjectByType<XROrigin>();
+        if ((_startTransform == null))
+        {
+            var marker = FindFirstObjectByType<PlayerStartMarker>();
+            if (marker != null)
+            {
+                _startTransform = marker.transform;
+            }
+            else
+            {
+                TTSPlayer.PlayTTSWithFilePath("TTS/TTS_RecenterFailed");
+                return;
+            }
+        }
+
+        var worldPos = _startTransform.position;
+        var facingDirection = _startTransform.forward;
+        float cameraYHeight = _xrOrigin.Camera.transform.position.y;
+        worldPos.y = cameraYHeight;
+        _xrOrigin.MoveCameraToWorldLocation(worldPos);
+        _xrOrigin.MatchOriginUpCameraForward(Vector3.up, facingDirection);
+
+        TTSPlayer.PlayTTSWithFilePath("TTS/TTS_Recentered");
+        EventManager.OnPlayerStartMove.Raise(this, -1);
+    }
+    public void RecenterPlayerWithNoHeightChange(Vector3 worldPos, Vector3 facingDirection)
+    {
+        if (_xrOrigin == null) _xrOrigin = FindFirstObjectByType<XROrigin>();
+
+        float cameraYHeight = _xrOrigin.Camera.transform.position.y;
+        worldPos.y = cameraYHeight;
+        _xrOrigin.MoveCameraToWorldLocation(worldPos);
+        _xrOrigin.MatchOriginUpCameraForward(Vector3.up, facingDirection);
+        EventManager.OnPlayerStartMove.Raise(this, -1);
+    }
+    public void RecenterPlayerToStartPositionWithNoTTS()
+    {
+        if (_xrOrigin == null) _xrOrigin = FindFirstObjectByType<XROrigin>();
+        if ((_startTransform == null))
+        {
+            var marker = FindFirstObjectByType<PlayerStartMarker>();
+            if (marker != null)
+            {
+                _startTransform = marker.transform;
+            }
+            else
+            {
+                Debugger.LogWarning("Recenter failed due to null _startTransform");
+                return;
+            }
+        }
+
+        var worldPos = _startTransform.position;
+        var facingDirection = _startTransform.forward;
+        float cameraYHeight = _xrOrigin.Camera.transform.position.y;
+        worldPos.y = cameraYHeight;
+        _xrOrigin.MoveCameraToWorldLocation(worldPos);
+        _xrOrigin.MatchOriginUpCameraForward(Vector3.up, facingDirection);
+    }
+
+    #endregion
+
+    #region Unity Callbacks
     private void OnEnable()
     {
         EventManager.OnStickPressed.AddListener(this, RecenterPlayer);
@@ -51,58 +137,6 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Getters, public functions, helpers.
-
-    public void RecenterPlayerToStartPositionWithNoTTS()
-    {
-        if (_xrOrigin == null) _xrOrigin = FindFirstObjectByType<XROrigin>();
-        if ((_startTransform == null))
-        {
-            var marker = FindFirstObjectByType<PlayerStartMarker>();
-            if (marker != null)
-            {
-                _startTransform = marker.transform;
-            }
-            else
-            {
-                Debugger.LogWarning("Recenter failed due to null _startTransform");
-                return;
-            }
-        }
-
-        var worldPos = _startTransform.position;
-        var facingDirection = _startTransform.forward;
-        float cameraYHeight = _xrOrigin.Camera.transform.position.y;
-        worldPos.y = cameraYHeight;
-        _xrOrigin.MoveCameraToWorldLocation(worldPos);
-        _xrOrigin.MatchOriginUpCameraForward(Vector3.up, facingDirection);
-    }
-    private void RecenterPlayer(bool isRightHand)
-    {
-        if (_xrOrigin == null) _xrOrigin = FindFirstObjectByType<XROrigin>();
-        if ((_startTransform == null))
-        {
-            var marker = FindFirstObjectByType<PlayerStartMarker>();
-            if(marker != null)
-            {
-                _startTransform = marker.transform;
-            }
-            else
-            {
-                TTSPlayer.PlayTTSWithFilePath("TTS/TTS_RecenterFailed");
-                return;
-            }
-        }
-
-        var worldPos = _startTransform.position;
-        var facingDirection = _startTransform.forward;
-        float cameraYHeight = _xrOrigin.Camera.transform.position.y;
-        worldPos.y = cameraYHeight;
-        _xrOrigin.MoveCameraToWorldLocation(worldPos);
-        _xrOrigin.MatchOriginUpCameraForward(Vector3.up, facingDirection);
-
-        TTSPlayer.PlayTTSWithFilePath("TTS/TTS_Recentered");
-        EventManager.OnPlayerStartMove.Raise(this, -1);
-    }
     public void DisableFingerSnapping()
     {
         if(_fingerSnapper == null) _fingerSnapper = FindFirstObjectByType<PlayerFingerSnapHandler>();
@@ -178,15 +212,13 @@ public class Player : MonoBehaviour
             locator.enabled = false;
         }
     }
-    public void RecenterPlayerWithNoHeightChange(Vector3 worldPos, Vector3 facingDirection)
+    public void DisableRecenter()
     {
-        if (_xrOrigin == null) _xrOrigin = FindFirstObjectByType<XROrigin>();
-
-        float cameraYHeight = _xrOrigin.Camera.transform.position.y;
-        worldPos.y = cameraYHeight;
-        _xrOrigin.MoveCameraToWorldLocation(worldPos);
-        _xrOrigin.MatchOriginUpCameraForward(Vector3.up, facingDirection);
-        EventManager.OnPlayerStartMove.Raise(this, -1);
+        _canRecenter = false;
+    }
+    public void EnableRecenter()
+    {
+        _canRecenter = true;
     }
     public XROrigin GetXROrigin() => _xrOrigin;
     public DynamicMoveProvider GetDynamicMoveProvider() => _moveProvider;

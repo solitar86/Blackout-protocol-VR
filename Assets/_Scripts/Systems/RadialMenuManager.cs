@@ -189,7 +189,7 @@ public class RadialMenuManager : MonoBehaviour
         _previousMenus.Clear();
 
         if (_menuAnchor == null) _menuAnchor = FindFirstObjectByType<RadialMenuMarker>()?.transform;
-        _menuAnchor.gameObject.SetActive(false); //BUG NOTE: This caused a null reference for some reason??
+        _menuAnchor.gameObject.SetActive(false); //BUG NOTE: This caused a null reference for some reason?? STILL DOES!
         _playerMenuHand = null;
 
         if (wasSceneLoad == false)

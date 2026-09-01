@@ -39,6 +39,15 @@ public class TriggerVolumeWithUnityEvent : MonoBehaviour
         }
     }
 
+    private void Reset()
+    {
+        gameObject.name = "TRIGGERVOLUME: " + _volumeName;
+    }
+
+    private void OnValidate()
+    {
+        gameObject.name = "TRIGGERVOLUME: " + _volumeName;
+    }
     private void OnDrawGizmosSelected()
     {
         Collider[] colliders = GetComponentsInChildren<Collider>(true);
