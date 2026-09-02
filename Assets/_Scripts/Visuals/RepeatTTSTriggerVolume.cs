@@ -3,6 +3,7 @@ using UnityEngine;
 
 /// <summary>
 /// This class is used in the trigger volume behind the players head to repeat a TTS instruction.
+/// NOTE: as a debug features also toggles all accessibility features.
 /// </summary>
 public class RepeatTTSTriggerVolume : MonoBehaviour
 {
@@ -26,7 +27,18 @@ public class RepeatTTSTriggerVolume : MonoBehaviour
         }
     }
 
+
+
 #if UNITY_EDITOR
+
+    [ContextMenu("Toggle Accessibility Features")]
+    public void ToggleAccessibilityContextMenu()
+    {
+        handInTrigger = Player.Instance.GetRightHand();
+        ToggleAccessibilityFeatures(handInTrigger.IsRightHand);
+        handInTrigger = null;
+    }
+
     private void ToggleAccessibilityFeatures(bool isRightHand)
     {
         if (handInTrigger == null) return;
@@ -35,9 +47,9 @@ public class RepeatTTSTriggerVolume : MonoBehaviour
         {
             PlayerSettings.Accessibility.ToggleAll();
             EventManager.OnAccessibilitySettingsChanged.Raise(this, -1);
+            TTSPlayer.PlayTTSWithFilePath("TTS/Menu/TTS_Menu_AccessibilityAllToggled");
 
         }
-        Debugger.Log(handInTrigger.IsRightHand + " : " + isRightHand);
     }
 
 #endif

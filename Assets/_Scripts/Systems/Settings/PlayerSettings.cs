@@ -315,7 +315,9 @@ public class PlayerSettings
                 Hands = true;
                 Particles = true;
                 TouchRipple = true;
+#if UNITY_EDITOR
                 DebugLight = true;
+#endif
                 LocationVOEnabled = true;
             }
             else
@@ -323,7 +325,9 @@ public class PlayerSettings
                 Hands = false;
                 Particles = false;
                 TouchRipple = false;
+#if UNITY_EDITOR
                 DebugLight = false;
+#endif
                 LocationVOEnabled = false;
             }
 
