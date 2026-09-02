@@ -40,7 +40,6 @@ public class RadialMenuManager : MonoBehaviour
 
         SceneManager.sceneLoaded += OnSceneLoaded_HandleSceneLoad;
     }
-
     private void OnDisable()
     {
         EventManager.OnPrimaryButtonPressed.RemoveListener(this, OnPrimaryButtonPressed);
@@ -52,8 +51,6 @@ public class RadialMenuManager : MonoBehaviour
 
         SceneManager.sceneLoaded += OnSceneLoaded_HandleSceneLoad;
     }
-
-
 
     private void Update()
     {
@@ -189,7 +186,7 @@ public class RadialMenuManager : MonoBehaviour
         _previousMenus.Clear();
 
         if (_menuAnchor == null) _menuAnchor = FindFirstObjectByType<RadialMenuMarker>()?.transform;
-        _menuAnchor.gameObject.SetActive(false); //BUG NOTE: This caused a null reference for some reason?? STILL DOES!
+        if (_menuAnchor != null) _menuAnchor.gameObject.SetActive(false);
         _playerMenuHand = null;
 
         if (wasSceneLoad == false)
@@ -292,7 +289,7 @@ public class RadialMenuManager : MonoBehaviour
 
 
 /// <summary>
-/// A single menu item with delegate and TTS filepath to play when hovered.
+/// A single menu item - like a button - with delegate and TTS filepath to play when hovered.
 /// </summary>
 public class RadialMenuItem
 {
@@ -318,7 +315,6 @@ public class RadialMenuItem
     public string NameTTSFilePath => _nameTTSFilePath;
     public string InfoTTSFilePath => _infoTTSFilePath;
     public string Name => _name;
-
     public void Activate()
     {
         OnActivateAction?.Invoke();
@@ -373,6 +369,7 @@ public static class RadialMenuHolder
         var delayObject = new GameObject("path");
         var mono = delayObject.AddComponent<Delay>();
 
+        //// Use this in a normal build.
         //        mono.CallWithDelay(() =>
         //        {
         //            Application.Quit();
@@ -381,12 +378,20 @@ public static class RadialMenuHolder
         //#endif
         //        }, 2f);
 
+        // Use this in an exhibition build.
         mono.CallWithDelay(() =>
         {
             SceneManager.LoadScene(0);
         }, 2f);
 
     }, MENUTTSFILEFOLDERPATH + "TTS_Menu_Quit");
+
+    public static RadialMenuItem CreditsButton = new RadialMenuItem("Credits",
+    () =>
+    {
+        TTSPlayer.PlayTTSWithFilePath("TTS/TTS_Credits", true);
+
+    }, MENUTTSFILEFOLDERPATH + "TTS_Menu_Credits");
 
     #region Main Menu
 
@@ -403,6 +408,7 @@ public static class RadialMenuHolder
                 () => { RadialMenuManager.Instance.SetAsCurrentRadialMenu(OptionsMenu); },
                 MENUTTSFILEFOLDERPATH + "TTS_Menu_Options"
             ),
+            CreditsButton,
             BackButton,
            QuitButton
         }
@@ -630,14 +636,11 @@ public static class RadialMenuHolder
     );
     #endregion
 
-
     #region Tutorial Specific MainMenu
 
     /////////////////////////
     // Tutorial Scene Main Menu
-    // If necessary this can have
-    // REPLAY TUTORIAL PART
-    // selections at some point.
+    // REPLAY TUTORIAL PART is added here.
     /////////////////////////
     public static RadialMenu TutorialSceneMainMenu = new RadialMenu(
     "Mainmenu", MENUTTSFILEFOLDERPATH + "TTS_Menu_MainMenu",
@@ -657,6 +660,7 @@ public static class RadialMenuHolder
                 () => { RadialMenuManager.Instance.SetAsCurrentRadialMenu(OptionsMenu); },
                 MENUTTSFILEFOLDERPATH + "TTS_Menu_Options"
             ),
+            CreditsButton,
             BackButton,
            QuitButton
         }
